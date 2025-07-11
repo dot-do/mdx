@@ -12,6 +12,7 @@ import { runStartCommand } from './commands/start'
 import { runExecCommand } from './commands/exec'
 import { runSendCommand } from './commands/send'
 import { runTestCommand } from './commands/test'
+import { runLintCommand } from './commands/lint'
 import { ExecutionContextType } from './utils/execution-context'
 
 export { executeCodeBlock, executeCodeBlocks, executeMdxCodeBlocks } from './utils/execution-engine'
@@ -39,8 +40,7 @@ export async function run() {
     const watchFlag = args.includes('--watch')
     return runTestCommand(cwd, watchFlag)
   } else if (command === 'lint') {
-    console.log('Lint command not implemented yet')
-    return
+    return runLintCommand(cwd)
   } else if (command === 'exec') {
     const watchFlag = args.includes('--watch')
     const filePath = args.filter((arg) => !arg.startsWith('--'))[1] || (await findIndexFile(cwd))

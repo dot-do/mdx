@@ -14,7 +14,7 @@
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", ".mdx/**", "build/**", "*.js", "*.d.ts"]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^lint", "^build"]
     },
     "check-types": {
       "dependsOn": ["^check-types", "build"]
