@@ -30,18 +30,10 @@ async function promptCore(query: string, options: PromptOptions = {}): Promise<P
   const selectedModel = options.model || 'anthropic/claude-opus-4'
   const aiModel = createAIModel(options.apiKey, options.baseURL)
 
-  const {
-    type = 'user',
-    role,
-    task,
-    context,
-    examples = [],
-    constraints = [],
-    format = 'simple'
-  } = options
+  const { type = 'user', role, task, context, examples = [], constraints = [], format = 'simple' } = options
 
   let systemPrompt = ''
-  
+
   switch (type) {
     case 'system':
       systemPrompt = `You are an expert prompt engineer specializing in creating effective system prompts for AI assistants. 
@@ -53,7 +45,7 @@ Key principles:
 - Define the expected output format and style
 - Consider edge cases and safety considerations`
       break
-      
+
     case 'template':
       systemPrompt = `You are an expert prompt engineer specializing in creating reusable prompt templates.
 Your task is to generate flexible prompt templates with clear placeholders and variables that can be customized for different use cases.
@@ -64,7 +56,7 @@ Key principles:
 - Make templates modular and adaptable
 - Provide usage examples and guidelines`
       break
-      
+
     case 'user':
     default:
       systemPrompt = `You are an expert prompt engineer specializing in creating effective user prompts for AI interactions.
@@ -95,11 +87,11 @@ Key principles:
   }
 
   if (constraints.length > 0) {
-    systemPrompt += `\n\nImportant constraints:\n${constraints.map(c => `- ${c}`).join('\n')}`
+    systemPrompt += `\n\nImportant constraints:\n${constraints.map((c) => `- ${c}`).join('\n')}`
   }
 
   let userPrompt = `Generate a ${type} prompt for: ${query}`
-  
+
   if (format === 'structured') {
     userPrompt += `\n\nProvide the prompt in a structured format with clear sections.`
   } else if (format === 'template') {
@@ -111,7 +103,7 @@ Key principles:
     system: systemPrompt,
     prompt: userPrompt,
   })
-  
+
   return {
     text: result.text,
     type,
@@ -119,15 +111,13 @@ Key principles:
       model: selectedModel,
       role,
       task,
-      format
-    }
+      format,
+    },
   }
 }
 
 export type PromptTemplateFn = (template: TemplateStringsArray, ...values: any[]) => Promise<PromptResult>
 
-export const prompt = createUnifiedFunction<Promise<PromptResult>>(
-  (query: string, options: Record<string, any>) => {
-    return promptCore(query, options as PromptOptions);
-  }
-);
+export const prompt = createUnifiedFunction<Promise<PromptResult>>((query: string, options: Record<string, any>) => {
+  return promptCore(query, options as PromptOptions)
+})

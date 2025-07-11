@@ -11,11 +11,13 @@ The mdxe package has been successfully consolidated from 3 separate packages int
 ### ✅ Package Consolidation
 
 **Before**: 3 separate packages
+
 - `@mdxe/cli` - CLI commands and utilities
-- `@mdxe/test` - Test runner functionality  
+- `@mdxe/test` - Test runner functionality
 - `@mdxe/esbuild` - ESBuild integration
 
 **After**: Single unified package
+
 - `mdxe` - All functionality in one package
 - Consolidated dependencies and exports
 - Simplified installation and usage
@@ -29,12 +31,14 @@ Based on `@research/embed-nextjs-cli.md`, the following key features were implem
 **Location**: `src/template/`
 
 **Features**:
+
 - App Router architecture (no legacy pages directory)
 - Tailwind CSS with custom MDX styling
 - TypeScript configuration
 - Modern Next.js configuration with MDX support
 
 **Key Files**:
+
 ```
 src/template/
 ├── app/
@@ -57,17 +61,20 @@ src/template/
 **Pattern**: Embedded CMS following `@payloadcms/next` approach
 
 **Features**:
+
 - Admin UI at `/admin` route
 - API routes at `/api/payload/*`
 - SQLite default with multi-database support
 - Environment-based database switching
 
 **Database Support**:
+
 - **SQLite** (default): `DATABASE_URL=file:./payload.db`
 - **PostgreSQL**: `DATABASE_URL=postgres://user:password@localhost:5432/mdxe`
 - **MongoDB**: `DATABASE_URL=mongodb://localhost:27017/mdxe`
 
 **Collections**:
+
 - Posts (with rich text content)
 - Pages (for static content)
 - Users (authentication)
@@ -77,17 +84,20 @@ src/template/
 **Pattern**: Thin wrapper around Next.js CLI commands
 
 **Implementation**:
+
 - `mdxe dev` → `next dev` with embedded app
 - `mdxe build` → `next build` with output handling
 - `mdxe start` → `next start` with production server
 
 **Key Features**:
+
 - Temporary directory approach for isolation
 - Template + user content merging
 - Proper Next.js CLI delegation
 - Build output handling for deployment
 
 **Files**:
+
 ```
 src/cli/commands/
 ├── dev.ts    # Development server with temp directory
@@ -100,25 +110,26 @@ src/cli/commands/
 **Pattern**: Component merging with `useMDXComponents` hook
 
 **Default Components**:
+
 - `<Alert type="info|warning|error|success">` - Styled alerts
 - `<YouTube id="video-id" />` - Embedded YouTube videos
 - `<Callout emoji="🚀">` - Highlighted callouts
 - Enhanced HTML elements (headings, paragraphs, code blocks)
 
 **User Customization**:
+
 ```javascript
 // mdx-components.js
 export function useMDXComponents(components) {
   return {
     ...components,
-    MyCustomComponent: ({ children }) => (
-      <div className="my-custom-style">{children}</div>
-    ),
+    MyCustomComponent: ({ children }) => <div className='my-custom-style'>{children}</div>,
   }
 }
 ```
 
 **Implementation**:
+
 - Webpack aliases for user component resolution
 - Component merging in template's `mdx-components.tsx`
 - Automatic detection and loading of user components
@@ -128,18 +139,21 @@ export function useMDXComponents(components) {
 **Dual Approach**: File-based + CMS-based content
 
 **File-based Content**:
+
 - Contentlayer integration for MDX processing
 - Dynamic routing via `[...slug]` route
 - Frontmatter support for metadata
 - Live reloading in development
 
 **CMS-based Content**:
+
 - Payload CMS for rich content editing
 - Lexical editor integration
 - Media management
 - User authentication
 
 **Content Structure**:
+
 ```
 content/
 ├── posts/
@@ -154,12 +168,14 @@ content/
 **Pattern**: Single package with embedded app
 
 **Build Process**:
+
 1. TypeScript compilation with tsup
 2. Template files copied to `dist/template/`
 3. CLI binary points to compiled commands
 4. All dependencies included in single package
 
 **Installation**:
+
 ```bash
 npm install mdxe
 npx mdxe dev  # Instant development server
@@ -173,6 +189,7 @@ npx mdxe dev  # Instant development server
 **Solution**: Create temporary directory with symlinked template + user content
 
 **Benefits**:
+
 - Clean separation of template and user content
 - No file conflicts
 - Easy cleanup
@@ -184,6 +201,7 @@ npx mdxe dev  # Instant development server
 **Solution**: Nextra-style `useMDXComponents` pattern
 
 **Benefits**:
+
 - Familiar pattern for Next.js developers
 - Automatic component detection
 - Webpack alias resolution
@@ -195,6 +213,7 @@ npx mdxe dev  # Instant development server
 **Solution**: Environment-based automatic detection
 
 **Benefits**:
+
 - Zero configuration for SQLite
 - Easy switching between databases
 - Production-ready defaults
@@ -209,6 +228,7 @@ npx mdxe dev
 ```
 
 **Process**:
+
 1. Detect embedded app template
 2. Create temporary directory
 3. Copy template files
@@ -223,6 +243,7 @@ npx mdxe build
 ```
 
 **Process**:
+
 1. Create build directory with merged content
 2. Run Next.js production build
 3. Copy output to user's `.next` directory
@@ -235,6 +256,7 @@ npx mdxe start
 ```
 
 **Process**:
+
 1. Verify build exists
 2. Start Next.js production server
 3. Serve from user's `.next` directory
@@ -282,9 +304,10 @@ When user runs `mdxe dev`, temporary structure created:
 
 ### Blitz.js Pattern ✅
 
-**Research Quote**: *"Blitz CLI was mostly a wrapper around Next's CLI"*
+**Research Quote**: _"Blitz CLI was mostly a wrapper around Next's CLI"_
 
-**Implementation**: 
+**Implementation**:
+
 - CLI commands delegate to Next.js CLI
 - Environment variable loading
 - Directory argument for app location
@@ -292,9 +315,10 @@ When user runs `mdxe dev`, temporary structure created:
 
 ### Nextra Pattern ✅
 
-**Research Quote**: *"Nextra allows a project to provide an `mdx-components.js` file at the root which exports a `useMDXComponents` function"*
+**Research Quote**: _"Nextra allows a project to provide an `mdx-components.js` file at the root which exports a `useMDXComponents` function"_
 
 **Implementation**:
+
 - Exact same pattern implemented
 - Component merging with defaults
 - Webpack alias resolution
@@ -302,9 +326,10 @@ When user runs `mdxe dev`, temporary structure created:
 
 ### Payload Integration ✅
 
-**Research Quote**: *"Integrate Payload into the Next.js application itself, so that all requests are handled by a single Next app"*
+**Research Quote**: _"Integrate Payload into the Next.js application itself, so that all requests are handled by a single Next app"_
 
 **Implementation**:
+
 - Single server approach
 - Admin UI at `/admin`
 - API routes at `/api/payload/*`
@@ -318,6 +343,7 @@ When user runs `mdxe dev`, temporary structure created:
 **Output Directory**: `.next` (default)
 
 **Process**:
+
 1. mdxe builds Next.js app with embedded template
 2. Copies output to user's `.next` directory
 3. Vercel deploys standard Next.js app
@@ -325,12 +351,14 @@ When user runs `mdxe dev`, temporary structure created:
 ### Self-Hosted Deployment
 
 **Commands**:
+
 ```bash
 npx mdxe build
 npx mdxe start
 ```
 
 **Process**:
+
 1. Build creates production-ready `.next` directory
 2. Start command runs Next.js production server
 3. Supports process managers (PM2, systemd)
@@ -338,12 +366,14 @@ npx mdxe start
 ### Environment Variables
 
 **Required for production**:
+
 ```env
 PAYLOAD_SECRET=your-secret-key
 DATABASE_URL=your-database-url
 ```
 
 **Optional**:
+
 ```env
 NEXT_PUBLIC_SITE_URL=https://your-site.com
 ```
@@ -352,27 +382,30 @@ NEXT_PUBLIC_SITE_URL=https://your-site.com
 
 ### 1. Static Export Support
 
-**Research Note**: *"mdxe could support `next export` to generate a purely static site"*
+**Research Note**: _"mdxe could support `next export` to generate a purely static site"_
 
 **Implementation Path**:
+
 - Add `mdxe export` command
 - Disable CMS for static builds
 - Generate static HTML for all MDX content
 
 ### 2. Eject Command
 
-**Research Note**: *"We could consider an 'eject' command that copies the app out of node_modules"*
+**Research Note**: _"We could consider an 'eject' command that copies the app out of node_modules"_
 
 **Implementation Path**:
+
 - Add `mdxe eject` command
 - Copy template to user's project
 - Convert to standard Next.js project
 
 ### 3. Improved CMS Integration
 
-**Research Note**: *"Payload team hinted: 'moving Payload fully to Next.js'"*
+**Research Note**: _"Payload team hinted: 'moving Payload fully to Next.js'"_
 
 **Implementation Path**:
+
 - Monitor Payload updates
 - Adopt native Next.js integration when available
 - Reduce complexity of current integration

@@ -11,7 +11,7 @@ export interface ListOptions {
 
 export async function runListCommand(prompt: string, options: ListOptions) {
   const { json } = getGlobalOptions()
-  
+
   try {
     if (!process.env.OPENAI_API_KEY) {
       const msg = 'OPENAI_API_KEY environment variable is not set.'

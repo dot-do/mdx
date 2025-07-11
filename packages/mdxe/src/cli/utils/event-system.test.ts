@@ -9,7 +9,9 @@ describe('event-system', () => {
   describe('on', () => {
     it('registers an event handler', () => {
       let handlerCalled = false
-      const callback = () => { handlerCalled = true }
+      const callback = () => {
+        handlerCalled = true
+      }
       on('test-event', callback)
 
       const handlers = eventRegistry['handlers'].get('test-event')
@@ -44,7 +46,7 @@ describe('event-system', () => {
         receivedData = data
         return 'handler called'
       })
-      
+
       await send('test-event', testData)
 
       expect(receivedData).toEqual(testData)
@@ -58,12 +60,12 @@ describe('event-system', () => {
         calledHandlers.push('handler1')
         return 'result1'
       })
-      
+
       on('test-event', (data) => {
         calledHandlers.push('handler2')
         return 'result2'
       })
-      
+
       await send('test-event', testData)
 
       expect(calledHandlers).toContain('handler1')
@@ -121,7 +123,7 @@ describe('event-system', () => {
     it('propagates context between handlers', async () => {
       let firstRanValue = false
       let secondRanValue = false
-      
+
       on('test-event', (data, context) => {
         context?.set('firstRan', true)
         return 'first handler'
@@ -155,11 +157,11 @@ describe('event-system', () => {
       expect(importantValue).toBe('value')
       expect(response.context.get('important')).toBe('value')
     })
-    
+
     it('supports direct context modification with helper methods', async () => {
       let step1Value = null
       let hasProcessed = false
-      
+
       on('test-event', (data, context) => {
         context?.set('step1', 'completed')
         context?.merge({ processed: { step1: true } })
@@ -211,7 +213,7 @@ describe('event-system', () => {
 
     it('maintains backward compatibility with return-based context', async () => {
       let legacyStyleValue = false
-      
+
       on('test-event', (data, context) => {
         return {
           result: 'legacy',
@@ -268,7 +270,7 @@ describe('event-system', () => {
     it('emits error events for centralized error handling', async () => {
       let errorHandlerCalled = false
       let errorEventData: any = null
-      
+
       const errorMessages: string[] = []
       const originalConsoleError = console.error
       console.error = (...args) => {
@@ -280,7 +282,7 @@ describe('event-system', () => {
           errorHandlerCalled = true
           errorEventData = data
         })
-        
+
         on('test-event', async () => {
           throw new Error('Test error for centralized handling')
         })
@@ -451,7 +453,7 @@ describe('event-system', () => {
 
       let callbackCalled = false
       let receivedData = null
-      
+
       context.on('test-event', (data) => {
         callbackCalled = true
         receivedData = data

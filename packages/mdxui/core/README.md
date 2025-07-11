@@ -24,6 +24,4 @@ export default function Example() {
 }
 ```
 
-
-
 Types of components and types of props

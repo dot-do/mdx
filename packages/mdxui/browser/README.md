@@ -22,7 +22,7 @@ The easiest way to use @mdxui/browser is with the simplified `render` function:
   // One-line render function
   MdxuiBrowser.render('container', {
     mode: 'browse',
-    content: '# Hello World\n\nThis is a sample markdown document.'
+    content: '# Hello World\n\nThis is a sample markdown document.',
   })
 </script>
 ```
@@ -31,16 +31,16 @@ The easiest way to use @mdxui/browser is with the simplified `render` function:
 
 ```javascript
 MdxuiBrowser.render(elementId, {
-  mode: 'browse',           // 'browse' | 'edit' | 'preview' (default: 'browse')
-  content: string,          // Required: MDX/Markdown content
-  language: 'markdown',     // Language for syntax highlighting (default: 'markdown')
-  theme: 'github-dark',     // Editor theme (default: 'github-dark')
+  mode: 'browse', // 'browse' | 'edit' | 'preview' (default: 'browse')
+  content: string, // Required: MDX/Markdown content
+  language: 'markdown', // Language for syntax highlighting (default: 'markdown')
+  theme: 'github-dark', // Editor theme (default: 'github-dark')
   onContentChange: (content) => console.log('Content changed:', content),
   onNavigate: (url) => console.log('Navigate to:', url),
   onSave: async (content) => console.log('Save:', content),
-  readOnly: false,          // Whether editor is read-only (default: false)
-  className: 'my-class',    // CSS class name
-  style: { height: '400px' } // Inline styles
+  readOnly: false, // Whether editor is read-only (default: false)
+  className: 'my-class', // CSS class name
+  style: { height: '400px' }, // Inline styles
 })
 ```
 
@@ -63,7 +63,7 @@ const element = React.createElement(BrowserComponent, {
   onSave: async (content) => console.log('Save:', content),
   readOnly: false,
   className: 'browser-component',
-  style: { height: '100%' }
+  style: { height: '100%' },
 })
 
 const root = createRoot(document.getElementById('container'))
@@ -82,29 +82,31 @@ root.render(element)
 
 ## Component Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `mode` | `'browse' \| 'edit' \| 'preview'` | `'browse'` | Display mode |
-| `content` | `string` | - | MDX/Markdown content (required) |
-| `language` | `string` | `'markdown'` | Language for syntax highlighting |
-| `theme` | `string` | `'github-dark'` | Editor theme |
-| `onContentChange` | `(content: string) => void` | - | Called when content changes |
-| `onNavigate` | `(url: string) => void` | - | Called when navigation occurs |
-| `onSave` | `(content: string) => Promise<void>` | - | Called when save is triggered |
-| `readOnly` | `boolean` | `false` | Whether editor is read-only |
-| `className` | `string` | - | CSS class name |
-| `style` | `React.CSSProperties` | - | Inline styles |
+| Prop              | Type                                 | Default         | Description                      |
+| ----------------- | ------------------------------------ | --------------- | -------------------------------- |
+| `mode`            | `'browse' \| 'edit' \| 'preview'`    | `'browse'`      | Display mode                     |
+| `content`         | `string`                             | -               | MDX/Markdown content (required)  |
+| `language`        | `string`                             | `'markdown'`    | Language for syntax highlighting |
+| `theme`           | `string`                             | `'github-dark'` | Editor theme                     |
+| `onContentChange` | `(content: string) => void`          | -               | Called when content changes      |
+| `onNavigate`      | `(url: string) => void`              | -               | Called when navigation occurs    |
+| `onSave`          | `(content: string) => Promise<void>` | -               | Called when save is triggered    |
+| `readOnly`        | `boolean`                            | `false`         | Whether editor is read-only      |
+| `className`       | `string`                             | -               | CSS class name                   |
+| `style`           | `React.CSSProperties`                | -               | Inline styles                    |
 
 ## Examples
 
 ### Basic Usage
+
 ```javascript
 MdxuiBrowser.render('my-container', {
-  content: '# Welcome\n\nThis is **bold** text.'
+  content: '# Welcome\n\nThis is **bold** text.',
 })
 ```
 
 ### Edit Mode with Save
+
 ```javascript
 MdxuiBrowser.render('editor-container', {
   mode: 'edit',
@@ -113,24 +115,25 @@ MdxuiBrowser.render('editor-container', {
     await fetch('/api/save', {
       method: 'POST',
       body: JSON.stringify({ content }),
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
     })
     alert('Saved successfully!')
-  }
+  },
 })
 ```
 
 ### Custom Theme and Styling
+
 ```javascript
 MdxuiBrowser.render('styled-container', {
   content: '# Custom Styled',
   theme: 'vs-light',
   className: 'my-browser',
-  style: { 
+  style: {
     height: '500px',
     border: '1px solid #ccc',
-    borderRadius: '8px'
-  }
+    borderRadius: '8px',
+  },
 })
 ```
 

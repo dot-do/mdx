@@ -258,7 +258,6 @@ export const EXECUTION_CONTEXTS: Record<ExecutionContextType, ContextConfig> = {
 export function createExecutionContext(contextType: ExecutionContextType = 'default') {
   const contextConfig = EXECUTION_CONTEXTS[contextType]
 
-
   createAiFolderStructure().catch((err) => {
     console.error('Failed to create AI folder structure:', err)
   })
@@ -597,7 +596,6 @@ export function createExecutionContext(contextType: ExecutionContextType = 'defa
 
           const idea = await renderInputPrompt('Enter your startup idea:')
           console.log(`Received idea: "${idea}"`)
-
           ;(global as any).ai = aiTemplateFunction
           ;(global as any).list = listTemplateFunction
           ;(global as any).research = researchTemplateFunction

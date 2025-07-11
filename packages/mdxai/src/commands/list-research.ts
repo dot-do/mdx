@@ -7,7 +7,7 @@ export interface ListResearchOptions {
 
 export async function runListResearchCommand(prompt: string, options: ListResearchOptions) {
   const { json } = getGlobalOptions()
-  
+
   try {
     const unmount = renderApp('list+research', {
       prompt,

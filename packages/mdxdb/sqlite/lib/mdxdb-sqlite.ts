@@ -56,7 +56,7 @@ export class MdxDbSqlite extends MdxDbBase implements MdxDbSqliteInterface {
     try {
       const dbUrl = this.dbConfig.inMemory ? ':memory:' : this.dbConfig.url
       const authToken = this.dbConfig.authToken
-      
+
       this.payload = await getPayloadClient(dbUrl, authToken)
 
       this.initialized = true

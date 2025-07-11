@@ -11,5 +11,4 @@ describe('workflow', () => {
     const result = await workflow`to verify auto lender stipulations`
     console.log(result)
   })
-
 })

@@ -2,8 +2,6 @@ import 'dotenv/config'
 import { describe, expect, it } from 'vitest'
 import { research } from './research'
 
-
-
 describe('research', () => {
   it('should return research with citations', async () => {
     const results = await research`how generateObject in the Vercel AI SDK works`

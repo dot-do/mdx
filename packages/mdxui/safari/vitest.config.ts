@@ -7,13 +7,13 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      'monaco-editor': 'monaco-editor/esm/vs/editor/editor.api.js'
-    }
+      'monaco-editor': 'monaco-editor/esm/vs/editor/editor.api.js',
+    },
   },
   define: {
     global: 'globalThis',
   },
   optimizeDeps: {
-    include: ['monaco-editor']
-  }
+    include: ['monaco-editor'],
+  },
 })

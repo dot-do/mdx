@@ -5,7 +5,7 @@ export default defineConfig({
     index: 'src/index.ts',
     'contentScripts/fileRenderer': 'contentScripts/fileRenderer.ts',
     'contentScripts/monacoIntegration': 'contentScripts/monacoIntegration.ts',
-    'utils/fileTypeDetection': 'utils/fileTypeDetection.ts'
+    'utils/fileTypeDetection': 'utils/fileTypeDetection.ts',
   },
   format: ['esm'],
   dts: false,

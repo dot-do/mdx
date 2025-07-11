@@ -45,8 +45,6 @@ async function mdxCore(prompt: string, options: Record<string, any> = {}): Promi
   return result.text
 }
 
-export const mdx = createUnifiedFunction<Promise<string>>(
-  (prompt: string, options: Record<string, any>) => {
-    return mdxCore(prompt, options);
-  }
-);
+export const mdx = createUnifiedFunction<Promise<string>>((prompt: string, options: Record<string, any>) => {
+  return mdxCore(prompt, options)
+})

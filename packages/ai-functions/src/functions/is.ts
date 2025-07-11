@@ -25,12 +25,12 @@ async function isCore(question: string, options: IsOptions = {}): Promise<{ answ
     prompt: question,
     schema: isSchema,
   })
-  
+
   return result.object
 }
 
 export const is = createUnifiedFunction<Promise<{ answer: boolean; confidence: number; reasoning: string }>>(
   (question: string, options: Record<string, any>) => {
-    return isCore(question, options as IsOptions);
-  }
-);
+    return isCore(question, options as IsOptions)
+  },
+)

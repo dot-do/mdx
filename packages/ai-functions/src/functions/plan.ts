@@ -69,20 +69,28 @@ const planSchema = z.object({
   title: z.string(),
   description: z.string(),
   taskLists: z.array(taskListSchema),
-  timeline: z.object({
-    startDate: z.string(),
-    endDate: z.string(),
-    milestones: z.array(z.object({
-      date: z.string(),
-      title: z.string(),
-      description: z.string().optional(),
-    })),
-  }).optional(),
-  resources: z.array(z.object({
-    type: z.enum(['human', 'tool', 'budget']),
-    name: z.string(),
-    allocation: z.string().optional(),
-  })).optional(),
+  timeline: z
+    .object({
+      startDate: z.string(),
+      endDate: z.string(),
+      milestones: z.array(
+        z.object({
+          date: z.string(),
+          title: z.string(),
+          description: z.string().optional(),
+        }),
+      ),
+    })
+    .optional(),
+  resources: z
+    .array(
+      z.object({
+        type: z.enum(['human', 'tool', 'budget']),
+        name: z.string(),
+        allocation: z.string().optional(),
+      }),
+    )
+    .optional(),
 })
 
 interface PlanOptions {
@@ -97,13 +105,10 @@ async function planCore(objective: string, options: PlanOptions = {}): Promise<P
   const selectedModel = options.model || 'google/gemini-2.5-flash-preview-05-20'
   const aiModel = createAIModel(options.apiKey, options.baseURL)
 
-  const {
-    includeTimeline = true,
-    includeResources = true
-  } = options
+  const { includeTimeline = true, includeResources = true } = options
 
   let systemPrompt = 'You are an expert project planner. Create a detailed project plan with task lists and individual tasks.'
-  
+
   if (includeTimeline) {
     systemPrompt += ' Include a realistic timeline with milestones.'
   }
@@ -118,7 +123,7 @@ async function planCore(objective: string, options: PlanOptions = {}): Promise<P
     prompt: `Create a comprehensive project plan for: ${objective}`,
     schema: planSchema,
   })
-  
+
   return result.object
 }
 
@@ -130,7 +135,7 @@ export function parseTaskLists(content: string): TaskList[] {
 
   for (const line of lines) {
     const trimmed = line.trim()
-    
+
     if (trimmed.startsWith('## ')) {
       if (currentList) {
         taskLists.push(currentList)
@@ -138,7 +143,7 @@ export function parseTaskLists(content: string): TaskList[] {
       currentList = {
         id: Math.random().toString(36).substr(2, 9),
         title: trimmed.substring(3),
-        tasks: []
+        tasks: [],
       }
     } else if (trimmed.startsWith('- [ ]') || trimmed.startsWith('- [x]')) {
       if (currentList) {
@@ -148,7 +153,7 @@ export function parseTaskLists(content: string): TaskList[] {
           id: Math.random().toString(36).substr(2, 9),
           title,
           status: isCompleted ? 'completed' : 'pending',
-          priority: 'medium'
+          priority: 'medium',
         }
         currentList.tasks.push(currentTask)
       }
@@ -165,29 +170,29 @@ export function parseTaskLists(content: string): TaskList[] {
 export function serializeTaskItem(task: TaskItem): string {
   const checkbox = task.status === 'completed' ? '[x]' : '[ ]'
   let line = `- ${checkbox} ${task.title}`
-  
+
   if (task.priority && task.priority !== 'medium') {
     line += ` (${task.priority})`
   }
-  
+
   if (task.estimatedHours) {
     line += ` [${task.estimatedHours}h]`
   }
-  
+
   return line
 }
 
 export function serializeTaskList(taskList: TaskList): string {
   let content = `## ${taskList.title}\n\n`
-  
+
   if (taskList.description) {
     content += `${taskList.description}\n\n`
   }
-  
+
   for (const task of taskList.tasks) {
     content += serializeTaskItem(task) + '\n'
   }
-  
+
   return content + '\n'
 }
 
@@ -197,14 +202,14 @@ export function serializeTaskLists(taskLists: TaskList[]): string {
 
 export function serializePlanResult(plan: PlanResult): string {
   let content = `# ${plan.title}\n\n${plan.description}\n\n`
-  
+
   content += serializeTaskLists(plan.taskLists)
-  
+
   if (plan.timeline) {
     content += `## Timeline\n\n`
     content += `**Start:** ${plan.timeline.startDate}\n`
     content += `**End:** ${plan.timeline.endDate}\n\n`
-    
+
     if (plan.timeline.milestones.length > 0) {
       content += `### Milestones\n\n`
       for (const milestone of plan.timeline.milestones) {
@@ -217,7 +222,7 @@ export function serializePlanResult(plan: PlanResult): string {
       content += '\n'
     }
   }
-  
+
   if (plan.resources && plan.resources.length > 0) {
     content += `## Resources\n\n`
     for (const resource of plan.resources) {
@@ -228,12 +233,10 @@ export function serializePlanResult(plan: PlanResult): string {
       content += '\n'
     }
   }
-  
+
   return content
 }
 
-export const plan = createUnifiedFunction<Promise<PlanResult>>(
-  (objective: string, options: Record<string, any>) => {
-    return planCore(objective, options as PlanOptions);
-  }
-);
+export const plan = createUnifiedFunction<Promise<PlanResult>>((objective: string, options: Record<string, any>) => {
+  return planCore(objective, options as PlanOptions)
+})

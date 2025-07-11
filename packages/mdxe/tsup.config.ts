@@ -25,7 +25,7 @@ export default defineConfig([
     sourcemap: true,
     clean: true, // Changed to true to clean the dist directory
     minify: false,
-    external: ['next', 'payload', 'esbuild', 'react', 'react-dom', 'ink', 'typescript', 'acorn', 'acorn-jsx', '@mdx-js/esbuild'],
+    external: ['next', 'payload', 'esbuild', 'react', 'react-dom', 'ink', 'acorn', 'acorn-jsx', '@mdx-js/esbuild'],
     outDir: 'dist',
     tsconfig: 'tsconfig.api.json',
     onSuccess: 'cp -r src/template dist/ || echo "No template directory found"',

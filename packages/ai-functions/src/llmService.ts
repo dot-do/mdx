@@ -1,4 +1,12 @@
-import { CoreMessage, StreamTextResult, streamText, generateText, experimental_createMCPClient, wrapLanguageModel, experimental_generateImage as generateImage } from 'ai'
+import {
+  CoreMessage,
+  StreamTextResult,
+  streamText,
+  generateText,
+  experimental_createMCPClient,
+  wrapLanguageModel,
+  experimental_generateImage as generateImage,
+} from 'ai'
 import { openai, createOpenAI } from '@ai-sdk/openai'
 import { createAIModel } from './ai.js'
 
@@ -11,11 +19,7 @@ interface LLMServiceParams {
 }
 
 export async function generateContentStream(params: LLMServiceParams): Promise<StreamTextResult<never, string>> {
-  const {
-    modelProvider = openai,
-    modelId = 'google/gemini-2.5-flash-preview-05-20',
-    messages,
-  } = params
+  const { modelProvider = openai, modelId = 'google/gemini-2.5-flash-preview-05-20', messages } = params
 
   try {
     const aiModel = createAIModel(params.apiKey, params.baseURL)
@@ -48,7 +52,7 @@ export function createResearchProvider(apiKey?: string, baseURL: string = 'https
   if (!finalApiKey) {
     throw new Error('AI_GATEWAY_TOKEN must be provided via apiKey parameter or AI_GATEWAY_TOKEN environment variable.')
   }
-  
+
   return createOpenAI({
     baseURL: baseURL,
     apiKey: finalApiKey,
@@ -104,11 +108,7 @@ export async function generateDeepwikiStream(query: string, apiKey?: string): Pr
 }
 
 export async function generateImageStream(prompt: string, options: any = {}) {
-  const {
-    model = 'gpt-image-1',
-    quality = 'high',
-    ...otherOptions
-  } = options
+  const { model = 'gpt-image-1', quality = 'high', ...otherOptions } = options
 
   try {
     const result = await generateImage({
@@ -117,7 +117,7 @@ export async function generateImageStream(prompt: string, options: any = {}) {
       providerOptions: {
         openai: { quality },
       },
-      ...otherOptions
+      ...otherOptions,
     })
 
     return result

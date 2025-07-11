@@ -214,11 +214,14 @@ function resolveInheritedProperties(thing: any, allThings: any[]): { propertiesB
 
   for (const [level, properties] of propertiesByLevel.entries()) {
     const uniqueProperties = Array.from(new Map(properties.map((p) => [p['$id'], p])).values())
-    propertiesByLevel.set(level, uniqueProperties.sort((a, b) => {
-      const nameA = a.label || a.name || a['$id']?.split('/').pop() || ''
-      const nameB = b.label || b.name || b['$id']?.split('/').pop() || ''
-      return nameA.localeCompare(nameB)
-    }))
+    propertiesByLevel.set(
+      level,
+      uniqueProperties.sort((a, b) => {
+        const nameA = a.label || a.name || a['$id']?.split('/').pop() || ''
+        const nameB = b.label || b.name || b['$id']?.split('/').pop() || ''
+        return nameA.localeCompare(nameB)
+      }),
+    )
   }
 
   const maxLevel = propertiesByLevel.size > 0 ? Math.max(...propertiesByLevel.keys()) : -1
@@ -232,7 +235,7 @@ function resolveInheritedProperties(thing: any, allThings: any[]): { propertiesB
 function generateMdxContent(thing: any, inheritanceData: { propertiesByLevel: Map<number, any[]>; maxLevel: number }, isProperty: boolean = false): string {
   const label = thing.label || thing.name || thing['$id']?.split('/').pop() || 'Unknown'
   const comment = thing['rdfs:comment'] || thing.comment || thing.description || ''
-  
+
   // Convert literal \n escape sequences to actual newlines
   const trimmedComment = typeof comment === 'string' ? comment.trim().replace(/\\n/g, '\n') : comment
 
@@ -285,11 +288,11 @@ function generateMdxContent(thing: any, inheritanceData: { propertiesByLevel: Ma
     const value = thing[key]
     if (value !== undefined && value !== null) {
       const cleanKey = key.replace(/^(rdfs:|schema:)/, '')
-      
+
       if (typeof value === 'object' && value !== null) {
         if (Array.isArray(value)) {
           const processedArray = value.map((item) => (typeof item === 'object' ? flattenUriObject(item) : expandUriPrefix(item as string)))
-          frontmatter += `${cleanKey}: [${processedArray.map(item => `"${item}"`).join(',')}]\n`
+          frontmatter += `${cleanKey}: [${processedArray.map((item) => `"${item}"`).join(',')}]\n`
         } else {
           const processedValue = flattenUriObject(value)
           frontmatter += `${cleanKey}: ${processedValue}\n`
@@ -364,7 +367,7 @@ function generateMdxContent(thing: any, inheritanceData: { propertiesByLevel: Ma
 
       for (let level = 1; level <= inheritanceData.maxLevel; level++) {
         const levelProperties = inheritanceData.propertiesByLevel.get(level) || []
-        
+
         for (const property of levelProperties) {
           const propName = property.label || property.name || property['$id']?.split('/').pop() || 'Unknown'
           const propLink = formatReference(property['$id'] as string)
@@ -422,7 +425,7 @@ async function writeFiles(things: any[], allThings: any[]): Promise<void> {
       let properties: any[] = []
 
       let inheritanceData = { propertiesByLevel: new Map<number, any[]>(), maxLevel: -1 }
-      
+
       if (!isProperty) {
         inheritanceData = resolveInheritedProperties(thing, allThings)
         // Add debugging for properties

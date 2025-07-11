@@ -183,7 +183,7 @@ export class MdxDbFs extends MdxDbBase {
 
               for (const file of files) {
                 const fullPath = path.join(dirPath, file.name)
-                
+
                 if (file.isDirectory()) {
                   const dirName = file.name
                   if (targetCollection === 'blog' && dirName === 'blog') {
@@ -229,7 +229,10 @@ export class MdxDbFs extends MdxDbBase {
             const entries = await processDirectory(contentDir, collection)
 
             if (entries.length > 0) {
-              console.log(`DEBUG: Building ${collection} collection from ${contentDir} with entries:`, entries.map(e => ({ slug: e.slug, title: e.title })))
+              console.log(
+                `DEBUG: Building ${collection} collection from ${contentDir} with entries:`,
+                entries.map((e) => ({ slug: e.slug, title: e.title })),
+              )
               await fs.writeFile(path.join(outputDir, `${collection}.json`), JSON.stringify(entries))
               console.log(`Successfully built ${collection} collection with ${entries.length} entries`)
             }

@@ -7,7 +7,6 @@
 - [ ] `plan` tests
 - [ ] `db` tests
 
-
 ### Backlog
 
 - [ ] `do` tests
@@ -15,7 +14,6 @@
 - [ ] `extract` tests
 
 ### In Progress
-
 
 ### Assigned
 

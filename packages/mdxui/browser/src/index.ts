@@ -17,7 +17,7 @@ export {
   SUPPORTED_EXTENSIONS,
   SUPPORTED_MIME_TYPES,
   shouldRenderWithMonaco,
-  type FileTypeInfo
+  type FileTypeInfo,
 } from './fileDetection.js'
 
 export {
@@ -31,15 +31,10 @@ export {
   setupMonacoEnvironment,
   initializeMonaco,
   DEFAULT_MONACO_CONFIG,
-  type MonacoConfig
+  type MonacoConfig,
 } from './monacoUtils.js'
 
-export {
-  extractPageContent,
-  fetchFileContent,
-  addLoadingIndicator,
-  removeLoadingIndicator
-} from './utils.js'
+export { extractPageContent, fetchFileContent, addLoadingIndicator, removeLoadingIndicator } from './utils.js'
 export function render(elementId: string, options: SimplifiedBrowserOptions): void {
   const element = document.getElementById(elementId)
   if (!element) {

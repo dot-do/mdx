@@ -41,14 +41,14 @@ export async function runSendCommand(eventName: string, eventData?: string, opti
     }
 
     const result = await send(eventName, parsedData)
-    
+
     console.log(`✅ Event sent successfully`)
     console.log(`Triggered ${result.results.length} handler(s)`)
-    
+
     if (options.verbose) {
       console.log('Results:', result.results)
     }
-    
+
     const errors = result.context.get?.('errors') || []
     if (errors.length > 0) {
       console.log(`\n⚠️ ${errors.length} handler(s) reported errors:`)
@@ -56,7 +56,7 @@ export async function runSendCommand(eventName: string, eventData?: string, opti
         console.log(`  Handler ${index + 1}: ${error.error?.message || JSON.stringify(error)}`)
       })
     }
-    
+
     return result
   } catch (error) {
     console.error(`Error sending event: ${error instanceof Error ? error.message : String(error)}`)

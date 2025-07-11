@@ -108,7 +108,6 @@ describe('MdxDbSqlite', () => {
     await db.set('test-doc-2', content2, 'posts')
     await db.set('test-doc-3', content3, 'posts')
 
-
     const results = await db.search('artificial intelligence')
 
     expect(results.length).toBeGreaterThan(0)

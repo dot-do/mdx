@@ -53,7 +53,7 @@ export async function render(mdxContent: string, options: RenderOptions = {}): P
       format: 'mdx',
       recmaPlugins: [],
       mdExtensions: ['.md', '.mdx'],
-      elementAttributeNameCase: 'html'
+      elementAttributeNameCase: 'html',
     })
 
     const { default: Component } = await evaluate(compiled, {

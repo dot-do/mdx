@@ -1,12 +1,12 @@
 export function extractPageContent(): string {
   const body = document.body
   if (!body) return ''
-  
+
   const preElements = body.querySelectorAll('pre')
   if (preElements.length === 1 && body.children.length === 1) {
     return preElements[0]?.textContent || ''
   }
-  
+
   return body.textContent || ''
 }
 
@@ -15,12 +15,12 @@ export async function fetchFileContent(url: string): Promise<string> {
     if (url.startsWith('file://')) {
       return extractPageContent()
     }
-    
+
     const response = await fetch(url)
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`)
     }
-    
+
     return await response.text()
   } catch (error) {
     console.warn('Failed to fetch file content, using DOM content:', error)
@@ -46,7 +46,7 @@ export function addLoadingIndicator(): HTMLElement {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   `
   loading.textContent = 'Loading Monaco Editor...'
-  
+
   document.body.appendChild(loading)
   return loading
 }

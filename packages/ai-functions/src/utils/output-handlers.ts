@@ -101,4 +101,4 @@ export async function handleObjectOutput(systemPrompt: string, outputSchema: Rec
 
     return fallbackObject
   }
-}  
+}

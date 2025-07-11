@@ -20,13 +20,9 @@ export interface ExperimentResult {
 /**
  * Core experiment function that runs AI functions with different parameter combinations
  */
-async function experimentCore(
-  description: string,
-  config: ExperimentConfig,
-  aiFunction: any
-): Promise<ExperimentResult> {
+async function experimentCore(description: string, config: ExperimentConfig, aiFunction: any): Promise<ExperimentResult> {
   const combinations = cartesian(config)
-  
+
   if (combinations.length === 0) {
     throw new Error('No parameter combinations found. Please provide at least one parameter array.')
   }
@@ -46,7 +42,7 @@ async function experimentCore(
           error: error instanceof Error ? error.message : String(error),
         }
       }
-    })
+    }),
   )
 
   const processedResults = results.map((result, index) => {
@@ -70,13 +66,13 @@ async function experimentCore(
 
 /**
  * Experiment function with streamlined syntax for running AI functions with different parameter combinations
- * 
+ *
  * This function needs to be called directly with three parameters since it doesn't follow the template literal pattern.
- * 
+ *
  * Usage:
  * ```typescript
  * import { research } from 'mdxai'
- * 
+ *
  * const aiFunc = research`the potential impact of AGI on unemployment for software engineers`
  * const results = await experiment('with different research approaches', {
  *   models: ['gpt-4', 'claude-3'],
@@ -84,10 +80,6 @@ async function experimentCore(
  * }, aiFunc)
  * ```
  */
-export async function experiment(
-  description: string,
-  config: ExperimentConfig,
-  aiFunction: any
-): Promise<ExperimentResult> {
+export async function experiment(description: string, config: ExperimentConfig, aiFunction: any): Promise<ExperimentResult> {
   return experimentCore(description, config, aiFunction)
 }

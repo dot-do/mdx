@@ -34,12 +34,7 @@ async function videoCore(prompt: string, options: VideoOptions = {}): Promise<Vi
   const selectedModel = options.model || 'google/gemini-2.5-flash-preview-05-20'
   const aiModel = createAIModel(options.apiKey, options.baseURL)
 
-  const {
-    duration = 60,
-    style = 'tutorial',
-    resolution = '1080p',
-    format = 'mp4'
-  } = options
+  const { duration = 60, style = 'tutorial', resolution = '1080p', format = 'mp4' } = options
 
   const systemPrompt = `You are a video production expert. Create a detailed video script and scene breakdown for a ${duration}-second ${style} video in ${resolution} ${format} format.`
 
@@ -54,20 +49,20 @@ async function videoCore(prompt: string, options: VideoOptions = {}): Promise<Vi
       duration: duration / 3,
       description: 'Opening scene',
       voiceover: 'Introduction to the topic',
-      visuals: ['Title card', 'Background imagery']
+      visuals: ['Title card', 'Background imagery'],
     },
     {
       duration: duration / 3,
       description: 'Main content',
       voiceover: 'Core information delivery',
-      visuals: ['Supporting graphics', 'Demonstrations']
+      visuals: ['Supporting graphics', 'Demonstrations'],
     },
     {
       duration: duration / 3,
       description: 'Closing scene',
       voiceover: 'Summary and call to action',
-      visuals: ['Conclusion graphics', 'Contact information']
-    }
+      visuals: ['Conclusion graphics', 'Contact information'],
+    },
   ]
 
   return {
@@ -76,13 +71,11 @@ async function videoCore(prompt: string, options: VideoOptions = {}): Promise<Vi
     metadata: {
       totalDuration: duration,
       sceneCount: scenes.length,
-      estimatedSize: `${Math.round(duration * 2)}MB`
-    }
+      estimatedSize: `${Math.round(duration * 2)}MB`,
+    },
   }
 }
 
-export const video = createUnifiedFunction<Promise<VideoResult>>(
-  (prompt: string, options: Record<string, any>) => {
-    return videoCore(prompt, options as VideoOptions);
-  }
-);
+export const video = createUnifiedFunction<Promise<VideoResult>>((prompt: string, options: Record<string, any>) => {
+  return videoCore(prompt, options as VideoOptions)
+})

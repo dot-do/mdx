@@ -32,7 +32,7 @@
     "@types/react": "^18.2.0",
     "ai-functions": "workspace:*",
     "tsup": "^8.0.2",
-    "typescript": "^5.3.3",
+    "typescript": "^5.8.3",
     "vitest": "^3.1.4"
   }
 }

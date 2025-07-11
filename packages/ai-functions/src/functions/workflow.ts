@@ -34,12 +34,10 @@ async function workflowCore(processDescription: string, options: WorkflowOptions
   const selectedModel = options.model || 'google/gemini-2.5-flash-preview-05-20'
   const aiModel = createAIModel(options.apiKey, options.baseURL)
 
-  const {
-    includeAutomation = true
-  } = options
+  const { includeAutomation = true } = options
 
   let systemPrompt = 'You are an expert process designer. Create a detailed workflow with clear steps, inputs, outputs, and conditions.'
-  
+
   if (includeAutomation) {
     systemPrompt += ' Include automation opportunities where appropriate.'
   }
@@ -50,12 +48,10 @@ async function workflowCore(processDescription: string, options: WorkflowOptions
     prompt: `Design a workflow for: ${processDescription}`,
     schema: workflowSchema,
   })
-  
+
   return result.object
 }
 
-export const workflow = createUnifiedFunction<Promise<z.infer<typeof workflowSchema>>>(
-  (processDescription: string, options: Record<string, any>) => {
-    return workflowCore(processDescription, options as WorkflowOptions);
-  }
-);
+export const workflow = createUnifiedFunction<Promise<z.infer<typeof workflowSchema>>>((processDescription: string, options: Record<string, any>) => {
+  return workflowCore(processDescription, options as WorkflowOptions)
+})

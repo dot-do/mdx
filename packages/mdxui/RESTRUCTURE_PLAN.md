@@ -1,6 +1,5 @@
 # MDXUI Restructure Plan
 
-
 <!-- Keep it by UI/Tech Package -->
 
 ## Overview

@@ -14,7 +14,7 @@ describe('test-runner', () => {
   beforeEach(async () => {
     await fs.mkdir(TEST_DIR, { recursive: true })
   })
-  
+
   afterEach(async () => {
     try {
       await fs.rm(TEST_DIR, { recursive: true, force: true })
@@ -29,13 +29,11 @@ describe('test-runner', () => {
         { lang: 'typescript', meta: null, value: 'const a = 1;' },
         { lang: 'typescript', meta: null, value: 'const b = 2;' },
       ]
-      const testBlocks: CodeBlock[] = [
-        { lang: 'typescript', meta: 'test', value: 'test("example", () => { expect(1).toBe(1); });' },
-      ]
+      const testBlocks: CodeBlock[] = [{ lang: 'typescript', meta: 'test', value: 'test("example", () => { expect(1).toBe(1); });' }]
 
       try {
         const result = await bundleCodeForTesting(codeBlocks, testBlocks)
-  
+
         expect(result).toContain('const a = 1;')
         expect(result).toContain('const b = 2;')
         expect(result).toContain('test("example"')
@@ -50,15 +48,15 @@ describe('test-runner', () => {
     it('creates a temporary test file from bundled code', async () => {
       const bundledCode = 'const a = 1;\nconst b = 2;\ntest("example", () => { expect(1).toBe(1); });'
       const fileName = 'example.mdx'
-      
+
       const originalCwd = process.cwd()
-      
+
       // Change to test directory for this test
       process.chdir(TEST_DIR)
-      
+
       try {
         const result = await createTempTestFile(bundledCode, fileName)
-        
+
         const fileContent = await fs.readFile(result, 'utf-8')
         expect(fileContent).toContain('const a = 1;')
         expect(fileContent).toContain('const b = 2;')
@@ -81,16 +79,16 @@ describe('test-runner', () => {
           })
         })
       `
-      
+
       const originalCwd = process.cwd()
-      
+
       // Change to test directory for this test
       process.chdir(TEST_DIR)
-      
+
       try {
         const testFile = await createTempTestFile(testCode, 'simple-test.mdx')
         const result = await runTestsWithVitest(testCode, 'simple-test.mdx')
-        
+
         expect(result.success).toBe(true)
       } finally {
         process.chdir(originalCwd)
@@ -107,16 +105,16 @@ describe('test-runner', () => {
           })
         })
       `
-      
+
       const originalCwd = process.cwd()
-      
+
       // Change to test directory for this test
       process.chdir(TEST_DIR)
-      
+
       try {
         const testFile = await createTempTestFile(testCode, 'failing-test.mdx')
         const result = await runTestsWithVitest(testCode, 'failing-test.mdx')
-        
+
         expect(result.success).toBe(false)
       } finally {
         process.chdir(originalCwd)
@@ -129,22 +127,22 @@ describe('test-runner', () => {
       const testFilePath = path.join(TEST_DIR, '.mdxe', 'test.ts')
       await fs.mkdir(path.join(TEST_DIR, '.mdxe'), { recursive: true })
       await fs.writeFile(testFilePath, 'test content', 'utf-8')
-      
+
       const originalCwd = process.cwd()
-      
+
       // Change to test directory for this test
       process.chdir(TEST_DIR)
-      
+
       try {
         await cleanupTempFiles()
-        
+
         let dirExists = true
         try {
           await fs.access(path.join(TEST_DIR, '.mdxe'))
         } catch (error) {
           dirExists = false
         }
-        
+
         expect(dirExists).toBe(false)
       } finally {
         process.chdir(originalCwd)
@@ -153,21 +151,21 @@ describe('test-runner', () => {
 
     it('handles errors during cleanup', async () => {
       const originalCwd = process.cwd()
-      
+
       // Change to test directory for this test
       process.chdir(TEST_DIR)
-      
+
       const testDir = path.join(TEST_DIR, '.mdxe')
       await fs.mkdir(testDir, { recursive: true })
-      
+
       const errorFile = path.join(testDir, 'error-test.ts')
       await fs.writeFile(errorFile, 'test content', 'utf-8')
-      
+
       try {
         process.chdir(testDir)
-        
+
         await cleanupTempFiles()
-        
+
         const stats = await fs.stat('.')
         expect(stats.isDirectory()).toBe(true)
       } finally {

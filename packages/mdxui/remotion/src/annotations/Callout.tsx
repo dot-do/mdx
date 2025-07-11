@@ -1,9 +1,5 @@
 /** @jsxImportSource react */
-import {
-  InlineAnnotation,
-  AnnotationHandler,
-  InnerLine,
-} from "codehike/code";
+import { InlineAnnotation, AnnotationHandler, InnerLine } from "codehike/code";
 import { PreWrapper } from "../components/PreWrapper";
 import { interpolate, useCurrentFrame } from "remotion";
 import { useThemeColors } from "../calculate-metadata/theme";

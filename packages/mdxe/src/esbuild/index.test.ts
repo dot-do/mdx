@@ -37,18 +37,18 @@ console.log('Regular JS block')
 
       const blocks = extractCodeBlocks(mdxContent)
       expect(blocks).toHaveLength(3)
-      
+
       expect(blocks[0].lang).toBe('typescript')
       expect(blocks[0].meta).toBe('exec')
-      expect(blocks[0].value).toContain('on(\'idea.captured\'')
-      
+      expect(blocks[0].value).toContain("on('idea.captured'")
+
       expect(blocks[1].lang).toBe('typescript')
       expect(blocks[1].meta).toBe('test')
-      expect(blocks[1].value).toContain('send(\'idea.captured\'')
-      
+      expect(blocks[1].value).toContain("send('idea.captured'")
+
       expect(blocks[2].lang).toBe('javascript')
       expect(blocks[2].meta).toBe(null)
-      expect(blocks[2].value).toContain('console.log(\'Regular JS block\')')
+      expect(blocks[2].value).toContain("console.log('Regular JS block')")
     })
 
     it('returns empty array when no code blocks are found', () => {
@@ -74,14 +74,14 @@ Just regular content, no code blocks.
       ]
 
       const { executableBlocks, testBlocks } = categorizeCodeBlocks(codeBlocks)
-      
+
       expect(executableBlocks).toHaveLength(3)
       expect(testBlocks).toHaveLength(1)
-      
+
       expect(executableBlocks[0].meta).toBe('exec')
       expect(executableBlocks[1].meta).toBe(null) // Default JS block
       expect(executableBlocks[2].meta).toBe('execute')
-      
+
       expect(testBlocks[0].meta).toBe('test')
     })
 
@@ -93,7 +93,7 @@ Just regular content, no code blocks.
       ]
 
       const { executableBlocks, testBlocks } = categorizeCodeBlocks(codeBlocks)
-      
+
       expect(executableBlocks).toHaveLength(0)
       expect(testBlocks).toHaveLength(0)
     })
@@ -127,15 +127,15 @@ const config = { debug: true }
 
       const blocks = extractCodeBlocksWithSections(mdxContent)
       expect(blocks).toHaveLength(3)
-      
+
       expect(blocks[0].parentSection).toBe('Introduction')
       expect(blocks[0].lang).toBe('typescript')
       expect(blocks[0].value).toContain('greeting')
-      
+
       expect(blocks[1].parentSection).toBe('Setup Instructions')
       expect(blocks[1].lang).toBe('javascript')
       expect(blocks[1].value).toContain('setup')
-      
+
       expect(blocks[2].parentSection).toBe('Setup Instructions')
       expect(blocks[2].lang).toBe('typescript')
       expect(blocks[2].value).toContain('config')
@@ -156,7 +156,7 @@ const withSection = true
 
       const blocks = extractCodeBlocksWithSections(mdxContent)
       expect(blocks).toHaveLength(2)
-      
+
       expect(blocks[0].parentSection).toBeUndefined()
       expect(blocks[1].parentSection).toBe('First Section')
     })
@@ -172,7 +172,7 @@ const withSection = true
           type: 'mixed' as const,
           parentSection: 'Test Section',
           declarations: ['message'],
-          isExported: false
+          isExported: false,
         },
         {
           lang: 'javascript',
@@ -181,7 +181,7 @@ const withSection = true
           type: 'declaration' as const,
           parentSection: 'Tests',
           declarations: ['testFunc'],
-          isExported: false
+          isExported: false,
         },
         {
           lang: 'typescript',
@@ -190,15 +190,15 @@ const withSection = true
           type: 'statement' as const,
           parentSection: 'Examples',
           declarations: [],
-          isExported: false
-        }
+          isExported: false,
+        },
       ]
 
       const { executableBlocks, testBlocks } = categorizeEnhancedCodeBlocks(enhancedBlocks)
-      
+
       expect(executableBlocks).toHaveLength(2)
       expect(testBlocks).toHaveLength(1)
-      
+
       expect(executableBlocks[0].type).toBe('mixed')
       expect(executableBlocks[1].type).toBe('statement')
       expect(testBlocks[0].type).toBe('declaration')

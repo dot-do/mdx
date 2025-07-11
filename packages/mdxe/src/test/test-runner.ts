@@ -10,9 +10,9 @@ const execAsync = promisify(exec)
  * Represents a code block extracted from MDX content
  */
 export interface CodeBlock {
-  lang: string;
-  meta: string | null;
-  value: string;
+  lang: string
+  meta: string | null
+  value: string
 }
 
 /**
@@ -33,18 +33,18 @@ export function extractExecutionContext(meta: string | null): 'test' | 'dev' | '
  */
 export function createExecutionContext(type: 'test' | 'dev' | 'production' | 'default' = 'default') {
   return {
-    on: function(event: string, callback: Function) {
-      return () => {}; // Return unsubscribe function
+    on: function (event: string, callback: Function) {
+      return () => {} // Return unsubscribe function
     },
-    
-    send: function(event: string, data?: any) {
-      return data;
+
+    send: function (event: string, data?: any) {
+      return data
     },
-    
-    emit: function(event: string, data?: any) {
-      return data;
-    }
-  };
+
+    emit: function (event: string, data?: any) {
+      return data
+    },
+  }
 }
 
 /**
@@ -52,7 +52,7 @@ export function createExecutionContext(type: 'test' | 'dev' | 'production' | 'de
  */
 export async function bundleCodeForTesting(codeBlocks: CodeBlock[], testBlocks: CodeBlock[]): Promise<string> {
   const context = createExecutionContext('test')
-  
+
   const globalDeclarations = `
 const on = ${context.on.toString()};
 const send = ${context.send.toString()};
@@ -89,19 +89,15 @@ const extract = function(strings, ...values) {
   return ["Extracted item 1", "Extracted item 2"];
 };
 `
-  
-  const combinedSource = [
-    globalDeclarations,
-    ...codeBlocks.map(block => block.value),
-    ...testBlocks.map(block => block.value)
-  ].join('\n\n')
-  
+
+  const combinedSource = [globalDeclarations, ...codeBlocks.map((block) => block.value), ...testBlocks.map((block) => block.value)].join('\n\n')
+
   const result = await esbuild.transform(combinedSource, {
     loader: 'ts',
     target: 'es2020',
     format: 'esm',
   })
-  
+
   return result.code
 }
 
@@ -139,31 +135,30 @@ export async function runTestsWithVitest(
 }> {
   try {
     const testFilePath = await createTempTestFile(bundledCode, filePath)
-    
+
     const watchFlag = watch ? '--watch' : ''
     const command = `npx vitest run --globals ${watchFlag} ${testFilePath}`
-    
+
     const { stdout, stderr } = await execAsync(command)
     const output = stdout + stderr
-    
+
     if (!watch) {
       await cleanupTempFiles()
     }
-    
+
     const skippedMatch = output.match(/(\d+) skipped/i)
     const skipped = skippedMatch ? parseInt(skippedMatch[1], 10) : 0
-    
-    const success = !output.includes('FAIL') && !output.includes('ERR_')
-    
-    return { success, output, skipped }
 
+    const success = !output.includes('FAIL') && !output.includes('ERR_')
+
+    return { success, output, skipped }
   } catch (error: any) {
     await cleanupTempFiles()
-    
+
     return {
       success: false,
       output: error.stdout + error.stderr || String(error),
-      skipped: 0
+      skipped: 0,
     }
   }
 }

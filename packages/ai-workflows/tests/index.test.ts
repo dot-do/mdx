@@ -1,15 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { 
-  on, 
-  send, 
-  emit,
-  clearEvents,
-  clearEvent,
-  MutableEventContext,
-  createEnhancedContext,
-  onWithAI,
-  sendWithAI
-} from '../src/index'
+import { on, send, emit, clearEvents, clearEvent, MutableEventContext, createEnhancedContext, onWithAI, sendWithAI } from '../src/index'
 
 describe('ai-workflows', () => {
   beforeEach(() => {
@@ -28,7 +18,7 @@ describe('ai-workflows', () => {
       })
 
       const result = await send('test.event', { message: 'hello' })
-      
+
       expect(called).toBe(true)
       expect(receivedData).toEqual({ message: 'hello' })
       expect(result.results).toHaveLength(1)
@@ -49,7 +39,7 @@ describe('ai-workflows', () => {
       })
 
       const result = await send('multi.test')
-      
+
       expect(calls).toEqual([1, 2])
       expect(result.results).toEqual(['first', 'second'])
     })
@@ -67,19 +57,19 @@ describe('ai-workflows', () => {
       })
 
       const result = await send('context.test')
-      
+
       expect(result.context.get('step1')).toBe('completed')
       expect(result.context.get('step2')).toBe('after-completed')
     })
 
     it('should handle async handlers', async () => {
       on('async.test', async (data) => {
-        await new Promise(resolve => setTimeout(resolve, 10))
+        await new Promise((resolve) => setTimeout(resolve, 10))
         return 'async-result'
       })
 
       const result = await send('async.test')
-      
+
       expect(result.results[0]).toBe('async-result')
     })
   })
@@ -87,7 +77,7 @@ describe('ai-workflows', () => {
   describe('enhanced context', () => {
     it('should create enhanced context with AI functions', () => {
       const context = createEnhancedContext({ initial: 'data' })
-      
+
       expect(context.get('initial')).toBe('data')
       expect(typeof context.ai).toBe('function')
       expect(typeof context.list).toBe('function')
@@ -105,7 +95,7 @@ describe('ai-workflows', () => {
       })
 
       await sendWithAI('ai.test', { test: 'data' })
-      
+
       expect(receivedContext).toBeDefined()
       expect(typeof receivedContext.ai).toBe('function')
       expect(typeof receivedContext.list).toBe('function')
@@ -115,10 +105,10 @@ describe('ai-workflows', () => {
   describe('context operations', () => {
     it('should support context set/get operations', () => {
       const context = new MutableEventContext()
-      
+
       context.set('key1', 'value1')
       context.set('key2', { nested: 'object' })
-      
+
       expect(context.get('key1')).toBe('value1')
       expect(context.get('key2')).toEqual({ nested: 'object' })
       expect(context.has('key1')).toBe(true)
@@ -127,12 +117,12 @@ describe('ai-workflows', () => {
 
     it('should support context merge operations', () => {
       const context = new MutableEventContext({ initial: 'value' })
-      
-      context.merge({ 
+
+      context.merge({
         new: 'data',
-        nested: { deep: 'value' }
+        nested: { deep: 'value' },
       })
-      
+
       expect(context.get('initial')).toBe('value')
       expect(context.get('new')).toBe('data')
       expect(context.get('nested')).toEqual({ deep: 'value' })
@@ -150,7 +140,7 @@ describe('ai-workflows', () => {
       })
 
       const result = await send('error.test')
-      
+
       expect(result.results).toHaveLength(2)
       expect(result.results[0]).toBe(null) // First handler failed
       expect(result.results[1]).toBe('success') // Second handler succeeded
@@ -162,29 +152,33 @@ describe('ai-workflows', () => {
   describe('event management', () => {
     it('should clear specific events', async () => {
       let called = false
-      
+
       on('clear.test', () => {
         called = true
       })
 
       clearEvent('clear.test')
       await send('clear.test')
-      
+
       expect(called).toBe(false)
     })
 
     it('should clear all events', async () => {
       let called1 = false
       let called2 = false
-      
-      on('event1', () => { called1 = true })
-      on('event2', () => { called2 = true })
+
+      on('event1', () => {
+        called1 = true
+      })
+      on('event2', () => {
+        called2 = true
+      })
 
       clearEvents()
-      
+
       await send('event1')
       await send('event2')
-      
+
       expect(called1).toBe(false)
       expect(called2).toBe(false)
     })
@@ -193,14 +187,14 @@ describe('ai-workflows', () => {
   describe('emit alias', () => {
     it('should work as alias for send', async () => {
       let called = false
-      
+
       on('emit.test', () => {
         called = true
         return 'emitted'
       })
 
       const result = await emit('emit.test')
-      
+
       expect(called).toBe(true)
       expect(result.results[0]).toBe('emitted')
     })

@@ -9,7 +9,7 @@ export interface EditOptions {
 
 export async function runEditCommand(filepath: string, instruction: string, options: EditOptions) {
   const { json } = getGlobalOptions()
-  
+
   try {
     if (!process.env.OPENAI_API_KEY) {
       const msg = 'OPENAI_API_KEY environment variable is not set.'

@@ -84,7 +84,9 @@ export const WorkflowRunner: React.FC<WorkflowRunnerProps> = ({ frontmatter, onC
       <Text bold color='blue'>
         Running Workflow: {workflow.name || 'Unnamed Workflow'}
       </Text>
-      <Text>Step {currentStep + 1} of {workflow.steps?.length || 0}</Text>
+      <Text>
+        Step {currentStep + 1} of {workflow.steps?.length || 0}
+      </Text>
       <Text>Press Ctrl+C to cancel</Text>
     </Box>
   )

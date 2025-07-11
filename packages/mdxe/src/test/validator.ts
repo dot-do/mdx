@@ -3,20 +3,15 @@ import * as ts from 'typescript'
 /**
  * Validate TypeScript code syntax using TypeScript compiler
  */
-export function validateTypeScript(code: string): { 
-  valid: boolean;
-  errors: string[];
-  diagnostics?: ts.Diagnostic[];
-  error?: string; // For backward compatibility
-  estree?: any;
+export function validateTypeScript(code: string): {
+  valid: boolean
+  errors: string[]
+  diagnostics?: ts.Diagnostic[]
+  error?: string // For backward compatibility
+  estree?: any
 } {
   try {
-    const sourceFile = ts.createSourceFile(
-      'temp.ts',
-      code,
-      ts.ScriptTarget.Latest,
-      true
-    )
+    const sourceFile = ts.createSourceFile('temp.ts', code, ts.ScriptTarget.Latest, true)
 
     const syntaxDiagnostics: ts.Diagnostic[] = (sourceFile as any).parseDiagnostics || []
     if (syntaxDiagnostics.length > 0) {
@@ -29,14 +24,14 @@ export function validateTypeScript(code: string): {
         return message
       })
       const errorString = errorMessages.join('\n')
-      return { 
-        valid: false, 
+      return {
+        valid: false,
         errors: errorMessages,
         diagnostics: syntaxDiagnostics,
-        error: errorString 
+        error: errorString,
       }
     }
-    
+
     const estree = {
       type: 'Program',
       body: [],
@@ -46,22 +41,22 @@ export function validateTypeScript(code: string): {
       range: [0, code.length],
       loc: {
         start: { line: 1, column: 0 },
-        end: { line: code.split('\n').length, column: 0 }
-      }
+        end: { line: code.split('\n').length, column: 0 },
+      },
     }
-    
-    return { 
-      valid: true, 
+
+    return {
+      valid: true,
       errors: [],
       diagnostics: [],
-      estree 
+      estree,
     }
   } catch (e: any) {
     const errorMessage = `TypeScript validation error: ${e.message}`
-    return { 
-      valid: false, 
+    return {
+      valid: false,
       errors: [errorMessage],
-      error: errorMessage 
+      error: errorMessage,
     }
   }
 }

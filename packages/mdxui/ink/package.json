@@ -15,12 +15,12 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "rm -rf dist && tsup && pnpm run build:types",
     "build:types": "./node_modules/.bin/tsc --emitDeclarationOnly --declaration --outDir dist --composite false",
     "dev": "tsup --watch",
     "lint": "echo 'Skipping lint for now'",
-    "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
+    "test": "tsc --noEmit && ava",
+    "test:coverage": "ava --coverage",
     "typecheck": "tsc --noEmit",
     "cli": "node dist/cli.js",
     "bundle": "node dist/cli-bundler.js"
@@ -56,29 +56,26 @@
     "ink-task-list": "^2.0.0",
     "marked": "^15.0.12",
     "marked-terminal": "^7.3.0",
-    "pastel": "^2.0.0",
+    "pastel": "^3.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
+    "react-use-precision-timer": "^3.5.6",
     "remark-gfm": "^3.0.1",
     "to-rotated": "^1.0.0",
     "type-fest": "^3.0.0",
-    "use-interval": "1.4.0",
     "vfile": "^6.0.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/commander": "^2.12.5",
-    "@types/glob": "^8.1.0",
-    "@types/ink-testing-library": "^1.0.4",
-    "@types/node": "^20.10.5",
+    "@types/node": "^22.15.21",
     "@types/react": "^19.1.5",
     "@types/react-dom": "^19.1.5",
-    "eslint": "^8.56.0",
-    "ink-testing-library": "^4.0.0",
-    "tsup": "^8.0.1",
-    "typescript": "^5.8.2",
-    "vitest": "^1.1.0"
+    "ava": "^5.1.1",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
   },
   "peerDependencies": {
     "react": "^19.0.0",
@@ -87,5 +84,20 @@
   "directories": {
     "example": "examples",
     "test": "test"
+  },
+  "ava": {
+    "workerThreads": false,
+    "files": [
+      "test/**/*",
+      "!test/helpers/**/*",
+      "!test/fixtures/**/*"
+    ],
+    "extensions": {
+      "ts": "module",
+      "tsx": "module"
+    },
+    "nodeArguments": [
+      "--loader=ts-node/esm"
+    ]
   }
 }

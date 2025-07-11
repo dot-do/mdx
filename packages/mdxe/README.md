@@ -57,9 +57,9 @@ Create `.mdx` files in the `content/` directory:
 
 ```mdx
 ---
-title: "My First Post"
-description: "This is my first MDX post"
-date: "2024-01-01"
+title: 'My First Post'
+description: 'This is my first MDX post'
+date: '2024-01-01'
 ---
 
 # My First Post
@@ -68,15 +68,11 @@ This is **bold** text and this is _italic_ text.
 
 ## Built-in Components
 
-<Alert type="info">
-  This is an info alert!
-</Alert>
+<Alert type='info'>This is an info alert!</Alert>
 
-<YouTube id="dQw4w9WgXcQ" />
+<YouTube id='dQw4w9WgXcQ' />
 
-<Callout emoji="💡">
-  This is a callout with an emoji!
-</Callout>
+<Callout emoji='💡'>This is a callout with an emoji!</Callout>
 
 ## Executable Code
 
@@ -99,11 +95,7 @@ Create an `mdx-components.js` file to add your own components:
 export function useMDXComponents(components) {
   return {
     ...components,
-    MyCustomComponent: ({ children }) => (
-      <div className="bg-blue-100 p-4 rounded">
-        {children}
-      </div>
-    ),
+    MyCustomComponent: ({ children }) => <div className='bg-blue-100 p-4 rounded'>{children}</div>,
   }
 }
 ```
@@ -158,24 +150,22 @@ The database adapter is automatically chosen based on the `DATABASE_URL`.
 ### Alert
 
 ```mdx
-<Alert type="info">Info message</Alert>
-<Alert type="warning">Warning message</Alert>
-<Alert type="error">Error message</Alert>
-<Alert type="success">Success message</Alert>
+<Alert type='info'>Info message</Alert>
+<Alert type='warning'>Warning message</Alert>
+<Alert type='error'>Error message</Alert>
+<Alert type='success'>Success message</Alert>
 ```
 
 ### YouTube
 
 ```mdx
-<YouTube id="dQw4w9WgXcQ" title="My Video" />
+<YouTube id='dQw4w9WgXcQ' title='My Video' />
 ```
 
 ### Callout
 
 ```mdx
-<Callout emoji="🚀">
-  This is a callout with an emoji!
-</Callout>
+<Callout emoji='🚀'>This is a callout with an emoji!</Callout>
 ```
 
 ## Advanced Features
@@ -233,6 +223,7 @@ send('user-action', { type: 'click', target: 'button' })
 For detailed implementation information, architecture decisions, and research alignment, see [IMPLEMENTATION.md](./IMPLEMENTATION.md).
 
 This document covers:
+
 - Package consolidation process
 - Research findings implementation
 - Architecture decisions and patterns
@@ -241,7 +232,7 @@ This document covers:
 
 ## Contributing
 
-This package is part of the [MDX ecosystem](https://github.com/mdxld/mdx). 
+This package is part of the [MDX ecosystem](https://github.com/mdxld/mdx).
 
 See [IMPLEMENTATION.md](./IMPLEMENTATION.md) for technical details about the codebase structure and development patterns.
 

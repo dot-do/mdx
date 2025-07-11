@@ -37,25 +37,18 @@ export function analyzeCodeBlock(codeBlock: EnhancedCodeBlock): EnhancedCodeBloc
         } else if (statement.type === 'FunctionDeclaration' && statement.id) {
           hasDeclarations = true
           declarations.push(statement.id.name)
-        } else if (
-          statement.type !== 'ImportDeclaration' && 
-          statement.type !== 'ExportNamedDeclaration' && 
-          statement.type !== 'ExportDefaultDeclaration'
-        ) {
+        } else if (statement.type !== 'ImportDeclaration' && statement.type !== 'ExportNamedDeclaration' && statement.type !== 'ExportDefaultDeclaration') {
           hasStatements = true
         }
-        
-        if (
-          statement.type === 'ExportNamedDeclaration' ||
-          statement.type === 'ExportDefaultDeclaration'
-        ) {
+
+        if (statement.type === 'ExportNamedDeclaration' || statement.type === 'ExportDefaultDeclaration') {
           codeBlock.isExported = true
         }
       }
     }
 
     codeBlock.declarations = declarations
-    
+
     if (hasStatements && hasDeclarations) {
       codeBlock.type = 'mixed'
     } else if (hasDeclarations) {
@@ -63,7 +56,7 @@ export function analyzeCodeBlock(codeBlock: EnhancedCodeBlock): EnhancedCodeBloc
     } else {
       codeBlock.type = 'statement'
     }
-    
+
     return codeBlock
   } catch (e) {
     return { ...codeBlock, type: 'statement' }
@@ -74,7 +67,7 @@ export function toCamelCase(text: string): string {
   if (/^\d+[A-Z]/.test(text)) {
     return text.replace(/[^a-zA-Z0-9]/g, '')
   }
-  
+
   return text
     .toLowerCase()
     .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase())

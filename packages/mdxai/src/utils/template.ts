@@ -24,50 +24,48 @@ export function stringifyValue(value: any): string {
  */
 export function parseTemplate(template: TemplateStringsArray, values: any[]): string {
   let result = ''
-  
+
   template.forEach((str, i) => {
     result += str
     if (i < values.length) {
       result += stringifyValue(values[i])
     }
   })
-  
+
   return result
 }
 
 /**
  * Type definition for tagged template literal functions
  */
-export type TemplateFunction<T = any> = (template: TemplateStringsArray, ...values: any[]) => T  
+export type TemplateFunction<T = any> = (template: TemplateStringsArray, ...values: any[]) => T
 
 /**
  * Creates a unified function that supports three calling patterns:
  * 1. Tagged template literals: `result = await fn\`template\``
  * 2. Curried tagged template with options: `result = await fn\`template\`({ option: 'value' })`
  * 3. Normal function calls: `result = await fn('template', { option: 'value' })`
- * 
+ *
  * @param callback Function that receives the parsed template and options
  * @returns A unified function supporting all three calling patterns
  */
-export function createUnifiedFunction<T>(
-  callback: (parsedTemplate: string, options: Record<string, any>) => T
-): any {
+export function createUnifiedFunction<T>(callback: (parsedTemplate: string, options: Record<string, any>) => T): any {
   function unifiedFunction(...args: any[]): any {
     if (args.length === 0 || args[0] === undefined) {
       throw new Error('Function must be called as a template literal or with string and options')
     }
-    
+
     if (typeof args[0] === 'string') {
       const [template, options = {}] = args
       return callback(template, options)
     }
-    
+
     if (Array.isArray(args[0]) && 'raw' in args[0]) {
       const [template, ...values] = args
       const parsedTemplate = parseTemplate(template as TemplateStringsArray, values)
       return callback(parsedTemplate, {})
     }
-    
+
     throw new Error('Function must be called as a template literal or with string and options')
   }
 
@@ -76,7 +74,7 @@ export function createUnifiedFunction<T>(
       if (args.length === 0 || args[0] === undefined) {
         throw new Error('Function must be called as a template literal or with string and options')
       }
-      
+
       try {
         return target.apply(thisArg, args)
       } catch (error) {
@@ -86,38 +84,38 @@ export function createUnifiedFunction<T>(
         throw new Error('Function must be called as a template literal or with string and options')
       }
     },
-    
+
     get(target, prop) {
       if (prop === 'then' || prop === 'catch' || prop === 'finally') {
         return undefined
       }
-      
-      return function(...templateArgs: any[]) {
+
+      return function (...templateArgs: any[]) {
         if (Array.isArray(templateArgs[0]) && 'raw' in templateArgs[0]) {
           const [template, ...values] = templateArgs
           const parsedTemplate = parseTemplate(template as TemplateStringsArray, values)
-          
-          const optionsHandler: any = function(options: Record<string, any> = {}) {
+
+          const optionsHandler: any = function (options: Record<string, any> = {}) {
             return callback(parsedTemplate, options)
           }
-          
-          optionsHandler[Symbol.asyncIterator] = function() {
+
+          optionsHandler[Symbol.asyncIterator] = function () {
             const options = this === optionsHandler ? {} : this
-            
+
             const result = callback(parsedTemplate, options)
-            
+
             if (result && typeof result === 'object' && Symbol.asyncIterator in result) {
               return (result as AsyncIterable<any>)[Symbol.asyncIterator]()
             }
-            
+
             throw new Error('Result is not async iterable')
           }
-          
+
           return optionsHandler
         }
-        
+
         throw new Error('Function must be called as a template literal or with string and options')
       }
-    }
+    },
   })
-}        
+}

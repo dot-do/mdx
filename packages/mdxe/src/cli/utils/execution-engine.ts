@@ -73,7 +73,7 @@ function captureConsoleOutputs(fn: () => Promise<any>): Promise<{ result: any; o
 export async function executeCodeBlock(codeBlock: CodeBlock, options: ExecutionOptions = {}): Promise<ExecutionResult> {
   const startTime = Date.now()
   const fileId = options.fileId || 'default'
-  
+
   if (!sharedBlockState.has(fileId)) {
     sharedBlockState.set(fileId, new Map())
   }

@@ -50,7 +50,7 @@ export const BoxReveal = React.forwardRef<HTMLDivElement, BoxRevealProps>(
         transition: {
           delay,
           duration,
-          ease: 'easeInOut',
+          ease: 'easeInOut' as const,
         },
       },
     }

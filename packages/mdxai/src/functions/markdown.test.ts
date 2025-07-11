@@ -2,9 +2,7 @@ import 'dotenv/config'
 import { describe, it, expect, vi } from 'vitest'
 import { markdown } from './markdown.js'
 
-
 import { generateText } from 'ai'
-
 
 describe('markdown function', () => {
   beforeEach(() => {
@@ -37,7 +35,7 @@ describe('markdown function', () => {
   it('should handle template literals with objects', async () => {
     const apiConfig = {
       name: 'User API',
-      endpoints: ['GET /users', 'POST /users']
+      endpoints: ['GET /users', 'POST /users'],
     }
 
     const result = await markdown`Document the ${apiConfig} API`
@@ -53,15 +51,13 @@ describe('markdown function', () => {
 
     expect(result.mdast.type).toBe('root')
     expect(result.mdast.children.length).toBeGreaterThan(0)
-    
+
     // Check that we have valid markdown elements in the structure
     const nodeTypes = result.mdast.children.map((child: any) => child.type)
     expect(nodeTypes.length).toBeGreaterThan(0)
-    
+
     // Check for common markdown elements (at least one should be present)
-    const hasCommonElements = nodeTypes.some((type: string) => 
-      ['heading', 'paragraph', 'code', 'list', 'blockquote'].includes(type)
-    )
+    const hasCommonElements = nodeTypes.some((type: string) => ['heading', 'paragraph', 'code', 'list', 'blockquote'].includes(type))
     expect(hasCommonElements).toBe(true)
   })
 
@@ -97,10 +93,8 @@ describe('markdown function', () => {
     // Check for various node types in the AST - should have multiple elements
     const nodeTypes = result.mdast.children.map((child: any) => child.type)
     expect(nodeTypes.length).toBeGreaterThan(1)
-    
-    const hasBasicElements = nodeTypes.some((type: string) => 
-      ['heading', 'paragraph'].includes(type)
-    )
+
+    const hasBasicElements = nodeTypes.some((type: string) => ['heading', 'paragraph'].includes(type))
     expect(hasBasicElements).toBe(true)
   })
-})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+})

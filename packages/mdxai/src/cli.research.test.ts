@@ -19,30 +19,30 @@ describe.skip('CLI research command', () => {
   const originalConsoleError = console.error
   const originalProcessExit = process.exit
   const originalStdoutWrite = process.stdout.write
-  
+
   let consoleOutput: string[] = []
   let consoleErrors: string[] = []
-  
+
   beforeEach(() => {
     consoleOutput = []
     consoleErrors = []
-    
+
     const tempDir = path.join(process.cwd(), '.ai', 'test')
     fs.mkdirSync(tempDir, { recursive: true })
     fs.mkdirSync(TEST_DIR, { recursive: true })
-    
+
     console.log = (...args: any[]) => {
       consoleOutput.push(args.join(' '))
     }
-    
+
     console.error = (...args: any[]) => {
       consoleErrors.push(args.join(' '))
     }
-    
+
     process.exit = ((code?: number) => {
       throw new Error(`Process.exit called with code ${code}`)
     }) as any
-    
+
     process.stdout.write = ((data: any) => {
       if (typeof data === 'string') {
         consoleOutput.push(data)
@@ -56,13 +56,12 @@ describe.skip('CLI research command', () => {
     console.error = originalConsoleError
     process.exit = originalProcessExit
     process.stdout.write = originalStdoutWrite
-    
+
     try {
       fs.rmSync(TEST_DIR, { recursive: true, force: true })
-    } catch (error) {
-    }
+    } catch (error) {}
   })
-  
+
   describe('research command', () => {
     const createResearchCommand = () => {
       const program = new Command()
@@ -108,59 +107,57 @@ describe.skip('CLI research command', () => {
 
     it('should execute research command in non-interactive mode', async () => {
       const outputFile = path.join(TEST_DIR, 'test-output.mdx')
-        
-        const { program } = createResearchCommand()
-        
-        await program.parseAsync(['node', 'test', 'research', 'AI basics', '-o', outputFile])
-        
-        expect(fs.existsSync(outputFile)).toBe(true)
-        
-        const content = fs.readFileSync(outputFile, 'utf-8')
-        expect(content).toBeDefined()
-        expect(content.length).toBeGreaterThan(0)
-        
-        expect(consoleOutput.some(output => output.includes(`Research completed and written to ${outputFile}`))).toBe(true)
 
+      const { program } = createResearchCommand()
+
+      await program.parseAsync(['node', 'test', 'research', 'AI basics', '-o', outputFile])
+
+      expect(fs.existsSync(outputFile)).toBe(true)
+
+      const content = fs.readFileSync(outputFile, 'utf-8')
+      expect(content).toBeDefined()
+      expect(content.length).toBeGreaterThan(0)
+
+      expect(consoleOutput.some((output) => output.includes(`Research completed and written to ${outputFile}`))).toBe(true)
     }, 60000) // Increase timeout for real API calls
 
     it('should execute research command in interactive mode with --ink flag', async () => {
       const outputFile = path.join(TEST_DIR, 'research.mdx')
-      
+
       try {
-        
         let renderAppCalled = false
         let renderAppParams: any = null
-        
+
         const originalRenderApp = appUI.renderApp
-        
-        const renderAppProxy = function(mode: string, params: any) {
+
+        const renderAppProxy = function (mode: string, params: any) {
           renderAppCalled = true
           renderAppParams = params
           return originalRenderApp(mode, params)
         }
-        
+
         Object.defineProperty(appUI, 'renderApp', {
           configurable: true,
-          get: () => renderAppProxy
+          get: () => renderAppProxy,
         })
-        
+
         try {
           const { program } = createResearchCommand()
-          
+
           await program.parseAsync(['node', 'test', 'research', 'AI basics', '--ink', '-o', outputFile])
-          
+
           expect(renderAppCalled).toBe(true)
           expect(renderAppParams).toEqual({
             prompt: 'AI basics',
             output: outputFile,
             format: 'markdown',
           })
-          
+
           expect(fs.existsSync(outputFile)).toBe(false)
         } finally {
           Object.defineProperty(appUI, 'renderApp', {
             configurable: true,
-            get: () => originalRenderApp
+            get: () => originalRenderApp,
           })
         }
       } catch (error) {
@@ -170,35 +167,31 @@ describe.skip('CLI research command', () => {
 
     it('should handle different output formats', async () => {
       const outputFile = path.join(TEST_DIR, 'frontmatter-output.mdx')
-      
+
       const { program } = createResearchCommand()
-      
+
       await program.parseAsync(['node', 'test', 'research', 'AI basics', '-o', outputFile, '-f', 'frontmatter'])
-      
+
       expect(fs.existsSync(outputFile)).toBe(true)
-      
+
       const content = fs.readFileSync(outputFile, 'utf-8')
       expect(content).toContain('---')
       expect(content).toContain('title:')
-
     }, 60000) // Increase timeout for real API calls
 
     it('should handle parameter passing from command line', async () => {
       const outputFile = path.join(TEST_DIR, 'both-format-output.mdx')
-      
+
       const { program } = createResearchCommand()
-      
+
       await program.parseAsync(['node', 'test', 'research', 'AI basics', '-o', outputFile, '-f', 'both'])
-      
+
       expect(fs.existsSync(outputFile)).toBe(true)
-      
+
       const content = fs.readFileSync(outputFile, 'utf-8')
       expect(content).toContain('---')
       expect(content).toContain('title:')
       expect(content).toContain('#') // Markdown heading
-
     }, 60000) // Increase timeout for real API calls
-
-    
   })
 })

@@ -54,7 +54,7 @@ function extractCodeBlocksWithSections(mdxContent: string): EnhancedCodeBlock[] 
         value: node.value || '',
         type: 'statement',
         parentSection: currentSection,
-        isExported: false
+        isExported: false,
       })
     }
   })
@@ -158,19 +158,19 @@ function generateIndexSource(contentDir: string, entries: string[], shouldExtrac
       const content = fs.readFileSync(path.join(contentDir, rel), 'utf8')
       const allCodeBlocks = extractCodeBlocksWithSections(content)
       const { executableBlocks } = categorizeEnhancedCodeBlocks(allCodeBlocks)
-      
-      executableBlocks.forEach(block => {
+
+      executableBlocks.forEach((block) => {
         if (block.type === 'declaration' || block.type === 'mixed') {
           if (!block.isExported && block.declarations && block.declarations.length > 0) {
             indexSource += `\n// Exported from ${rel}\n`
             indexSource += `${block.value}\n`
-            block.declarations.forEach(name => {
+            block.declarations.forEach((name) => {
               indexSource += `export { ${name} };\n`
             })
           }
         }
       })
-      
+
       executableBlocks.forEach((block, blockIndex) => {
         if (block.type === 'statement' || block.type === 'mixed') {
           if (block.parentSection) {
@@ -198,13 +198,13 @@ function generateIndexSource(contentDir: string, entries: string[], shouldExtrac
     const id = `mod${i}`
     // Read raw markdown
     const raw = JSON.stringify(fs.readFileSync(path.join(contentDir, rel), 'utf8'))
-    
+
     if (shouldExtractCodeBlocks) {
       // Extract and categorize code blocks with enhanced analysis
       const content = fs.readFileSync(path.join(contentDir, rel), 'utf8')
       const allCodeBlocks = extractCodeBlocksWithSections(content)
       const { executableBlocks, testBlocks } = categorizeEnhancedCodeBlocks(allCodeBlocks)
-      
+
       indexSource += `  ${key}: { 
         ...${id}, 
         markdown: ${raw},
@@ -336,7 +336,17 @@ function mdxePlugin(options: MdxeBuildOptions = {}): esbuild.Plugin {
 }
 
 // Export the public API
-export { toTitleCase, generateIndexSource, findMdxFiles, buildMdxContent, mdxePlugin, extractCodeBlocks, categorizeCodeBlocks, extractCodeBlocksWithSections, categorizeEnhancedCodeBlocks }
+export {
+  toTitleCase,
+  generateIndexSource,
+  findMdxFiles,
+  buildMdxContent,
+  mdxePlugin,
+  extractCodeBlocks,
+  categorizeCodeBlocks,
+  extractCodeBlocksWithSections,
+  categorizeEnhancedCodeBlocks,
+}
 
 // Export types
 export type { MdxContentItem, MdxContentMap, CodeBlock, EnhancedCodeBlock, MdxeBuildOptions } from './types'

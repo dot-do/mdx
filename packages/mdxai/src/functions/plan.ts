@@ -1,6 +1,7 @@
 import { generateText } from 'ai'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
+// @ts-ignore - remark-gfm doesn't have TypeScript types
 import remarkGfm from 'remark-gfm'
 import { model } from '../ai'
 import { parseTemplate, TemplateFunction, createUnifiedFunction } from '../utils/template'
@@ -56,7 +57,7 @@ const extractTaskItem = (listItem: any): TaskItem | null => {
   const taskItem: TaskItem = {
     text: textNode.children[0].value,
     checked: listItem.checked,
-    line: listItem.position?.start?.line
+    line: listItem.position?.start?.line,
   }
 
   // Look for nested lists (subtasks)
@@ -85,7 +86,7 @@ const extractTaskItem = (listItem: any): TaskItem | null => {
 export const parseTaskLists = (markdown: string): TaskList[] => {
   const processor = unified().use(remarkParse).use(remarkGfm)
   const mdast = processor.parse(markdown)
-  
+
   const tasks: TaskList[] = []
   let currentHeading: string | undefined
   let currentTasks: TaskItem[] = []
@@ -97,7 +98,7 @@ export const parseTaskLists = (markdown: string): TaskList[] => {
       if (currentTasks.length > 0) {
         tasks.push({
           heading: currentHeading,
-          tasks: currentTasks
+          tasks: currentTasks,
         })
         currentTasks = []
       }
@@ -117,7 +118,7 @@ export const parseTaskLists = (markdown: string): TaskList[] => {
   if (currentTasks.length > 0) {
     tasks.push({
       heading: currentHeading,
-      tasks: currentTasks
+      tasks: currentTasks,
     })
   }
 
@@ -136,15 +137,13 @@ async function planCore(requirements: string, options: Record<string, any> = {})
 
   return {
     tasks,
-    markdown
+    markdown,
   }
 }
 
-export const plan = createUnifiedFunction<Promise<PlanResult>>(
-  (requirements: string, options: Record<string, any>) => {
-    return planCore(requirements, options);
-  }
-);
+export const plan = createUnifiedFunction<Promise<PlanResult>>((requirements: string, options: Record<string, any>) => {
+  return planCore(requirements, options)
+})
 
 /**
  * Serializes a single task item to markdown format
@@ -156,13 +155,13 @@ export const serializeTaskItem = (task: TaskItem, indentLevel: number = 0): stri
   const indent = '  '.repeat(indentLevel)
   const checkbox = task.checked ? '[x]' : '[ ]'
   let result = `${indent}- ${checkbox} ${task.text}\n`
-  
+
   if (task.subtasks && task.subtasks.length > 0) {
     for (const subtask of task.subtasks) {
       result += serializeTaskItem(subtask, indentLevel + 1)
     }
   }
-  
+
   return result
 }
 
@@ -173,15 +172,15 @@ export const serializeTaskItem = (task: TaskItem, indentLevel: number = 0): stri
  */
 export const serializeTaskList = (taskList: TaskList): string => {
   let result = ''
-  
+
   if (taskList.heading) {
     result += `# ${taskList.heading}\n`
   }
-  
+
   for (const task of taskList.tasks) {
     result += serializeTaskItem(task)
   }
-  
+
   return result
 }
 
@@ -192,16 +191,16 @@ export const serializeTaskList = (taskList: TaskList): string => {
  */
 export const serializeTaskLists = (taskLists: TaskList[]): string => {
   let result = ''
-  
+
   for (let i = 0; i < taskLists.length; i++) {
     result += serializeTaskList(taskLists[i])
-    
+
     // Add spacing between sections (except after the last one)
     if (i < taskLists.length - 1) {
       result += '\n'
     }
   }
-  
+
   return result
 }
 
