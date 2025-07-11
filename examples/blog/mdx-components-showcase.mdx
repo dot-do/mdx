@@ -1,0 +1,138 @@
+---
+title: 'MDX Components Showcase'
+date: '2024-01-15'
+description: 'Explore the interactive components available in MDXE and how to use them in your blog posts.'
+---
+
+# MDX Components Showcase
+
+This post demonstrates the various components available in MDXE, including built-in components and core mdxui components.
+
+## Built-in MDXE Components
+
+### Alert Component
+
+<Alert type='info'>This is an info alert - great for highlighting important information!</Alert>
+
+<Alert type='warning'>This is a warning alert - use it to draw attention to potential issues.</Alert>
+
+<Alert type='error'>This is an error alert - perfect for showing error messages.</Alert>
+
+<Alert type='success'>This is a success alert - celebrate achievements and confirmations!</Alert>
+
+### Callout Component
+
+<Callout emoji='💡'>This is a callout with an emoji - perfect for tips and insights!</Callout>
+
+<Callout>This is a callout without an emoji - still great for highlighting content.</Callout>
+
+### YouTube Component
+
+<YouTube id='dQw4w9WgXcQ' title='Example Video' />
+
+## MDXUI Core Components
+
+MDXE automatically includes core mdxui components! Here are some examples:
+
+### Button Component
+
+<Button variant='primary'>Primary Button</Button>
+<Button variant='secondary'>Secondary Button</Button>
+<Button variant='text'>Text Button</Button>
+
+### Card Component
+
+<div className='my-6'>
+  <Card title='Example Card' href='/getting-started-with-mdxe'>
+    This is a card component from mdxui. Click to navigate!
+  </Card>
+</div>
+
+## Interactive Examples
+
+### Button Variations
+
+<div className='flex gap-4 my-6'>
+  <Button variant='primary'>Primary</Button>
+  <Button variant='secondary'>Secondary</Button>
+  <Button variant='text'>Text</Button>
+</div>
+
+### Mixed Components
+
+<div className='grid gap-4 my-6'>
+  <Alert type='info'>
+    <strong>Pro Tip:</strong> You can combine any of these components in your MDX files!
+  </Alert>
+
+  <div className='flex gap-4'>
+    <Button variant='primary'>Get Started</Button>
+    <Button variant='secondary'>Learn More</Button>
+  </div>
+</div>
+
+## Code Examples
+
+Here's how to use these components in your MDX files:
+
+```mdx
+<!-- Built-in components -->
+
+<Alert type='info'>Important information</Alert>
+<Callout emoji='🚀'>Exciting news!</Callout>
+<YouTube id='video-id' />
+
+<!-- mdxui core components -->
+
+<Button variant='primary'>Click me</Button>
+<Button variant='secondary'>Secondary action</Button>
+<Button variant='text'>Text button</Button>
+<Card title='My Card' href='/link'>
+  Card content
+</Card>
+```
+
+## Styling with Tailwind
+
+All components work seamlessly with Tailwind CSS classes:
+
+<div className='bg-gradient-to-r from-blue-500 to-purple-600 p-6 rounded-lg text-white my-6'>
+  <h3 className='text-2xl font-bold mb-4'>Styled Container</h3>
+  <p>You can combine components with Tailwind classes for beautiful layouts.</p>
+  <Button variant='secondary'>Learn More</Button>
+</div>
+
+## Custom Styling
+
+You can also create custom styled components:
+
+<div className='border-2 border-dashed border-gray-300 p-6 rounded-lg my-6'>
+  <h4 className='text-lg font-semibold mb-2'>Custom Styled Area</h4>
+  <p>This area uses custom Tailwind classes for styling.</p>
+  <div className='flex gap-2'>
+    <Button variant='primary'>Action</Button>
+    <Button variant='text'>Cancel</Button>
+  </div>
+</div>
+
+## Component Reference
+
+### Button
+
+The Button component supports three variants:
+
+- `variant="primary"` - Blue background, white text
+- `variant="secondary"` - Gray background, dark text
+- `variant="text"` - Transparent background, blue text with hover underline
+
+### Card
+
+The Card component creates clickable cards:
+
+- `title` - The card title
+- `href` - The link destination
+- `children` - The card content
+
+---
+
+<Callout emoji='🎉'>That's it! You now have access to core mdxui components in your MDX files with zero configuration.</Callout>

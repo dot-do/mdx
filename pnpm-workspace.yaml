@@ -1,8 +1,10 @@
 packages:
-  - "apps/*"
-  - "config/*"
-  - "examples/*"
-  - "packages/**"
-  - "schema"
-  - "schema.org"
-  - "tests"
+  - '!**/dist'
+  - 'apps/*'
+  - 'config/*'
+  - 'examples/*'
+  - 'packages/**'
+  - '!**/node_modules'
+  - 'schema'
+  - 'schema.org'
+  - 'tests'

@@ -27,20 +27,34 @@ pnpm start
 
 ## Using MDXE Components
 
-MDXE includes all components from the mdxui package, which you can use in your MDX files:
+MDXE includes built-in components and supports mdxui components via mdx-components.js:
 
-```mdx
-import { Button, Card } from 'mdxui'
-// Or import specific components from their packages:
-// import { Button } from '@mdxui/core'
-// import { Card } from '@mdxui/shadcn'
+### Built-in Components (No setup required)
 
-# Welcome to MDXE
+<Alert type="info">
+This is an info alert that works out of the box!
+</Alert>
 
-<Button>Click Me</Button>
+<Alert type="success">
+Success alerts are green and indicate positive actions.
+</Alert>
 
-<Card title='MDXE Card'>This is a card component from mdxui.</Card>
-```
+<Callout emoji="🚀">
+This is a callout with an emoji - great for highlighting important information!
+</Callout>
+
+<YouTube id="dQw4w9WgXcQ" title="Example YouTube Video" />
+
+### mdxui Components (via mdx-components.js)
+
+<Button size='icon'>Click Me</Button>
+
+<Card title="MDXE Card">
+  This is a card component from mdxui.
+  <Button variant="secondary" size="icon">Click Me</Button>
+</Card>
+
+<Badge>New Feature</Badge>
 
 ## Styling with Tailwind
 

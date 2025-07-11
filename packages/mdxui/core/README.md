@@ -23,3 +23,7 @@ export default function Example() {
   return <Button variant='primary'>Click me</Button>
 }
 ```
+
+
+
+Types of components and types of props

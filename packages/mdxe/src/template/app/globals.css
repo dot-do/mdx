@@ -1,0 +1,369 @@
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+/* Reveal.js embedded mode customizations */
+.reveal-demo {
+  width: 100%;
+  height: 500px;
+  max-height: 500px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 2rem 0;
+}
+
+.reveal.embedded {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Override reveal-full-page class when we have embedded slides */
+html.reveal-full-page:has(.reveal.embedded) {
+  width: auto !important;
+  height: auto !important;
+  overflow: auto !important;
+}
+
+/* Fallback for browsers that don't support :has() */
+.reveal-demo ~ * {
+  display: block !important;
+}
+
+body:has(.reveal.embedded) {
+  overflow: auto !important;
+}
+
+/* Full-screen slides styling */
+.reveal:not(.embedded) {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 1000 !important;
+  background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 50%, #1a1a1a 100%) !important;
+  font-family:
+    'Inter',
+    'SF Pro Display',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif !important;
+  color: #ffffff !important;
+  overflow: hidden !important;
+}
+
+.reveal:not(.embedded) .slides {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.reveal:not(.embedded) .slides > section {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 2rem !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+}
+
+/* Enhanced typography for full-screen */
+.reveal:not(.embedded) h1 {
+  font-size: 4rem !important;
+  font-weight: 800 !important;
+  line-height: 1.1 !important;
+  margin-bottom: 1.5rem !important;
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  letter-spacing: -0.02em !important;
+}
+
+.reveal:not(.embedded) h2 {
+  font-size: 3rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  margin-bottom: 1.25rem !important;
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  letter-spacing: -0.01em !important;
+}
+
+.reveal:not(.embedded) h3 {
+  font-size: 2.25rem !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  margin-bottom: 1rem !important;
+  color: #f0f0f0 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+.reveal:not(.embedded) p {
+  font-size: 1.4rem !important;
+  line-height: 1.7 !important;
+  max-width: 750px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.reveal:not(.embedded) ul,
+.reveal:not(.embedded) ol {
+  font-size: 1.3rem !important;
+  line-height: 1.8 !important;
+  color: #e0e0e0 !important;
+  max-width: 650px !important;
+  margin: 0 auto 1.5rem auto !important;
+  text-align: left !important;
+}
+
+.reveal:not(.embedded) li {
+  margin-bottom: 0.6rem !important;
+  padding-left: 0.25rem !important;
+}
+
+.reveal:not(.embedded) ul li::marker {
+  color: #60a5fa !important;
+}
+
+.reveal:not(.embedded) strong {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.reveal:not(.embedded) em {
+  color: #60a5fa !important;
+  font-style: italic !important;
+}
+
+.reveal:not(.embedded) a {
+  color: #60a5fa !important;
+  text-decoration: none !important;
+  border-bottom: 2px solid transparent !important;
+  transition: all 0.3s ease !important;
+}
+
+.reveal:not(.embedded) a:hover {
+  color: #93c5fd !important;
+  border-bottom-color: #60a5fa !important;
+}
+
+/* Code blocks in full-screen - cleaner approach */
+.reveal:not(.embedded) pre {
+  background: #1e1e1e !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  padding: 1.5rem !important;
+  margin: 1.5rem 0 !important;
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+  overflow-x: auto !important;
+}
+
+.reveal:not(.embedded) pre code {
+  background: transparent !important;
+  color: #e6e6e6 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  font-size: inherit !important;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace !important;
+}
+
+.reveal:not(.embedded) :not(pre) > code {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #a8e6cf !important;
+  padding: 0.2rem 0.4rem !important;
+  border-radius: 4px !important;
+  font-size: 0.9em !important;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace !important;
+}
+
+/* Enhanced controls */
+.reveal:not(.embedded) .controls {
+  position: fixed !important;
+  bottom: 2rem !important;
+  right: 2rem !important;
+  z-index: 1001 !important;
+}
+
+.reveal:not(.embedded) .controls button {
+  background: transparent !important;
+  border: none !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  border-radius: 6px !important;
+  transition: all 0.3s ease !important;
+  margin: 0.25rem !important;
+}
+
+.reveal:not(.embedded) .controls button:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Progress bar */
+.reveal:not(.embedded) .progress {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 4px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  z-index: 1001 !important;
+}
+
+.reveal:not(.embedded) .progress span {
+  background: linear-gradient(90deg, #60a5fa 0%, #3b82f6 100%) !important;
+  height: 100% !important;
+  box-shadow: 0 0 10px rgba(96, 165, 250, 0.5) !important;
+}
+
+/* Slide transitions */
+.reveal:not(.embedded) .slides section {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.reveal:not(.embedded) .slides section.present {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+}
+
+.reveal:not(.embedded) .slides section.past,
+.reveal:not(.embedded) .slides section.future {
+  opacity: 0 !important;
+  transform: scale(0.95) !important;
+}
+
+/* Component overrides for full-screen */
+.reveal:not(.embedded) .alert {
+  background: rgba(59, 130, 246, 0.15) !important;
+  border-left: 4px solid rgba(59, 130, 246, 0.8) !important;
+  border-radius: 0 8px 8px 0 !important;
+  padding: 1.25rem !important;
+  margin: 1.5rem 0 !important;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1) !important;
+}
+
+.reveal:not(.embedded) .alert[data-type='success'] {
+  background: rgba(34, 197, 94, 0.15) !important;
+  border-left-color: rgba(34, 197, 94, 0.8) !important;
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.1) !important;
+}
+
+.reveal:not(.embedded) .alert[data-type='warning'] {
+  background: rgba(245, 158, 11, 0.15) !important;
+  border-left-color: rgba(245, 158, 11, 0.8) !important;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.1) !important;
+}
+
+.reveal:not(.embedded) .alert[data-type='error'] {
+  background: rgba(239, 68, 68, 0.15) !important;
+  border-left-color: rgba(239, 68, 68, 0.8) !important;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.1) !important;
+}
+
+.reveal:not(.embedded) .callout {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  padding: 1.25rem !important;
+  margin: 1.5rem 0 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+.reveal:not(.embedded) .card,
+.reveal:not(.embedded) [class*='card'] {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 12px !important;
+  padding: 1.5rem !important;
+  margin: 1.5rem 0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+  transition: all 0.3s ease !important;
+}
+
+.reveal:not(.embedded) .card:hover,
+.reveal:not(.embedded) [class*='card']:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Button styling */
+.reveal:not(.embedded) button:not(.controls button) {
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%) !important;
+  border: none !important;
+  color: #ffffff !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 8px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 3px 12px rgba(96, 165, 250, 0.25) !important;
+  letter-spacing: 0.01em !important;
+}
+
+.reveal:not(.embedded) button:not(.controls button):hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(96, 165, 250, 0.35) !important;
+  background: linear-gradient(135deg, #93c5fd 0%, #60a5fa 100%) !important;
+}
+
+/* Heading anchor links */
+.mdx-content h1,
+.mdx-content h2,
+.mdx-content h3,
+.mdx-content h4,
+.mdx-content h5,
+.mdx-content h6 {
+  @apply relative;
+}
+
+.mdx-content h1.toc-heading:hover::before,
+.mdx-content h2.toc-heading:hover::before,
+.mdx-content h3.toc-heading:hover::before,
+.mdx-content h4.toc-heading:hover::before,
+.mdx-content h5.toc-heading:hover::before,
+.mdx-content h6.toc-heading:hover::before {
+  content: '#';
+  @apply absolute -left-6 text-gray-300 hover:text-gray-500 cursor-pointer transition-colors duration-200;
+}
+
+.mdx-content h1.toc-heading:hover,
+.mdx-content h2.toc-heading:hover,
+.mdx-content h3.toc-heading:hover,
+.mdx-content h4.toc-heading:hover,
+.mdx-content h5.toc-heading:hover,
+.mdx-content h6.toc-heading:hover {
+  @apply cursor-pointer;
+}

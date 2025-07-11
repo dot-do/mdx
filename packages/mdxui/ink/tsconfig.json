@@ -10,6 +10,6 @@
     "declaration": true,
     "declarationDir": "dist",
     "typeRoots": ["./src/types", "./node_modules/@types"],
-    "types": ["node", "react"]
+    "types": ["node"]
   }
 }

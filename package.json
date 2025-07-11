@@ -16,8 +16,7 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\"",
     "generate:schema": "tsx scripts/generate-schema-mdx.ts",
     "version": "changeset version",
-    "release": "turbo run build && changeset publish",
-    "postinstall": "pnpm run build:packages"
+    "release": "turbo run build && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.4",

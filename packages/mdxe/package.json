@@ -1,0 +1,95 @@
+{
+  "name": "mdxe",
+  "version": "0.1.0",
+  "description": "Zero-Config CLI for MDX Development with Embedded CMS",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "mdxe": "./bin/mdxe.js"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "src/template"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./esbuild": {
+      "types": "./dist/esbuild/index.d.ts",
+      "import": "./dist/esbuild/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "postbuild": "chmod +x ./bin/mdxe.js",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "mdx",
+    "cli",
+    "next",
+    "cms",
+    "payload"
+  ],
+  "author": "MDX Team",
+  "license": "MIT",
+  "dependencies": {
+    "@mdx-js/mdx": "^3.1.0",
+    "@mdx-js/react": "^3.1.0",
+    "@mdx-js/esbuild": "^3.0.0",
+    "@next/mdx": "^15.3.5",
+    "@payloadcms/db-sqlite": "^3.46.0",
+    "@payloadcms/next": "^3.46.0",
+    "@tailwindcss/postcss": "^4.1.11",
+    "@tailwindcss/typography": "^0.5.16",
+    "acorn": "^8.10.0",
+    "acorn-jsx": "^5.3.2",
+    "chalk": "^5.3.0",
+    "chokidar": "^4.0.0",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "esbuild": "^0.24.0",
+    "fast-glob": "^3.3.2",
+    "fs-extra": "^11.2.0",
+    "gray-matter": "^4.0.3",
+    "ink": "^6.0.1",
+    "mdxui": "workspace:*",
+    "@mdxui/ink": "workspace:*",
+    "@mdxui/reveal": "workspace:*",
+    "next": "^15.3.5",
+    "next-mdx-remote-client": "^1.0.4",
+    "payload": "^3.46.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "remark-flexible-toc": "^1.1.0",
+    "remark-frontmatter": "^5.0.0",
+    "remark-gfm": "^4.0.0",
+    "remark-mdx-frontmatter": "^5.0.0",
+    "tailwindcss": "^4.1.11",
+    "tmp": "^0.2.3"
+  },
+  "devDependencies": {
+    "@repo/tsup-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/fs-extra": "^11.0.4",
+    "@types/mdx": "^2.0.13",
+    "@types/node": "^24.0.10",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
+    "@types/tmp": "^0.2.6",
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.7",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  }
+}
