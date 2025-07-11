@@ -42,8 +42,32 @@ async function createBuildDir(appTemplatePath: string): Promise<string> {
   try {
     await fs.access(userContentDir)
     await fse.copy(userContentDir, tempContentDir)
+    console.log('📁 Copied user content from content/ directory')
   } catch (error) {
-    // No user content, use template default
+    // No user content directory, check for individual MDX/MD files in root
+    await fse.ensureDir(tempContentDir)
+
+    // Look for README.md, index.md, index.mdx, or other markdown files in root
+    const rootFiles = await fs.readdir(process.cwd())
+    const markdownFiles = rootFiles.filter((file) => file.match(/\.(md|mdx)$/i) && !file.startsWith('.'))
+
+    if (markdownFiles.length > 0) {
+      console.log(`📁 Found ${markdownFiles.length} markdown file(s) in root, copying to content/`)
+
+      for (const file of markdownFiles) {
+        const srcPath = path.join(process.cwd(), file)
+        let destPath = path.join(tempContentDir, file)
+
+        // If it's README.md, copy it as both README.md and index.mdx for the homepage
+        if (file.toLowerCase() === 'readme.md') {
+          await fse.copy(srcPath, path.join(tempContentDir, 'index.mdx'))
+          console.log(`  📄 Copied ${file} -> content/index.mdx (homepage)`)
+        }
+
+        await fse.copy(srcPath, destPath)
+        console.log(`  📄 Copied ${file} -> content/${path.basename(destPath)}`)
+      }
+    }
   }
 
   // Copy user mdx-components.js if it exists
@@ -74,6 +98,10 @@ export async function runBuildCommand(cwd: string = process.cwd()) {
     const buildDir = await createBuildDir(appTemplatePath)
     console.log(`📁 Created build directory: ${buildDir}`)
 
+    // Install dependencies in the build directory
+    console.log('📦 Installing dependencies in build environment...')
+    await installDependencies(buildDir)
+
     await buildNextApp(buildDir)
 
     // Copy build output to user's .next directory
@@ -82,6 +110,19 @@ export async function runBuildCommand(cwd: string = process.cwd()) {
 
     await fse.copy(buildOutput, userBuildOutput)
     console.log(`📁 Build output copied to: ${userBuildOutput}`)
+
+    // Copy content directory from build environment to user's project
+    // so the production server can access it
+    const buildContentDir = path.join(buildDir, 'content')
+    const userContentDir = path.join(process.cwd(), 'content')
+
+    try {
+      await fs.access(buildContentDir)
+      await fse.copy(buildContentDir, userContentDir)
+      console.log(`📁 Content directory copied to: ${userContentDir}`)
+    } catch (error) {
+      // No content directory in build, that's fine
+    }
   } catch (error) {
     console.error('Error building project:', error)
     process.exit(1)
@@ -89,11 +130,31 @@ export async function runBuildCommand(cwd: string = process.cwd()) {
 }
 
 /**
+ * Install dependencies in the temporary directory
+ */
+async function installDependencies(appPath: string): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    const installProcess = spawn('pnpm', ['install'], {
+      cwd: appPath,
+      stdio: 'inherit',
+    })
+    installProcess.on('close', (code) => {
+      if (code !== 0) {
+        reject(new Error(`pnpm install failed with code ${code}`))
+      } else {
+        resolve()
+      }
+    })
+    installProcess.on('error', reject)
+  })
+}
+
+/**
  * Build the Next.js application
  */
 function buildNextApp(appPath: string) {
   return new Promise<void>((resolve, reject) => {
-    const nextProcess = spawn('next', ['build'], {
+    const nextProcess = spawn('pnpm', ['exec', 'next', 'build'], {
       cwd: appPath,
       stdio: 'inherit',
       shell: true,

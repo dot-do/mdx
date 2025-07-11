@@ -15,11 +15,45 @@ const nextConfig = {
   webpack: (config, { isServer }) => {
     // Allow importing user's mdx-components.js from process.cwd()
     const userMdxComponents = path.join(process.cwd(), 'mdx-components.js')
+    const aliases = {}
     if (fs.existsSync(userMdxComponents)) {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        'user-mdx-components': userMdxComponents,
-      }
+      aliases['user-mdx-components'] = userMdxComponents
+    }
+
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      ...aliases,
+    }
+
+    // Handle binary files (.node) properly
+    config.module.rules.push({
+      test: /\.node$/,
+      type: 'asset/resource',
+    })
+
+    // Ignore documentation and TypeScript declaration files from node_modules
+    config.module.rules.push({
+      test: /node_modules.*\.(md|txt|license|readme|d\.ts)$/i,
+      type: 'asset/resource',
+      generator: {
+        emit: false,
+      },
+    })
+
+    // Specifically exclude problematic libsql files
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@libsql/darwin-arm64': false,
+      '@libsql/linux-x64-gnu': false,
+      '@libsql/win32-x64-msvc': false,
+    }
+
+    // Add externals for server-side only packages
+    if (isServer) {
+      config.externals.push({
+        libsql: 'commonjs libsql',
+        '@libsql/client': 'commonjs @libsql/client',
+      })
     }
 
     // Exclude Node.js-only dependencies from client bundle

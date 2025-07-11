@@ -1,14 +1,22 @@
-// @ts-nocheck
-import { AdminView } from '@payloadcms/next/views'
-import { RootLayout } from '@payloadcms/next/layouts'
-import configPromise from '../../../payload.config'
+/* THIS FILE WAS GENERATED AUTOMATICALLY BY PAYLOAD. */
+/* DO NOT MODIFY IT BECAUSE IT COULD BE REWRITTEN AT ANY TIME. */
+import type { Metadata } from 'next'
 
-export default async function AdminPage({ params }: { params: { segments: string[] } }) {
-  return (
-    <RootLayout config={configPromise}>
-      <AdminView params={params} searchParams={{}} />
-    </RootLayout>
-  )
+import config from '@payload-config'
+import { RootPage, generatePageMetadata } from '@payloadcms/next/views'
+import { importMap } from '../importMap'
+
+type Args = {
+  params: Promise<{
+    segments: string[]
+  }>
+  searchParams: Promise<{
+    [key: string]: string | string[]
+  }>
 }
 
-export const dynamic = 'force-dynamic'
+export const generateMetadata = ({ params, searchParams }: Args): Promise<Metadata> => generatePageMetadata({ config, params, searchParams })
+
+const Page = ({ params, searchParams }: Args) => RootPage({ config, params, searchParams, importMap })
+
+export default Page

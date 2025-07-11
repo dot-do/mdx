@@ -58,7 +58,7 @@ export const Callout = ({ emoji, children }: { emoji?: string; children: React.R
   return (
     <div className='not-prose bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4'>
       <div className='flex items-start'>
-        {emoji && <span lassName='text-2xl mr-3'>{emoji}</span>}
+        {emoji && <span className='text-2xl mr-3'>{emoji}</span>}
         <div className='flex-1'>{children}</div>
       </div>
     </div>
