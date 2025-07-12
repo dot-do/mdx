@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { cn } from '../../../lib/utils.js'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'motion/react'
 
 export interface ScrollBasedVelocityProps extends React.HTMLAttributes<HTMLDivElement> {
   text: string

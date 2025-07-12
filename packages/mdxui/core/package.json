@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@tremor/react": "4.0.0-beta-tremor-v4.4",
-    "framer-motion": "^12.12.1",
+    "motion": "^12.23.3",
     "zod": "^3.22.4"
   },
   "peerDependencies": {
