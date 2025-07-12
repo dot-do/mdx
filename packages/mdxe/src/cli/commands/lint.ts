@@ -20,6 +20,14 @@ export async function runLintCommand(cwd: string = process.cwd()): Promise<void>
       return
     }
 
+    // Check if ESLint config exists
+    const hasEslintConfig = await checkEslintConfig(cwd)
+    if (!hasEslintConfig) {
+      console.log('⚠️ No ESLint configuration found. Skipping lint.')
+      console.log('To enable linting, create an eslint.config.js file or .eslintrc.* file')
+      return
+    }
+
     // Find files to lint
     const mdxFiles = await findMdxFiles(cwd)
     const tsFiles = await findTypeScriptFiles(cwd)
@@ -77,10 +85,35 @@ async function checkEslintAvailable(cwd: string): Promise<boolean> {
 }
 
 /**
+ * Check if ESLint configuration exists
+ */
+async function checkEslintConfig(cwd: string): Promise<boolean> {
+  const configFiles = [
+    'eslint.config.js',
+    'eslint.config.mjs',
+    'eslint.config.cjs',
+    '.eslintrc.js',
+    '.eslintrc.cjs',
+    '.eslintrc.json',
+    '.eslintrc.yml',
+    '.eslintrc.yaml',
+    '.eslintrc',
+  ]
+
+  for (const configFile of configFiles) {
+    if (await fileExists(path.join(cwd, configFile))) {
+      return true
+    }
+  }
+
+  return false
+}
+
+/**
  * Find TypeScript files in the project
  */
 async function findTypeScriptFiles(cwd: string): Promise<string[]> {
-  const { glob } = await import('fast-glob')
+  const glob = (await import('fast-glob')).default
 
   const patterns = ['**/*.ts', '**/*.tsx', '!node_modules/**', '!dist/**', '!build/**', '!.next/**', '!coverage/**']
 

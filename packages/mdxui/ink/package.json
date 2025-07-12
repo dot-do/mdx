@@ -87,6 +87,7 @@
   },
   "ava": {
     "workerThreads": false,
+    "timeout": "30s",
     "files": [
       "test/**/*",
       "!test/helpers/**/*",
@@ -97,7 +98,8 @@
       "tsx": "module"
     },
     "nodeArguments": [
-      "--loader=ts-node/esm"
+      "--loader=ts-node/esm",
+      "--no-warnings"
     ]
   }
 }
