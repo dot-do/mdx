@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { describe, expect, it } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { research } from './research'
 
 describe('research', () => {

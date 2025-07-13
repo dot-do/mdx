@@ -34,6 +34,7 @@ describe('Collection API', () => {
       console.warn('velite.config.js not found, but will be handled by db.build()')
     }
 
+    // Initial build with sample files only
     await db.build()
   }, TEST_TIMEOUT)
 
@@ -125,7 +126,7 @@ ${content}`,
 
       console.log('Result by title:', byTitle)
 
-      const fallbackByTitle = byTitle || allBlogPosts.find((post) => post.title === title)
+      const fallbackByTitle = byTitle || allBlogPosts.find((post: any) => post.title === title)
 
       expect(fallbackByTitle).toBeDefined()
       expect(fallbackByTitle.title).toBe(title)
@@ -224,7 +225,7 @@ ${content}`,
       expect(postBySlug).toBeDefined()
       expect(postBySlug.title).toBe(title)
 
-      const manualTitleMatch = allPosts.find((post) => post.title === title)
+      const manualTitleMatch = allPosts.find((post: any) => post.title === title)
       console.log('Manual title match:', manualTitleMatch)
 
       const post = db.blog.get(title)

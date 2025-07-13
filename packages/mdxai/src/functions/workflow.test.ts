@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import { describe, it } from 'vitest'
 import { workflow } from './workflow'
 
 describe('workflow', () => {

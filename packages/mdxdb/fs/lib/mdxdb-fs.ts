@@ -1,5 +1,5 @@
 import { execFile, spawn, ChildProcess } from 'child_process'
-import { promises as fs } from 'fs'
+import { promises as fs, watch } from 'fs'
 import matter from 'gray-matter'
 import util from 'util'
 import path from 'path'
@@ -88,37 +88,38 @@ export class MdxDbFs extends MdxDbBase {
         }
       }
 
-      const veliteConfigPath = path.join(this.packageDir, 'velite.config.js')
+      // Check for both .ts and .js velite config files
+      const veliteConfigJsPath = path.join(this.packageDir, 'velite.config.js')
+      const veliteConfigTsPath = path.join(this.packageDir, 'velite.config.ts')
 
+      let veliteConfigPath = veliteConfigJsPath
       let shouldDeleteConfig = false
+
       try {
-        await fs.access(veliteConfigPath)
+        await fs.access(veliteConfigJsPath)
         console.log('velite.config.js already exists, using existing file')
-      } catch (error) {
-        shouldDeleteConfig = true
-        const configContent = `
-          import { defineConfig } from 'velite/dist/index.cjs';
-          export default defineConfig({
-            root: '${this.packageDir}',
-            collections: ${JSON.stringify(enhancedCollections)}
-          });
-        `
-        await fs.mkdir(path.dirname(veliteConfigPath), { recursive: true })
-        await fs.writeFile(veliteConfigPath, configContent)
+      } catch (jsError) {
+        try {
+          await fs.access(veliteConfigTsPath)
+          console.log('velite.config.ts already exists, using existing file')
+          veliteConfigPath = veliteConfigTsPath
+        } catch (tsError) {
+          shouldDeleteConfig = true
+          const configContent = `
+            import { defineConfig } from 'velite/dist/index.cjs';
+            export default defineConfig({
+              root: '${this.packageDir}',
+              collections: ${JSON.stringify(enhancedCollections)}
+            });
+          `
+          await fs.mkdir(path.dirname(veliteConfigPath), { recursive: true })
+          await fs.writeFile(veliteConfigPath, configContent)
+        }
       }
 
       try {
-        const { stdout, stderr } = await execFilePromise('npx', ['velite', 'build'], { cwd: this.packageDir })
-        console.log('Velite CLI stdout:', stdout)
-        if (stderr) {
-          console.error('Velite CLI stderr:', stderr)
-          if (stderr.toLowerCase().includes('error')) {
-            throw new Error(`Velite CLI build failed: ${stderr}`)
-          }
-        }
-        console.log('Velite CLI build command executed successfully.')
-      } catch (veliteError) {
-        console.warn('Velite CLI execution failed, falling back to manual build:', veliteError)
+        // Always use the manual build method as it's more reliable than Velite CLI
+        console.log('Using manual build method for better reliability...')
 
         const outputDir = path.join(this.packageDir, '.velite')
         await fs.mkdir(outputDir, { recursive: true })
@@ -270,6 +271,9 @@ export class MdxDbFs extends MdxDbBase {
           console.error('Fallback build method failed to create any collection files:', outputError)
           throw new Error('Failed to create any collection files in fallback build method')
         }
+      } catch (veliteError) {
+        console.warn('Manual build method failed:', veliteError)
+        throw new Error(`Manual build method failed: ${(veliteError as Error).message}`)
       }
 
       if (shouldDeleteConfig) {

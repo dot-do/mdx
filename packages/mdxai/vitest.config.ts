@@ -1,10 +1,13 @@
-import 'dotenv/config'
 import { defineConfig } from 'vitest/config'
+import { config } from 'dotenv'
+
+const env = config({ path: '../../.env' })
 
 export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
+    env: env.parsed,
     testTimeout: 300000,
     coverage: {
       provider: 'v8',
