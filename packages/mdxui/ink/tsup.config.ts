@@ -1,7 +1,13 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: {
+    index: 'src/index.ts',
+    'cli-bundler': 'src/cli/bundler.ts',
+    'cli/commands/render': 'src/cli/commands/render.ts',
+    'cli/commands/bundle': 'src/cli/commands/bundle.ts',
+    'cli/commands/workflow': 'src/cli/commands/workflow.ts',
+  },
   format: ['esm'], // Only use ESM format since ink is ESM-only
   dts: false, // Use tsc for declaration files due to composite mode issues
   splitting: false,

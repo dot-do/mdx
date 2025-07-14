@@ -1,0 +1,16 @@
+# Test artifacts
+test-dist/
+
+# Build artifacts
+dist/
+.turbo/
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

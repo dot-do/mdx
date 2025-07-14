@@ -28,5 +28,3 @@ on('User.Signup', async (event, { ai, api, db }) => {
   await api.slack.postMessage({ channel: '#signups', content: { name, email, company, summary, url } })
 })
 ```
-
-

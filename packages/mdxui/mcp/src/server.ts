@@ -13,7 +13,7 @@ export interface MCPServerOptions {
 
 export class MDXMCPServer {
   private server: Server
-  
+
   constructor(options: MCPServerOptions = {}) {
     this.server = new Server(
       {
@@ -25,12 +25,12 @@ export class MDXMCPServer {
           tools: {},
           resources: {},
         },
-      }
+      },
     )
-    
+
     this.setupToolHandlers()
   }
-  
+
   private setupToolHandlers() {
     this.server.setRequestHandler(ListToolsRequestSchema, async () => {
       return {
@@ -43,21 +43,21 @@ export class MDXMCPServer {
               properties: {
                 content: {
                   type: 'string',
-                  description: 'MDX content to render'
+                  description: 'MDX content to render',
                 },
                 components: {
                   type: 'object',
                   description: 'Optional React components to provide to MDX',
-                  additionalProperties: true
+                  additionalProperties: true,
                 },
                 scope: {
                   type: 'object',
                   description: 'Optional data to provide to the MDX scope',
-                  additionalProperties: true
-                }
+                  additionalProperties: true,
+                },
               },
-              required: ['content']
-            }
+              required: ['content'],
+            },
           },
           {
             name: 'execute_mdx_code',
@@ -67,20 +67,20 @@ export class MDXMCPServer {
               properties: {
                 content: {
                   type: 'string',
-                  description: 'MDX content containing code blocks to execute'
+                  description: 'MDX content containing code blocks to execute',
                 },
                 context: {
                   type: 'object',
                   description: 'Optional execution context variables',
-                  additionalProperties: true
+                  additionalProperties: true,
                 },
                 fileId: {
                   type: 'string',
-                  description: 'Optional file identifier for shared state'
-                }
+                  description: 'Optional file identifier for shared state',
+                },
               },
-              required: ['content']
-            }
+              required: ['content'],
+            },
           },
           {
             name: 'ai_generate',
@@ -90,34 +90,34 @@ export class MDXMCPServer {
               properties: {
                 prompt: {
                   type: 'string',
-                  description: 'Prompt for AI generation'
+                  description: 'Prompt for AI generation',
                 },
                 functionName: {
                   type: 'string',
-                  description: 'Optional AI function name to execute'
-                }
+                  description: 'Optional AI function name to execute',
+                },
               },
-              required: ['prompt']
-            }
-          }
-        ]
+              required: ['prompt'],
+            },
+          },
+        ],
       }
     })
-    
+
     this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const { name, arguments: args } = request.params
-      
+
       try {
         switch (name) {
           case 'render_mdx':
             return await renderTool(args as any)
-            
+
           case 'execute_mdx_code':
             return await executeTool(args as any)
-            
+
           case 'ai_generate':
             return await aiTool(args as any)
-            
+
           default:
             throw new Error(`Unknown tool: ${name}`)
         }
@@ -126,43 +126,43 @@ export class MDXMCPServer {
           content: [
             {
               type: 'text',
-              text: `Error executing tool ${name}: ${error instanceof Error ? error.message : String(error)}`
-            }
+              text: `Error executing tool ${name}: ${error instanceof Error ? error.message : String(error)}`,
+            },
           ],
-          isError: true
+          isError: true,
         }
       }
     })
   }
-  
+
   async connectStdio() {
     const transport = new StdioServerTransport()
     await this.server.connect(transport)
     console.error('MDX MCP Server running on stdio')
   }
-  
+
   async connectHttp(port: number = 3000) {
     throw new Error('HTTP transport not yet implemented')
   }
-  
+
   getServer(): Server {
     return this.server
   }
-  
+
   listTools() {
     return [
       {
         name: 'render_mdx',
-        description: 'Render MDX content to markdown format'
+        description: 'Render MDX content to markdown format',
       },
       {
-        name: 'execute_mdx_code', 
-        description: 'Extract and process code blocks from MDX content'
+        name: 'execute_mdx_code',
+        description: 'Extract and process code blocks from MDX content',
       },
       {
         name: 'ai_generate',
-        description: 'Generate content using AI functions'
-      }
+        description: 'Generate content using AI functions',
+      },
     ]
   }
 }

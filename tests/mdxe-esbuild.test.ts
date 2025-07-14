@@ -2,7 +2,7 @@ import { beforeAll, describe, it, expect, afterAll, vi } from 'vitest'
 import { $ } from 'zx'
 import fs from 'node:fs'
 import path from 'node:path'
-import { toTitleCase, generateIndexSource } from '../packages/mdxe/esbuild/src'
+import { toTitleCase, generateIndexSource } from '../packages/mdxe/src/esbuild'
 
 const TEST_DIR = '.test-mdxe-esbuild'
 const TEST_CONTENT_DIR = path.join(TEST_DIR, 'content')

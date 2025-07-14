@@ -9,27 +9,27 @@ vi.mock('@mdx-js/mdx', () => {
   const mockCompile = vi.fn().mockResolvedValue('compiled-mdx-content')
   const mockEvaluate = vi.fn().mockImplementation(() => {
     return Promise.resolve({
-      default: () => React.createElement('div', null, 'Mocked MDX Component')
+      default: () => React.createElement('div', null, 'Mocked MDX Component'),
     })
   })
-  
+
   return {
     compile: mockCompile,
-    evaluate: mockEvaluate
+    evaluate: mockEvaluate,
   }
 })
 
 vi.mock('react-dom/server', () => {
   return {
-    renderToString: vi.fn().mockReturnValue('<div>Mocked MDX Component</div>')
+    renderToString: vi.fn().mockReturnValue('<div>Mocked MDX Component</div>'),
   }
 })
 
 vi.mock('turndown', () => {
   return {
     default: vi.fn().mockImplementation(() => ({
-      turndown: vi.fn().mockReturnValue('Rendered markdown content')
-    }))
+      turndown: vi.fn().mockReturnValue('Rendered markdown content'),
+    })),
   }
 })
 
@@ -91,15 +91,18 @@ This is a test document without frontmatter.`
     })
 
     expect(result.markdown).toBe('Rendered markdown content')
-    expect(mdx.evaluate).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({
-      ...customScope
-    }))
+    expect(mdx.evaluate).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        ...customScope,
+      }),
+    )
     expect(ReactDOMServer.renderToString).toHaveBeenCalledWith(
       expect.objectContaining({
         props: expect.objectContaining({
-          components: customComponents
-        })
-      })
+          components: customComponents,
+        }),
+      }),
     )
   })
 

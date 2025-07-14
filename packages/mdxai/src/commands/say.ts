@@ -9,7 +9,7 @@ export interface SayOptions {
 
 export async function runSayCommand(text: string, options: SayOptions) {
   const { json } = getGlobalOptions()
-  
+
   try {
     if (!process.env.GEMINI_API_KEY) {
       const msg = 'GEMINI_API_KEY environment variable is not set.'
@@ -22,13 +22,13 @@ export async function runSayCommand(text: string, options: SayOptions) {
     }
 
     const { say } = await import('../functions/say.js')
-    
+
     const audioFilePath = await say`${text}`
-    
+
     if (options.output) {
       const outputPath = path.resolve(options.output)
       fs.copyFileSync(audioFilePath, outputPath)
-      
+
       if (json) {
         console.log(JSON.stringify({ status: 'success', audioFile: outputPath }))
       } else {
@@ -39,52 +39,46 @@ export async function runSayCommand(text: string, options: SayOptions) {
     } else {
       console.log(`Audio successfully generated at ${audioFilePath}`)
     }
-    
+
     if (options.play) {
       try {
         if (process.platform === 'linux') {
           const { spawn } = await import('child_process')
           const player = spawn('aplay', [audioFilePath])
-          
+
           player.on('error', (err) => {
             console.error('Failed to play audio with aplay:', err.message)
             console.log('You can manually play the audio file at:', audioFilePath)
           })
-          
+
           await new Promise<void>((resolve) => {
             player.on('close', () => resolve())
           })
-        } 
-        else if (process.platform === 'darwin') {
+        } else if (process.platform === 'darwin') {
           const { spawn } = await import('child_process')
           const player = spawn('afplay', [audioFilePath])
-          
+
           player.on('error', (err) => {
             console.error('Failed to play audio with afplay:', err.message)
             console.log('You can manually play the audio file at:', audioFilePath)
           })
-          
+
           await new Promise<void>((resolve) => {
             player.on('close', () => resolve())
           })
-        }
-        else if (process.platform === 'win32') {
+        } else if (process.platform === 'win32') {
           const { spawn } = await import('child_process')
-          const player = spawn('powershell', [
-            '-c',
-            `(New-Object System.Media.SoundPlayer "${audioFilePath}").PlaySync()`
-          ])
-          
+          const player = spawn('powershell', ['-c', `(New-Object System.Media.SoundPlayer "${audioFilePath}").PlaySync()`])
+
           player.on('error', (err) => {
             console.error('Failed to play audio with PowerShell:', err.message)
             console.log('You can manually play the audio file at:', audioFilePath)
           })
-          
+
           await new Promise<void>((resolve) => {
             player.on('close', () => resolve())
           })
-        }
-        else {
+        } else {
           console.log('Audio playback not supported on this platform.')
           console.log('You can manually play the audio file at:', audioFilePath)
         }

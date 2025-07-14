@@ -25,7 +25,7 @@ describe('Schema Discovery', () => {
   describe('discoverSchemas', () => {
     it('should return empty array if .db folder does not exist', async () => {
       const nonExistentPath = path.join(testDir, 'non-existent-folder')
-      
+
       const result = await discoverSchemas(nonExistentPath)
 
       expect(result).toEqual([])
@@ -48,7 +48,7 @@ This file defines the user schema.
 `
       await fs.writeFile(path.join(testDbDir, 'schema.md'), schemaContent)
       await fs.writeFile(path.join(testDbDir, 'other.txt'), 'Not a schema file')
-      
+
       const result = await discoverSchemas(testDbDir)
 
       expect(result).toHaveLength(1)
@@ -83,7 +83,7 @@ category: Product category (electronics | clothing | food)
 Some other content.
 `
       await fs.writeFile(path.join(testDbDir, 'product-schema.md'), schemaContent)
-      
+
       const result = await discoverSchemas(testDbDir)
 
       expect(result).toHaveLength(1)
@@ -126,7 +126,7 @@ total: Order total (number)
 \`\`\`
 `
       await fs.writeFile(path.join(testDbDir, 'schemas.md'), schemaContent)
-      
+
       const result = await discoverSchemas(testDbDir)
 
       expect(result).toHaveLength(3)
@@ -155,7 +155,7 @@ field4: Test field (DATE)
 \`\`\`
 `
       await fs.writeFile(path.join(testDbDir, 'types.md'), schemaContent)
-      
+
       const result = await discoverSchemas(testDbDir)
 
       expect(result).toHaveLength(1)
@@ -176,7 +176,7 @@ standaloneEnum: active | inactive | pending
 \`\`\`
 `
       await fs.writeFile(path.join(testDbDir, 'enums.md'), schemaContent)
-      
+
       const result = await discoverSchemas(testDbDir)
 
       expect(result).toHaveLength(1)
@@ -204,7 +204,7 @@ invalid: yaml: :
 \`\`\`
 `
       await fs.writeFile(path.join(testDbDir, 'invalid.md'), invalidContent)
-      
+
       const result = await discoverSchemas(testDbDir)
 
       expect(result).toEqual([])

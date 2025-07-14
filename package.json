@@ -16,8 +16,7 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\"",
     "generate:schema": "tsx scripts/generate-schema-mdx.ts",
     "version": "changeset version",
-    "release": "turbo run build && changeset publish",
-    "postinstall": "pnpm run build:packages"
+    "release": "turbo run build && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.4",
@@ -35,6 +34,7 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.19.4",
     "turbo": "^2.5.3",
+    "typescript": "^5.8.3",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.0.0",
     "vitest": "^3.1.4"

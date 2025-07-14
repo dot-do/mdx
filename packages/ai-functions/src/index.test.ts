@@ -18,7 +18,7 @@ describe('ai-functions', () => {
   it('should parse template strings correctly', () => {
     const template = Object.assign(['Hello ', ' world'], {
       raw: ['Hello ', ' world'],
-      forEach: Array.prototype.forEach
+      forEach: Array.prototype.forEach,
     }) as TemplateStringsArray
     const result = parseTemplate(template, ['beautiful'])
     expect(result).toBe('Hello beautiful world')

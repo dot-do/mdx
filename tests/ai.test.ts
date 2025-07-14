@@ -41,7 +41,7 @@ describe('ai', () => {
     it('should work with leanCanvas function using object parameter', async () => {
       const result = await ai.leanCanvas({ brand: 'vercel.com' })
       expect(result).toBeDefined()
-      
+
       if (typeof result === 'object') {
         expect(result).toHaveProperty('problem')
         expect(result).toHaveProperty('solution')
@@ -55,7 +55,7 @@ describe('ai', () => {
     it('should work with leanCanvas function using string parameter', async () => {
       const result = await ai.leanCanvas('Create a lean canvas for a SaaS productivity tool')
       expect(result).toBeDefined()
-      
+
       if (typeof result === 'object') {
         expect(result).toHaveProperty('problem')
         expect(result).toHaveProperty('solution')
@@ -69,7 +69,7 @@ describe('ai', () => {
       const brand = 'vercel.com'
       const result = await ai.leanCanvas`Create a lean canvas for ${brand}`
       expect(result).toBeDefined()
-      
+
       if (typeof result === 'object') {
         expect(result).toHaveProperty('problem')
         expect(result).toHaveProperty('solution')
@@ -83,7 +83,7 @@ describe('ai', () => {
       const functionName = 'leanCanvas'
       const result = await ai[functionName]({ brand: 'example.com' })
       expect(result).toBeDefined()
-      
+
       if (typeof result === 'object') {
         expect(result).toHaveProperty('problem')
         expect(result).toHaveProperty('solution')
@@ -116,7 +116,7 @@ describe('ai', () => {
     it('should return appropriate content for leanCanvas', async () => {
       const result = await ai.leanCanvas({ brand: 'test' })
       expect(result).toBeDefined()
-      
+
       if (typeof result === 'object') {
         expect(result).toHaveProperty('problem')
         expect(result).toHaveProperty('solution')

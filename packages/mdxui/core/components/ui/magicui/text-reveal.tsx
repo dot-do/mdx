@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { cn } from '../../../lib/utils.js'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 
 export interface TextRevealProps {
   text: string

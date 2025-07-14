@@ -21,17 +21,17 @@ describe('mdxtra CLI', () => {
 
   it('should create symlink to current directory', async () => {
     await writeFile(join(testDir, 'index.mdx'), '# Test Page\n\nHello world!')
-    
+
     const child = spawn('node', [mdxtraPath, 'build'], {
       cwd: testDir,
-      stdio: 'pipe'
+      stdio: 'pipe',
     })
 
     await new Promise((resolve) => setTimeout(resolve, 2000))
-    
+
     const appDir = join(__dirname, '../app')
     const contentLink = join(appDir, 'content')
-    
+
     try {
       const files = await readdir(contentLink)
       expect(files).toContain('index.mdx')
@@ -44,17 +44,17 @@ describe('mdxtra CLI', () => {
 
   it('should handle different command arguments', async () => {
     const testCases = ['dev', 'build', 'start', 'export']
-    
+
     for (const cmd of testCases) {
       const child = spawn('node', [mdxtraPath, cmd], {
         cwd: testDir,
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       await new Promise((resolve) => setTimeout(resolve, 1000))
-      
+
       expect(child.killed).toBe(false)
-      
+
       child.kill('SIGTERM')
     }
   })
@@ -62,12 +62,12 @@ describe('mdxtra CLI', () => {
   it('should pass through additional arguments to Next.js', async () => {
     const child = spawn('node', [mdxtraPath, 'dev', '--port', '4000'], {
       cwd: testDir,
-      stdio: 'pipe'
+      stdio: 'pipe',
     })
 
     let output = ''
     let foundPort = false
-    
+
     child.stdout.on('data', (data) => {
       const text = data.toString()
       output += text
@@ -84,9 +84,9 @@ describe('mdxtra CLI', () => {
     })
 
     await new Promise((resolve) => setTimeout(resolve, 4000))
-    
+
     expect(foundPort || !child.killed).toBe(true)
-    
+
     child.kill('SIGTERM')
   })
 
@@ -94,22 +94,22 @@ describe('mdxtra CLI', () => {
     await mkdir(join(testDir, 'docs'), { recursive: true })
     await writeFile(join(testDir, 'index.mdx'), '# Home\n\nWelcome!')
     await writeFile(join(testDir, 'docs', 'guide.mdx'), '# Guide\n\nInstructions here.')
-    
+
     const child = spawn('node', [mdxtraPath, 'build'], {
       cwd: testDir,
-      stdio: 'pipe'
+      stdio: 'pipe',
     })
 
     await new Promise((resolve) => setTimeout(resolve, 2000))
-    
+
     const appDir = join(__dirname, '../app')
     const contentLink = join(appDir, 'content')
-    
+
     try {
       const files = await readdir(contentLink)
       expect(files).toContain('index.mdx')
       expect(files).toContain('docs')
-      
+
       const docsFiles = await readdir(join(contentLink, 'docs'))
       expect(docsFiles).toContain('guide.mdx')
     } catch (error: any) {
@@ -122,7 +122,7 @@ describe('mdxtra CLI', () => {
   it('should handle empty directories gracefully', async () => {
     const child = spawn('node', [mdxtraPath, 'build'], {
       cwd: testDir,
-      stdio: 'pipe'
+      stdio: 'pipe',
     })
 
     let stderr = ''
@@ -131,18 +131,18 @@ describe('mdxtra CLI', () => {
     })
 
     await new Promise((resolve) => setTimeout(resolve, 2000))
-    
+
     expect(child.killed).toBe(false)
-    
+
     child.kill('SIGTERM')
   })
 
   it('should clean up existing symlinks before creating new ones', async () => {
     await writeFile(join(testDir, 'test.mdx'), '# Test\n\nContent')
-    
+
     const child1 = spawn('node', [mdxtraPath, 'build'], {
       cwd: testDir,
-      stdio: 'pipe'
+      stdio: 'pipe',
     })
 
     await new Promise((resolve) => setTimeout(resolve, 1500))
@@ -150,13 +150,13 @@ describe('mdxtra CLI', () => {
 
     const child2 = spawn('node', [mdxtraPath, 'build'], {
       cwd: testDir,
-      stdio: 'pipe'
+      stdio: 'pipe',
     })
 
     await new Promise((resolve) => setTimeout(resolve, 1500))
-    
+
     expect(child2.killed).toBe(false)
-    
+
     child2.kill('SIGTERM')
   })
 })

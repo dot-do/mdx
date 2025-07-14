@@ -7,7 +7,7 @@ describe('MDXMCPServer', () => {
   beforeEach(() => {
     server = new MDXMCPServer({
       name: '@mdxui/mcp-test',
-      version: '0.1.0'
+      version: '0.1.0',
     })
   })
 
@@ -37,21 +37,21 @@ describe('MDXMCPServer', () => {
     it('should list all available tools', () => {
       const tools = server.listTools()
       expect(tools).toHaveLength(3)
-      expect(tools.map(t => t.name)).toEqual(['render_mdx', 'execute_mdx_code', 'ai_generate'])
+      expect(tools.map((t) => t.name)).toEqual(['render_mdx', 'execute_mdx_code', 'ai_generate'])
     })
 
     it('should have correct tool descriptions', () => {
       const tools = server.listTools()
-      
-      const renderTool = tools.find(t => t.name === 'render_mdx')
+
+      const renderTool = tools.find((t) => t.name === 'render_mdx')
       expect(renderTool).toBeDefined()
       expect(renderTool?.description).toContain('Render MDX content')
-      
-      const executeTool = tools.find(t => t.name === 'execute_mdx_code')
+
+      const executeTool = tools.find((t) => t.name === 'execute_mdx_code')
       expect(executeTool).toBeDefined()
       expect(executeTool?.description).toContain('Extract and process code blocks')
-      
-      const aiTool = tools.find(t => t.name === 'ai_generate')
+
+      const aiTool = tools.find((t) => t.name === 'ai_generate')
       expect(aiTool).toBeDefined()
       expect(aiTool?.description).toContain('Generate content using AI')
     })

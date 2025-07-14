@@ -27,7 +27,8 @@ export interface MarkdownResult {
 async function markdownCore(prompt: string): Promise<MarkdownResult> {
   const result = await generateText({
     model: model('openai/gpt-4.1'),
-    system: 'You are a helpful assistant that responds in well-formatted markdown. Use proper markdown syntax including headers, lists, code blocks, links, and other formatting as appropriate for the content.',
+    system:
+      'You are a helpful assistant that responds in well-formatted markdown. Use proper markdown syntax including headers, lists, code blocks, links, and other formatting as appropriate for the content.',
     prompt,
   })
 
@@ -43,8 +44,6 @@ async function markdownCore(prompt: string): Promise<MarkdownResult> {
   }
 }
 
-export const markdown = createUnifiedFunction<Promise<MarkdownResult>>(
-  (prompt: string, options: Record<string, any>) => {
-    return markdownCore(prompt);
-  }
-); 
+export const markdown = createUnifiedFunction<Promise<MarkdownResult>>((prompt: string, options: Record<string, any>) => {
+  return markdownCore(prompt)
+})

@@ -9,8 +9,8 @@ const schema = z.object({
   tasks: z.array(z.string()),
   // tasks: z.array(z.object({
   //   type: z.enum([
-  //     // 'Scope & Develop Epic', 
-  //     'Design Data Model', 
+  //     // 'Scope & Develop Epic',
+  //     'Design Data Model',
   //     'Integrate External API',
   //     'Design & Develop UI Component',
   //     'Develop & Test Function',

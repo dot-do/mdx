@@ -28,12 +28,10 @@ async function scopeCore(projectDescription: string, options: ScopeOptions = {})
     prompt: `Define the scope for this project: ${projectDescription}`,
     schema: scopeSchema,
   })
-  
+
   return result.object
 }
 
-export const scope = createUnifiedFunction<Promise<z.infer<typeof scopeSchema>>>(
-  (projectDescription: string, options: Record<string, any>) => {
-    return scopeCore(projectDescription, options as ScopeOptions);
-  }
-);
+export const scope = createUnifiedFunction<Promise<z.infer<typeof scopeSchema>>>((projectDescription: string, options: Record<string, any>) => {
+  return scopeCore(projectDescription, options as ScopeOptions)
+})

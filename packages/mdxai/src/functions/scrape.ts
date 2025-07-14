@@ -19,17 +19,17 @@ const getCacheFilePath = (url: string): string => {
     const urlObj = new URL(url)
     const domain = urlObj.hostname
     const pathname = urlObj.pathname === '/' ? '_index' : urlObj.pathname
-    
+
     // Clean up the pathname to be filesystem-safe and replace / with _
     const safePath = pathname
       .replace(/[^a-zA-Z0-9\-_\/]/g, '_')
       .replace(/\/+/g, '_')
       .replace(/^_+|_+$/g, '') // Remove leading/trailing underscores
-    
+
     // Create flat cache structure: .ai/cache/[domain]_[path].md
     const cacheDir = path.join(process.cwd(), '.ai', 'cache')
     const fileName = safePath === '' ? `${domain}_index.md` : `${domain}_${safePath}.md`
-    
+
     return path.join(cacheDir, fileName)
   } catch (error) {
     // Fallback for invalid URLs
@@ -51,20 +51,20 @@ const loadFromCache = async (url: string): Promise<ScrapedContent | null> => {
   try {
     const cacheFilePath = getCacheFilePath(url)
     const cacheData = await fs.readFile(cacheFilePath, 'utf-8')
-    
+
     // Parse frontmatter and content
     const frontmatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/
     const match = cacheData.match(frontmatterRegex)
-    
+
     if (!match) {
       return null
     }
-    
+
     const [, frontmatterText, markdown] = match
     const frontmatter: any = {}
-    
+
     // Parse simple YAML frontmatter
-    frontmatterText.split('\n').forEach(line => {
+    frontmatterText.split('\n').forEach((line) => {
       const colonIndex = line.indexOf(':')
       if (colonIndex > 0) {
         const key = line.slice(0, colonIndex).trim()
@@ -74,7 +74,7 @@ const loadFromCache = async (url: string): Promise<ScrapedContent | null> => {
         frontmatter[key] = cleanValue
       }
     })
-    
+
     const cached: ScrapedContent = {
       url: frontmatter.url || url,
       title: frontmatter.title || undefined,
@@ -84,17 +84,17 @@ const loadFromCache = async (url: string): Promise<ScrapedContent | null> => {
       markdown: markdown.trim() || undefined,
       cachedAt: frontmatter.cachedAt,
     }
-    
+
     // Check if cache is less than 24 hours old
     if (cached.cachedAt) {
       const cacheAge = Date.now() - new Date(cached.cachedAt).getTime()
       const maxAge = 24 * 60 * 60 * 1000 // 24 hours in milliseconds
-      
+
       if (cacheAge < maxAge) {
         return { ...cached, cached: true }
       }
     }
-    
+
     return null
   } catch {
     return null
@@ -104,16 +104,16 @@ const loadFromCache = async (url: string): Promise<ScrapedContent | null> => {
 const saveToCache = async (url: string, content: ScrapedContent): Promise<void> => {
   try {
     const cacheFilePath = getCacheFilePath(url)
-    
+
     const cacheDir = path.dirname(cacheFilePath)
     await fs.mkdir(cacheDir, { recursive: true, mode: 0o777 })
-    
+
     const cachedAt = new Date().toISOString()
-    
+
     // Create frontmatter
     const frontmatterLines = ['---']
     frontmatterLines.push(`url: "${content.url}"`)
-    
+
     if (content.title !== undefined) {
       frontmatterLines.push(`title: "${content.title.replace(/"/g, '\\"')}"`)
     }
@@ -127,18 +127,18 @@ const saveToCache = async (url: string, content: ScrapedContent): Promise<void> 
     if (content.error !== undefined) {
       frontmatterLines.push(`error: "${content.error.replace(/"/g, '\\"')}"`)
     }
-    
+
     frontmatterLines.push(`cachedAt: "${cachedAt}"`)
     frontmatterLines.push('---')
-    
+
     const frontmatter = frontmatterLines.join('\n')
-    
+
     // Combine frontmatter with markdown content
     const markdownContent = content.markdown || ''
     const fileContent = `${frontmatter}\n\n${markdownContent}`
-    
+
     await fs.writeFile(cacheFilePath, fileContent, { encoding: 'utf-8', mode: 0o666 })
-    
+
     await fs.access(cacheFilePath)
   } catch (error) {
     console.warn(`Failed to cache content for ${url}:`, error)
@@ -151,7 +151,7 @@ export const scrape = async (url: string, apiKey?: string): Promise<ScrapedConte
   if (cached) {
     return { ...cached, cached: true }
   }
-  
+
   if (url === 'https://example.com/test') {
     const testContent: ScrapedContent = {
       url,
@@ -161,23 +161,23 @@ export const scrape = async (url: string, apiKey?: string): Promise<ScrapedConte
       markdown: '# Test Content\n\nThis is test markdown content.',
       cached: false,
     }
-    
+
     // Save to cache for subsequent calls
     await saveToCache(url, testContent)
-    
+
     return testContent
   }
 
   // If not cached or cache is stale, scrape fresh content
   try {
     const app = new FirecrawlApp({ apiKey })
-    
+
     const response = (await app.scrapeUrl(url, { formats: ['markdown', 'html'] })) as any
 
     if (!response.success) {
       throw new Error(`Failed to scrape: ${response.error || 'Unknown error'}`)
     }
-    
+
     const scrapedContent: ScrapedContent = {
       url,
       title: response.data?.metadata?.title || '',
@@ -208,7 +208,7 @@ export const scrape = async (url: string, apiKey?: string): Promise<ScrapedConte
 export const scrapeMultiple = async (
   urls: string[],
   onProgress?: (index: number, url: string, result: ScrapedContent) => void,
-  apiKey?: string
+  apiKey?: string,
 ): Promise<ScrapedContent[]> => {
   const results: ScrapedContent[] = []
 
@@ -217,7 +217,7 @@ export const scrapeMultiple = async (
     try {
       const result = await scrape(url, apiKey)
       results.push(result)
-      
+
       if (onProgress) {
         onProgress(i, url, result)
       }
@@ -228,7 +228,7 @@ export const scrapeMultiple = async (
         cached: false,
       }
       results.push(errorResult)
-      
+
       if (onProgress) {
         onProgress(i, url, errorResult)
       }
@@ -236,4 +236,4 @@ export const scrapeMultiple = async (
   }
 
   return results
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+}

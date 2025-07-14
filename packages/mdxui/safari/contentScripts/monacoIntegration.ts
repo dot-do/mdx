@@ -1,5 +1,5 @@
 import type * as MonacoType from 'monaco-editor'
-import { 
+import {
   MonacoConfig,
   DEFAULT_MONACO_CONFIG,
   getLanguageFromFileType,
@@ -8,7 +8,7 @@ import {
   replacePageWithMonaco,
   setupMonacoThemes,
   renderFileWithMonaco,
-  FileTypeInfo
+  FileTypeInfo,
 } from '@mdxui/browser'
 
 declare global {
@@ -49,14 +49,14 @@ export async function initializeMonaco(): Promise<void> {
           (modules: string[], callback: () => void): void
         }
       }
-      
-      (window as unknown as WindowWithRequire).require.config({
+
+      ;(window as unknown as WindowWithRequire).require.config({
         paths: {
-          vs: chrome.runtime.getURL('node_modules/monaco-editor/min/vs')
-        }
-      });
-      
-      (window as unknown as WindowWithRequire).require(['vs/editor/editor.main'], () => {
+          vs: chrome.runtime.getURL('node_modules/monaco-editor/min/vs'),
+        },
+      })
+
+      ;(window as unknown as WindowWithRequire).require(['vs/editor/editor.main'], () => {
         resolve()
       })
     }
@@ -68,7 +68,7 @@ export function createBrowserViewer(
   container: HTMLElement,
   content: string,
   fileType: FileTypeInfo['fileType'],
-  config: Partial<MonacoConfig> = {}
+  config: Partial<MonacoConfig> = {},
 ): MonacoType.editor.IStandaloneCodeEditor {
   return createMonacoEditor(container, content, fileType, config)
 }
@@ -82,17 +82,14 @@ export function createBrowserContainer(): HTMLElement {
 export function replacePageWithBrowserViewer(
   content: string,
   fileType: FileTypeInfo['fileType'],
-  config?: Partial<MonacoConfig>
+  config?: Partial<MonacoConfig>,
 ): MonacoType.editor.IStandaloneCodeEditor {
   return replacePageWithMonaco(content, fileType, config)
 }
 
 export { setupMonacoThemes }
 
-export async function renderFileWithBrowserViewer(
-  content: string,
-  fileInfo: FileTypeInfo
-): Promise<MonacoType.editor.IStandaloneCodeEditor> {
+export async function renderFileWithBrowserViewer(content: string, fileInfo: FileTypeInfo): Promise<MonacoType.editor.IStandaloneCodeEditor> {
   await initializeMonaco()
   return renderFileWithMonaco(content, fileInfo)
 }

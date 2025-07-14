@@ -4,22 +4,11 @@ export default defineConfig({
   entry: ['src/index.ts'],
   format: ['esm'],
   dts: true,
-  external: [
-    'react', 
-    '@mdxui/core', 
-    '@mdxui/ink', 
-    '@mdxui/tailwind', 
-    '@mdxui/shadcn', 
-    '@mdxui/magicui',
-    '@mdxui/reveal',
-    'react-devtools-core',
-    'ink',
-    'ink-table',
-    'ink-link',
-    'ink-syntax-highlight'
-  ],
+  external: ['react', 'react-dom', 'motion', '@tremor/react', 'zod'],
   banner: {
     js: '"use client";',
   },
   noExternal: [],
+  platform: 'browser',
+  target: 'es2020',
 })

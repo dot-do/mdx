@@ -20,7 +20,7 @@ async function researchCore(query: string, apiKey?: string, baseURL?: string): P
     prompt: `Research ${query}`,
   })
 
-  const body = result?.response?.body as any || {}
+  const body = (result?.response?.body as any) || {}
   const citations = body.citations || []
   const reasoning = body.choices?.[0]?.message?.reasoning || ''
 
@@ -74,8 +74,6 @@ async function researchCore(query: string, apiKey?: string, baseURL?: string): P
   }
 }
 
-export const research = createUnifiedFunction<Promise<ResearchResult>>(
-  (query: string, options: Record<string, any>) => {
-    return researchCore(query, options.apiKey, options.baseURL);
-  }
-);
+export const research = createUnifiedFunction<Promise<ResearchResult>>((query: string, options: Record<string, any>) => {
+  return researchCore(query, options.apiKey, options.baseURL)
+})

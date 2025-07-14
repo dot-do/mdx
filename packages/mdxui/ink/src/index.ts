@@ -1,68 +1,65 @@
-export * from './types'
-export * from './render'
-export * from './schema'
-export * from './frontmatter'
-export * from './components'
-export * from './components/react-ink'
-export * from './icons'
-export * from './workflow'
-export * from './components/EventStatus'
-export * from './components/EventProgressIndicator'
-export * from './components/EventListDisplay'
-export * from './components/EventStatusProvider'
-export type { WorkflowFrontmatter } from './types'
-export * from './LandingPage'
-export * from './slides'
-export * from './slide'
-export * from './button'
-export * from './card'
-export * from './InkMDXRenderer'
-export * from './component-loader'
-export { registerComponent, registerComponents, getAllComponents } from './component-loader'
-export * from './mdx-plugins'
-export * from './bundler'
-export * from './code-execution'
-export * from './ExecutionResults'
+// Core functionality
+export * from './core/index.js'
 
-import MarkdownDefault from './markdown'
-import AsciiDefault from './ascii'
-export { MarkdownDefault as Markdown, AsciiDefault as Ascii }
+// Component system
+export * from './component-system/index.js'
 
-import * as types from './types'
-import * as render from './render'
-import * as schema from './schema'
-import * as frontmatter from './frontmatter'
-import * as components from './components'
-import { Slides } from './slides'
-import { Slide } from './slide'
-import { Button } from './button'
-import { Card } from './card'
+// Components organized by category
+export * from './components/base/index.js'
+export * from './components/layout/index.js'
+export * from './components/interactive/index.js'
+export * from './components/media/index.js'
+export * from './components/specialized/index.js'
 
-import { InkMDXRenderer } from './InkMDXRenderer'
+// Workflow system
+export * from './workflow/index.js'
 
-const Ink: {
-  renderMdxCli: typeof render.renderMdxCli
-  Slides: typeof Slides
-  Slide: typeof Slide
-  Button: typeof Button
-  Card: typeof Card
-  Markdown: typeof MarkdownDefault
-  Ascii: typeof AsciiDefault
-  InkMDXRenderer: typeof InkMDXRenderer
-  [key: string]: any
-} = {
-  ...types,
-  ...render,
-  ...schema,
-  ...frontmatter,
-  ...components,
+// CLI functionality
+export * from './cli/commands/render.js'
+
+// Utilities
+export * from './utils/index.js'
+
+// Backward compatibility exports
+import { Text } from './components/base/Text.js'
+import { PastelBox } from './components/base/Box.js'
+import { Markdown } from './components/base/Markdown.js'
+import { Ascii } from './components/base/Ascii.js'
+import { Image } from './components/media/Image.js'
+import { Icon } from './components/media/Icon.js'
+import { Slides } from './components/layout/Slides.js'
+import { Slide } from './components/layout/Slide.js'
+import { Button } from './components/interactive/Button.js'
+import { Card } from './components/layout/Card.js'
+import { InkMDXRenderer } from './components/specialized/InkMDXRenderer.js'
+import { renderMdxCli } from './cli/commands/render.js'
+
+// Default export for backward compatibility
+const Ink = {
+  // Core components
+  Text,
+  Box: PastelBox,
+  Markdown,
+  Ascii,
+  Image,
+  Icon,
+
+  // Layout components
   Slides,
   Slide,
-  Button,
   Card,
-  Markdown: MarkdownDefault,
-  Ascii: AsciiDefault,
+
+  // Interactive components
+  Button,
+
+  // Specialized components
   InkMDXRenderer,
+
+  // Core functionality
+  renderMdxCli,
 }
 
 export default Ink
+
+// Named exports for common components (backward compatibility)
+export { Text, PastelBox as Box, Markdown, Ascii, Image, Icon, Slides, Slide, Button, Card, InkMDXRenderer, renderMdxCli }

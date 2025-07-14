@@ -55,11 +55,7 @@ const isGenerateObjectResult = (result: any): boolean => {
  * Creates a logging middleware for AI requests/responses
  */
 export const createLoggingMiddleware = (config: LoggingConfig = {}): LanguageModelV1Middleware => {
-  const {
-    enabled = true,
-    logDir = LOG_DIR,
-    maxPromptLength = 50,
-  } = config
+  const { enabled = true, logDir = LOG_DIR, maxPromptLength = 50 } = config
 
   if (!enabled) {
     return {

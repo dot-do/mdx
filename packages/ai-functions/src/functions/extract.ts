@@ -4,16 +4,20 @@ import { createAIModel } from '../ai.js'
 import { parseTemplate, TemplateFunction, createUnifiedFunction } from '../utils/template.js'
 
 const schema = z.object({
-  entities: z.array(z.object({
-    name: z.string(),
-    type: z.string(),
-    observations: z.array(z.string()),
-  })),
-  relationships: z.array(z.object({
-    from: z.string(),
-    type: z.string(),
-    to: z.string(),
-  })),
+  entities: z.array(
+    z.object({
+      name: z.string(),
+      type: z.string(),
+      observations: z.array(z.string()),
+    }),
+  ),
+  relationships: z.array(
+    z.object({
+      from: z.string(),
+      type: z.string(),
+      to: z.string(),
+    }),
+  ),
 })
 
 interface ExtractOptions {
@@ -32,12 +36,10 @@ async function extractCore(content: string, options: ExtractOptions = {}): Promi
     prompt: `Extract ${content}`,
     schema,
   })
-  
+
   return result.object
 }
 
-export const extract = createUnifiedFunction<Promise<z.infer<typeof schema>>>(
-  (content: string, options: Record<string, any>) => {
-    return extractCore(content, options as ExtractOptions);
-  }
-);
+export const extract = createUnifiedFunction<Promise<z.infer<typeof schema>>>((content: string, options: Record<string, any>) => {
+  return extractCore(content, options as ExtractOptions)
+})

@@ -8,11 +8,7 @@ interface PreviewModeProps {
   error: string | null
 }
 
-export const PreviewMode: React.FC<PreviewModeProps> = ({
-  content,
-  theme,
-  error,
-}) => {
+export const PreviewMode: React.FC<PreviewModeProps> = ({ content, theme, error }) => {
   const [RenderedComponent, setRenderedComponent] = useState<React.ComponentType | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [compileError, setCompileError] = useState<string | null>(null)
@@ -65,7 +61,7 @@ export const PreviewMode: React.FC<PreviewModeProps> = ({
 
   if (error) {
     return (
-      <div className="mdxui-error" style={{ ...containerStyle, color: '#f85149' }}>
+      <div className='mdxui-error' style={{ ...containerStyle, color: '#f85149' }}>
         Error: {error}
       </div>
     )
@@ -73,7 +69,7 @@ export const PreviewMode: React.FC<PreviewModeProps> = ({
 
   if (isLoading) {
     return (
-      <div className="mdxui-loading" style={containerStyle}>
+      <div className='mdxui-loading' style={containerStyle}>
         Compiling MDX...
       </div>
     )
@@ -81,17 +77,15 @@ export const PreviewMode: React.FC<PreviewModeProps> = ({
 
   if (compileError) {
     return (
-      <div className="mdxui-compile-error" style={{ ...containerStyle, color: '#f85149' }}>
+      <div className='mdxui-compile-error' style={{ ...containerStyle, color: '#f85149' }}>
         <h3>MDX Compilation Error</h3>
-        <pre style={{ whiteSpace: 'pre-wrap', fontSize: '14px', fontFamily: 'Monaco, Menlo, monospace' }}>
-          {compileError}
-        </pre>
+        <pre style={{ whiteSpace: 'pre-wrap', fontSize: '14px', fontFamily: 'Monaco, Menlo, monospace' }}>{compileError}</pre>
       </div>
     )
   }
 
   return (
-    <div className="mdxui-preview-mode" style={containerStyle}>
+    <div className='mdxui-preview-mode' style={containerStyle}>
       {RenderedComponent && <RenderedComponent />}
     </div>
   )

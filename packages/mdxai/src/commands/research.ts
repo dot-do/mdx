@@ -12,7 +12,7 @@ export interface ResearchOptions {
 
 export async function runResearchCommand(prompt: string, options: ResearchOptions) {
   const { json } = getGlobalOptions()
-  
+
   try {
     if (!process.env.AI_GATEWAY_TOKEN) {
       const msg = 'AI_GATEWAY_TOKEN environment variable is not set.'

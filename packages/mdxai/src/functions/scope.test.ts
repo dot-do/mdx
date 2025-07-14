@@ -1,3 +1,5 @@
+import 'dotenv/config'
+import { describe, it } from 'vitest'
 import { scope } from './scope'
 
 describe('scope', () => {

@@ -20,7 +20,7 @@ async function markdownCore(content: string, options: MarkdownOptions = {}): Pro
   const selectedModel = options.model || 'google/gemini-2.5-flash-preview-05-20'
   const aiModel = createAIModel(options.apiKey, options.baseURL)
 
-  const systemPrompt = options.includeFrontmatter 
+  const systemPrompt = options.includeFrontmatter
     ? 'Generate well-structured markdown content with YAML frontmatter. Include appropriate headings, formatting, and metadata.'
     : 'Generate well-structured markdown content. Use appropriate headings, formatting, lists, and other markdown features.'
 
@@ -29,15 +29,13 @@ async function markdownCore(content: string, options: MarkdownOptions = {}): Pro
     system: systemPrompt,
     prompt: content,
   })
-  
+
   return {
     markdown: result.text,
-    frontmatter: options.includeFrontmatter ? {} : undefined
+    frontmatter: options.includeFrontmatter ? {} : undefined,
   }
 }
 
-export const markdown = createUnifiedFunction<Promise<MarkdownResult>>(
-  (content: string, options: Record<string, any>) => {
-    return markdownCore(content, options as MarkdownOptions);
-  }
-);
+export const markdown = createUnifiedFunction<Promise<MarkdownResult>>((content: string, options: Record<string, any>) => {
+  return markdownCore(content, options as MarkdownOptions)
+})

@@ -38,4 +38,4 @@ export const image = new Proxy(imageFunction_, {
 
     throw new Error('Image function must be called as a template literal')
   },
-}) 
+})

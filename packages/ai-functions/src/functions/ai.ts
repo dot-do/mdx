@@ -16,7 +16,7 @@ export async function generateAiText(prompt: string): Promise<string> {
     })
 
     let completeText = ''
-    
+
     if (result && result.textStream) {
       for await (const chunk of result.textStream) {
         completeText += chunk
@@ -35,14 +35,14 @@ export async function generateAiText(prompt: string): Promise<string> {
 }
 
 const aiCore = (prompt: string, options: Record<string, any> = {}): Promise<string> => {
-  return generateAiText(prompt);
-};
+  return generateAiText(prompt)
+}
 
 const aiFunction: AiFunction = function (template: TemplateStringsArray | string, ...values: any[]) {
   if (typeof template === 'string') {
-    return generateAiText(template);
+    return generateAiText(template)
   }
-  
+
   if (Array.isArray(template) && 'raw' in template) {
     const prompt = parseTemplate(template, values)
     return generateAiText(prompt)
@@ -65,9 +65,9 @@ export const ai = new Proxy(aiFunction, {
 
     return function (templateOrArgs: TemplateStringsArray | Record<string, any> | string, ...values: any[]) {
       if (typeof templateOrArgs === 'string') {
-        return generateAiText(templateOrArgs);
+        return generateAiText(templateOrArgs)
       }
-      
+
       if (Array.isArray(templateOrArgs) && 'raw' in templateOrArgs) {
         const prompt = parseTemplate(templateOrArgs as TemplateStringsArray, values)
         return generateAiText(prompt)
@@ -78,12 +78,12 @@ export const ai = new Proxy(aiFunction, {
   },
 
   apply(target, thisArg, args) {
-    const [first, ...rest] = args;
-    
+    const [first, ...rest] = args
+
     if (typeof first === 'string') {
-      return generateAiText(first);
+      return generateAiText(first)
     }
-    
+
     if (Array.isArray(first) && 'raw' in first) {
       const prompt = parseTemplate(first as TemplateStringsArray, rest)
       return generateAiText(prompt)
@@ -91,4 +91,4 @@ export const ai = new Proxy(aiFunction, {
 
     throw new Error('AI object must be called as a template literal, with a string, or with a property access')
   },
-})            
+})

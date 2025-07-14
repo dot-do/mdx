@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { cn } from '../../../lib/utils.js'
-import { motion, useAnimation } from 'framer-motion'
+import { motion, useAnimation } from 'motion/react'
 
 export interface GlobeProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: number

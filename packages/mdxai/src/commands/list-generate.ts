@@ -7,7 +7,7 @@ export interface ListGenerateOptions {
 
 export async function runListGenerateCommand(prompt: string, options: ListGenerateOptions) {
   const { json } = getGlobalOptions()
-  
+
   try {
     const unmount = renderApp('list+generate', {
       prompt,

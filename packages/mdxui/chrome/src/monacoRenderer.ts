@@ -5,5 +5,5 @@ export {
   setupMonacoEnvironment as setupBrowserEnvironment,
   initializeMonaco,
   DEFAULT_MONACO_CONFIG,
-  type MonacoConfig as BrowserConfig
-} from '@mdxui/browser';
+  type MonacoConfig as BrowserConfig,
+} from '@mdxui/browser'
