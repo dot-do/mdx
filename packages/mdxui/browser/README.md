@@ -2,10 +2,6 @@
 
 A React component for browsing, editing, and previewing MDX content with syntax highlighting and Monaco editor integration.
 
-## Demo
-
-[http://localhost:3000/example.html](http://localhost:3000/example.html)
-
 ## Installation
 
 ```bash
