@@ -46,3 +46,6 @@ tsconfig.tsbuildinfo
 
 # cache
 **/.ai/cache
+
+# test temporary directories
+tmp/

@@ -33,16 +33,16 @@ export { executeAiFunction, createZodSchemaFromObject, inferAndValidateOutput } 
 export { handleStringOutput, handleArrayOutput, handleObjectOutput } from './utils/output-handlers.js'
 
 export { scrape, scrapeMultiple, ScrapedContent } from './functions/scrape.js'
-export { 
-  plan, 
-  parseTaskLists, 
-  serializeTaskItem, 
-  serializeTaskList, 
-  serializeTaskLists, 
+export {
+  plan,
+  parseTaskLists,
+  serializeTaskItem,
+  serializeTaskList,
+  serializeTaskLists,
   serializePlanResult,
-  TaskItem, 
-  TaskList, 
-  PlanResult 
+  TaskItem,
+  TaskList,
+  PlanResult,
 } from './functions/plan.js'
 
 export {
@@ -64,7 +64,6 @@ export {
  * @returns A Promise with the generated content as string and the streaming content
  */
 export async function generate(prompt: string, options: GenerateOptions = {}) {
-
   let systemMessage: string
   switch (options.type?.toLowerCase() || 'draft') {
     case 'title':
@@ -89,7 +88,7 @@ export async function generate(prompt: string, options: GenerateOptions = {}) {
     modelProvider: options.modelProvider,
     modelId: options.modelId,
     apiKey: options.apiKey,
-    baseURL: options.baseURL
+    baseURL: options.baseURL,
   })
 
   return {

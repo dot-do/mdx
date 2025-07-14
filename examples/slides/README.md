@@ -17,4 +17,4 @@ pnpm install
 pnpm dev
 ```
 
-Then open your browser to http://localhost:3000 to see the slides.
+Then open your browser to [slides](/slides) to see the slides.

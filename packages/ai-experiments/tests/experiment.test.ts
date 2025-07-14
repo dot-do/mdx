@@ -9,7 +9,7 @@ describe('cartesian', () => {
       { a: 1, b: 'x' },
       { a: 1, b: 'y' },
       { a: 2, b: 'x' },
-      { a: 2, b: 'y' }
+      { a: 2, b: 'y' },
     ])
   })
 
@@ -20,10 +20,7 @@ describe('cartesian', () => {
 
   it('should handle single parameter', () => {
     const result = cartesian({ models: ['gpt-4', 'claude-3'] })
-    expect(result).toEqual([
-      { models: 'gpt-4' },
-      { models: 'claude-3' }
-    ])
+    expect(result).toEqual([{ models: 'gpt-4' }, { models: 'claude-3' }])
   })
 })
 
@@ -33,15 +30,19 @@ describe('experiment', () => {
       return `Result for ${options.model} with ${options.prompt}`
     }
 
-    const result = await experiment('test experiment', {
-      model: ['gpt-4', 'claude-3'],
-      prompt: ['brief', 'detailed']
-    }, mockAiFunction)
+    const result = await experiment(
+      'test experiment',
+      {
+        model: ['gpt-4', 'claude-3'],
+        prompt: ['brief', 'detailed'],
+      },
+      mockAiFunction,
+    )
 
     expect(result.description).toBe('test experiment')
     expect(result.combinations).toHaveLength(4)
     expect(result.results).toHaveLength(4)
-    
+
     expect(result.results[0].result).toBe('Result for gpt-4 with brief')
     expect(result.results[1].result).toBe('Result for gpt-4 with detailed')
     expect(result.results[2].result).toBe('Result for claude-3 with brief')
@@ -56,14 +57,18 @@ describe('experiment', () => {
       return `Success for ${options.model}`
     }
 
-    const result = await experiment('error test', {
-      model: ['gpt-4', 'error-model']
-    }, mockAiFunction)
+    const result = await experiment(
+      'error test',
+      {
+        model: ['gpt-4', 'error-model'],
+      },
+      mockAiFunction,
+    )
 
     expect(result.results).toHaveLength(2)
     expect(result.results[0].result).toBe('Success for gpt-4')
     expect(result.results[0].error).toBeUndefined()
-    
+
     expect(result.results[1].result).toBeNull()
     expect(result.results[1].error).toBe('Test error')
   })

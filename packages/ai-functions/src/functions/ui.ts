@@ -15,11 +15,7 @@ async function uiCore(description: string, options: UiOptions = {}): Promise<str
   const selectedModel = options.model || 'google/gemini-2.5-flash-preview-05-20'
   const aiModel = createAIModel(options.apiKey, options.baseURL)
 
-  const {
-    framework = 'react',
-    styling = 'tailwind',
-    componentType = 'functional'
-  } = options
+  const { framework = 'react', styling = 'tailwind', componentType = 'functional' } = options
 
   const systemPrompt = `You are an expert ${framework} developer. Generate ${componentType} components using ${styling} for styling. Follow best practices and modern patterns.`
 
@@ -28,12 +24,10 @@ async function uiCore(description: string, options: UiOptions = {}): Promise<str
     system: systemPrompt,
     prompt: `Create a ${framework} component for: ${description}`,
   })
-  
+
   return result.text
 }
 
-export const ui = createUnifiedFunction<Promise<string>>(
-  (description: string, options: Record<string, any>) => {
-    return uiCore(description, options as UiOptions);
-  }
-);
+export const ui = createUnifiedFunction<Promise<string>>((description: string, options: Record<string, any>) => {
+  return uiCore(description, options as UiOptions)
+})

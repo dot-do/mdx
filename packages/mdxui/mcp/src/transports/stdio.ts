@@ -8,12 +8,12 @@ export interface StdioTransportOptions {
 export class MDXStdioTransport {
   private transport: StdioServerTransport
   private server: Server
-  
+
   constructor(options: StdioTransportOptions) {
     this.server = options.server
     this.transport = new StdioServerTransport()
   }
-  
+
   async connect(): Promise<void> {
     try {
       await this.server.connect(this.transport)
@@ -23,7 +23,7 @@ export class MDXStdioTransport {
       throw error
     }
   }
-  
+
   async close(): Promise<void> {
     try {
       await this.transport.close()
@@ -33,7 +33,7 @@ export class MDXStdioTransport {
       throw error
     }
   }
-  
+
   getTransport(): StdioServerTransport {
     return this.transport
   }

@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { cn } from '../../../lib/utils.js'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 
 export interface BoxRevealProps {
   children: React.ReactNode
@@ -35,6 +35,7 @@ export const BoxReveal = React.forwardRef<HTMLDivElement, BoxRevealProps>(
         transition: {
           delay,
           duration,
+          ease: 'easeInOut' as const,
         },
       },
     }
@@ -50,7 +51,7 @@ export const BoxReveal = React.forwardRef<HTMLDivElement, BoxRevealProps>(
         transition: {
           delay,
           duration,
-          ease: 'easeInOut',
+          ease: 'easeInOut' as const,
         },
       },
     }

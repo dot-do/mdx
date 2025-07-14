@@ -5,9 +5,10 @@ import { model } from '../ai.js'
 /**
  * Return type that supports both Promise and AsyncIterable
  */
-type ListResult = Promise<string[]> & AsyncIterable<string> & {
-  (options: Record<string, any>): Promise<string[]> & AsyncIterable<string>
-}
+type ListResult = Promise<string[]> &
+  AsyncIterable<string> & {
+    (options: Record<string, any>): Promise<string[]> & AsyncIterable<string>
+  }
 
 /**
  * Type definition for the list function that supports both Promise and AsyncIterable
@@ -23,10 +24,10 @@ export type ListFunction = {
 async function generateCompleteList(prompt: string, options: Record<string, any> = {}): Promise<string[]> {
   try {
     const maxItems = parseInt(prompt.match(/^\d+/)?.[0] || '5', 10)
-    
+
     let completeContent = ''
     let items: string[] = []
-    
+
     try {
       const result = await streamText({
         model: model(options.model || 'google/gemini-2.5-flash-preview-05-20', { structuredOutputs: true }),
@@ -42,7 +43,7 @@ async function generateCompleteList(prompt: string, options: Record<string, any>
       } else {
         throw new Error('No valid response received from AI service')
       }
-      
+
       items = completeContent
         .split('\n')
         .map((line: string) => line.trim())
@@ -67,17 +68,19 @@ async function generateCompleteList(prompt: string, options: Record<string, any>
       }
     }
 
-    const processedItems = items.map((item: string) => {
-      try {
-        const parsedItem = JSON.parse(item)
-        if (typeof parsedItem === 'object' && parsedItem !== null) {
-          return stringifyValue(parsedItem)
+    const processedItems = items
+      .map((item: string) => {
+        try {
+          const parsedItem = JSON.parse(item)
+          if (typeof parsedItem === 'object' && parsedItem !== null) {
+            return stringifyValue(parsedItem)
+          }
+          return item
+        } catch (e) {
+          return item
         }
-        return item
-      } catch (e) {
-        return item
-      }
-    }).slice(0, maxItems) // Limit to maxItems
+      })
+      .slice(0, maxItems) // Limit to maxItems
 
     return processedItems
   } catch (error) {
@@ -91,26 +94,26 @@ async function generateCompleteList(prompt: string, options: Record<string, any>
  */
 function createListResult(template: string, options: Record<string, any> = {}): any {
   const maxItems = parseInt(template.match(/^\d+/)?.[0] || '5', 10)
-  
+
   const listFn = async () => {
     const items = await generateCompleteList(template, options)
     return items.slice(0, maxItems)
   }
-  
+
   const result: any = listFn
-  
+
   result.then = (resolve: any, reject: any) => {
     return listFn().then(resolve, reject)
   }
-  
+
   result.catch = (reject: any) => {
     return listFn().catch(reject)
   }
-  
+
   result.finally = (callback: any) => {
     return listFn().finally(callback)
   }
-  
+
   result[Symbol.asyncIterator] = async function* () {
     try {
       const items = await listFn()
@@ -124,7 +127,7 @@ function createListResult(template: string, options: Record<string, any> = {}): 
       }
     }
   }
-  
+
   return result
 }
 
@@ -133,28 +136,26 @@ function createListResult(template: string, options: Record<string, any> = {}): 
  */
 function listCore(content: string, options: Record<string, any> = {}): any {
   const result = createListResult(content, options)
-  
+
   const originalThen = result.then
-  
+
   Object.defineProperty(result, 'then', {
     get() {
       return originalThen
-    }
+    },
   })
-  
+
   return new Proxy(result, {
     apply(target, thisArg, args) {
       const newOptions = args[0] || {}
       return createListResult(content, newOptions)
-    }
+    },
   })
 }
 
 /**
  * List function implementation that supports all calling patterns
  */
-export const list: ListFunction = createUnifiedFunction<any>(
-  (content: string, options: Record<string, any>) => {
-    return listCore(content, options)
-  }
-)
+export const list: ListFunction = createUnifiedFunction<any>((content: string, options: Record<string, any>) => {
+  return listCore(content, options)
+})

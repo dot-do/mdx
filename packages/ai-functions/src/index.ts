@@ -24,16 +24,16 @@ export { video, type VideoConfig, type VideoResult } from './functions/video.js'
 export { code } from './functions/code.js'
 export { deepwiki } from './functions/deepwiki.js'
 export { mdx } from './functions/mdx.js'
-export { 
-  plan, 
-  parseTaskLists, 
-  serializeTaskItem, 
-  serializeTaskList, 
-  serializeTaskLists, 
+export {
+  plan,
+  parseTaskLists,
+  serializeTaskItem,
+  serializeTaskList,
+  serializeTaskLists,
   serializePlanResult,
-  type TaskItem, 
-  type TaskList, 
-  type PlanResult 
+  type TaskItem,
+  type TaskList,
+  type PlanResult,
 } from './functions/plan.js'
 export { scope } from './functions/scope.js'
 export { ui } from './functions/ui.js'
@@ -73,7 +73,7 @@ export async function generate(prompt: string, options: GenerateOptions = {}) {
     modelProvider: options.modelProvider,
     modelId: options.modelId,
     apiKey: options.apiKey,
-    baseURL: options.baseURL
+    baseURL: options.baseURL,
   })
 
   return {

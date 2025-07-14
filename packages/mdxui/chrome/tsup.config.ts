@@ -1,9 +1,9 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsup'
 
 export default defineConfig({
   entry: {
     background: 'src/background.ts',
-    content: 'src/content.ts'
+    content: 'src/content.ts',
   },
   format: ['iife'],
   target: 'chrome91',
@@ -11,5 +11,8 @@ export default defineConfig({
   clean: true,
   minify: false,
   sourcemap: true,
-  external: ['chrome']
-});
+  external: ['chrome', 'react', 'react-dom'],
+  esbuildOptions(options) {
+    options.external = ['chrome', 'react', 'react-dom', 'react/jsx-runtime']
+  },
+})

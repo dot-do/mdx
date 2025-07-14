@@ -4,7 +4,7 @@ import { video } from './video'
 
 describe('video function', () => {
   const testPrompt = 'of a pelican riding a bicycle'
-  
+
   it.skip('should generate video with tagged template literal', async () => {
     const result = await video`${testPrompt}`
     expect(result).toBeDefined()
@@ -40,7 +40,7 @@ describe('video function', () => {
     const config = {
       prompt: testPrompt,
       aspectRatio: '4:3' as '4:3',
-      model: 'veo-2.0-generate-001'
+      model: 'veo-2.0-generate-001',
     }
     const result = await video(config.prompt, config)
     expect(result).toBeDefined()
@@ -48,4 +48,3 @@ describe('video function', () => {
     expect(result.metadata.aspectRatio).toBe('4:3')
   })
 })
-  

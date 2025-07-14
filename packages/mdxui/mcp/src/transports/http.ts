@@ -11,13 +11,13 @@ export class MDXHttpTransport {
   private port: number
   private host: string
   private httpServer?: any
-  
+
   constructor(options: HttpTransportOptions) {
     this.server = options.server
     this.port = options.port || 3000
     this.host = options.host || 'localhost'
   }
-  
+
   async connect(): Promise<void> {
     try {
       console.error(`Starting MDX MCP Server on http://${this.host}:${this.port}`)
@@ -28,7 +28,7 @@ export class MDXHttpTransport {
       throw error
     }
   }
-  
+
   async close(): Promise<void> {
     try {
       if (this.httpServer) {
@@ -45,11 +45,11 @@ export class MDXHttpTransport {
       throw error
     }
   }
-  
+
   getPort(): number {
     return this.port
   }
-  
+
   getHost(): string {
     return this.host
   }

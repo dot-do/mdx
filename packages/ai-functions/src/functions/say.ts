@@ -21,12 +21,10 @@ async function sayCore(text: string, options: SayOptions = {}): Promise<string> 
     system: `Convert the following text to speech-friendly format. Make it natural and conversational.`,
     prompt: text,
   })
-  
+
   return result.text
 }
 
-export const say = createUnifiedFunction<Promise<string>>(
-  (text: string, options: Record<string, any>) => {
-    return sayCore(text, options as SayOptions);
-  }
-);
+export const say = createUnifiedFunction<Promise<string>>((text: string, options: Record<string, any>) => {
+  return sayCore(text, options as SayOptions)
+})

@@ -21,23 +21,27 @@ export default defineConfig([
     format: ['iife'],
     globalName: 'MdxuiBrowser',
     clean: false,
-    external: ['react', 'react-dom', 'monaco-editor', '@mdx-js/mdx', 'codehike'],
+    external: ['react', 'react-dom', 'monaco-editor'],
     outDir: 'dist',
     outExtension: () => ({ js: '.umd.js' }),
     minify: true,
     define: {
       'process.env.NODE_ENV': '"production"',
-      'global': 'globalThis',
-      'process': 'undefined',
+      global: 'globalThis',
+      process: 'undefined',
     },
     esbuildOptions(options) {
       options.define = {
         ...options.define,
         'process.env.NODE_ENV': '"production"',
-        'global': 'globalThis',
-        'process': 'undefined',
+        global: 'globalThis',
+        process: 'undefined',
       }
       options.platform = 'browser'
+      options.alias = {
+        'react/jsx-runtime': 'react/jsx-runtime',
+      }
+      options.external = ['react', 'react-dom', 'react/jsx-runtime', 'monaco-editor']
     },
   },
 ])

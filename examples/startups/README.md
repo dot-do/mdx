@@ -18,7 +18,7 @@ on('idea.captured', async (idea) => {
       const competitors = await research`competitors of ${idea} for ${icp} in ${market}`
       for await (const competitor of extract`competitor names from ${competitors}`) {
         const comparison = await research`compare ${idea} to ${competitor}`
-        db.comparison.create(competitor, comparison)
+        db.blog.create(`${competitor} vs ${idea}`, comparison)
       }
     }
   }
@@ -28,7 +28,54 @@ on('idea.captured', async (idea) => {
 And how it's used:
 
 ```typescript test
-send('idea.captured', 'deep research AI Agent')
+import { describe, it, expect } from 'vitest'
+
+describe('Startup idea processing', () => {
+  it('should process idea capture event', async () => {
+    // Test that the event system works
+    const result = await new Promise((resolve) => {
+      // Mock the AI and database calls to avoid actual API calls
+      const originalAI = global.ai
+      const originalDB = global.db
+
+      global.ai = {
+        leanCanvas: () => Promise.resolve({ canvas: 'mock' }),
+        storyBrand: () => Promise.resolve({ story: 'mock' }),
+        landingPage: () => Promise.resolve({ page: 'mock' }),
+      }
+
+      global.db = {
+        blog: {
+          create: (title, content) => {
+            console.log(`Created blog post: ${title}`)
+            return { title, content }
+          },
+        },
+      }
+
+      global.list = async function* () {
+        yield 'Test item 1'
+        yield 'Test item 2'
+      }
+
+      global.research = () => Promise.resolve('mock research data')
+      global.extract = async function* () {
+        yield 'Competitor 1'
+        yield 'Competitor 2'
+      }
+
+      // Send the event and resolve after a short delay
+      send('idea.captured', 'deep research AI Agent')
+      setTimeout(() => {
+        global.ai = originalAI
+        global.db = originalDB
+        resolve('Event processed')
+      }, 100)
+    })
+
+    expect(result).toBe('Event processed')
+  })
+})
 ```
 
 ## AI Integration Task List

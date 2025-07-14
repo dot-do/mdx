@@ -134,10 +134,8 @@ export class EventRegistry {
   async send(event: string, data?: any, context: EventContext = {}, options: EmitOptions = {}) {
     const handlers = this.handlers.get(event) || []
     const results: any[] = []
-    const mutableContext = context instanceof MutableEventContext 
-      ? context 
-      : new MutableEventContext(context)
-    
+    const mutableContext = context instanceof MutableEventContext ? context : new MutableEventContext(context)
+
     const enhancedContext = mutableContext as EnhancedEventContext
 
     if (options.parallel && handlers.length > 0) {
@@ -196,8 +194,10 @@ export class EventRegistry {
           }
         } catch (error) {
           const errorInfo = this.createErrorInfo(error, event, i, data)
-          
-          console.error(`Error in async event handler for '${event}' (handler ${i + 1}/${handlers.length}): ${error instanceof Error ? error.message : String(error)}`)
+
+          console.error(
+            `Error in async event handler for '${event}' (handler ${i + 1}/${handlers.length}): ${error instanceof Error ? error.message : String(error)}`,
+          )
 
           const errors = mutableContext.get('errors') || []
           errors.push(errorInfo)

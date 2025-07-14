@@ -40,8 +40,6 @@ async function deepwikiCore(query: string, options: DeepwikiOptions = {}): Promi
   }
 }
 
-export const deepwiki = createUnifiedFunction<Promise<string>>(
-  (query: string, options: Record<string, any>) => {
-    return deepwikiCore(query, options as DeepwikiOptions);
-  }
-);
+export const deepwiki = createUnifiedFunction<Promise<string>>((query: string, options: Record<string, any>) => {
+  return deepwikiCore(query, options as DeepwikiOptions)
+})

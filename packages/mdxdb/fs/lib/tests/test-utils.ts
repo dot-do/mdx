@@ -21,7 +21,8 @@ export interface TestFixture {
 export async function createTestFixture(): Promise<TestFixture> {
   try {
     const timestamp = Date.now()
-    const testDir = path.resolve(os.tmpdir(), `mdxdb-fs-test-${timestamp}`)
+    // Use a relative directory instead of /tmp for better CI compatibility
+    const testDir = path.resolve(process.cwd(), 'tmp', `mdxdb-fs-test-${timestamp}`)
 
     const contentDir = path.join(testDir, 'content/posts')
     const blogDir = path.join(testDir, 'content/blog')
@@ -70,6 +71,7 @@ This is a sample blog post.`,
         `import { defineConfig, s } from 'velite'
 
 export default defineConfig({
+  root: '${testDir}',
   collections: {
     blog: {
       name: 'blog',
@@ -80,7 +82,10 @@ export default defineConfig({
           date: s.isodate().optional(),
           body: s.mdx()
         })
-        .transform((data) => ({ ...data, slug: data.title.toLowerCase().replace(/\\s+/g, '-') }))
+        .transform((data) => ({ 
+          ...data, 
+          slug: data.slug || data.title.toLowerCase().replace(/\\s+/g, '-').replace(/[^a-z0-9-]/g, '') 
+        }))
     },
     posts: {
       name: 'posts', 
@@ -91,7 +96,10 @@ export default defineConfig({
           date: s.isodate().optional(),
           body: s.mdx()
         })
-        .transform((data) => ({ ...data, slug: data.title.toLowerCase().replace(/\\s+/g, '-') }))
+        .transform((data) => ({ 
+          ...data, 
+          slug: data.slug || data.title.toLowerCase().replace(/\\s+/g, '-').replace(/[^a-z0-9-]/g, '') 
+        }))
     }
   },
   output: {

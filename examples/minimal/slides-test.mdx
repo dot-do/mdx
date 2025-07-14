@@ -1,0 +1,56 @@
+---
+title: 'MDXUI Components Test'
+description: 'Testing that mdxui components are automatically available'
+---
+
+# MDXUI Components Test
+
+This page tests that mdxui components are automatically available in mdxe without any configuration.
+
+## Built-in Components
+
+<Alert type='success'>✅ Alert component should work automatically</Alert>
+
+<Card title='Test Card'>This Card component should render properly with mdxui styling.</Card>
+
+<Button>Click Me</Button>
+
+<Badge variant='default'>Badge Component</Badge>
+
+<Callout emoji='🎉'>All these components should work without any imports or configuration!</Callout>
+
+## Reveal.js Slides
+
+Here are embedded slides:
+
+<Slides embedded>
+  <Slide>
+    <h1>Slide 1</h1>
+    <p>This should be a proper Reveal.js presentation!</p>
+    <Alert type='info'>Components work in slides too!</Alert>
+  </Slide>
+
+  <Slide>
+    <h2>Slide 2</h2>
+    <Card title='Card in Slide'>mdxui components should work seamlessly in presentations.</Card>
+  </Slide>
+
+  <Slide>
+    <h2>Final Slide</h2>
+    <Button>Interactive Button in Slide</Button>
+  </Slide>
+</Slides>
+
+## Full-Screen Slides
+
+<Slides>
+  <Slide>
+    <h1>Full-Screen Presentation</h1>
+    <p>Use arrow keys to navigate</p>
+  </Slide>
+
+  <Slide>
+    <h2>Second Slide</h2>
+    <Alert type='warning'>This should take over the full viewport!</Alert>
+  </Slide>
+</Slides>

@@ -38,10 +38,10 @@ export const deepwiki = {
 //   description: 'View documentation about a GitHub repository',
 // ask_question: {
 //   description: 'Ask any question about a GitHub repository',
-  
-  //   const deepwikiTools = await mcpClient.tools()
-  
-  //   return deepwikiTools
+
+//   const deepwikiTools = await mcpClient.tools()
+
+//   return deepwikiTools
 
 // export const deepwiki = async (prompt: string) => {
 //   const mcpClient = await createMCPClient({

@@ -20,30 +20,31 @@ const vector = customType<{
   },
 })
 
-export const createPayloadConfig = (dbUrl?: string, authToken?: string, secret?: string) => buildConfig({
-  collections: [FilesCollection, EmbeddingsCollection] as any,
-  secret: secret || process.env.PAYLOAD_SECRET || 'mdxdb-secret-key',
-  db: sqliteAdapter({
-    client: {
-      url: dbUrl || process.env.DATABASE_URL || 'file:mdxdb.db',
-      authToken: authToken || process.env.DATABASE_AUTH_TOKEN,
-    },
-    afterSchemaInit: [
-      ({ schema, extendTable }) => {
-        extendTable({
-          table: schema.tables.embeddings,
-          columns: {
-            vector: vector('vector', { dimensions: 1536 }),
-          },
-          extraConfig: (table) => ({
-            vector_idx: index('vector_idx').on(table.vector),
-          }),
-        })
-        return schema
+export const createPayloadConfig = (dbUrl?: string, authToken?: string, secret?: string) =>
+  buildConfig({
+    collections: [FilesCollection, EmbeddingsCollection] as any,
+    secret: secret || process.env.PAYLOAD_SECRET || 'mdxdb-secret-key',
+    db: sqliteAdapter({
+      client: {
+        url: dbUrl || process.env.DATABASE_URL || 'file:mdxdb.db',
+        authToken: authToken || process.env.DATABASE_AUTH_TOKEN,
       },
-    ],
-  }),
-})
+      afterSchemaInit: [
+        ({ schema, extendTable }) => {
+          extendTable({
+            table: schema.tables.embeddings,
+            columns: {
+              vector: vector('vector', { dimensions: 1536 }),
+            },
+            extraConfig: (table) => ({
+              vector_idx: index('vector_idx').on(table.vector),
+            }),
+          })
+          return schema
+        },
+      ],
+    }),
+  })
 
 export const payloadConfig = createPayloadConfig()
 

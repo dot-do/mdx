@@ -60,10 +60,7 @@ const baseConfig = require('@mdxui/tailwind/config')
 
 module.exports = {
   ...baseConfig,
-  content: [
-    ...baseConfig.content,
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  content: [...baseConfig.content, './src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     ...baseConfig.theme,
     extend: {
@@ -84,6 +81,7 @@ module.exports = {
 ## Integration with Other Packages
 
 This package provides the styling foundation for:
+
 - `@mdxui/core` - Base component styling
 - `@mdxui/shadcn` - Styled component variants
 - `@mdxui/magicui` - Animation component styling

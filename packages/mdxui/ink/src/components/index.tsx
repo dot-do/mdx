@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Text } from 'ink'
-import Markdown from '../markdown.js'
+import { Markdown } from './base/Markdown.js'
 
 /**
  * Screen component for defining a screen in a multi-screen CLI app
@@ -33,7 +33,7 @@ export const Screens: React.FC<{
           children: React.ReactNode
         }>,
         {
-          active: child.props.name === currentScreen,
+          active: (child as React.ReactElement<{ name: string }>).props.name === currentScreen,
         },
       )
     }
@@ -281,7 +281,7 @@ export const components = {
 }
 
 // Export event status components
-export * from './EventStatus'
-export * from './EventProgressIndicator'
-export * from './EventListDisplay'
-export * from './EventStatusProvider'
+export * from './specialized/EventStatus.js'
+export * from './specialized/EventProgressIndicator.js'
+export * from './specialized/EventListDisplay.js'
+export * from './specialized/EventStatusProvider.js'

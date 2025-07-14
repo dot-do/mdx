@@ -5,7 +5,7 @@ import { extractH1Title, slugifyString, ensureDirectoryExists } from '../utils.j
 
 export async function runDeepwikiCommand(query: string) {
   const { json } = getGlobalOptions()
-  
+
   try {
     if (!process.env.AI_GATEWAY_TOKEN) {
       const msg = 'AI_GATEWAY_TOKEN environment variable is not set.'

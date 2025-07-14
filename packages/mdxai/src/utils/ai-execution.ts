@@ -96,4 +96,4 @@ export async function executeAiFunction(functionName: string, prompt: string): P
   } else {
     return await handleStringOutput(systemPrompt)
   }
-} 
+}

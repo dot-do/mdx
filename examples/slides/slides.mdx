@@ -1,45 +1,36 @@
-<Slides>
-  <Slide>
-    # Welcome to MDX Slides
-    
-    Create beautiful presentations with MDX
-    
-    ---
-    
-    Built with [@mdxui/mdxui](https://github.com/mdxld/mdx)
-  </Slide>
+---
+title: 'Slides Demo'
+description: 'Demonstrating both embedded and full-screen slide modes'
+---
 
-  <Slide>
-    ## Features
-    
-    - Write slides in **Markdown**
-    - Use React components
-    - Cross-platform rendering
-    - Auto-detects environment
-  </Slide>
+# Slides Demo
 
-  <Slide>
-    ## Code Example
-    
-    ```js
-    // This code will be highlighted
-    function hello() {
-      console.log("Hello from unified MDX slides!");
-      return "Hello, world!";
-    }
-    ```
-  </Slide>
-  
-  <Slide>
-    ## Navigation
-    
-    - **Browser**: Use arrow keys or click
-    - **Terminal**: Use ← → arrows, q to quit
-  </Slide>
-  
-  <Slide>
-    ## Thank You!
-    
-    Check out the [documentation](https://github.com/mdxld/mdx) for more information
-  </Slide>
+This page demonstrates both embedded and full-screen slide modes.
+
+## Embedded Slides
+
+Here's a presentation embedded within the page content:
+
+<Slides embedded>
+  <Slide># Welcome This is an embedded presentation</Slide>
+  <Slide># Features - Embedded within page content - Maintains page layout - Perfect for hero sections</Slide>
+  <Slide># Navigation - Use arrow keys to navigate - Or click the controls - ESC for overview</Slide>
 </Slides>
+
+## More Content
+
+You can have regular content before and after embedded slides.
+
+<Alert type='info'>The embedded presentation above is contained within the normal page layout, just like on the reveal.js website.</Alert>
+
+## Full-Screen Mode
+
+For a full-screen presentation experience, visit [/slides-fullscreen](/slides-fullscreen) which uses:
+
+```mdx
+<Slides>
+  <Slide>Full screen content</Slide>
+</Slides>
+```
+
+Without the `embedded` prop, slides take over the entire viewport.

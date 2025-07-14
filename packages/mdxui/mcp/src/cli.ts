@@ -5,10 +5,7 @@ import { createHttpTransport } from './transports/http.js'
 
 const program = new Command()
 
-program
-  .name('mdxe-mcp')
-  .description('MDX Model Context Protocol Server')
-  .version('0.1.0')
+program.name('mdxe-mcp').description('MDX Model Context Protocol Server').version('0.1.0')
 
 program
   .command('stdio')
@@ -18,24 +15,23 @@ program
   .action(async (options) => {
     try {
       console.error('Starting MDX MCP Server with stdio transport...')
-      
+
       const server = new MDXMCPServer({
         name: options.name,
-        version: options.version
+        version: options.version,
       })
-      
+
       await server.connectStdio()
-      
+
       process.on('SIGINT', () => {
         console.error('Shutting down MDX MCP Server...')
         process.exit(0)
       })
-      
+
       process.on('SIGTERM', () => {
         console.error('Shutting down MDX MCP Server...')
         process.exit(0)
       })
-      
     } catch (error) {
       console.error('Failed to start MDX MCP Server:', error)
       process.exit(1)
@@ -52,25 +48,24 @@ program
   .action(async (options) => {
     try {
       console.error('Starting MDX MCP Server with HTTP transport...')
-      
+
       const server = new MDXMCPServer({
         name: options.name,
-        version: options.version
+        version: options.version,
       })
-      
+
       const port = parseInt(options.port, 10)
       await server.connectHttp(port)
-      
+
       process.on('SIGINT', () => {
         console.error('Shutting down MDX MCP Server...')
         process.exit(0)
       })
-      
+
       process.on('SIGTERM', () => {
         console.error('Shutting down MDX MCP Server...')
         process.exit(0)
       })
-      
     } catch (error) {
       console.error('Failed to start MDX MCP Server:', error)
       process.exit(1)
@@ -89,9 +84,9 @@ program
     try {
       const server = new MDXMCPServer({
         name: options.name,
-        version: options.version
+        version: options.version,
       })
-      
+
       if (options.transport === 'http') {
         console.error('Starting MDX MCP Server with HTTP transport...')
         const port = parseInt(options.port, 10)
@@ -100,17 +95,16 @@ program
         console.error('Starting MDX MCP Server with stdio transport...')
         await server.connectStdio()
       }
-      
+
       process.on('SIGINT', () => {
         console.error('Shutting down MDX MCP Server...')
         process.exit(0)
       })
-      
+
       process.on('SIGTERM', () => {
         console.error('Shutting down MDX MCP Server...')
         process.exit(0)
       })
-      
     } catch (error) {
       console.error('Failed to start MDX MCP Server:', error)
       process.exit(1)

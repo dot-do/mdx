@@ -38,6 +38,7 @@ mdxtra export
 ```
 
 The CLI will:
+
 1. Create a symlink to your current directory as the content source
 2. Launch a Nextra-powered Next.js application
 3. Serve your MDX files as a documentation site at `http://localhost:3000`
@@ -117,18 +118,21 @@ mdxtra embeds a complete Next.js application with Nextra configuration:
 
 ## Requirements
 
-- Node.js 18+ 
+- Node.js 18+
 - MDX files in your working directory
 
 ## Troubleshooting
 
 ### Permission Issues
+
 If you encounter symlink permission issues on Windows, run your terminal as administrator or use WSL.
 
 ### Port Already in Use
+
 Use a different port: `mdxtra dev --port 4000`
 
 ### MDX Parsing Errors
+
 Ensure your MDX files have valid syntax. Check the console for specific error messages.
 
 ## Related Projects

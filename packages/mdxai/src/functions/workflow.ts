@@ -8,16 +8,24 @@ import dedent from 'dedent'
 const schema = z.object({
   name: z.string({ description: 'The workflow name in camelCase' }),
   on: z.string({ description: 'The event that triggers the workflow, in [Object].[Action] format, like "Customer.Subscribed"' }),
-  entities: z.array(z.object({
-    name: z.string(),
-    type: z.string(),
-    description: z.string(),
-  })).describe('The entities involved in the workflow'),
-  relationships: z.array(z.object({
-    from: z.string(),
-    type: z.string(),
-    to: z.string(),
-  })).describe('The relationships between entities in the workflow'),
+  entities: z
+    .array(
+      z.object({
+        name: z.string(),
+        type: z.string(),
+        description: z.string(),
+      }),
+    )
+    .describe('The entities involved in the workflow'),
+  relationships: z
+    .array(
+      z.object({
+        from: z.string(),
+        type: z.string(),
+        to: z.string(),
+      }),
+    )
+    .describe('The relationships between entities in the workflow'),
   // integrations: z.array(z.object({
   //   name: z.string({ description: 'The name of the integration, like "Stripe" or "Slack"' }),
   //   functions: z.array(z.string({ description: 'The functions that can be called on the integration, like "createInvoice" or "sendMessage"' })),

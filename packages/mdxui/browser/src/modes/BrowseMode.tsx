@@ -9,13 +9,7 @@ interface BrowseModeProps {
   error: string | null
 }
 
-export const BrowseMode: React.FC<BrowseModeProps> = ({
-  content,
-  language,
-  theme,
-  onNavigate,
-  error,
-}) => {
+export const BrowseMode: React.FC<BrowseModeProps> = ({ content, language, theme, onNavigate, error }) => {
   const [highlightedCode, setHighlightedCode] = useState<HighlightedCode | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -30,7 +24,7 @@ export const BrowseMode: React.FC<BrowseModeProps> = ({
             lang: language,
             meta: '',
           },
-          themeObj
+          themeObj,
         )
         setHighlightedCode(highlighted)
       } catch (err) {
@@ -68,24 +62,24 @@ export const BrowseMode: React.FC<BrowseModeProps> = ({
   const processContentWithLinks = (htmlContent: string) => {
     const urlRegex = /(https?:\/\/[^\s<>"{}|\\^`[\]]+)/g
     const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g
-    
+
     let processedContent = htmlContent.replace(markdownLinkRegex, (match, text, url) => {
       return `<a href="${url}" class="mdxui-link" style="color: #58a6ff; text-decoration: underline; cursor: pointer;">${text}</a>`
     })
-    
+
     processedContent = processedContent.replace(urlRegex, (url) => {
       if (processedContent.includes(`href="${url}"`)) {
         return url
       }
       return `<a href="${url}" class="mdxui-link" style="color: #58a6ff; text-decoration: underline; cursor: pointer;">${url}</a>`
     })
-    
+
     return processedContent
   }
 
   if (error) {
     return (
-      <div className="mdxui-error" style={{ padding: '16px', color: '#f85149', backgroundColor: '#0d1117' }}>
+      <div className='mdxui-error' style={{ padding: '16px', color: '#f85149', backgroundColor: '#0d1117' }}>
         Error: {error}
       </div>
     )
@@ -93,15 +87,15 @@ export const BrowseMode: React.FC<BrowseModeProps> = ({
 
   if (isLoading) {
     return (
-      <div className="mdxui-loading" style={{ padding: '16px', color: '#e1e4e8', backgroundColor: '#0d1117' }}>
+      <div className='mdxui-loading' style={{ padding: '16px', color: '#e1e4e8', backgroundColor: '#0d1117' }}>
         Loading...
       </div>
     )
   }
 
   return (
-    <div 
-      className="mdxui-browse-mode"
+    <div
+      className='mdxui-browse-mode'
       style={{
         width: '100%',
         height: '100%',
@@ -135,7 +129,7 @@ export const BrowseMode: React.FC<BrowseModeProps> = ({
         <pre style={{ margin: 0, whiteSpace: 'pre-wrap' }}>
           <div
             dangerouslySetInnerHTML={{
-              __html: processContentWithLinks(content)
+              __html: processContentWithLinks(content),
             }}
           />
         </pre>

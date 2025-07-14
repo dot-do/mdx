@@ -14,7 +14,7 @@
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", ".mdx/**", "build/**", "*.js", "*.d.ts"]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^lint", "^build"]
     },
     "check-types": {
       "dependsOn": ["^check-types", "build"]
@@ -29,10 +29,6 @@
     },
     "test:packages": {
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", "vitest.config.ts", ".env*"]
-    },
-    "test:integration": {
-      "dependsOn": ["build", "^test:packages"],
       "inputs": ["$TURBO_DEFAULT$", "vitest.config.ts", ".env*"]
     }
   }

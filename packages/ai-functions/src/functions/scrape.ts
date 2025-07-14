@@ -25,13 +25,13 @@ export const scrape = async (url: string, apiKey?: string): Promise<ScrapedConte
 
   try {
     const app = new FirecrawlApp({ apiKey })
-    
+
     const response = (await app.scrapeUrl(url, { formats: ['markdown', 'html'] })) as any
 
     if (!response.success) {
       throw new Error(`Failed to scrape: ${response.error || 'Unknown error'}`)
     }
-    
+
     return {
       url,
       title: response.data?.metadata?.title || '',
@@ -52,7 +52,7 @@ export const scrape = async (url: string, apiKey?: string): Promise<ScrapedConte
 export const scrapeMultiple = async (
   urls: string[],
   onProgress?: (index: number, url: string, result: ScrapedContent) => void,
-  apiKey?: string
+  apiKey?: string,
 ): Promise<ScrapedContent[]> => {
   const results: ScrapedContent[] = []
 
@@ -61,7 +61,7 @@ export const scrapeMultiple = async (
     try {
       const result = await scrape(url, apiKey)
       results.push(result)
-      
+
       if (onProgress) {
         onProgress(i, url, result)
       }
@@ -72,7 +72,7 @@ export const scrapeMultiple = async (
         cached: false,
       }
       results.push(errorResult)
-      
+
       if (onProgress) {
         onProgress(i, url, errorResult)
       }

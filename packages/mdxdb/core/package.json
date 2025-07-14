@@ -23,10 +23,10 @@
   "dependencies": {
     "mdxld": "workspace:*",
     "micromatch": "^4.0.5",
-    "yaml": "^2.3.4",
-    "unified": "^11.0.4",
-    "remark-parse": "^11.0.0",
     "remark-mdx": "^3.0.0",
-    "unist-util-visit": "^5.0.0"
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.4",
+    "unist-util-visit": "^5.0.0",
+    "yaml": "^2.3.4"
   }
 }

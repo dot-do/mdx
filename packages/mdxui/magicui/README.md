@@ -25,21 +25,15 @@ yarn add @mdxui/magicui
 ### Animated Text Components
 
 ```tsx
-import { 
-  TextAnimate, 
-  TypingAnimation, 
-  WordRotate,
-  HyperText,
-  AnimatedGradientText 
-} from '@mdxui/magicui'
+import { TextAnimate, TypingAnimation, WordRotate, HyperText, AnimatedGradientText } from '@mdxui/magicui'
 
 export default function TextAnimations() {
   return (
     <div>
-      <TextAnimate text="Animated text effect" />
-      <TypingAnimation text="Typing animation..." />
+      <TextAnimate text='Animated text effect' />
+      <TypingAnimation text='Typing animation...' />
       <WordRotate words={['Amazing', 'Beautiful', 'Stunning']} />
-      <HyperText text="Hyper text effect" />
+      <HyperText text='Hyper text effect' />
       <AnimatedGradientText>Gradient animated text</AnimatedGradientText>
     </div>
   )
@@ -65,22 +59,17 @@ export default function VisualEffects() {
 ### Text Reveal and Morphing
 
 ```tsx
-import { 
-  TextReveal, 
-  MorphingText, 
-  BoxReveal,
-  FlipText 
-} from '@mdxui/magicui'
+import { TextReveal, MorphingText, BoxReveal, FlipText } from '@mdxui/magicui'
 
 export default function RevealEffects() {
   return (
     <div>
-      <TextReveal text="Text reveals on scroll" />
+      <TextReveal text='Text reveals on scroll' />
       <MorphingText texts={['First', 'Second', 'Third']} />
       <BoxReveal>
         <h1>Content revealed with box effect</h1>
       </BoxReveal>
-      <FlipText text="Flipping text animation" />
+      <FlipText text='Flipping text animation' />
     </div>
   )
 }
@@ -89,6 +78,7 @@ export default function RevealEffects() {
 ## Available Components
 
 ### Text Animation
+
 - **TextAnimate** - General text animation effects
 - **TypingAnimation** - Typewriter-style text animation
 - **WordRotate** - Rotating word carousel effect
@@ -97,12 +87,14 @@ export default function RevealEffects() {
 - **AnimatedShinyText** - Text with shiny animation effect
 
 ### Visual Effects
+
 - **Globe** - Interactive 3D globe component
 - **Confetti** - Confetti animation effect
 - **NumberTicker** - Animated number counter
 - **SparklesText** - Text with sparkle effects
 
 ### Reveal & Morphing
+
 - **TextReveal** - Text reveal on scroll animations
 - **MorphingText** - Text morphing between different strings
 - **BoxReveal** - Content reveal with box animation
@@ -110,6 +102,7 @@ export default function RevealEffects() {
 - **SpinningText** - Spinning text animation
 
 ### Utility Effects
+
 - **LineShadowText** - Text with line shadow effects
 - **AuroraText** - Aurora-style text effects
 - **ScrollBasedVelocity** - Scroll-based velocity animations

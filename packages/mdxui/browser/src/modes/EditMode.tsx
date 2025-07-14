@@ -12,33 +12,24 @@ interface EditModeProps {
   error: string | null
 }
 
-export const EditMode: React.FC<EditModeProps> = ({
-  content,
-  language,
-  theme,
-  onContentChange,
-  onSave,
-  readOnly,
-  isLoading,
-  error,
-}) => {
+export const EditMode: React.FC<EditModeProps> = ({ content, language, theme, onContentChange, onSave, readOnly, isLoading, error }) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
 
   useEffect(() => {
     if (!containerRef.current) return
 
-    monaco.editor.getModels().forEach(model => model.dispose())
+    monaco.editor.getModels().forEach((model) => model.dispose())
 
     const getMonacoLanguage = (lang: string) => {
       const langMap: Record<string, string> = {
-        'markdown': 'markdown',
-        'mdx': 'markdown',
-        'javascript': 'javascript',
-        'typescript': 'typescript',
-        'json': 'json',
-        'html': 'html',
-        'css': 'css',
+        markdown: 'markdown',
+        mdx: 'markdown',
+        javascript: 'javascript',
+        typescript: 'typescript',
+        json: 'json',
+        html: 'html',
+        css: 'css',
       }
       return langMap[lang] || 'plaintext'
     }
@@ -81,10 +72,10 @@ export const EditMode: React.FC<EditModeProps> = ({
   }, [content])
 
   return (
-    <div className="mdxui-edit-mode" style={{ width: '100%', height: '100%', position: 'relative' }}>
+    <div className='mdxui-edit-mode' style={{ width: '100%', height: '100%', position: 'relative' }}>
       {error && (
-        <div 
-          className="mdxui-error-banner"
+        <div
+          className='mdxui-error-banner'
           style={{
             position: 'absolute',
             top: 0,
@@ -102,7 +93,7 @@ export const EditMode: React.FC<EditModeProps> = ({
       )}
       {isLoading && (
         <div
-          className="mdxui-loading-overlay"
+          className='mdxui-loading-overlay'
           style={{
             position: 'absolute',
             top: 0,

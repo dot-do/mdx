@@ -1,16 +1,16 @@
 # Markdown-Based Project Management Workflow for Startups (using GitHub)
 
-Project management can be effectively handled *as code* – using Markdown files in a GitHub repository. This approach leverages version control and familiar developer tools to plan, track tasks, and iterate quickly. For startup teams, a Markdown-centric workflow keeps planning lightweight yet structured, accommodating everything from product roadmaps to operations checklists. Below, we outline how to manage projects entirely with Markdown, how collaboration happens via GitHub pull requests, example repository structures and templates, and ways AI agents (like Devin, GPT-4 Codex, and Claude) can assist or automate parts of the process.
+Project management can be effectively handled _as code_ – using Markdown files in a GitHub repository. This approach leverages version control and familiar developer tools to plan, track tasks, and iterate quickly. For startup teams, a Markdown-centric workflow keeps planning lightweight yet structured, accommodating everything from product roadmaps to operations checklists. Below, we outline how to manage projects entirely with Markdown, how collaboration happens via GitHub pull requests, example repository structures and templates, and ways AI agents (like Devin, GPT-4 Codex, and Claude) can assist or automate parts of the process.
 
 ## Benefits of Markdown Planning in GitHub for Startups
 
-* **Single Source of Truth in Code:** Keeping project plans and task lists **in the repository** means everyone interacts with the same content as the codebase. This “docs-as-code” approach ensures plans are versioned, reviewed, and updated just like code. It improves transparency and makes it easy to track changes over time (every edit is captured in Git history). For example, writing plans in Markdown lets the team document changes to the plan and even visualize progress (e.g. generating task graphs or completion trends) from the version history.
+- **Single Source of Truth in Code:** Keeping project plans and task lists **in the repository** means everyone interacts with the same content as the codebase. This “docs-as-code” approach ensures plans are versioned, reviewed, and updated just like code. It improves transparency and makes it easy to track changes over time (every edit is captured in Git history). For example, writing plans in Markdown lets the team document changes to the plan and even visualize progress (e.g. generating task graphs or completion trends) from the version history.
 
-* **Low Overhead & Familiar Tools:** Startups can avoid complex project management software. Team members likely already have GitHub accounts, so using GitHub itself for planning avoids extra sign-ups or learning new tools. Everyone can contribute via the normal GitHub workflow (pull requests, reviews), lowering the barrier to adoption. This habit-forming convenience is key for small teams – if planning lives alongside code, it’s more likely to be maintained and consulted regularly.
+- **Low Overhead & Familiar Tools:** Startups can avoid complex project management software. Team members likely already have GitHub accounts, so using GitHub itself for planning avoids extra sign-ups or learning new tools. Everyone can contribute via the normal GitHub workflow (pull requests, reviews), lowering the barrier to adoption. This habit-forming convenience is key for small teams – if planning lives alongside code, it’s more likely to be maintained and consulted regularly.
 
-* **Flexibility and Plain-Text Power:** Markdown files are simple and highly flexible. The team can decide their own templates and formats (e.g. checklists, tables, headings) to suit their domain. It’s easy to extend or adjust the format as the project evolves. Unlike rigid tools, a plain-text approach can accommodate product specs, design plans, or ops to-do lists in the same repo. *Distributed backups* come for free (the files are in GitHub) and content is portable – you’re not locked into a proprietary system.
+- **Flexibility and Plain-Text Power:** Markdown files are simple and highly flexible. The team can decide their own templates and formats (e.g. checklists, tables, headings) to suit their domain. It’s easy to extend or adjust the format as the project evolves. Unlike rigid tools, a plain-text approach can accommodate product specs, design plans, or ops to-do lists in the same repo. _Distributed backups_ come for free (the files are in GitHub) and content is portable – you’re not locked into a proprietary system.
 
-* **Version Control and Accountability:** Managing tasks in Git means every update has an author and timestamp. This provides clear **history and attribution** for decisions. You can review past plans, see why priorities changed (via commit messages or PR discussion), and even measure progress by looking at closed tasks over time. One team noted that treating project management artifacts as code enabled asynchronous updates (fewer meetings) and even measuring progress through Git logs.
+- **Version Control and Accountability:** Managing tasks in Git means every update has an author and timestamp. This provides clear **history and attribution** for decisions. You can review past plans, see why priorities changed (via commit messages or PR discussion), and even measure progress by looking at closed tasks over time. One team noted that treating project management artifacts as code enabled asynchronous updates (fewer meetings) and even measuring progress through Git logs.
 
 > **Note:** While Markdown-in-git is powerful, be aware of its limitations. Non-developers might find it less intuitive to navigate a repo for planning docs. Also, unlike dedicated PM tools, there’s no built-in notification for task due dates or a rich commenting UI for each item. However, using pull requests and review comments (discussed below) can mitigate this by capturing discussions, and the simplicity of a single backlog list can actually aid focus. Some practitioners warn that grouping tasks by themes can conflict with maintaining a single prioritized list; they recommend using one prioritized backlog to avoid fragmentation as the project grows. Startup teams should weigh these trade-offs, but for many, the benefits of simplicity and integration with code outweigh the downsides in early stages.
 
@@ -18,54 +18,54 @@ Project management can be effectively handled *as code* – using Markdown files
 
 Using Markdown files, a startup can manage **project planning, task tracking, and prioritization** without external tools. Key elements of this setup include:
 
-* **Product Roadmap in Markdown:** Create a `ROADMAP.md` at the root of the repo (or in a `/docs` or `/planning` folder). This file outlines the high-level goals, milestones, and features planned for upcoming periods. For example, many projects maintain a public or internal roadmap file that describes how the project should evolve. In the roadmap, you can use Markdown headings for time frames or categories (e.g. `## Q4 2025 Goals`, `## Future Ideas`) and bullet lists or checkboxes for planned features. Each item can have a short description, and if detailed, link to a more specific spec document or task file.
+- **Product Roadmap in Markdown:** Create a `ROADMAP.md` at the root of the repo (or in a `/docs` or `/planning` folder). This file outlines the high-level goals, milestones, and features planned for upcoming periods. For example, many projects maintain a public or internal roadmap file that describes how the project should evolve. In the roadmap, you can use Markdown headings for time frames or categories (e.g. `## Q4 2025 Goals`, `## Future Ideas`) and bullet lists or checkboxes for planned features. Each item can have a short description, and if detailed, link to a more specific spec document or task file.
 
-* **Backlog and Task Lists:** Maintain a **backlog** of tasks as a Markdown list. This could be a single `BACKLOG.md` file containing all to-do items, or a directory of individual task files with an index. A simple approach is a prioritized checklist in one file – for example, a `backlog.md` might list features or tasks as bullet points with checkboxes, highest priority at top. Markdown’s task list syntax (`- [ ]` for open tasks, `- [x]` for done) provides a visual status. Nested lists can capture sub-tasks or dependencies. For instance, a backlog might look like:
+- **Backlog and Task Lists:** Maintain a **backlog** of tasks as a Markdown list. This could be a single `BACKLOG.md` file containing all to-do items, or a directory of individual task files with an index. A simple approach is a prioritized checklist in one file – for example, a `backlog.md` might list features or tasks as bullet points with checkboxes, highest priority at top. Markdown’s task list syntax (`- [ ]` for open tasks, `- [x]` for done) provides a visual status. Nested lists can capture sub-tasks or dependencies. For instance, a backlog might look like:
 
   ```markdown
   ## Backlog
 
-  - [ ] **Feature:** Implement user sign-up flow (High Priority)  
+  - [ ] **Feature:** Implement user sign-up flow (High Priority)
     - Details: requires UI design and backend API.
   - [ ] **Chore:** Set up CI/CD pipeline (Medium Priority)
   - [ ] **Ops:** Prepare Q3 cloud cost report (Low Priority)
   - [x] **Bugfix:** Resolved payment gateway timeout issue
   ```
 
-  You can also break the backlog into sections (e.g., by category or sprint) using secondary headings. However, ensure the overall order still reflects priority to maintain a *single source of priority truth*. One Markdown planning advocate notes that keeping one prioritized list is essential once a project grows, even if you have to “give up theming” (categorization) to maintain clarity of what comes first.
+  You can also break the backlog into sections (e.g., by category or sprint) using secondary headings. However, ensure the overall order still reflects priority to maintain a _single source of priority truth_. One Markdown planning advocate notes that keeping one prioritized list is essential once a project grows, even if you have to “give up theming” (categorization) to maintain clarity of what comes first.
 
-* **Task/Issue Details in Markdown:** For complex tasks or specs, create individual Markdown files. For example, in a `tasks/` or `specs/` directory, you might have files like `TASK-001-onboarding-flow.md` or `feature_signup_spec.md`. These files can act as lightweight one-pagers or design docs for each significant item. A task Markdown template might include sections such as **Overview**, **Acceptance Criteria**, **Notes/Links**, and **Status**. This is analogous to a detailed ticket description, but stored as a version-controlled doc. By writing specs in Markdown, you ensure they are updated via the same process as code. Team members can propose changes to the spec via PRs as understanding evolves. In the repository’s README or contribution guide, you can reference these task files so newcomers know where to find the current plans.
+- **Task/Issue Details in Markdown:** For complex tasks or specs, create individual Markdown files. For example, in a `tasks/` or `specs/` directory, you might have files like `TASK-001-onboarding-flow.md` or `feature_signup_spec.md`. These files can act as lightweight one-pagers or design docs for each significant item. A task Markdown template might include sections such as **Overview**, **Acceptance Criteria**, **Notes/Links**, and **Status**. This is analogous to a detailed ticket description, but stored as a version-controlled doc. By writing specs in Markdown, you ensure they are updated via the same process as code. Team members can propose changes to the spec via PRs as understanding evolves. In the repository’s README or contribution guide, you can reference these task files so newcomers know where to find the current plans.
 
-* **Prioritization and Labels:** Prioritization can be indicated by ordering (top of backlog = highest priority) and by labels or tags in the text. For instance, prefix tasks with tags like **\[P1]** or **(High)** for critical items. Since it’s free-form text, the team should agree on a consistent labeling scheme for priorities (or use sections for “High/Medium/Low Priority”). Additionally, consider capturing due dates or owners in the markdown. This could be as simple as adding *(Due: YYYY-MM-DD)* or *(Owner: @username)* after an item. The format is flexible; what matters is that it’s documented and reviewable. Because the content is plain text, any team member can reorder the list or modify labels in a pull request to reprioritize work (e.g. moving an item higher in the file to reflect increased urgency). The clear diff from the PR will show exactly how priorities changed.
+- **Prioritization and Labels:** Prioritization can be indicated by ordering (top of backlog = highest priority) and by labels or tags in the text. For instance, prefix tasks with tags like **\[P1]** or **(High)** for critical items. Since it’s free-form text, the team should agree on a consistent labeling scheme for priorities (or use sections for “High/Medium/Low Priority”). Additionally, consider capturing due dates or owners in the markdown. This could be as simple as adding _(Due: YYYY-MM-DD)_ or _(Owner: @username)_ after an item. The format is flexible; what matters is that it’s documented and reviewable. Because the content is plain text, any team member can reorder the list or modify labels in a pull request to reprioritize work (e.g. moving an item higher in the file to reflect increased urgency). The clear diff from the PR will show exactly how priorities changed.
 
-* **Progress Tracking:** As work gets done, tasks are checked off in the Markdown. For example, a developer who completes a task will mark `- [x]` in the backlog or relevant list. Over time, the backlog.md will accumulate checked items (which could be periodically moved to a “Done” section or a separate archive file to keep the main list focused). This provides a quick visual of progress (e.g. 8/10 tasks checked off for the sprint) and, because it’s GitHub Markdown, contributors viewing the file will see checkboxes ticked. Each completed task should ideally reference the code or outcome – for instance, “(PR #42 merged)” or a link to the commit or output, so the plan is linked to execution. With everything in one place, it’s easy for anyone to scan what’s done and what’s upcoming without needing to query multiple tools. *Example:* one project’s **initial backlog** (for a “To-do App” startup) was documented in Markdown, with tasks grouped by feature and checkboxes indicating status. Completed items were checked off, and partially done or blocked tasks were marked with special symbols (`[/]` for in-progress, `[-]` for dropped) – all visible in the Markdown file itself, making the state of the project clear at a glance.
+- **Progress Tracking:** As work gets done, tasks are checked off in the Markdown. For example, a developer who completes a task will mark `- [x]` in the backlog or relevant list. Over time, the backlog.md will accumulate checked items (which could be periodically moved to a “Done” section or a separate archive file to keep the main list focused). This provides a quick visual of progress (e.g. 8/10 tasks checked off for the sprint) and, because it’s GitHub Markdown, contributors viewing the file will see checkboxes ticked. Each completed task should ideally reference the code or outcome – for instance, “(PR #42 merged)” or a link to the commit or output, so the plan is linked to execution. With everything in one place, it’s easy for anyone to scan what’s done and what’s upcoming without needing to query multiple tools. _Example:_ one project’s **initial backlog** (for a “To-do App” startup) was documented in Markdown, with tasks grouped by feature and checkboxes indicating status. Completed items were checked off, and partially done or blocked tasks were marked with special symbols (`[/]` for in-progress, `[-]` for dropped) – all visible in the Markdown file itself, making the state of the project clear at a glance.
 
-* **Documentation of Decisions:** Because plans are in Markdown, you can use rich formatting to document decisions or context right alongside tasks. For example, in a roadmap item you might include a short rationale or link to a customer issue that prompted it. You can even embed diagrams **inside** Markdown files to illustrate architecture or timelines – GitHub now supports **Mermaid** syntax for diagrams directly in Markdown. This means you could have a section of your spec with a flowchart (written as text in a code block) that automatically renders in the GitHub UI. Keeping such context in the repo ensures that anyone working on the project has the full picture (goals, designs, rationale) version-controlled and accessible.
+- **Documentation of Decisions:** Because plans are in Markdown, you can use rich formatting to document decisions or context right alongside tasks. For example, in a roadmap item you might include a short rationale or link to a customer issue that prompted it. You can even embed diagrams **inside** Markdown files to illustrate architecture or timelines – GitHub now supports **Mermaid** syntax for diagrams directly in Markdown. This means you could have a section of your spec with a flowchart (written as text in a code block) that automatically renders in the GitHub UI. Keeping such context in the repo ensures that anyone working on the project has the full picture (goals, designs, rationale) version-controlled and accessible.
 
 ## Iteration and Collaboration via Pull Requests
 
 Adopting a Markdown-based workflow doesn’t mean losing collaboration – in fact, GitHub’s pull request (PR) mechanism becomes the engine of teamwork. Here’s how iteration happens through PRs:
 
-* **Proposing Changes to Plans:** Any update to a plan or task list is done by submitting a **pull request** with the Markdown changes. For example, if someone wants to adjust the roadmap (add a new feature, change a priority, refine acceptance criteria in a task spec), they create a branch (e.g. `update-roadmap-Q3`) and edit the Markdown files on that branch. The diff might show lines added under Q3 2025 goals, or an item moved higher in the backlog list. Opening a PR lets others review these changes before they become official. This process treats changes to the *plan* with the same rigor as changes to the *code*: nothing changes without peer review and team visibility. It also creates a discussion thread where questions or suggestions about the plan change can be logged. For instance, a teammate might comment, “Should we also include mobile app in this feature scope?” on the PR, leading to an update of the Markdown text.
+- **Proposing Changes to Plans:** Any update to a plan or task list is done by submitting a **pull request** with the Markdown changes. For example, if someone wants to adjust the roadmap (add a new feature, change a priority, refine acceptance criteria in a task spec), they create a branch (e.g. `update-roadmap-Q3`) and edit the Markdown files on that branch. The diff might show lines added under Q3 2025 goals, or an item moved higher in the backlog list. Opening a PR lets others review these changes before they become official. This process treats changes to the _plan_ with the same rigor as changes to the _code_: nothing changes without peer review and team visibility. It also creates a discussion thread where questions or suggestions about the plan change can be logged. For instance, a teammate might comment, “Should we also include mobile app in this feature scope?” on the PR, leading to an update of the Markdown text.
 
-* **Pull Request Templates for Planning:** It’s useful to have a **pull request template** to guide collaborators on providing necessary info when proposing changes (especially for larger plan docs or design proposals). A PR template can be set up in the repository (e.g. a `.github/PULL_REQUEST_TEMPLATE.md` file) so that every PR description is pre-populated with a format. This template might prompt the contributor to answer:
+- **Pull Request Templates for Planning:** It’s useful to have a **pull request template** to guide collaborators on providing necessary info when proposing changes (especially for larger plan docs or design proposals). A PR template can be set up in the repository (e.g. a `.github/PULL_REQUEST_TEMPLATE.md` file) so that every PR description is pre-populated with a format. This template might prompt the contributor to answer:
 
-  * What is the goal or change in this plan update?
-  * Which issue/task does it relate to (if using an issue or task ID system)?
-  * Checklist: Have impacts on timeline or resources been considered? Are stakeholders aware?
-  * etc.
+  - What is the goal or change in this plan update?
+  - Which issue/task does it relate to (if using an issue or task ID system)?
+  - Checklist: Have impacts on timeline or resources been considered? Are stakeholders aware?
+  - etc.
 
   Using a standardized PR template ensures consistency and clarity. It helps every PR include a clear description and checklist, reducing back-and-forth and setting expectations up front. For example, a simple template could require a short summary of changes, a link to any related task or issue (e.g., “Relates to roadmap item in Q4”), and a checklist like “- \[ ] Team has approved new priority; - \[ ] Documentation updated.” This way, even changes to documentation go through the same quality control as code changes. (As a side benefit, if/when the startup does use issues or links code to plans, this template can remind people to reference them, e.g. “Fixes #123” to close an issue or just a mention of the task ID.)
 
-* **Code and Plan in Sync:** Often, code changes will correspond to tasks in the Markdown plans. Developers can reference the Markdown tasks in their commit messages or PRs for code. For example, a PR implementing a feature might say “Implements Feature X (as per roadmap.md Q3 item)” or even include a snippet of the task for context. Conversely, when closing out a task in the markdown, the PR can be referenced (“Marked Feature X as done – implemented in PR #45”). Though Markdown files don’t have the automatic linking that issues do, these cross-references in text and PR comments help maintain traceability. The PR discussion can serve as a log of decisions/trade-offs for that task, complementing the Markdown spec. In essence, **pull requests become the forum** for discussing both code and plan changes. This encourages a culture where planning is continuous and integrated with development: if a plan needs to change mid-implementation, you open a PR to adjust it, possibly alongside code changes, so the alteration is visible and agreed upon.
+- **Code and Plan in Sync:** Often, code changes will correspond to tasks in the Markdown plans. Developers can reference the Markdown tasks in their commit messages or PRs for code. For example, a PR implementing a feature might say “Implements Feature X (as per roadmap.md Q3 item)” or even include a snippet of the task for context. Conversely, when closing out a task in the markdown, the PR can be referenced (“Marked Feature X as done – implemented in PR #45”). Though Markdown files don’t have the automatic linking that issues do, these cross-references in text and PR comments help maintain traceability. The PR discussion can serve as a log of decisions/trade-offs for that task, complementing the Markdown spec. In essence, **pull requests become the forum** for discussing both code and plan changes. This encourages a culture where planning is continuous and integrated with development: if a plan needs to change mid-implementation, you open a PR to adjust it, possibly alongside code changes, so the alteration is visible and agreed upon.
 
-* **Review and Iteration:** When a plan update PR is opened, team members (including non-developers given access) can review it. They might suggest edits via GitHub’s review system or just comment their approval. The review process ensures iteration: perhaps the product lead will refine wording or clarify acceptance criteria in a spec during review, or the CTO might question a priority shift and request rationale – all captured in the PR. Only when the team is satisfied is the PR merged, updating the Markdown in the main branch. This models the **iteration via discussion** that usually happens in planning meetings, but asynchronously and with an audit trail. As one engineering blog noted, asynchronous project updates via Git (with all discussions captured in context) can reduce the need for frequent status meetings. Stakeholders can simply read the merged plan or the PR conversation to get context.
+- **Review and Iteration:** When a plan update PR is opened, team members (including non-developers given access) can review it. They might suggest edits via GitHub’s review system or just comment their approval. The review process ensures iteration: perhaps the product lead will refine wording or clarify acceptance criteria in a spec during review, or the CTO might question a priority shift and request rationale – all captured in the PR. Only when the team is satisfied is the PR merged, updating the Markdown in the main branch. This models the **iteration via discussion** that usually happens in planning meetings, but asynchronously and with an audit trail. As one engineering blog noted, asynchronous project updates via Git (with all discussions captured in context) can reduce the need for frequent status meetings. Stakeholders can simply read the merged plan or the PR conversation to get context.
 
-* **Merge and Notify:** Once merged, the updated Markdown is immediately the new source of truth. Team members watching the repo can get notifications of changes (e.g. via GitHub’s watch or via chat integrations if set up). Startups often integrate GitHub with Slack or email for notifications – for instance, a Slack message when `ROADMAP.md` changes, prompting everyone to note the new plan. This keeps the entire team in the loop without requiring separate emails or docs – the repository is the hub.
+- **Merge and Notify:** Once merged, the updated Markdown is immediately the new source of truth. Team members watching the repo can get notifications of changes (e.g. via GitHub’s watch or via chat integrations if set up). Startups often integrate GitHub with Slack or email for notifications – for instance, a Slack message when `ROADMAP.md` changes, prompting everyone to note the new plan. This keeps the entire team in the loop without requiring separate emails or docs – the repository is the hub.
 
-* **Example Workflow:** Imagine a designer wants to add a task for “Revamp Landing Page” in the Q1 roadmap. They create a branch, edit `ROADMAP.md` adding a bullet under Q1 goals, maybe linking to a `design/landing-page-redesign.md` spec. They open a PR titled “Add Landing Page Revamp to Q1 roadmap”. The PR template prompts them to describe why (e.g. “We decided to improve homepage conversion – see customer feedback”). The team lead reviews and asks to clarify scope; the designer updates the spec file accordingly in the same PR. Once approved, the PR is merged. The roadmap now includes that item, and the design spec is in the repo. A developer picking this up later can see the plan in the Markdown and the discussion in the merged PR for context. This tight PR loop on planning changes fosters **collaborative iteration** and ensures consensus.
+- **Example Workflow:** Imagine a designer wants to add a task for “Revamp Landing Page” in the Q1 roadmap. They create a branch, edit `ROADMAP.md` adding a bullet under Q1 goals, maybe linking to a `design/landing-page-redesign.md` spec. They open a PR titled “Add Landing Page Revamp to Q1 roadmap”. The PR template prompts them to describe why (e.g. “We decided to improve homepage conversion – see customer feedback”). The team lead reviews and asks to clarify scope; the designer updates the spec file accordingly in the same PR. Once approved, the PR is merged. The roadmap now includes that item, and the design spec is in the repo. A developer picking this up later can see the plan in the Markdown and the discussion in the merged PR for context. This tight PR loop on planning changes fosters **collaborative iteration** and ensures consensus.
 
-* **Using Issues/Discussions if Needed:** While Markdown files are the primary medium, teams can still use GitHub Issues or Discussions for extended conversations or to track tasks individually *if* it adds value. For example, a complex task in the markdown backlog might have a corresponding GitHub Issue for detailed discussion or to attach screenshots. You can link the two by noting the issue number in the Markdown. Similarly, discussions can be referenced for broad brainstorming that then gets summarized into the markdown docs. The key is that the Markdown files remain the authoritative list of tasks and plans, and issues/discussions are optional supplements. This hybrid approach can be useful as the startup grows: Issues can feed into the Markdown backlog, but the backlog is what’s prioritized and versioned. (If the team prefers not to use issues at all, that’s fine too – everything can live in the repo as files.)
+- **Using Issues/Discussions if Needed:** While Markdown files are the primary medium, teams can still use GitHub Issues or Discussions for extended conversations or to track tasks individually _if_ it adds value. For example, a complex task in the markdown backlog might have a corresponding GitHub Issue for detailed discussion or to attach screenshots. You can link the two by noting the issue number in the Markdown. Similarly, discussions can be referenced for broad brainstorming that then gets summarized into the markdown docs. The key is that the Markdown files remain the authoritative list of tasks and plans, and issues/discussions are optional supplements. This hybrid approach can be useful as the startup grows: Issues can feed into the Markdown backlog, but the backlog is what’s prioritized and versioned. (If the team prefers not to use issues at all, that’s fine too – everything can live in the repo as files.)
 
 ## Repository Structure and Templates
 
@@ -97,25 +97,27 @@ This is just an example – teams should adjust it to their needs. Some teams ke
 
 **Markdown Template Examples:**
 
-* **Roadmap Template:** A `ROADMAP.md` could use a quarterly or monthly breakdown. For example:
+- **Roadmap Template:** A `ROADMAP.md` could use a quarterly or monthly breakdown. For example:
 
   ```markdown
   # Project Roadmap
 
-  ## Q1 2025 
+  ## Q1 2025
+
   - [ ] Launch **v2.0 Beta** (target: March 2025)
-    - *Key features:* New onboarding flow, Analytics dashboard.
-    - *Success metric:* 1k beta users.
+    - _Key features:_ New onboarding flow, Analytics dashboard.
+    - _Success metric:_ 1k beta users.
   - [ ] **Hire 2 Support Engineers** (to improve customer response times)
 
   ## Q2 2025
+
   - [ ] Scale infrastructure for 100k users
   - [ ] GA release of v2.0 with feedback improvements
   ```
 
   Each item might eventually link to more detailed docs (e.g., `onboarding-spec.md`). The roadmap should be relatively high-level (epics or major initiatives) and not too granular.
 
-* **Task/Story Template:** For individual tasks or user stories in `tasks/` directory, a Markdown template might look like:
+- **Task/Story Template:** For individual tasks or user stories in `tasks/` directory, a Markdown template might look like:
 
   ```markdown
   # TASK-001: Implement Onboarding Flow
@@ -125,6 +127,7 @@ This is just an example – teams should adjust it to their needs. Some teams ke
   **User Story:** As a new user, I want an onboarding process so I can quickly learn how to use the product.
 
   **Acceptance Criteria:**
+
   - [ ] After sign-up, user is directed to an onboarding wizard
   - [ ] Wizard has 3 steps (profile setup, product tour, first task prompt)
   - [ ] Email verification is required before completing step 3
@@ -134,13 +137,13 @@ This is just an example – teams should adjust it to their needs. Some teams ke
 
   **Priority:** P2 (High) – Needed for Q1 launch.
 
-  **Status:** *Open* (not started)  
+  **Status:** _Open_ (not started)  
   **Owner:** @johndoe
   ```
 
   This is essentially a **user story or spec** in Markdown. It captures everything a Jira ticket might contain, but in a lightweight text form. Team members can edit this file via PR if requirements change. When the task is done, this file could be updated with **Status: Done (PR #45)** or simply left as historical record (with the backlog checklist reflecting completion).
 
-* **Spec/Proposal Template:** For bigger design docs or technical specs (e.g. `specs/feature-x-spec.md`), you can use a structure like:
+- **Spec/Proposal Template:** For bigger design docs or technical specs (e.g. `specs/feature-x-spec.md`), you can use a structure like:
 
   ```markdown
   # Feature X Technical Design
@@ -162,22 +165,26 @@ This is just an example – teams should adjust it to their needs. Some teams ke
 
   This is similar to an internal RFC or PRD (Product Requirement Document), but stored in GitHub. It can be reviewed with PRs and updated as the feature is implemented (or used to track if the implementation deviated from the plan).
 
-* **Pull Request Template:** The `.github/PULL_REQUEST_TEMPLATE.md` ensures that every PR (whether it’s a code change or a plan doc change) has a standard structure. An example template might be:
+- **Pull Request Template:** The `.github/PULL_REQUEST_TEMPLATE.md` ensures that every PR (whether it’s a code change or a plan doc change) has a standard structure. An example template might be:
 
   ```markdown
   ## Describe your changes
-  *Provide a brief summary of the changes in this PR (what and why).* 
+
+  _Provide a brief summary of the changes in this PR (what and why)._
 
   ## Related Issue/Ticket
-  *If this PR addresses or closes a task, link it here.* 
+
+  _If this PR addresses or closes a task, link it here._
   e.g., "Closes TASK-001" or "Updates ROADMAP Q1 item"
 
   ## Checklist for submitter
+
   - [ ] Self-reviewed code/documentation
   - [ ] Added/updated relevant docs (if needed)
   - [ ] If this is a major change, team has been notified (Slack/email)
 
   ## Checklist for reviewers
+
   - [ ] Plan changes make sense and align with overall goals
   - [ ] No critical points missed (check acceptance criteria, etc.)
   ```
@@ -196,6 +203,7 @@ flowchart LR
     WelcomeTour --> FirstTask
   end
   Signup --> EmailVerification
+```
 ````
 
 ```
@@ -232,7 +240,7 @@ One of the strengths of a Markdown+GitHub workflow is its adaptability across di
 
 - **Operations / Admin:** Operational checklists and processes can be kept in the repository too. For instance, an Ops manager could maintain a `ops-checklist.md` for recurring tasks (month-end accounting, server maintenance steps, etc.). When a recurring task is done, they might tick it off or update a date. If the startup is running experiments or OKRs, those could be tracked in Markdown files (e.g., `OKRs_2025.md` listing objectives and key results with checkboxes updating progress). Even HR or hiring plans could be simple Markdown tables or lists in an “Operations” section of the repo. Since GitHub can render tables, you might have a table of prospective hires or vendor comparisons in a Markdown doc. This keeps such information accessible to the core team without needing separate Google Docs or similar. Of course, sensitive info might not belong in a public repo, but for private repos this is an option. The key is that all these different threads (engineering, design, ops) can be tracked uniformly. A weekly review meeting at the startup could literally involve opening the repo and reading from the roadmap and backlog files to see status across the board.
 
-- **Cross-Functional Collaboration:** Because everyone is using the same system, it encourages cross-functional input. A marketer could add a task in the backlog for “Plan launch event”, and an engineer seeing it can be aware of that timeline. Or an engineer could leave a comment in a design spec PR about technical feasibility. GitHub’s mentions (@username) work in comments on PRs and even in commit messages, so you can tag the relevant person (designer, product manager, etc.) to get their input on a plan change. This breaks down silos that sometimes form when each team uses separate tools (e.g., devs in Jira, designers in Trello, etc.). In a startup, keeping everyone on the same page is vital – literally having one page (or one repo) of truth helps. 
+- **Cross-Functional Collaboration:** Because everyone is using the same system, it encourages cross-functional input. A marketer could add a task in the backlog for “Plan launch event”, and an engineer seeing it can be aware of that timeline. Or an engineer could leave a comment in a design spec PR about technical feasibility. GitHub’s mentions (@username) work in comments on PRs and even in commit messages, so you can tag the relevant person (designer, product manager, etc.) to get their input on a plan change. This breaks down silos that sometimes form when each team uses separate tools (e.g., devs in Jira, designers in Trello, etc.). In a startup, keeping everyone on the same page is vital – literally having one page (or one repo) of truth helps.
 
 - **Scale and Evolution:** As the startup grows, this Markdown approach can evolve. You might start with everything in one repository. Eventually, if there’s a need, you could split docs into multiple repos or integrate with more sophisticated tools. But even then, the skills developed (writing clear Markdown docs, disciplined use of GitHub PRs for changes, linking code to plans) remain extremely useful. Many larger projects still use `ROADMAP.md` or `CHANGELOG.md` for transparency:contentReference[oaicite:30]{index=30}. And if the team later adopts a tool like GitHub Issues or Projects, they can do so gradually – perhaps treating each Markdown task as an issue to get better tracking, while still writing details in the Markdown (just linking the two). The Markdown files could even be used to auto-generate issues via scripts if needed. Thus, the system is flexible: it’s a great fit for small teams now, and it doesn’t paint you into a corner for later.
 

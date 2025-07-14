@@ -18,13 +18,13 @@ export default defineConfig({
           video: s.file().optional(), // input file relative path, output file public path.
           metadata: s.metadata(), // extract markdown reading-time, word-count, etc.
           excerpt: s.excerpt(), // excerpt of markdown content
-          content: s.markdown() // transform markdown to html
+          content: s.markdown(), // transform markdown to html
         })
         // more additional fields (computed fields)
-        .transform(data => ({ ...data, permalink: `/blog/${data.slug}` }))
+        .transform((data) => ({ ...data, permalink: `/blog/${data.slug}` })),
     },
     // others: {
     //   // other collection schema options
     // }
-  }
+  },
 })

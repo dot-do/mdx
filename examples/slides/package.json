@@ -3,19 +3,17 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "mdxe dev",
-    "build": "mdxe build",
-    "start": "mdxe start",
-    "lint": "mdxe lint",
-    "test": "mdxe test",
-    "terminal": "mdxe"
+    "dev:examples": "mdxe dev",
+    "build:examples": "mdxe build",
+    "start:examples": "mdxe start",
+    "lint:examples": "mdxe lint",
+    "test:examples": "mdxe test",
+    "terminal:examples": "mdxe"
   },
   "dependencies": {
-    "mdxui": "workspace:*",
-    "@mdxui/reveal": "workspace:*",
-    "@mdxui/ink": "workspace:*",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "reveal.js": "^5.0.0"
   },
   "devDependencies": {
     "mdxe": "workspace:*"

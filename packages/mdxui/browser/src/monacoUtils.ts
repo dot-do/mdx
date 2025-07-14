@@ -19,8 +19,8 @@ export const DEFAULT_MONACO_CONFIG: MonacoConfig = {
   readOnly: false,
   automaticLayout: true,
   minimap: {
-    enabled: false
-  }
+    enabled: false,
+  },
 }
 
 export function getLanguageFromFileType(fileType: FileTypeInfo['fileType']): string {
@@ -40,15 +40,15 @@ export function getLanguageFromFileType(fileType: FileTypeInfo['fileType']): str
 
 export function getLanguageFromExtension(extension: string): string {
   const languageMap: Record<string, string> = {
-    'md': 'markdown',
-    'mdx': 'markdown',
-    'mdxld': 'markdown',
-    'txt': 'plaintext',
-    'js': 'javascript',
-    'ts': 'typescript',
-    'json': 'json'
+    md: 'markdown',
+    mdx: 'markdown',
+    mdxld: 'markdown',
+    txt: 'plaintext',
+    js: 'javascript',
+    ts: 'typescript',
+    json: 'json',
   }
-  
+
   return languageMap[extension] || 'plaintext'
 }
 
@@ -70,24 +70,26 @@ export function createMonacoEditor(
     language: string
     theme?: string
     readOnly?: boolean
-  }
+  },
 ): monaco.editor.IStandaloneCodeEditor
 export function createMonacoEditor(
   container: HTMLElement,
   content: string,
   fileType: FileTypeInfo['fileType'],
-  config?: Partial<MonacoConfig>
+  config?: Partial<MonacoConfig>,
 ): monaco.editor.IStandaloneCodeEditor
 export function createMonacoEditor(
   container: HTMLElement,
-  contentOrOptions: string | {
-    content: string
-    language: string
-    theme?: string
-    readOnly?: boolean
-  },
+  contentOrOptions:
+    | string
+    | {
+        content: string
+        language: string
+        theme?: string
+        readOnly?: boolean
+      },
   fileType?: FileTypeInfo['fileType'],
-  config: Partial<MonacoConfig> = {}
+  config: Partial<MonacoConfig> = {},
 ): monaco.editor.IStandaloneCodeEditor {
   let content: string
   let language: string
@@ -126,8 +128,8 @@ export function createMonacoEditor(
     lineHeight: 1.5,
     padding: {
       top: 16,
-      bottom: 16
-    }
+      bottom: 16,
+    },
   })
 
   setupLinkNavigation(container)
@@ -135,33 +137,33 @@ export function createMonacoEditor(
 }
 
 function processContentWithLinks(content: string): string {
-  const urlRegex = /(https?:\/\/[^\s<>"{}|\\^`[\]]+)/g;
-  const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-  
+  const urlRegex = /(https?:\/\/[^\s<>"{}|\\^`[\]]+)/g
+  const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g
+
   let processedContent = content.replace(markdownLinkRegex, (match, text, url) => {
-    return `${text} (${url})`;
-  });
-  
+    return `${text} (${url})`
+  })
+
   processedContent = processedContent.replace(urlRegex, (url) => {
-    return `${url} [Click to open]`;
-  });
-  
-  return processedContent;
+    return `${url} [Click to open]`
+  })
+
+  return processedContent
 }
 
 function setupLinkNavigation(container: HTMLElement): void {
   container.addEventListener('click', (event) => {
-    const target = event.target as HTMLElement;
-    const text = target.textContent || '';
-    
-    const urlMatch = text.match(/(https?:\/\/[^\s]+)/);
+    const target = event.target as HTMLElement
+    const text = target.textContent || ''
+
+    const urlMatch = text.match(/(https?:\/\/[^\s]+)/)
     if (urlMatch && urlMatch[1]) {
-      const url = urlMatch[1];
+      const url = urlMatch[1]
       if (url.startsWith('http://') || url.startsWith('https://')) {
-        window.open(url, '_blank', 'noopener,noreferrer');
+        window.open(url, '_blank', 'noopener,noreferrer')
       }
     }
-  });
+  })
 }
 
 export function setupMonacoThemes(): void {
@@ -183,7 +185,7 @@ export function setupMonacoThemes(): void {
       { token: 'property', foreground: '79c0ff' },
       { token: 'attribute', foreground: '7ee787' },
       { token: 'tag', foreground: '7ee787' },
-      { token: 'delimiter', foreground: 'e1e4e8' }
+      { token: 'delimiter', foreground: 'e1e4e8' },
     ],
     colors: {
       'editor.background': '#0d1117',
@@ -194,29 +196,29 @@ export function setupMonacoThemes(): void {
       'editorCursor.foreground': '#e1e4e8',
       'editorWhitespace.foreground': '#484f58',
       'editorLineNumber.foreground': '#6e7681',
-      'editorLineNumber.activeForeground': '#e1e4e8'
-    }
+      'editorLineNumber.activeForeground': '#e1e4e8',
+    },
   })
 }
 
 export function setupMonacoEnvironment(): void {
-  (window as typeof window & { MonacoEnvironment?: { getWorkerUrl: (moduleId: string, label: string) => string } }).MonacoEnvironment = {
+  ;(window as typeof window & { MonacoEnvironment?: { getWorkerUrl: (moduleId: string, label: string) => string } }).MonacoEnvironment = {
     getWorkerUrl: function (moduleId: string, label: string) {
       if (label === 'json') {
-        return './monaco-editor/esm/vs/language/json/json.worker.js';
+        return './monaco-editor/esm/vs/language/json/json.worker.js'
       }
       if (label === 'css' || label === 'scss' || label === 'less') {
-        return './monaco-editor/esm/vs/language/css/css.worker.js';
+        return './monaco-editor/esm/vs/language/css/css.worker.js'
       }
       if (label === 'html' || label === 'handlebars' || label === 'razor') {
-        return './monaco-editor/esm/vs/language/html/html.worker.js';
+        return './monaco-editor/esm/vs/language/html/html.worker.js'
       }
       if (label === 'typescript' || label === 'javascript') {
-        return './monaco-editor/esm/vs/language/typescript/ts.worker.js';
+        return './monaco-editor/esm/vs/language/typescript/ts.worker.js'
       }
-      return './monaco-editor/esm/vs/editor/editor.worker.js';
-    }
-  };
+      return './monaco-editor/esm/vs/editor/editor.worker.js'
+    },
+  }
 }
 
 export function createMonacoContainer(): HTMLElement {
@@ -238,7 +240,7 @@ export function createMonacoContainer(): HTMLElement {
 export function replacePageWithMonaco(
   content: string,
   fileType: FileTypeInfo['fileType'],
-  config?: Partial<MonacoConfig>
+  config?: Partial<MonacoConfig>,
 ): monaco.editor.IStandaloneCodeEditor {
   document.body.innerHTML = ''
   document.body.style.cssText = `
@@ -260,18 +262,15 @@ export function replacePageWithMonaco(
   return editor
 }
 
-export async function renderFileWithMonaco(
-  content: string,
-  fileInfo: FileTypeInfo
-): Promise<monaco.editor.IStandaloneCodeEditor> {
+export async function renderFileWithMonaco(content: string, fileInfo: FileTypeInfo): Promise<monaco.editor.IStandaloneCodeEditor> {
   await initializeMonaco()
   setupMonacoThemes()
-  
+
   const config: Partial<MonacoConfig> = {
     theme: 'github-dark',
     wordWrap: 'on',
-    lineNumbers: 'off'
+    lineNumbers: 'off',
   }
-  
+
   return replacePageWithMonaco(content, fileInfo.fileType, config)
 }

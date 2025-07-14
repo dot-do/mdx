@@ -31,15 +31,16 @@
   "author": "MDX Team",
   "license": "MIT",
   "dependencies": {
+    "@mdxui/browser": "workspace:*",
+    "@mdxui/chrome": "workspace:*",
     "@mdxui/core": "workspace:*",
     "@mdxui/ink": "workspace:*",
-    "@mdxui/tailwind": "workspace:*",
-    "@mdxui/shadcn": "workspace:*",
     "@mdxui/magicui": "workspace:*",
     "@mdxui/reveal": "workspace:*",
-    "@mdxui/chrome": "workspace:*",
     "@mdxui/safari": "workspace:*",
-    "@mdxui/browser": "workspace:*"
+    "@mdxui/shadcn": "workspace:*",
+    "@mdxui/tailwind": "workspace:*",
+    "motion": "^10.18.0"
   },
   "peerDependencies": {
     "react": "^19"
@@ -48,10 +49,10 @@
     "@repo/eslint-config": "workspace:*",
     "@repo/tsup-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/react": "^19.1.0",
+    "@types/react": "^19.1.5",
     "eslint": "^9.27.0",
     "tsup": "^8.0.2",
-    "typescript": "5.8.2",
+    "typescript": "^5.8.3",
     "vitest": "^3.1.4"
   }
 }

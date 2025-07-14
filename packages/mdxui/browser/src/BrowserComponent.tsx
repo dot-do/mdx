@@ -25,10 +25,13 @@ export const BrowserComponent: React.FC<BrowserComponentProps> = ({
     setCurrentContent(content)
   }, [content])
 
-  const handleContentChange = useCallback((newContent: string) => {
-    setCurrentContent(newContent)
-    onContentChange?.(newContent)
-  }, [onContentChange])
+  const handleContentChange = useCallback(
+    (newContent: string) => {
+      setCurrentContent(newContent)
+      onContentChange?.(newContent)
+    },
+    [onContentChange],
+  )
 
   const handleSave = useCallback(async () => {
     if (!onSave && !saveEndpoint) return
@@ -66,9 +69,7 @@ export const BrowserComponent: React.FC<BrowserComponentProps> = ({
           }
         }
 
-        const requestBody = saveEndpoint.transformRequest 
-          ? saveEndpoint.transformRequest(currentContent)
-          : JSON.stringify({ content: currentContent })
+        const requestBody = saveEndpoint.transformRequest ? saveEndpoint.transformRequest(currentContent) : JSON.stringify({ content: currentContent })
 
         const response = await fetch(saveEndpoint.url, {
           method: saveEndpoint.method,
@@ -104,13 +105,16 @@ export const BrowserComponent: React.FC<BrowserComponentProps> = ({
     }
   }, [currentContent, onSave, saveEndpoint])
 
-  const handleNavigate = useCallback((url: string) => {
-    if (onNavigate) {
-      onNavigate(url)
-    } else {
-      window.open(url, '_blank', 'noopener,noreferrer')
-    }
-  }, [onNavigate])
+  const handleNavigate = useCallback(
+    (url: string) => {
+      if (onNavigate) {
+        onNavigate(url)
+      } else {
+        window.open(url, '_blank', 'noopener,noreferrer')
+      }
+    },
+    [onNavigate],
+  )
 
   const commonProps = {
     content: currentContent,

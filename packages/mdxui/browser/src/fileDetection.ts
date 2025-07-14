@@ -9,14 +9,14 @@ export const SUPPORTED_MIME_TYPES = {
   TEXT: ['text/plain', 'text/txt'],
   MARKDOWN: ['text/markdown', 'text/x-markdown'],
   MDX: ['text/mdx', 'application/mdx'],
-  MDXLD: ['text/mdxld', 'application/mdxld']
+  MDXLD: ['text/mdxld', 'application/mdxld'],
 } as const
 
 export const SUPPORTED_EXTENSIONS = {
   TEXT: ['.txt', '.text'],
   MARKDOWN: ['.md', '.markdown'],
   MDX: ['.mdx'],
-  MDXLD: ['.mdxld']
+  MDXLD: ['.mdxld'],
 } as const
 
 export function getFileExtension(filename: string): string {
@@ -26,7 +26,7 @@ export function getFileExtension(filename: string): string {
 
 export function detectFileTypeFromMimeType(mimeType: string): FileTypeInfo['fileType'] {
   const normalizedMimeType = mimeType.toLowerCase()
-  
+
   if ((SUPPORTED_MIME_TYPES.MDXLD as readonly string[]).includes(normalizedMimeType)) {
     return 'mdxld'
   }
@@ -39,13 +39,13 @@ export function detectFileTypeFromMimeType(mimeType: string): FileTypeInfo['file
   if ((SUPPORTED_MIME_TYPES.TEXT as readonly string[]).includes(normalizedMimeType)) {
     return 'text'
   }
-  
+
   return 'unknown'
 }
 
 export function detectFileTypeFromExtension(extension: string): FileTypeInfo['fileType'] {
   const normalizedExtension = extension.toLowerCase()
-  
+
   if ((SUPPORTED_EXTENSIONS.MDXLD as readonly string[]).includes(normalizedExtension)) {
     return 'mdxld'
   }
@@ -58,39 +58,41 @@ export function detectFileTypeFromExtension(extension: string): FileTypeInfo['fi
   if ((SUPPORTED_EXTENSIONS.TEXT as readonly string[]).includes(normalizedExtension)) {
     return 'text'
   }
-  
+
   return 'unknown'
 }
 
 export function detectFileType(filename: string, mimeType?: string): FileTypeInfo {
   const extension = getFileExtension(filename)
-  
+
   let fileType: FileTypeInfo['fileType'] = 'unknown'
-  
+
   if (mimeType) {
     fileType = detectFileTypeFromMimeType(mimeType)
   }
-  
+
   if (fileType === 'unknown' && extension) {
     fileType = detectFileTypeFromExtension(extension)
   }
-  
+
   const isSupported = fileType !== 'unknown'
-  
+
   return {
     isSupported,
     fileType,
     mimeType,
-    extension
+    extension,
   }
 }
 
 export function isTextFile(blob: Blob): boolean {
-  return blob.type.startsWith('text/') || 
-         (SUPPORTED_MIME_TYPES.TEXT as readonly string[]).includes(blob.type) ||
-         (SUPPORTED_MIME_TYPES.MARKDOWN as readonly string[]).includes(blob.type) ||
-         (SUPPORTED_MIME_TYPES.MDX as readonly string[]).includes(blob.type) ||
-         (SUPPORTED_MIME_TYPES.MDXLD as readonly string[]).includes(blob.type)
+  return (
+    blob.type.startsWith('text/') ||
+    (SUPPORTED_MIME_TYPES.TEXT as readonly string[]).includes(blob.type) ||
+    (SUPPORTED_MIME_TYPES.MARKDOWN as readonly string[]).includes(blob.type) ||
+    (SUPPORTED_MIME_TYPES.MDX as readonly string[]).includes(blob.type) ||
+    (SUPPORTED_MIME_TYPES.MDXLD as readonly string[]).includes(blob.type)
+  )
 }
 
 export function detectFileTypeFromUrl(url: string): FileTypeInfo {
@@ -98,12 +100,12 @@ export function detectFileTypeFromUrl(url: string): FileTypeInfo {
     const urlObj = new URL(url)
     const pathname = urlObj.pathname
     const filename = pathname.split('/').pop() || ''
-    
+
     return detectFileType(filename)
   } catch {
     return {
       isSupported: false,
-      fileType: 'unknown'
+      fileType: 'unknown',
     }
   }
 }
@@ -115,11 +117,11 @@ export function shouldRenderWithMonaco(fileInfo: FileTypeInfo): boolean {
 export function isSupportedFile(url: string, mimeType?: string): boolean {
   const fileInfo = detectFileTypeFromUrl(url)
   if (fileInfo.isSupported) return true
-  
+
   if (mimeType) {
     const typeFromMime = detectFileTypeFromMimeType(mimeType)
     return typeFromMime !== 'unknown'
   }
-  
+
   return false
 }

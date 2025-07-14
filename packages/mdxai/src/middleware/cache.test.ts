@@ -9,15 +9,13 @@ describe('createCacheMiddleware', () => {
   beforeEach(async () => {
     try {
       await fs.rm(TEST_CACHE_DIR, { recursive: true, force: true })
-    } catch (error) {
-    }
+    } catch (error) {}
   })
 
   afterEach(async () => {
     try {
       await fs.rm(TEST_CACHE_DIR, { recursive: true, force: true })
-    } catch (error) {
-    }
+    } catch (error) {}
   })
 
   it('should create middleware with default config', () => {
