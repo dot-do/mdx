@@ -21,7 +21,9 @@ export const PreviewMode: React.FC<PreviewModeProps> = ({ onNavigate }) => {
       }
     : globalStore
 
-  if (!content.trim()) {
+
+
+  if (!content || !content.trim()) {
     return (
       <div className='flex items-center justify-center h-full'>
         <div className='text-center'>

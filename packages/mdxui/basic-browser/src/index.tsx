@@ -45,16 +45,12 @@ function StoreUpdater(props: MdxBrowserLegacyProps) {
   const { actions } = store.getState()
 
   useEffect(() => {
+    // Set readOnly first
     if (props.readOnly !== undefined) {
       actions.setReadOnly(props.readOnly)
     }
-    
-    // Set content first if provided
-    if (props.content !== undefined) {
-      actions.setContent(props.content)
-    }
-    
-    // Handle files and current file
+
+    // Handle files and content together
     if (props.files && props.files.length > 0) {
       actions.setFiles(props.files)
       // If content is provided with files, set current file with content
@@ -66,11 +62,25 @@ function StoreUpdater(props: MdxBrowserLegacyProps) {
       const defaultFile = { name: 'content.mdx', path: 'content.mdx' }
       actions.setFiles([defaultFile])
       actions.setCurrentFile(defaultFile, props.content)
+      // Also set content directly for immediate access
+      actions.setContent(props.content)
     }
-    
-    // Set mode after content is loaded
-    const initialMode = props.mode || (props.readOnly ? 'preview' : props.content ? 'preview' : 'browse')
-    actions.setMode(initialMode)
+
+    // Set mode after content and files are configured
+    if (props.mode !== undefined) {
+      actions.setMode(props.mode)
+    } else if (props.readOnly) {
+      actions.setMode('preview')
+    } else if (props.content && !props.files) {
+      // If only content is provided (no files), default to preview
+      actions.setMode('preview')
+    } else if (props.files && props.files.length > 0) {
+      // If files are provided, default to browse mode
+      actions.setMode('browse')
+    } else {
+      // Default fallback
+      actions.setMode('browse')
+    }
   }, [props.content, props.mode, props.files, props.readOnly, actions])
 
   return null
@@ -80,6 +90,41 @@ function LegacyMdxBrowser(props: MdxBrowserLegacyProps) {
   const storeRef = useRef<AppStore | null>(null)
   if (!storeRef.current) {
     storeRef.current = createAppStore()
+
+    // Initialize store with props synchronously
+    const store = storeRef.current
+    const { actions } = store.getState()
+
+    // Set readOnly first
+    if (props.readOnly !== undefined) {
+      actions.setReadOnly(props.readOnly)
+    }
+
+    // Handle files and content
+    if (props.files && props.files.length > 0) {
+      actions.setFiles(props.files)
+      if (props.content !== undefined && props.files[0]) {
+        actions.setCurrentFile(props.files[0], props.content)
+      }
+    } else if (props.content !== undefined) {
+      const defaultFile = { name: 'content.mdx', path: 'content.mdx' }
+      actions.setFiles([defaultFile])
+      actions.setCurrentFile(defaultFile, props.content)
+      actions.setContent(props.content)
+    }
+
+    // Set mode
+    if (props.mode !== undefined) {
+      actions.setMode(props.mode)
+    } else if (props.readOnly) {
+      actions.setMode('preview')
+    } else if (props.content && !props.files) {
+      actions.setMode('preview')
+    } else if (props.files && props.files.length > 0) {
+      actions.setMode('browse')
+    } else {
+      actions.setMode('browse')
+    }
   }
   const store = storeRef.current
 

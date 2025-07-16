@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useRef } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import type { ApiClient } from '../adapters'
 import { cn } from '../utils'
@@ -24,27 +24,23 @@ export function App({ apiClient, onContentChange, onNavigate, onFileSelect, onSa
   const globalStore = useAppStore(useShallow(browserStoreSelector))
 
   // Use context store if available, otherwise use global store
-  const {
-    mode: currentMode,
-    actions,
-    isSaving,
-    saveError,
-    files,
-    readOnly: currentReadOnly,
-    currentFile,
-    content,
-  } = contextStore
-    ? {
-        mode: contextStore.getState().mode,
-        actions: contextStore.getState().actions,
-        isSaving: contextStore.getState().isSaving,
-        saveError: contextStore.getState().saveError,
-        files: contextStore.getState().files,
-        readOnly: contextStore.getState().readOnly,
-        currentFile: contextStore.getState().currentFile,
-        content: contextStore.getState().content,
-      }
-    : globalStore
+  const [contextState, setContextState] = useState(() => (contextStore ? browserStoreSelector(contextStore.getState()) : null))
+
+  // Subscribe to context store changes
+  useEffect(() => {
+    if (!contextStore) return
+
+    const unsubscribe = contextStore.subscribe((state) => {
+      setContextState(browserStoreSelector(state))
+    })
+
+    // Set initial state
+    setContextState(browserStoreSelector(contextStore.getState()))
+
+    return unsubscribe
+  }, [contextStore])
+
+  const { mode: currentMode, actions, isSaving, saveError, files, readOnly: currentReadOnly, currentFile, content } = contextState || globalStore
   const editModeRef = useRef<EditModeRef | null>(null)
 
   // Set readOnly and mode from props
@@ -154,9 +150,9 @@ export function App({ apiClient, onContentChange, onNavigate, onFileSelect, onSa
                     disabled={isSaving}
                     aria-label={tab.label}
                     className={cn(
-                      'px-4 py-2 text-sm font-medium transition-colors cursor-pointer',
+                      'px-4 py-2 text-sm font-medium transition-colors',
                       currentMode === tab.key ? 'text-gray-900 border-b-2 border-gray-900' : 'text-gray-500 hover:text-gray-700',
-                      isSaving && 'cursor-not-allowed opacity-50',
+                      isSaving ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
                     )}
                   >
                     {tab.label}

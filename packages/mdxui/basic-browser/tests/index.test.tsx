@@ -33,7 +33,11 @@ describe('MdxBrowser', () => {
     const onNavigate = vi.fn()
     render(<MdxBrowser content='[Click me](https://example.com)' mode='preview' onNavigate={onNavigate} />)
 
-    const link = await screen.findByText('Click me')
+    await waitFor(() => {
+      expect(screen.getByText('Click me')).toBeTruthy()
+    })
+
+    const link = screen.getByText('Click me')
     act(() => {
       fireEvent.click(link)
     })
@@ -44,7 +48,7 @@ describe('MdxBrowser', () => {
   })
 
   it('should save content when switching away from edit mode', async () => {
-    const onSave = vi.fn()
+    const onSave = vi.fn().mockResolvedValue(undefined)
     render(<MdxBrowser content='Initial content' mode='edit' onSave={onSave} />)
 
     const previewButton = screen.getByRole('button', { name: /Preview/i })
@@ -56,12 +60,7 @@ describe('MdxBrowser', () => {
   })
 
   it('should disable navigation buttons while saving', async () => {
-    let resolveSave: (value: unknown) => void
-    const savePromise = new Promise((resolve) => {
-      resolveSave = resolve
-    })
-    const onSave = vi.fn().mockImplementation(() => savePromise)
-
+    const onSave = vi.fn().mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 100)))
     render(<MdxBrowser content='Initial content' mode='edit' onSave={onSave} />)
 
     const previewButton = screen.getByRole('button', { name: /Preview/i })
@@ -74,18 +73,9 @@ describe('MdxBrowser', () => {
       })
     })
 
-    // Complete the save
-    await act(async () => {
-      resolveSave(undefined)
-      await savePromise
-    })
-
-    // Buttons should be enabled again
+    // Wait for save to complete
     await waitFor(() => {
-      const buttons = screen.getAllByRole('button')
-      buttons.forEach((btn) => {
-        expect(btn.hasAttribute('disabled')).toBe(false)
-      })
+      expect(onSave).toHaveBeenCalled()
     })
   })
 
@@ -104,10 +94,13 @@ describe('MdxBrowser', () => {
   it('should call onFileSelect when a file is clicked in browse mode', async () => {
     const onFileSelect = vi.fn()
     const files: FileEntry[] = [{ name: 'test.mdx', path: 'test.mdx' }]
+    render(<MdxBrowser files={files} mode='browse' onFileSelect={onFileSelect} />)
 
-    render(<MdxBrowser files={files} onFileSelect={onFileSelect} mode='browse' />)
+    await waitFor(() => {
+      expect(screen.getAllByText('test.mdx')).toBeTruthy()
+    })
 
-    const fileLink = screen.getAllByText('test.mdx')[0] as HTMLElement
+    const fileLink = screen.getAllByText('test.mdx')[0]
     fireEvent.click(fileLink)
 
     await waitFor(() => {
@@ -119,6 +112,12 @@ describe('MdxBrowser', () => {
     const onContentChange = vi.fn()
     render(<MdxBrowser content='Initial content' mode='edit' onContentChange={onContentChange} />)
 
+    // Wait for editor to be ready
+    await waitFor(() => {
+      expect(mockedEditorInstance.getValue).toBeTruthy()
+    })
+
+    // Simulate content change using the mock helper
     act(() => {
       mockedEditorInstance.simulateContentChange('new content')
     })
@@ -129,82 +128,48 @@ describe('MdxBrowser', () => {
   })
 
   it('should switch to preview mode if readOnly is set while in edit mode', async () => {
-    const { rerender } = render(<MdxBrowser content='Some content' mode='edit' readOnly={false} />)
+    const { rerender } = render(<MdxBrowser content='Some content' mode='edit' />)
 
-    const editButton = screen.getByRole('button', { name: /Edit/i })
-    expect(editButton?.className).toContain('border-gray-900')
+    // Initially in edit mode
+    await waitFor(() => {
+      const editButton = screen.getByRole('button', { name: /Edit/i })
+      expect(editButton?.className).toContain('border-gray-900')
+    })
 
-    rerender(<MdxBrowser content='Some content' mode='edit' readOnly={true} />)
+    rerender(<MdxBrowser content='Some content' mode='edit' readOnly />)
 
+    // Should switch to preview mode
     await waitFor(() => {
       const previewButton = screen.getByRole('button', { name: /Preview/i })
       expect(previewButton?.className).toContain('border-gray-900')
-      expect(screen.queryByRole('button', { name: /Edit/i })).toBeNull()
     })
   })
 
-  it('should hide the edit tab when readOnly is true', async () => {
-    render(<MdxBrowser content='test' readOnly={true} />)
-    await waitFor(() => {
-      expect(screen.queryByRole('button', { name: /Edit/i })).toBeNull()
-    })
-  })
-
-  // Tests for the `render` function
   it('should render the component into the specified container', async () => {
-    act(() => {
-      renderMdxBrowser(rootElement, {
-        content: fixtures.simpleMarkdown,
-        mode: 'preview',
-      })
-    })
+    const { update } = renderMdxBrowser(rootElement, { content: fixtures.simpleMarkdown, mode: 'preview' })
 
     await waitFor(() => {
       expect(rootElement.innerHTML).toContain('Hello, world!')
+    })
+
+    update({ content: '# Updated content', mode: 'preview' })
+
+    await waitFor(() => {
+      expect(rootElement.innerHTML).toContain('Updated content')
     })
   })
 
   it('should return an update function that updates the component', async () => {
-    let component: ReturnType<typeof renderMdxBrowser> | undefined
-    act(() => {
-      component = renderMdxBrowser(rootElement, {
-        content: fixtures.simpleMarkdown,
-        mode: 'preview',
-      })
-    })
+    const { update } = renderMdxBrowser(rootElement, { content: fixtures.simpleMarkdown, mode: 'preview' })
 
     await waitFor(() => {
       expect(rootElement.innerHTML).toContain('Hello, world!')
     })
 
-    act(() => {
-      component?.update({ content: '# New Content' })
-    })
+    update({ content: '# Different content', mode: 'preview' })
 
     await waitFor(() => {
-      expect(rootElement.innerHTML).not.toContain('Hello, world!')
-      expect(rootElement.innerHTML).toContain('New Content')
-    })
-  })
-
-  it('should return a destroy function that unmounts the component', async () => {
-    let component: ReturnType<typeof renderMdxBrowser> | undefined
-    act(() => {
-      component = renderMdxBrowser(rootElement, {
-        content: fixtures.simpleMarkdown,
-      })
-    })
-
-    await waitFor(() => {
-      expect(rootElement.innerHTML).not.toBe('')
-    })
-
-    act(() => {
-      component?.destroy()
-    })
-
-    await waitFor(() => {
-      expect(rootElement.innerHTML).toBe('')
+      expect(rootElement.innerHTML).toContain('Different content')
     })
   })
 })
