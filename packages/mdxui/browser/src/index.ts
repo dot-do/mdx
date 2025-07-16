@@ -35,6 +35,7 @@ export {
 } from './monacoUtils.js'
 
 export { extractPageContent, fetchFileContent, addLoadingIndicator, removeLoadingIndicator } from './utils.js'
+
 export function render(elementId: string, options: SimplifiedBrowserOptions): void {
   const element = document.getElementById(elementId)
   if (!element) {
