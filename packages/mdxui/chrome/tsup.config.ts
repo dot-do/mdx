@@ -3,16 +3,21 @@ import { defineConfig } from 'tsup'
 export default defineConfig({
   entry: {
     background: 'src/background.ts',
-    content: 'src/content.ts',
+    content: 'src/content-unified.ts',
   },
-  format: ['iife'],
+  format: ['cjs'],
   target: 'chrome91',
   outDir: 'dist',
   clean: true,
   minify: false,
   sourcemap: true,
-  external: ['chrome', 'react', 'react-dom'],
-  esbuildOptions(options) {
-    options.external = ['chrome', 'react', 'react-dom', 'react/jsx-runtime']
+  // Self-contained Chrome extension scripts - bundle everything except chrome API
+  external: ['chrome'],
+  outExtension({ format }) {
+    return {
+      js: `.js`,
+    }
   },
+  // Bundle Shiki and other dependencies
+  noExternal: ['shiki'],
 })

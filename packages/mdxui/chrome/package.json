@@ -1,7 +1,7 @@
 {
   "name": "@mdxui/chrome",
   "version": "0.1.0",
-  "description": "Chrome extension for rendering MDX files with Monaco editor",
+  "description": "Chrome extension for rendering MDX files with Monaco editor and Shiki",
   "type": "module",
   "main": "dist/background.js",
   "files": [
@@ -17,13 +17,15 @@
   },
   "dependencies": {
     "@mdxui/browser": "workspace:*",
-    "monaco-editor": "^0.45.0"
+    "monaco-editor": "^0.52.2",
+    "shiki": "^3.8.0"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/tsup-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/chrome": "^0.0.254",
+    "@types/chrome": "^0.1.0",
+    "esbuild": "^0.25.6",
     "eslint": "^9.27.0",
     "tsup": "^8.0.2",
     "typescript": "^5.8.3"
