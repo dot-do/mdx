@@ -1,6 +1,6 @@
 // Streaming content script with TypeScript and mode switching
+const SHIKI_CDN = 'https://esm.sh/shiki@3.8.0'
 
-import { codeToHtml } from 'shiki'
 import { DEFAULT_SHIKI_THEME, RENDER_DEBOUNCE_MS, SCROLL_THRESHOLD_PX } from './constants/index.js'
 import type { MonacoEditorProxy } from './types/index.js'
 import { getCurrentUrl, getDocumentMimeType } from './utils/chrome-utils.js'
@@ -24,12 +24,18 @@ let monacoEditor: MonacoEditorProxy | null = null
 let monacoInitialized = false
 
 // Initialize Shiki (direct approach like working code)
-const codeToHtmlFn: typeof codeToHtml = codeToHtml
+let codeToHtmlFn: any | null = null
 
-function initializeShiki(): boolean {
+async function initializeShiki(): Promise<boolean> {
   try {
     console.log('Initializing Shiki...')
+    const { codeToHtml } = await import(SHIKI_CDN)
+    codeToHtmlFn = codeToHtml
     console.log('Shiki initialized successfully')
+
+    if (lastContent) {
+      renderMarkdownContent(lastContent)
+    }
     return true
   } catch (error) {
     console.error('Failed to initialize Shiki:', error)
@@ -731,7 +737,7 @@ function setupStreamingObserver(): void {
 
   // Create a wrapper div to hold the original content
   originalBody = document.createElement('div')
-  originalBody.id = 'chrome-markdown-original'
+  originalBody.id = 'mdx-markdown-original'
 
   // Function to move all body content to our wrapper
   const moveBodyContent = () => {
@@ -922,7 +928,7 @@ function addStyles(): void {
       min-height: 100vh;
     }
     
-    #chrome-markdown-original {
+    #mdx-markdown-original {
       display: none !important;
     }
     
@@ -1282,34 +1288,18 @@ window.addEventListener('unhandledrejection', (event) => {
   event.preventDefault()
 })
 
-;(() => {
-  console.log('🚀 Safari Markdown Extension initializing at document_start...')
+setTimeout(() => {
+  isMarkdownFile = checkIfMarkdown()
 
-  try {
-    if (checkIfMarkdown()) {
-      console.log('✅ Detected markdown file, setting up extension...')
-      isMarkdownFile = true
+  if (isMarkdownFile) {
+    initializeShiki()
 
-      initializeShiki()
+    // Set up streaming observer immediately - don't wait for DOM
+    setupStreamingObserver()
 
-      // Set up streaming observer immediately - don't wait for DOM
-      try {
-        setupStreamingObserver()
-      } catch (error) {
-        console.error('Safari Extension: Error setting up streaming observer:', error)
-      }
-
-      // Add mode toggle button (will wait for body to exist)
-      try {
-        addModeIndicator()
-      } catch (error) {
-        console.error('Safari Extension: Error adding mode indicator:', error)
-      }
-    } else {
-      console.log('❌ Not a markdown file, extension will remain inactive')
-    }
-  } catch (error) {
-    console.error('Safari Extension: Error during initialization:', error)
-    // Gracefully fail - don't crash the page
+    // Add mode toggle button (will wait for body to exist)
+    addModeIndicator()
+  } else {
+    console.log('❌ Not a markdown file, extension will remain inactive')
   }
-})()
+}, 0)
