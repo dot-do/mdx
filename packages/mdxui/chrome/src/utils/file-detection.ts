@@ -44,7 +44,7 @@ export function isSupportedFile(url: string, mimeType?: string): boolean {
   }
 
   // Exclude common website patterns that may have file extensions in URLs
-  const isWebsitePage = 
+  const isWebsitePage =
     // GitHub website pages (not raw content)
     /^https?:\/\/github\.com\/.+\/(actions|issues|pulls|releases|wiki|discussions|security|insights|settings)\//.test(url) ||
     // General website patterns that aren't direct file access
@@ -92,9 +92,8 @@ export function checkIfMarkdownFile(): boolean {
   console.log('FileDetection: Checking if markdown - URL:', url, 'Content-Type:', contentType)
 
   // Exclude GitHub website pages that aren't raw content
-  const isGitHubWebsitePage = 
-    /^https?:\/\/github\.com\/.+\/(actions|issues|pulls|releases|wiki|discussions|security|insights|settings|blob|tree)\//.test(url)
-  
+  const isGitHubWebsitePage = /^https?:\/\/github\.com\/.+\/(actions|issues|pulls|releases|wiki|discussions|security|insights|settings|blob|tree)\//.test(url)
+
   if (isGitHubWebsitePage) {
     console.log('FileDetection: Skipping GitHub website page:', url)
     return false

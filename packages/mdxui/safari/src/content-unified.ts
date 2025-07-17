@@ -56,7 +56,15 @@ function checkIfMarkdown(): boolean {
   console.log('File info:', fileInfo)
   console.log('Is supported file:', isSupported)
 
-  return fileInfo.isSupported || isSupported
+  // Only process if BOTH the file has a supported extension AND our filtering allows it
+  const shouldProcess = fileInfo.isSupported && isSupported
+
+  if (!shouldProcess) {
+    console.log('Not supported, extension will remain inactive')
+    return false
+  }
+
+  return shouldProcess
 }
 
 // Direct port of user's processMarkdownWithCodeBlocks function
