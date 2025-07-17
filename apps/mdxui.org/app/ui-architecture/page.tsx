@@ -4,14 +4,14 @@ import { SectionHeader } from '@/components/section-header'
 
 // UI Architecture Components
 // Directory
-import AIServiceDirectoryDiagram from '@/components/ui-architecture /directory'
+import AIServiceDirectoryDiagram from '@/components/ui-architecture/directory'
 
 // Landing Page
-import Landing1 from '@/components/ui-architecture /landing-1'
+import Landing1 from '@/components/ui-architecture/landing-1'
 
 // Blog
-import BlogDirectory from '@/components/ui-architecture /blog-directory'
-import BlogPage from '@/components/ui-architecture /blog-page'
+import BlogDirectory from '@/components/ui-architecture/blog-directory'
+import BlogPage from '@/components/ui-architecture/blog-page'
 
 export default function UIArchitecture() {
   return (
