@@ -6,6 +6,6 @@
       "@mdxui/*": ["./*/src", "./*"]
     }
   },
-  "include": ["*/src/**/*.ts", "*/src/**/*.tsx", "*/index.ts", "*/index.js"],
+  "include": ["*/src/**/*.ts", "*/src/**/*.tsx", "*/index.ts", "*/index.js", "chrome/src/content-shiki.js"],
   "exclude": ["node_modules"]
 }

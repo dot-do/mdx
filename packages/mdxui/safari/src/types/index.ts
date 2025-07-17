@@ -1,4 +1,4 @@
-// Shared type definitions for Chrome extension
+// Shared type definitions for Safari extension
 
 export interface ViewMode {
   type: 'browse' | 'edit'

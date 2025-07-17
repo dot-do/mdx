@@ -1,4 +1,4 @@
-// Centralized constants for Chrome extension
+// Centralized constants for Safari extension
 
 // Rendering constants
 export const RENDER_DEBOUNCE_MS = 50

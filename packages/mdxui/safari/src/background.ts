@@ -2,7 +2,7 @@
 import './types/index.js'
 
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('@mdxui/chrome extension installed')
+  console.log('@mdxui/safari extension installed')
 })
 
 chrome.action.onClicked.addListener((tab: chrome.tabs.Tab) => {

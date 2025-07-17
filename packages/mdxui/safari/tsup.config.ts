@@ -2,18 +2,24 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig({
   entry: {
-    index: 'src/index.ts',
-    'contentScripts/fileRenderer': 'contentScripts/fileRenderer.ts',
-    'contentScripts/monacoIntegration': 'contentScripts/monacoIntegration.ts',
-    'utils/fileTypeDetection': 'utils/fileTypeDetection.ts',
+    background: 'src/background.ts',
+    content: 'src/content-unified.ts',
   },
-  format: ['esm'],
+  format: ['cjs'],
+  outDir: 'dist',
   dts: false,
   clean: true,
-  noExternal: ['@mdxui/browser'],
+  minify: true, // Enable minification for size reduction
+  sourcemap: false, // Disable sourcemaps for production to save ~12MB
+  // Self-contained Safari extension scripts - bundle everything except chrome API
   external: ['chrome'],
-  esbuildOptions: (options) => {
-    options.resolveExtensions = ['.tsx', '.ts', '.jsx', '.js', '.json']
-    return options
+  outExtension({ format }) {
+    return {
+      js: `.js`,
+    }
   },
+  // Bundle Shiki and other dependencies
+  noExternal: ['shiki'],
+  treeshake: true, // Enable tree-shaking
+  splitting: false, // Disable code splitting for Safari extension
 })

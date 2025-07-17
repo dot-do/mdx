@@ -9,8 +9,8 @@ export default defineConfig({
   target: 'chrome91',
   outDir: 'dist',
   clean: true,
-  minify: false,
-  sourcemap: true,
+  minify: true, // Enable minification for size reduction
+  sourcemap: false, // Disable sourcemaps for production to save ~12MB
   // Self-contained Chrome extension scripts - bundle everything except chrome API
   external: ['chrome'],
   outExtension({ format }) {
@@ -20,4 +20,6 @@ export default defineConfig({
   },
   // Bundle Shiki and other dependencies
   noExternal: ['shiki'],
+  treeshake: true, // Enable tree-shaking
+  splitting: false, // Disable code splitting for Chrome extension
 })

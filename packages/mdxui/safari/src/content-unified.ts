@@ -7,7 +7,7 @@ import { getCurrentUrl, getDocumentMimeType } from './utils/chrome-utils.js'
 import { checkIfMarkdownFile, detectFileTypeFromUrl, detectLanguage, isSupportedFile } from './utils/file-detection.js'
 import { createMonacoEditor, initializeMonaco, setupMonacoThemes } from './utils/monaco-renderer.js'
 
-console.log('MDX Chrome Extension: Unified streaming script loaded')
+console.log('MDX Safari Extension: Unified streaming script loaded')
 
 // Global state - keep it simple like the working code
 let container: HTMLDivElement | null = null
@@ -1264,7 +1264,7 @@ function addModeIndicator(): void {
 }
 
 ;(() => {
-  console.log('🚀 Chrome Markdown Extension initializing at document_start...')
+  console.log('🚀 Safari Markdown Extension initializing at document_start...')
 
   if (checkIfMarkdown()) {
     console.log('✅ Detected markdown file, setting up extension...')
