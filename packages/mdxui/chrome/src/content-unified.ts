@@ -200,7 +200,7 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
           `<div class="code-block-header">${block.language}${block.isComplete ? '' : '<span class="streaming-indicator">● Streaming...</span>'}</div>` +
           `${codeHtml}` +
           `</div>`
-      } catch (_e) {
+      } catch {
         const fallbackHtml = await codeToHtmlFn(block.code?.trim() || '', {
           lang: 'text',
           theme: DEFAULT_SHIKI_THEME,
@@ -581,7 +581,7 @@ async function renderEditMode(content: string): Promise<void> {
         layout: () => {
           /* no-op for textarea */
         },
-      } as any
+      } as MonacoEditorProxy
     }
   }
 }
