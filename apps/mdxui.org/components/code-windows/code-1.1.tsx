@@ -30,7 +30,7 @@ export function Code11({
 }: Code11Props) {
   const [highlightedCode, setHighlightedCode] = useState<Record<string, string>>({})
   const [copied, setCopied] = useState(false)
-  const { theme, resolvedTheme } = useTheme()
+  const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {

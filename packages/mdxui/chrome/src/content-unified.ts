@@ -56,15 +56,7 @@ function checkIfMarkdown(): boolean {
   console.log('File info:', fileInfo)
   console.log('Is supported file:', isSupported)
 
-  // Only process if BOTH the file has a supported extension AND our filtering allows it
-  const shouldProcess = fileInfo.isSupported && isSupported
-
-  if (!shouldProcess) {
-    console.log('Not supported, extension will remain inactive')
-    return false
-  }
-
-  return shouldProcess
+  return fileInfo.isSupported || isSupported
 }
 
 // Direct port of user's processMarkdownWithCodeBlocks function
@@ -1277,6 +1269,19 @@ function addModeIndicator(): void {
   })
 }
 
+// Global error handlers to prevent extension disabling
+window.addEventListener('error', (event) => {
+  console.error('Chrome Extension: Global error caught:', event.error)
+  // Prevent the error from bubbling up and potentially disabling the extension
+  event.preventDefault()
+})
+
+window.addEventListener('unhandledrejection', (event) => {
+  console.error('Chrome Extension: Unhandled promise rejection:', event.reason)
+  // Prevent the rejection from potentially disabling the extension
+  event.preventDefault()
+})
+
 ;(() => {
   console.log('🚀 Chrome Markdown Extension initializing at document_start...')
 
@@ -1288,10 +1293,18 @@ function addModeIndicator(): void {
       initializeShiki()
 
       // Set up streaming observer immediately - don't wait for DOM
-      setupStreamingObserver()
+      try {
+        setupStreamingObserver()
+      } catch (error) {
+        console.error('Chrome Extension: Error setting up streaming observer:', error)
+      }
 
       // Add mode toggle button (will wait for body to exist)
-      addModeIndicator()
+      try {
+        addModeIndicator()
+      } catch (error) {
+        console.error('Chrome Extension: Error adding mode indicator:', error)
+      }
     } else {
       console.log('❌ Not a markdown file, extension will remain inactive')
     }

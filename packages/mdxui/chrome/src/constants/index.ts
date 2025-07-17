@@ -53,7 +53,6 @@ export const SUPPORTED_EXTENSIONS = [
   '.less',
   '.xml',
   '.yaml',
-  '.yml',
 ] as const
 
 export const SUPPORTED_MIME_TYPES = [
