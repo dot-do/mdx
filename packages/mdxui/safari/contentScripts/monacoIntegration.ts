@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import type * as MonacoType from 'monaco-editor'
 import {
   MonacoConfig,

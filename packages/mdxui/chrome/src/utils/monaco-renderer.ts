@@ -1,5 +1,5 @@
 // Monaco renderer utilities for Chrome extension
-// Refactored from monacoRenderer.ts to work with unified architecture
+// Refactored from monaco-renderer.ts to work with unified architecture
 
 import type { MonacoEditorProxy, RenderOptions } from '../types/index.js'
 import { MONACO_INIT_TIMEOUT_MS } from '../constants/index.js'
@@ -88,9 +88,14 @@ export function setupMonacoThemes(): void {
   )
 }
 
-// Language detection functions are now centralized in utils/fileDetection.ts
+// Language detection functions are now centralized in utils/file-detection.ts
+
+// Store current editor content
+let currentEditorContent: string = ''
 
 export function createMonacoEditor(container: HTMLElement, options: RenderOptions): Promise<MonacoEditorProxy> {
+  // Initialize content
+  currentEditorContent = options.content || ''
   return new Promise((resolve, reject) => {
     console.log('Monaco: Creating editor via main world')
 
@@ -101,6 +106,16 @@ export function createMonacoEditor(container: HTMLElement, options: RenderOption
     if (!container.id) {
       container.id = `monaco-container-${editorId}`
     }
+
+    // Set up content change handler
+    const handleContentChange = (event: Event) => {
+      const customEvent = event as CustomEvent
+      if (customEvent.detail && customEvent.detail.editorId === editorId && typeof customEvent.detail.content === 'string') {
+        currentEditorContent = customEvent.detail.content
+        console.log('Monaco: Content updated, new length:', currentEditorContent.length)
+      }
+    }
+    window.addEventListener('monaco-editor-content-changed', handleContentChange)
 
     const handleEditorCreated = (event: Event) => {
       const customEvent = event as CustomEvent
@@ -122,14 +137,17 @@ export function createMonacoEditor(container: HTMLElement, options: RenderOption
             window.dispatchEvent(new CustomEvent(`monaco-editor-${editorId}-resize`))
           },
           dispose: () => {
+            window.removeEventListener('monaco-editor-content-changed', handleContentChange)
             window.dispatchEvent(new CustomEvent(`monaco-editor-${editorId}-dispose`))
           },
-          getValue: () => {
-            // For future implementation - would need message passing to get value
-            return undefined
+          getValue: (): string | undefined => {
+            // Return the stored content (updated by change events)
+            console.log('Monaco getValue: returning stored content, length:', currentEditorContent.length)
+            return currentEditorContent
           },
           setValue: (value: string) => {
-            // For future implementation - would need message passing to set value
+            // Update stored content and dispatch event
+            currentEditorContent = value
             window.dispatchEvent(
               new CustomEvent(`monaco-editor-${editorId}-setValue`, {
                 detail: { value },
@@ -164,6 +182,34 @@ export function createMonacoEditor(container: HTMLElement, options: RenderOption
     window.addEventListener('monaco-editor-created', handleEditorCreated)
     window.addEventListener('monaco-editor-error', handleEditorError)
 
+    // Add scrollbar track styling to Monaco container
+    const style = document.createElement('style')
+    style.textContent = `
+      #${container.id} ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      
+      #${container.id} ::-webkit-scrollbar-track {
+        background: #21262d;
+        border-radius: 4px;
+      }
+      
+      #${container.id} ::-webkit-scrollbar-thumb {
+        background: #656d76;
+        border-radius: 4px;
+      }
+      
+      #${container.id} ::-webkit-scrollbar-thumb:hover {
+        background: #768390;
+      }
+      
+      #${container.id} ::-webkit-scrollbar-corner {
+        background: #21262d;
+      }
+    `
+    document.head.appendChild(style)
+
     // Send create editor request to main world
     window.dispatchEvent(
       new CustomEvent('create-monaco-editor', {
@@ -186,8 +232,8 @@ export function createMonacoEditor(container: HTMLElement, options: RenderOption
             fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace',
             lineHeight: 1.5,
             padding: {
-              top: 16,
-              bottom: 16,
+              top: 20,
+              bottom: 20,
             },
             scrollbar: {
               vertical: 'auto',

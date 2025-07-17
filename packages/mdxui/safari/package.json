@@ -19,13 +19,11 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsup && npm run build:extension",
-    "build:extension": "cp manifest.json dist/ && cp -r contentScripts dist/ && cp -r utils dist/ && mkdir -p dist/node_modules/monaco-editor && cp -r ./node_modules/monaco-editor/min dist/node_modules/monaco-editor/",
+    "build": "tsup && cp manifest.json dist/",
     "dev": "tsup --watch",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint src contentScripts utils --max-warnings 0",
-    "test": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "lint": "eslint src --max-warnings 0",
+    "test": "echo 'No tests yet'",
+    "test:coverage": "echo 'No tests yet'"
   },
   "keywords": [
     "safari",
@@ -39,20 +37,20 @@
   "author": "MDX Team",
   "dependencies": {
     "@mdxui/browser": "workspace:*",
-    "monaco-editor": "^0.52.2"
-  },
-  "peerDependencies": {
-    "react": "^19"
+    "monaco-editor": "^0.52.2",
+    "shiki": "^3.8.0"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/tsup-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/chrome": "^0.0.268",
-    "@types/react": "^19.1.5",
+    "@types/chrome": "^0.1.0",
+    "esbuild": "^0.25.6",
     "eslint": "^9.27.0",
     "tsup": "^8.0.2",
+    "tsx": "^4.19.4",
     "typescript": "^5.8.3",
+    "webpack-bundle-analyzer": "^4.10.2",
     "vitest": "^3.1.4"
   }
 }

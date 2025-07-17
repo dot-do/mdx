@@ -1,6 +1,6 @@
 // Enhanced file detection utilities for Chrome extension
 import type { FileTypeInfo } from '../types/index.js'
-import { SUPPORTED_EXTENSIONS, SUPPORTED_MIME_TYPES } from '../constants/index.js'
+import { SUPPORTED_EXTENSIONS } from '../constants/index.js'
 
 export function getFileExtension(url: string): string {
   const path = url.split('/').pop() || ''
@@ -33,11 +33,37 @@ export function detectFileTypeFromUrl(url: string): FileTypeInfo {
 }
 
 export function isSupportedFile(url: string, mimeType?: string): boolean {
+  // Only activate on direct file URLs, not regular websites
   const extension = getFileExtension(url)
   const fullExtension = `.${extension}`
 
+  // Special case for llms.txt files
+  const isLlmsTxt = /\/llms\.txt(?:\?|#|$)/i.test(url)
+  if (isLlmsTxt) {
+    return true
+  }
+
+  // Check if URL looks like a direct file (has extension in path, not just query params)
+  const hasFileExtensionInPath = /\.[a-zA-Z0-9]+(?:\?|#|$)/.test(url)
+
+  // Only proceed if it looks like a file URL
+  if (!hasFileExtensionInPath) {
+    return false
+  }
+
   const hasSupported = (SUPPORTED_EXTENSIONS as readonly string[]).includes(fullExtension)
-  const hasSupportedMime = mimeType ? (SUPPORTED_MIME_TYPES as readonly string[]).includes(mimeType) : false
+
+  // For MIME type, be much more restrictive - only pure content types
+  const restrictedSupportedMimes = [
+    'text/markdown',
+    'text/x-markdown',
+    'text/plain', // Only for direct file access
+    'text/mdx',
+    'text/mdx+ld',
+    'text/markdown+ld',
+  ]
+
+  const hasSupportedMime = mimeType ? restrictedSupportedMimes.includes(mimeType) : false
 
   return hasSupported || hasSupportedMime
 }
@@ -52,14 +78,26 @@ export function checkIfMarkdownFile(): boolean {
 
   console.log('FileDetection: Checking if markdown - URL:', url, 'Content-Type:', contentType)
 
-  return (
-    /\.(md|mdx|markdown)$/i.test(url) ||
+  // Much more restrictive - only activate on:
+  // 1. URLs that clearly end with markdown extensions
+  // 2. Raw content URLs (github raw, etc.)
+  // 3. File:// protocol
+  // 4. Direct markdown MIME types (not text/html)
+  // 5. llms.txt files (AI-readable site information)
+
+  const hasMarkdownExtension = /\.(md|mdx|markdown)(?:\?|#|$)/i.test(url)
+  const isLlmsTxt = /\/llms\.txt(?:\?|#|$)/i.test(url)
+  const isRawContent = /raw\.githubusercontent\.com|cdn\.rawgit\.com|rawgit\.com|gist\.githubusercontent\.com/.test(url)
+  const isFileProtocol = url.startsWith('file://')
+  const isMarkdownMimeType =
     contentType.startsWith('text/markdown') ||
-    contentType.startsWith('text/plain') ||
+    contentType.startsWith('text/x-markdown') ||
     contentType.startsWith('text/mdx') ||
-    contentType.startsWith('text/mdx+ld') ||
-    contentType.startsWith('text/markdown+ld')
-  )
+    contentType === 'text/mdx+ld' ||
+    contentType === 'text/markdown+ld'
+
+  // Only activate if it's clearly a markdown file, llms.txt, or not a regular webpage
+  return hasMarkdownExtension || isLlmsTxt || isRawContent || isFileProtocol || isMarkdownMimeType
 }
 
 export function getLanguageFromExtension(extension: string): string {
