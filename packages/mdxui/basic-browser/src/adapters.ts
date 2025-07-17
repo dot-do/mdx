@@ -70,7 +70,7 @@ export class StaticApiClient implements ApiClient {
     return Promise.resolve(this.files)
   }
 
-  async getFile(path: string): Promise<string | null> {
+  async getFile(): Promise<string | null> {
     // For static content, just return the provided content
     // In real usage, you might want to map paths to different content
     return Promise.resolve(this.content)

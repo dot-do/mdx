@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import type { ApiClient } from '../adapters'
 import { cn } from '../utils'

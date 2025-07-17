@@ -3,7 +3,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 self.MonacoEnvironment = {
-  getWorker(_: any, label: string) {
+  getWorker(_: unknown, label: string) {
     switch (label) {
       case 'json':
         return new Worker(new URL('monaco-editor/esm/vs/language/json/json.worker?worker', import.meta.url), { type: 'module' })

@@ -61,265 +61,271 @@ function checkIfMarkdown(): boolean {
 
 // Direct port of user's processMarkdownWithCodeBlocks function
 async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
-  // Regular expressions for different content types
-  const codeBlockRegex = /```(\w*)\n([\s\S]*?)```/g
-  const incompleteCodeBlockRegex = /```(\w*)\n([\s\S]*)$/
-  const htmlBlockRegex = /<(\w+)(?:\s[^>]*)?>[\s\S]*?<\/\1>|<\w+(?:\s[^>]*)?\s*\/>/g
-  const incompleteHtmlBlockRegex = /<(\w+)(?:\s[^>]*)?>[\s\S]*$/
+  try {
+    // Regular expressions for different content types
+    const codeBlockRegex = /```(\w*)\n([\s\S]*?)```/g
+    const incompleteCodeBlockRegex = /```(\w*)\n([\s\S]*)$/
+    const htmlBlockRegex = /<(\w+)(?:\s[^>]*)?>[\s\S]*?<\/\1>|<\w+(?:\s[^>]*)?\s*\/>/g
+    const incompleteHtmlBlockRegex = /<(\w+)(?:\s[^>]*)?>[\s\S]*$/
 
-  // Collect all special blocks (code blocks and HTML blocks)
-  const specialBlocks: Array<{
-    type: 'code' | 'html'
-    fullMatch: string
-    language?: string
-    code?: string
-    index: number
-    length: number
-    isComplete: boolean
-    tagName?: string
-  }> = []
+    // Collect all special blocks (code blocks and HTML blocks)
+    const specialBlocks: Array<{
+      type: 'code' | 'html'
+      fullMatch: string
+      language?: string
+      code?: string
+      index: number
+      length: number
+      isComplete: boolean
+      tagName?: string
+    }> = []
 
-  // Find all complete code blocks
-  let match: RegExpExecArray | null
-  while ((match = codeBlockRegex.exec(content)) !== null) {
-    specialBlocks.push({
-      type: 'code',
-      fullMatch: match[0],
-      language: match[1] || 'text',
-      code: match[2],
-      index: match.index,
-      length: match[0].length,
-      isComplete: true,
-    })
-  }
-
-  // Check for incomplete code block at the end
-  const incompleteMatch = content.match(incompleteCodeBlockRegex)
-  if (incompleteMatch && !content.endsWith('```')) {
-    // Make sure this isn't already part of a complete block
-    const incompleteStart = content.lastIndexOf(incompleteMatch[0])
-    const isPartOfCompleteBlock = specialBlocks.some(
-      (block) => block.type === 'code' && incompleteStart >= block.index && incompleteStart < block.index + block.length,
-    )
-
-    if (!isPartOfCompleteBlock) {
+    // Find all complete code blocks
+    let match: RegExpExecArray | null
+    while ((match = codeBlockRegex.exec(content)) !== null) {
       specialBlocks.push({
         type: 'code',
-        fullMatch: incompleteMatch[0],
-        language: incompleteMatch[1] || 'text',
-        code: incompleteMatch[2],
-        index: incompleteStart,
-        length: incompleteMatch[0].length,
-        isComplete: false,
+        fullMatch: match[0],
+        language: match[1] || 'text',
+        code: match[2],
+        index: match.index,
+        length: match[0].length,
+        isComplete: true,
       })
     }
-  }
 
-  // Find all HTML blocks (but not those inside code blocks)
-  const tempContent = content.replace(codeBlockRegex, (match) => ' '.repeat(match.length))
-  while ((match = htmlBlockRegex.exec(tempContent)) !== null) {
-    // Extract the original HTML from the content
-    const htmlContent = content.slice(match.index, match.index + match[0].length)
-    specialBlocks.push({
-      type: 'html',
-      fullMatch: htmlContent,
-      index: match.index,
-      length: match[0].length,
-      isComplete: true,
-    })
-  }
-
-  // Check for incomplete HTML block at the end
-  const incompleteHtmlMatch = tempContent.match(incompleteHtmlBlockRegex)
-  if (incompleteHtmlMatch) {
-    const tagName = incompleteHtmlMatch[1]
-    const closingTag = `</${tagName}>`
-
-    const incompleteStart = content.lastIndexOf(incompleteHtmlMatch[0])
-
-    // Check if there's a proper closing tag after this opening tag
-    const remainingContent = content.slice(incompleteStart)
-    const openingTagEnd = remainingContent.indexOf('>') + 1
-    const contentAfterOpeningTag = remainingContent.slice(openingTagEnd)
-
-    // Only consider it incomplete if there's no matching closing tag
-    if (!contentAfterOpeningTag.includes(closingTag)) {
+    // Check for incomplete code block at the end
+    const incompleteMatch = content.match(incompleteCodeBlockRegex)
+    if (incompleteMatch && !content.endsWith('```')) {
       // Make sure this isn't already part of a complete block
-      const isPartOfCompleteBlock = specialBlocks.some((block) => incompleteStart >= block.index && incompleteStart < block.index + block.length)
+      const incompleteStart = content.lastIndexOf(incompleteMatch[0])
+      const isPartOfCompleteBlock = specialBlocks.some(
+        (block) => block.type === 'code' && incompleteStart >= block.index && incompleteStart < block.index + block.length,
+      )
 
       if (!isPartOfCompleteBlock) {
         specialBlocks.push({
-          type: 'html',
-          fullMatch: incompleteHtmlMatch[0],
+          type: 'code',
+          fullMatch: incompleteMatch[0],
+          language: incompleteMatch[1] || 'text',
+          code: incompleteMatch[2],
           index: incompleteStart,
-          length: incompleteHtmlMatch[0].length,
+          length: incompleteMatch[0].length,
           isComplete: false,
-          tagName: tagName,
         })
       }
     }
-  }
 
-  // Sort blocks by position
-  specialBlocks.sort((a, b) => a.index - b.index)
+    // Find all HTML blocks (but not those inside code blocks)
+    const tempContent = content.replace(codeBlockRegex, (match) => ' '.repeat(match.length))
+    while ((match = htmlBlockRegex.exec(tempContent)) !== null) {
+      // Extract the original HTML from the content
+      const htmlContent = content.slice(match.index, match.index + match[0].length)
+      specialBlocks.push({
+        type: 'html',
+        fullMatch: htmlContent,
+        index: match.index,
+        length: match[0].length,
+        isComplete: true,
+      })
+    }
 
-  // If no special blocks, render as pure markdown
-  if (specialBlocks.length === 0) {
-    return await codeToHtmlFn(content, {
-      lang: 'markdown',
-      theme: DEFAULT_SHIKI_THEME,
-    })
-  }
+    // Check for incomplete HTML block at the end
+    const incompleteHtmlMatch = tempContent.match(incompleteHtmlBlockRegex)
+    if (incompleteHtmlMatch) {
+      const tagName = incompleteHtmlMatch[1]
+      const closingTag = `</${tagName}>`
 
-  // Process content in segments
-  let result = ''
-  let lastIndex = 0
+      const incompleteStart = content.lastIndexOf(incompleteHtmlMatch[0])
 
-  for (const block of specialBlocks) {
-    // Add markdown content before this block
-    if (block.index > lastIndex) {
-      const markdownSegment = content.slice(lastIndex, block.index)
-      if (markdownSegment.trim()) {
-        result += await codeToHtmlFn(markdownSegment, {
+      // Check if there's a proper closing tag after this opening tag
+      const remainingContent = content.slice(incompleteStart)
+      const openingTagEnd = remainingContent.indexOf('>') + 1
+      const contentAfterOpeningTag = remainingContent.slice(openingTagEnd)
+
+      // Only consider it incomplete if there's no matching closing tag
+      if (!contentAfterOpeningTag.includes(closingTag)) {
+        // Make sure this isn't already part of a complete block
+        const isPartOfCompleteBlock = specialBlocks.some((block) => incompleteStart >= block.index && incompleteStart < block.index + block.length)
+
+        if (!isPartOfCompleteBlock) {
+          specialBlocks.push({
+            type: 'html',
+            fullMatch: incompleteHtmlMatch[0],
+            index: incompleteStart,
+            length: incompleteHtmlMatch[0].length,
+            isComplete: false,
+            tagName: tagName,
+          })
+        }
+      }
+    }
+
+    // Sort blocks by position
+    specialBlocks.sort((a, b) => a.index - b.index)
+
+    // If no special blocks, render as pure markdown
+    if (specialBlocks.length === 0) {
+      return await codeToHtmlFn(content, {
+        lang: 'markdown',
+        theme: DEFAULT_SHIKI_THEME,
+      })
+    }
+
+    // Process content in segments
+    let result = ''
+    let lastIndex = 0
+
+    for (const block of specialBlocks) {
+      // Add markdown content before this block
+      if (block.index > lastIndex) {
+        const markdownSegment = content.slice(lastIndex, block.index)
+        if (markdownSegment.trim()) {
+          result += await codeToHtmlFn(markdownSegment, {
+            lang: 'markdown',
+            theme: DEFAULT_SHIKI_THEME,
+          })
+        }
+      }
+
+      if (block.type === 'code') {
+        // Handle code block
+        try {
+          const codeHtml = await codeToHtmlFn(block.code?.trim() || '', {
+            lang: block.language || 'text',
+            theme: DEFAULT_SHIKI_THEME,
+          })
+
+          result +=
+            `<div class="code-block-wrapper${block.isComplete ? '' : ' incomplete'}">` +
+            `<div class="code-block-header">${block.language}${block.isComplete ? '' : '<span class="streaming-indicator">● Streaming...</span>'}</div>` +
+            `${codeHtml}` +
+            `</div>`
+        } catch {
+          const fallbackHtml = await codeToHtmlFn(block.code?.trim() || '', {
+            lang: 'text',
+            theme: DEFAULT_SHIKI_THEME,
+          })
+          result +=
+            `<div class="code-block-wrapper${block.isComplete ? '' : ' incomplete'}">` +
+            `<div class="code-block-header">${block.language}${block.isComplete ? '' : '<span class="streaming-indicator">● Streaming...</span>'}</div>` +
+            `${fallbackHtml}` +
+            `</div>`
+        }
+      } else if (block.type === 'html') {
+        // Handle HTML block - extract content and process markdown inside
+        if (block.isComplete) {
+          const htmlTagMatch = block.fullMatch.match(/^<(\w+)(?:\s[^>]*)?>(.*)(<\/\1>)$/s)
+
+          if (htmlTagMatch) {
+            const tagName = htmlTagMatch[1] || 'div'
+            const openingTag = block.fullMatch.substring(0, block.fullMatch.indexOf('>') + 1)
+            const innerContent = htmlTagMatch[2] || ''
+            const closingTag = htmlTagMatch[3] || ''
+
+            // Process the inner content based on tag type
+            let processedInner = ''
+            if (innerContent.trim()) {
+              if (tagName.toLowerCase() === 'usage') {
+                // Treat content inside <usage> tags as YAML
+                processedInner = await codeToHtmlFn(innerContent.trim(), {
+                  lang: 'yaml',
+                  theme: DEFAULT_SHIKI_THEME,
+                })
+              } else {
+                // Process as markdown (recursively) for other tags
+                processedInner = await processMarkdownWithCodeBlocks(innerContent)
+              }
+            }
+
+            // Highlight the opening and closing tags
+            const openingTagHtml = await codeToHtmlFn(openingTag, {
+              lang: 'html',
+              theme: DEFAULT_SHIKI_THEME,
+            })
+
+            const closingTagHtml = await codeToHtmlFn(closingTag, {
+              lang: 'html',
+              theme: DEFAULT_SHIKI_THEME,
+            })
+
+            result +=
+              `<div class="html-block-wrapper${tagName.toLowerCase() === 'usage' ? ' usage-block' : ''}">` +
+              `<div class="html-tag">${openingTagHtml}</div>` +
+              `<div class="html-content">${processedInner}</div>` +
+              `<div class="html-tag">${closingTagHtml}</div>` +
+              `</div>`
+          } else {
+            // Self-closing tag or malformed - just highlight as HTML
+            const htmlHighlighted = await codeToHtmlFn(block.fullMatch, {
+              lang: 'html',
+              theme: DEFAULT_SHIKI_THEME,
+            })
+
+            result += `<div class="html-block-wrapper">${htmlHighlighted}</div>`
+          }
+        } else {
+          // Incomplete HTML block
+          const openingTagMatch = block.fullMatch.match(/^<(\w+)(?:\s[^>]*)?>(.*)$/s)
+          if (openingTagMatch) {
+            const tagName = openingTagMatch[1] || 'div'
+            const openingTag = block.fullMatch.substring(0, block.fullMatch.indexOf('>') + 1)
+            const innerContent = openingTagMatch[2] || ''
+
+            // Process the inner content based on tag type
+            let processedInner = ''
+            if (innerContent.trim()) {
+              if (tagName.toLowerCase() === 'usage') {
+                // Treat content inside <usage> tags as YAML
+                processedInner = await codeToHtmlFn(innerContent.trim(), {
+                  lang: 'yaml',
+                  theme: DEFAULT_SHIKI_THEME,
+                })
+              } else if (tagName.toLowerCase() === 'thinking') {
+                // Treat content inside <thinking> tags as markdown
+                processedInner = await processMarkdownWithCodeBlocks(innerContent)
+              } else {
+                // Process as markdown (recursively) for other tags
+                processedInner = await processMarkdownWithCodeBlocks(innerContent)
+              }
+            }
+
+            // Highlight the opening tag
+            const openingTagHtml = await codeToHtmlFn(openingTag, {
+              lang: 'html',
+              theme: DEFAULT_SHIKI_THEME,
+            })
+
+            result +=
+              `<div class="html-block-wrapper${tagName.toLowerCase() === 'usage' ? ' usage-block' : ''} incomplete">` +
+              `<div class="html-tag">${openingTagHtml}</div>` +
+              `<div class="html-content">${processedInner}</div>` +
+              `<div class="html-tag streaming-tag"><span class="streaming-indicator">● Waiting for </${tagName}>...</span></div>` +
+              `</div>`
+          }
+        }
+      }
+
+      lastIndex = block.index + block.length
+    }
+
+    // Add any remaining markdown content
+    if (lastIndex < content.length) {
+      const remainingContent = content.slice(lastIndex)
+      if (remainingContent.trim()) {
+        result += await codeToHtmlFn(remainingContent, {
           lang: 'markdown',
           theme: DEFAULT_SHIKI_THEME,
         })
       }
     }
 
-    if (block.type === 'code') {
-      // Handle code block
-      try {
-        const codeHtml = await codeToHtmlFn(block.code?.trim() || '', {
-          lang: block.language || 'text',
-          theme: DEFAULT_SHIKI_THEME,
-        })
-
-        result +=
-          `<div class="code-block-wrapper${block.isComplete ? '' : ' incomplete'}">` +
-          `<div class="code-block-header">${block.language}${block.isComplete ? '' : '<span class="streaming-indicator">● Streaming...</span>'}</div>` +
-          `${codeHtml}` +
-          `</div>`
-      } catch {
-        const fallbackHtml = await codeToHtmlFn(block.code?.trim() || '', {
-          lang: 'text',
-          theme: DEFAULT_SHIKI_THEME,
-        })
-        result +=
-          `<div class="code-block-wrapper${block.isComplete ? '' : ' incomplete'}">` +
-          `<div class="code-block-header">${block.language}${block.isComplete ? '' : '<span class="streaming-indicator">● Streaming...</span>'}</div>` +
-          `${fallbackHtml}` +
-          `</div>`
-      }
-    } else if (block.type === 'html') {
-      // Handle HTML block - extract content and process markdown inside
-      if (block.isComplete) {
-        const htmlTagMatch = block.fullMatch.match(/^<(\w+)(?:\s[^>]*)?>(.*)(<\/\1>)$/s)
-
-        if (htmlTagMatch) {
-          const tagName = htmlTagMatch[1] || 'div'
-          const openingTag = block.fullMatch.substring(0, block.fullMatch.indexOf('>') + 1)
-          const innerContent = htmlTagMatch[2] || ''
-          const closingTag = htmlTagMatch[3] || ''
-
-          // Process the inner content based on tag type
-          let processedInner = ''
-          if (innerContent.trim()) {
-            if (tagName.toLowerCase() === 'usage') {
-              // Treat content inside <usage> tags as YAML
-              processedInner = await codeToHtmlFn(innerContent.trim(), {
-                lang: 'yaml',
-                theme: DEFAULT_SHIKI_THEME,
-              })
-            } else {
-              // Process as markdown (recursively) for other tags
-              processedInner = await processMarkdownWithCodeBlocks(innerContent)
-            }
-          }
-
-          // Highlight the opening and closing tags
-          const openingTagHtml = await codeToHtmlFn(openingTag, {
-            lang: 'html',
-            theme: DEFAULT_SHIKI_THEME,
-          })
-
-          const closingTagHtml = await codeToHtmlFn(closingTag, {
-            lang: 'html',
-            theme: DEFAULT_SHIKI_THEME,
-          })
-
-          result +=
-            `<div class="html-block-wrapper${tagName.toLowerCase() === 'usage' ? ' usage-block' : ''}">` +
-            `<div class="html-tag">${openingTagHtml}</div>` +
-            `<div class="html-content">${processedInner}</div>` +
-            `<div class="html-tag">${closingTagHtml}</div>` +
-            `</div>`
-        } else {
-          // Self-closing tag or malformed - just highlight as HTML
-          const htmlHighlighted = await codeToHtmlFn(block.fullMatch, {
-            lang: 'html',
-            theme: DEFAULT_SHIKI_THEME,
-          })
-
-          result += `<div class="html-block-wrapper">${htmlHighlighted}</div>`
-        }
-      } else {
-        // Incomplete HTML block
-        const openingTagMatch = block.fullMatch.match(/^<(\w+)(?:\s[^>]*)?>(.*)$/s)
-        if (openingTagMatch) {
-          const tagName = openingTagMatch[1] || 'div'
-          const openingTag = block.fullMatch.substring(0, block.fullMatch.indexOf('>') + 1)
-          const innerContent = openingTagMatch[2] || ''
-
-          // Process the inner content based on tag type
-          let processedInner = ''
-          if (innerContent.trim()) {
-            if (tagName.toLowerCase() === 'usage') {
-              // Treat content inside <usage> tags as YAML
-              processedInner = await codeToHtmlFn(innerContent.trim(), {
-                lang: 'yaml',
-                theme: DEFAULT_SHIKI_THEME,
-              })
-            } else if (tagName.toLowerCase() === 'thinking') {
-              // Treat content inside <thinking> tags as markdown
-              processedInner = await processMarkdownWithCodeBlocks(innerContent)
-            } else {
-              // Process as markdown (recursively) for other tags
-              processedInner = await processMarkdownWithCodeBlocks(innerContent)
-            }
-          }
-
-          // Highlight the opening tag
-          const openingTagHtml = await codeToHtmlFn(openingTag, {
-            lang: 'html',
-            theme: DEFAULT_SHIKI_THEME,
-          })
-
-          result +=
-            `<div class="html-block-wrapper${tagName.toLowerCase() === 'usage' ? ' usage-block' : ''} incomplete">` +
-            `<div class="html-tag">${openingTagHtml}</div>` +
-            `<div class="html-content">${processedInner}</div>` +
-            `<div class="html-tag streaming-tag"><span class="streaming-indicator">● Waiting for </${tagName}>...</span></div>` +
-            `</div>`
-        }
-      }
-    }
-
-    lastIndex = block.index + block.length
+    return result
+  } catch (error) {
+    console.error('Safari Extension: Error in processMarkdownWithCodeBlocks:', error)
+    // Return a safe fallback rendering
+    return `<pre style="color: #e6edf3; padding: 20px; margin: 0; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 15px; line-height: 1.4; white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word; max-width: 100%;">${content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`
   }
-
-  // Add any remaining markdown content
-  if (lastIndex < content.length) {
-    const remainingContent = content.slice(lastIndex)
-    if (remainingContent.trim()) {
-      result += await codeToHtmlFn(remainingContent, {
-        lang: 'markdown',
-        theme: DEFAULT_SHIKI_THEME,
-      })
-    }
-  }
-
-  return result
 }
 
 // Direct port of user's makeUrlsClickable function
@@ -1266,18 +1272,23 @@ function addModeIndicator(): void {
 ;(() => {
   console.log('🚀 Safari Markdown Extension initializing at document_start...')
 
-  if (checkIfMarkdown()) {
-    console.log('✅ Detected markdown file, setting up extension...')
-    isMarkdownFile = true
+  try {
+    if (checkIfMarkdown()) {
+      console.log('✅ Detected markdown file, setting up extension...')
+      isMarkdownFile = true
 
-    initializeShiki()
+      initializeShiki()
 
-    // Set up streaming observer immediately - don't wait for DOM
-    setupStreamingObserver()
+      // Set up streaming observer immediately - don't wait for DOM
+      setupStreamingObserver()
 
-    // Add mode toggle button (will wait for body to exist)
-    addModeIndicator()
-  } else {
-    console.log('❌ Not a markdown file, extension will remain inactive')
+      // Add mode toggle button (will wait for body to exist)
+      addModeIndicator()
+    } else {
+      console.log('❌ Not a markdown file, extension will remain inactive')
+    }
+  } catch (error) {
+    console.error('Safari Extension: Error during initialization:', error)
+    // Gracefully fail - don't crash the page
   }
 })()

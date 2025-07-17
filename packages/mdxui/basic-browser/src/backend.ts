@@ -24,7 +24,7 @@ export async function getFile(filePath: string) {
     const fullPath = path.join(EXAMPLES_DIR, filePath)
     const file = await Bun.file(fullPath)
     return await file.text()
-  } catch (_error) {
+  } catch {
     return null
   }
 }
@@ -105,7 +105,7 @@ serve({
         }
         await saveFile(filePath, markdownContent)
         return Response.json({ ok: true, message: 'File saved' })
-      } catch (_error) {
+      } catch {
         return new Response('Error saving file', { status: 500 })
       }
     }
