@@ -18,8 +18,8 @@ export default defineConfig({
       js: `.js`,
     }
   },
-  // Bundle Shiki and other dependencies
-  noExternal: ['shiki'],
+  // Bundle Shiki and Monaco Editor
+  noExternal: ['shiki', 'monaco-editor'],
   treeshake: true, // Enable tree-shaking
   splitting: false, // Disable code splitting for Chrome extension
 })

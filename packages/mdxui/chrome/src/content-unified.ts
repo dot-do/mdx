@@ -1,10 +1,10 @@
 // Streaming content script with TypeScript and mode switching
 
-import { codeToHtml } from 'shiki'
-import { DEFAULT_SHIKI_THEME, RENDER_DEBOUNCE_MS, SCROLL_THRESHOLD_PX } from './constants/index.js'
-import type { MonacoEditorProxy } from './types/index.js'
+import * as monaco from 'monaco-editor'
+import { createHighlighter } from 'shiki/bundle/web'
+import { DEFAULT_SHIKI_THEME, RENDER_DEBOUNCE_MS, SCROLL_THRESHOLD_PX, SUPPORTED_LANGUAGES } from './constants/index.js'
 import { getCurrentUrl, getDocumentMimeType } from './utils/chrome-utils.js'
-import { checkIfMarkdownFile, detectFileTypeFromUrl, detectLanguage, isSupportedFile } from './utils/file-detection.js'
+import { checkIfMarkdownFile, detectFileTypeFromUrl, detectPageLanguage, isSupportedFile } from './utils/file-detection.js'
 import { createMonacoEditor, initializeMonaco, setupMonacoThemes } from './utils/monaco-renderer.js'
 
 console.log('MDX Chrome Extension: Unified streaming script loaded')
@@ -20,16 +20,20 @@ let hasUserScrolled = false
 
 // Mode switching state
 let currentMode: 'browse' | 'edit' = 'browse'
-let monacoEditor: MonacoEditorProxy | null = null
+let monacoEditor: monaco.editor.IStandaloneCodeEditor | null = null
 let monacoInitialized = false
 
-// Initialize Shiki (direct approach like working code)
-const codeToHtmlFn: typeof codeToHtml = codeToHtml
+// Initialize Shiki highlighter
+let highlighter: Awaited<ReturnType<typeof createHighlighter>> | null = null
 
-function initializeShiki(): boolean {
+async function initializeShiki() {
   try {
-    console.log('Initializing Shiki...')
-    console.log('Shiki initialized successfully')
+    console.log('Initializing Shiki highlighter...')
+    highlighter = await createHighlighter({
+      themes: ['github-dark'], // Use theme name string
+      langs: [...SUPPORTED_LANGUAGES], // Spread to create mutable array
+    })
+    console.log('Shiki highlighter initialized successfully')
     return true
   } catch (error) {
     console.error('Failed to initialize Shiki:', error)
@@ -37,14 +41,19 @@ function initializeShiki(): boolean {
   }
 }
 
-// Detect language from current page
-function detectPageLanguage(): string {
-  const url = getCurrentUrl()
-  const mimeType = getDocumentMimeType()
-  return detectLanguage(url, mimeType)
+// Helper function to use highlighter or fallback
+function codeToHtmlFn(code: string, options: { lang: string; theme: string }) {
+  if (highlighter) {
+    return highlighter.codeToHtml(code, {
+      lang: options.lang,
+      theme: options.theme,
+    })
+  }
+  // Fallback - should rarely happen
+  return `<pre><code>${escapeHtml(code)}</code></pre>`
 }
 
-function checkIfMarkdown(): boolean {
+function checkIfMarkdown() {
   const url = getCurrentUrl()
   const mimeType = getDocumentMimeType()
 
@@ -166,9 +175,9 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
 
     // If no special blocks, render as pure markdown
     if (specialBlocks.length === 0) {
-      return await codeToHtmlFn(content, {
+      return codeToHtmlFn(content, {
         lang: 'markdown',
-        theme: DEFAULT_SHIKI_THEME,
+        theme: 'github-dark',
       })
     }
 
@@ -181,9 +190,9 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
       if (block.index > lastIndex) {
         const markdownSegment = content.slice(lastIndex, block.index)
         if (markdownSegment.trim()) {
-          result += await codeToHtmlFn(markdownSegment, {
+          result += codeToHtmlFn(markdownSegment, {
             lang: 'markdown',
-            theme: DEFAULT_SHIKI_THEME,
+            theme: 'github-dark',
           })
         }
       }
@@ -191,9 +200,9 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
       if (block.type === 'code') {
         // Handle code block
         try {
-          const codeHtml = await codeToHtmlFn(block.code?.trim() || '', {
+          const codeHtml = codeToHtmlFn(block.code?.trim() || '', {
             lang: block.language || 'text',
-            theme: DEFAULT_SHIKI_THEME,
+            theme: 'github-dark',
           })
 
           result +=
@@ -202,9 +211,9 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
             `${codeHtml}` +
             `</div>`
         } catch {
-          const fallbackHtml = await codeToHtmlFn(block.code?.trim() || '', {
+          const fallbackHtml = codeToHtmlFn(block.code?.trim() || '', {
             lang: 'text',
-            theme: DEFAULT_SHIKI_THEME,
+            theme: 'github-dark',
           })
           result +=
             `<div class="code-block-wrapper${block.isComplete ? '' : ' incomplete'}">` +
@@ -228,9 +237,9 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
             if (innerContent.trim()) {
               if (tagName.toLowerCase() === 'usage') {
                 // Treat content inside <usage> tags as YAML
-                processedInner = await codeToHtmlFn(innerContent.trim(), {
+                processedInner = codeToHtmlFn(innerContent.trim(), {
                   lang: 'yaml',
-                  theme: DEFAULT_SHIKI_THEME,
+                  theme: 'github-dark',
                 })
               } else {
                 // Process as markdown (recursively) for other tags
@@ -239,14 +248,14 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
             }
 
             // Highlight the opening and closing tags
-            const openingTagHtml = await codeToHtmlFn(openingTag, {
+            const openingTagHtml = codeToHtmlFn(openingTag, {
               lang: 'html',
-              theme: DEFAULT_SHIKI_THEME,
+              theme: 'github-dark',
             })
 
-            const closingTagHtml = await codeToHtmlFn(closingTag, {
+            const closingTagHtml = codeToHtmlFn(closingTag, {
               lang: 'html',
-              theme: DEFAULT_SHIKI_THEME,
+              theme: 'github-dark',
             })
 
             result +=
@@ -257,9 +266,9 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
               `</div>`
           } else {
             // Self-closing tag or malformed - just highlight as HTML
-            const htmlHighlighted = await codeToHtmlFn(block.fullMatch, {
+            const htmlHighlighted = codeToHtmlFn(block.fullMatch, {
               lang: 'html',
-              theme: DEFAULT_SHIKI_THEME,
+              theme: 'github-dark',
             })
 
             result += `<div class="html-block-wrapper">${htmlHighlighted}</div>`
@@ -277,9 +286,9 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
             if (innerContent.trim()) {
               if (tagName.toLowerCase() === 'usage') {
                 // Treat content inside <usage> tags as YAML
-                processedInner = await codeToHtmlFn(innerContent.trim(), {
+                processedInner = codeToHtmlFn(innerContent.trim(), {
                   lang: 'yaml',
-                  theme: DEFAULT_SHIKI_THEME,
+                  theme: 'github-dark',
                 })
               } else if (tagName.toLowerCase() === 'thinking') {
                 // Treat content inside <thinking> tags as markdown
@@ -291,9 +300,9 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
             }
 
             // Highlight the opening tag
-            const openingTagHtml = await codeToHtmlFn(openingTag, {
+            const openingTagHtml = codeToHtmlFn(openingTag, {
               lang: 'html',
-              theme: DEFAULT_SHIKI_THEME,
+              theme: 'github-dark',
             })
 
             result +=
@@ -313,9 +322,9 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
     if (lastIndex < content.length) {
       const remainingContent = content.slice(lastIndex)
       if (remainingContent.trim()) {
-        result += await codeToHtmlFn(remainingContent, {
+        result += codeToHtmlFn(remainingContent, {
           lang: 'markdown',
-          theme: DEFAULT_SHIKI_THEME,
+          theme: 'github-dark',
         })
       }
     }
@@ -405,7 +414,7 @@ async function renderMarkdownContent(content: string): Promise<void> {
       })
     }
 
-    addStyles()
+    addShikiBaseStyles()
   }
 
   try {
@@ -421,9 +430,9 @@ async function renderMarkdownContent(content: string): Promise<void> {
       const mainContent = yamlMatch[2] || ''
 
       // Highlight frontmatter as YAML
-      const frontmatterHtml = await codeToHtmlFn(frontmatter, {
+      const frontmatterHtml = codeToHtmlFn(frontmatter, {
         lang: 'yaml',
-        theme: DEFAULT_SHIKI_THEME,
+        theme: 'github-dark',
       })
 
       // Process main content with code blocks (supports streaming)
@@ -531,7 +540,7 @@ async function renderEditMode(content: string): Promise<void> {
 
     // Set up resize handler
     const resizeHandler = () => {
-      if (monacoEditor && monacoEditor.layout) {
+      if (monacoEditor) {
         monacoEditor.layout()
       }
     }
@@ -573,21 +582,11 @@ async function renderEditMode(content: string): Promise<void> {
       </div>
     `
 
-    // Create a mock Monaco-like interface for the textarea
+    // For fallback textarea, we'll handle it separately without Monaco
     const textarea = document.getElementById('fallback-editor') as HTMLTextAreaElement
     if (textarea) {
-      monacoEditor = {
-        getValue: () => textarea.value,
-        setValue: (newValue: string) => {
-          textarea.value = newValue
-        },
-        dispose: () => {
-          textarea.remove()
-        },
-        layout: () => {
-          /* no-op for textarea */
-        },
-      } as MonacoEditorProxy
+      // Don't set monacoEditor for fallback case - handle separately in switchMode
+      monacoEditor = null
     }
   }
 }
@@ -655,7 +654,7 @@ async function switchMode(): Promise<void> {
   let contentToUse = lastContent
   if (currentMode === 'edit' && monacoEditor) {
     try {
-      const editorContent = monacoEditor.getValue?.()
+      const editorContent = monacoEditor.getValue()
       if (editorContent !== undefined && typeof editorContent === 'string') {
         contentToUse = editorContent
         lastContent = contentToUse
@@ -665,6 +664,13 @@ async function switchMode(): Promise<void> {
       }
     } catch (error) {
       console.warn('Failed to get content from Monaco editor:', error)
+      // Fallback: check if we have a textarea instead
+      const textarea = document.getElementById('fallback-editor') as HTMLTextAreaElement
+      if (textarea) {
+        contentToUse = textarea.value
+        lastContent = contentToUse
+        console.log('Got content from fallback textarea, length:', contentToUse.length)
+      }
     }
   }
 
@@ -896,7 +902,7 @@ function setupStreamingObserver(): void {
 }
 
 // Add styles - direct port from working code with mode toggle
-function addStyles(): void {
+function addShikiBaseStyles(): void {
   // Wait for head to exist
   const addStylesImpl = () => {
     const style = document.createElement('style')
@@ -1162,9 +1168,7 @@ function addModeIndicator(): void {
   function updateToggleButton(): void {
     const isBrowseMode = currentMode === 'browse'
 
-    modeIcon.innerHTML = isBrowseMode
-      ? '👀' // Eye icon for browse mode
-      : '✏️' // Pencil icon for edit mode
+    modeIcon.innerHTML = isBrowseMode ? '✏️' : '👀' // Eye icon for browse mode, Pencil icon for edit mode
 
     // Update tooltip with mode info
     const isMac = /Mac|macOS|Macintosh/.test(navigator.userAgent) || navigator.platform.includes('Mac')
@@ -1281,16 +1285,22 @@ window.addEventListener('unhandledrejection', (event) => {
   // Prevent the rejection from potentially disabling the extension
   event.preventDefault()
 })
-
-;(() => {
+;(async () => {
   console.log('🚀 Chrome Markdown Extension initializing at document_start...')
 
   try {
+    // Check if extension is enabled
+    const response = await chrome.runtime.sendMessage({ type: 'checkExtensionEnabled' })
+    if (!response?.enabled) {
+      console.log('❌ Extension is disabled, skipping initialization')
+      return
+    }
+
     if (checkIfMarkdown()) {
       console.log('✅ Detected markdown file, setting up extension...')
       isMarkdownFile = true
 
-      initializeShiki()
+      await initializeShiki()
 
       // Set up streaming observer immediately - don't wait for DOM
       try {

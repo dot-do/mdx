@@ -6,7 +6,7 @@ A Chrome extension that transforms how you view Markdown, MDX, and text files by
 
 ### Dual Rendering Modes
 - **Browse Mode (Shiki)**: Streaming syntax-highlighted rendering with real-time code block processing
-- **Edit Mode (Monaco)**: Full-featured Monaco editor loaded via CDN for editing capabilities
+- **Edit Mode (Monaco)**: Full-featured Monaco editor bundled for editing capabilities
 - **Seamless Mode Switching**: Toggle between modes with `Cmd/Ctrl + Shift + L` or the floating toggle button
 
 ### File Type Support
@@ -31,10 +31,10 @@ A Chrome extension that transforms how you view Markdown, MDX, and text files by
 
 ```
 src/
-├── background.ts           # Service worker - Monaco CDN injection
-├── content-unified.ts      # Main content script - dual mode rendering
+├── background.ts           # Service worker - extension management
+├── content-unified.ts      # Main content script - unified dual mode rendering
 ├── constants/
-│   └── index.ts           # Configuration constants
+│   └── index.ts           # Configuration constants  
 ├── types/
 │   └── index.ts           # TypeScript type definitions
 └── utils/
@@ -46,26 +46,41 @@ src/
 
 ## 🏗️ Architecture
 
+### Unified Content Script
+The extension uses a single, comprehensive content script (`content-unified.ts`) that handles:
+- Dual mode rendering (Browse/Edit)
+- Streaming content processing
+- Monaco editor integration
+- Auto-scroll functionality
+- Mode switching and UI management
+- File detection and content extraction
+
+This unified approach provides:
+- **Simpler deployment** - Single content script file
+- **Better performance** - No module loading overhead
+- **Easier debugging** - All logic in one place
+- **Reduced complexity** - Fewer inter-module dependencies
+
 ### Mode Architecture
 The extension operates in two distinct modes:
 
 1. **Browse Mode (Shiki)**
-   - Bundles Shiki (~8.9MB) for offline syntax highlighting
+   - Bundles Shiki for offline syntax highlighting
    - Streams content processing for real-time updates
    - Handles incomplete/streaming markdown gracefully
    - Optimized for reading and browsing
 
 2. **Edit Mode (Monaco)**
-   - Loads Monaco Editor from CDN (0 bundle impact)
-   - Full editing capabilities with IntelliSense
-   - Cross-world communication between isolated and main contexts
+   - Bundles Monaco Editor for offline editing
+   - Full editing capabilities with IntelliSense  
+   - Workers disabled for Chrome extension compatibility
    - Optimized for editing and code manipulation
 
 ### Content Script Communication
 - **Isolated World**: Extension context with Shiki bundled
-- **Main World**: Page context with Monaco loaded via CDN
-- **Cross-World Events**: Custom events for Monaco editor control
-- **Background Script**: Handles Monaco CDN injection and tab management
+- **Main World**: Page context with bundled Monaco editor
+- **Direct Integration**: Monaco editor runs in main thread without workers
+- **Background Script**: Handles extension state and tab management
 
 ### File Detection Strategy
 - **URL-based**: Detects file extensions and patterns
@@ -75,24 +90,84 @@ The extension operates in two distinct modes:
 
 ## 🚀 Usage
 
-### Installation
-1. Build the extension:
-   ```bash
-   cd packages/mdxui/chrome
-   pnpm install
-   pnpm build
-   ```
+### Developer Installation (Step-by-Step)
 
-2. Load in Chrome:
-   - Open `chrome://extensions/`
-   - Enable "Developer mode"
-   - Click "Load unpacked"
-   - Select the `dist/` folder
+#### Prerequisites
+- **Node.js** (v18 or later)
+- **pnpm** package manager
+- **Google Chrome** browser
+- **Git** (to clone the repository)
+
+#### Step 1: Clone and Setup
+```bash
+# Clone the repository
+git clone <repository-url>
+cd mdx
+
+# Install dependencies and build
+cd packages/mdxui/chrome
+pnpm install
+pnpm build
+```
+
+#### Step 2: Load Extension in Chrome
+1. **Open Chrome Extensions Page**
+   - Type `chrome://extensions/` in your address bar and press Enter
+   - Or go to Chrome menu → More Tools → Extensions
+
+2. **Enable Developer Mode**
+   - Look for "Developer mode" toggle in the top-right corner
+   - Click to enable it (you'll see additional buttons appear)
+
+3. **Load the Extension**
+   - Click the **"Load unpacked"** button
+   - Navigate to your project folder: `mdx/packages/mdxui/chrome/dist`
+   - Click **"Select Folder"** (or **"Open"** on Mac)
+
+4. **Verify Installation**
+   - You should see "@mdxui/chrome - MDX File Viewer" in your extensions list
+   - The extension should show as "Enabled"
+
+#### Step 3: Enable File Access (Required for Local Files)
+1. **Find Your Extension**
+   - Stay on `chrome://extensions/`
+   - Locate "@mdxui/chrome - MDX File Viewer"
+
+2. **Enable File URLs**
+   - Click **"Details"** on the extension card
+   - Scroll down to find **"Allow access to file URLs"**
+   - Toggle this setting **ON**
+
+#### Step 4: Test the Extension
+1. **Open a Markdown File**
+   - Create a test file: `test.md`
+   - Add some content with code blocks:
+     ```markdown
+     # Test File
+     
+     ```javascript
+     console.log("Hello World!")
+     ```
+     ```
+
+2. **View in Chrome**
+   - Drag the `test.md` file into Chrome, or
+   - Use `Ctrl+O` (or `Cmd+O` on Mac) to open the file
+   - You should see syntax-highlighted content
+
+3. **Test Mode Switching**
+   - Look for the floating toggle button in the top-right corner
+   - **In Browse mode**: You'll see a pencil icon (✏️) - click to switch to Edit mode
+   - **In Edit mode**: You'll see an eye icon (👀) - click to switch to Browse mode  
+   - Or use keyboard shortcut: `Ctrl+Shift+L` (or `Cmd+Shift+L` on Mac)
+
+### Troubleshooting
+- **Extension not loading?** Check the Console tab in `chrome://extensions/` for errors
+- **Files not rendering?** Ensure "Allow access to file URLs" is enabled
+- **Build errors?** Make sure you're using Node.js v18+ and pnpm
+- **Mode toggle not working?** Check that the file is a supported type (.md, .mdx, .txt, etc.)
 
 ### File Access
-Enable file access in Chrome extension settings to view local files:
-1. Go to `chrome://extensions/`
-2. Find "@mdxui/chrome - MDX File Viewer"
 3. Click "Details"
 4. Enable "Allow access to file URLs"
 
@@ -117,18 +192,8 @@ Enable file access in Chrome extension settings to view local files:
 - **Minification**: Enabled
 - **Tree-shaking**: Enabled
 
-#### CDN Build (`pnpm build:cdn`)
-- **Target**: CDN-optimized version
-- **Output**: `dist-cdn/`
-- **Monaco**: Loaded externally via CDN
-- **Shiki**: Still bundled for streaming capabilities
-
 ### Environment Variables
 ```typescript
-// Monaco CDN Configuration
-MONACO_CDN_VERSION = '0.45.0'
-MONACO_CDN_BASE = 'https://unpkg.com/monaco-editor@0.45.0/min/vs'
-
 // Rendering Settings
 RENDER_DEBOUNCE_MS = 50        // Streaming render delay
 SCROLL_THRESHOLD_PX = 50       // Auto-scroll sensitivity
@@ -163,56 +228,57 @@ This generates:
 ## 📊 Performance Metrics
 
 ### Current Bundle Sizes
-- **Background Script**: ~7.43 KB
-- **Content Script**: ~8.87 MB (includes Shiki)
-- **Total Extension**: ~8.9 MB
+- **Background Script**: 1.3 KB
+- **Content Script**: 8.6 MB (includes optimized Shiki + Monaco)
+- **Content CSS**: 130 KB (Monaco editor styles)
+- **Codicon Font**: 78 KB (Monaco icons)
+- **Manifest**: 593 bytes
+- **Total Extension**: ~8.81 MB
 
-### Optimization Opportunities
+### Architecture Benefits
+- **Single File Approach**: Unified content script eliminates module coordination complexity
+- **Direct Dependencies**: All functionality directly accessible without import overhead
+- **Optimized Bundling**: tsup efficiently bundles the unified script
 
-#### 1. **Lazy Loading Strategies**
+### Current Optimizations
+
+#### 1. **Shiki Web Bundle**
 ```typescript
-// Dynamic Shiki import for specific languages
-const { codeToHtml } = await import('shiki/bundle/web')
+// Using optimized web bundle instead of full Shiki package
+import { createHighlighter } from 'shiki/bundle/web'
 ```
 
 #### 2. **Language Subsetting**
 ```typescript
-// Bundle only required languages
-import { getHighlighter } from 'shiki/bundle/web'
-const highlighter = await getHighlighter({
+// Bundle only required languages for smaller size
+const highlighter = await createHighlighter({
   themes: ['github-dark'],
-  langs: ['javascript', 'typescript', 'markdown', 'json']
+  langs: ['yaml', 'javascript', 'typescript', 'markdown', 'html', 'json', 'css']
 })
 ```
 
-#### 3. **Tree-shaking Improvements**
+#### 3. **Single Theme Loading**
+- Only loads `github-dark` theme instead of multiple themes
+- Reduces theme-related bundle overhead
+
+#### 4. **Monaco Worker Suppression**
+- Disabled Monaco workers for Chrome extension compatibility
+- Prevents console warnings and worker-related errors
+- Uses main thread execution for better extension performance
+
+### Future Optimization Opportunities
+
+#### 1. **Further Language Reduction**
+Remove unused languages from the current subset if not needed
+
+#### 2. **Core Shiki Implementation**
 ```typescript
-// More specific Shiki imports
+// More granular control (requires more setup)
 import { codeToHtml } from 'shiki/core'
 import { createOnigurumaEngine } from 'shiki/engine-oniguruma'
 ```
 
-#### 4. **CDN Strategy for Shiki**
-Consider implementing Shiki CDN loading similar to Monaco:
-```typescript
-// Potential CDN approach
-const shiki = await loadShikiFromCDN({
-  themes: ['github-dark'],
-  langs: detectRequiredLanguages(content)
-})
-```
-
-#### 5. **Service Worker Caching**
-```typescript
-// Cache frequently used themes/languages
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open('shiki-cache').then(cache => 
-      cache.addAll(['/themes/github-dark.json'])
-    )
-  )
-})
-```
+**Note**: CDN loading is not viable for Chrome extensions due to Content Security Policy restrictions and offline requirements.
 
 #### 6. **Incremental Loading**
 ```typescript
@@ -235,7 +301,7 @@ The extension provides detailed logging:
 - **Communication**: Cross-world message passing
 
 ### Common Issues
-1. **Monaco Load Failures**: Check network connectivity and CDN availability
+1. **Monaco Load Failures**: Check for console errors during Monaco initialization
 2. **File Detection**: Verify file extensions and MIME types
 3. **Streaming Issues**: Monitor console for Shiki processing errors
 4. **Cross-World Communication**: Check for Content Security Policy conflicts
@@ -260,7 +326,7 @@ pnpm analyze
 ### Testing Strategy
 - **Manual Testing**: Load various file types and test mode switching
 - **Performance Testing**: Monitor memory usage and render times
-- **Cross-Browser**: Test Monaco CDN loading across different networks
+- **Cross-Browser**: Test Monaco bundled editor across different Chrome versions
 
 ## 📈 Future Enhancements
 
@@ -289,4 +355,4 @@ MIT - See [LICENSE](../../../LICENSE) for details.
 
 ---
 
-**Bundle Size Note**: The current 8.9MB size is primarily due to Shiki's comprehensive language support. Consider the optimization strategies above for production deployments requiring smaller bundle sizes. 
+**Bundle Size Note**: The current 8.8MB size is primarily due to Shiki's comprehensive language support. Consider the optimization strategies above for production deployments requiring smaller bundle sizes. 

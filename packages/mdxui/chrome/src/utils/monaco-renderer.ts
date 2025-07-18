@@ -1,262 +1,162 @@
-// Monaco renderer utilities for Chrome extension
-// Refactored from monaco-renderer.ts to work with unified architecture
+// Monaco renderer utilities for Chrome extension - simplified with bundled Monaco
 
-import type { MonacoEditorProxy, RenderOptions } from '../types/index.js'
-import { MONACO_INIT_TIMEOUT_MS } from '../constants/index.js'
+import * as monaco from 'monaco-editor'
+import type { RenderOptions } from '../types/index.js'
 
-// Import types to get global Window extensions
-import '../types/index.js'
+// Completely disable Monaco workers for Chrome extension compatibility
+// This prevents all worker-related warnings and errors
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+;(window as any).MonacoEnvironment = {
+  getWorkerUrl: () => {
+    // Return empty data URL to prevent worker creation
+    return 'data:text/javascript;charset=utf-8,'
+  },
+  getWorker: () => {
+    // Return a mock worker that does nothing
+    return {
+      postMessage: () => {},
+      terminate: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    }
+  },
+}
+
+// Override Monaco's worker creation at the module level to prevent any worker attempts
+const originalFetch = window.fetch
+window.fetch = (...args) => {
+  const url = args[0]
+  if (typeof url === 'string' && url.includes('monaco') && url.includes('worker')) {
+    // Block any Monaco worker-related fetch requests
+    return Promise.reject(new Error('Monaco workers disabled in Chrome extension'))
+  }
+  return originalFetch.apply(window, args)
+}
+
+// Override Worker constructor to prevent Monaco from creating workers
+const OriginalWorker = window.Worker
+window.Worker = class extends OriginalWorker {
+  constructor(scriptURL: string | URL, options?: WorkerOptions) {
+    if (typeof scriptURL === 'string' && scriptURL.includes('monaco')) {
+      // Throw error for Monaco workers to force fallback to main thread
+      throw new Error('Monaco workers disabled in Chrome extension')
+    }
+    super(scriptURL, options)
+  }
+} as typeof Worker
 
 export async function initializeMonaco(): Promise<void> {
-  return new Promise((resolve, reject) => {
-    console.log('Monaco: Sending init message to background script')
+  console.log('Monaco: Initializing bundled Monaco editor (workers disabled)')
 
-    const handleMonacoReady = () => {
-      console.log('Monaco: Ready event received')
-      window.removeEventListener('monaco-ready', handleMonacoReady)
-      resolve()
+  // Suppress Monaco worker warnings
+  const originalWarn = console.warn
+  console.warn = (...args) => {
+    const message = args.join(' ')
+    if (message.includes('Could not create web worker') || message.includes('Falling back to loading web worker code in main thread')) {
+      return // Suppress these specific warnings
     }
+    originalWarn.apply(console, args)
+  }
 
-    window.addEventListener('monaco-ready', handleMonacoReady)
+  // Monaco is already available via import, just set up themes
+  setupMonacoThemes()
 
-    try {
-      chrome.runtime.sendMessage({ type: 'initializeMonaco' }, (response) => {
-        console.log('Monaco: Background script response:', response)
-        if (chrome.runtime.lastError) {
-          console.error('Monaco: Chrome runtime error:', chrome.runtime.lastError.message)
-          window.removeEventListener('monaco-ready', handleMonacoReady)
-          reject(new Error(`Extension communication failed: ${chrome.runtime.lastError.message}`))
-          return
-        }
-        if (!response?.success) {
-          window.removeEventListener('monaco-ready', handleMonacoReady)
-          reject(new Error('Failed to initialize Monaco'))
-        }
-      })
-    } catch (error) {
-      console.error('Monaco: Failed to send message to background script:', error)
-      window.removeEventListener('monaco-ready', handleMonacoReady)
-      reject(new Error('Extension context invalidated - please reload the page'))
+  // Inject CSS to prevent codicon font loading
+  const style = document.createElement('style')
+  style.textContent = `
+    /* Prevent Monaco codicon font loading errors */
+    .monaco-editor .codicon {
+      font-family: system-ui, -apple-system, sans-serif !important;
     }
+    .monaco-editor .codicon:before {
+      content: "" !important;
+    }
+  `
+  document.head.appendChild(style)
 
-    setTimeout(() => {
-      window.removeEventListener('monaco-ready', handleMonacoReady)
-      reject(new Error('Monaco initialization timeout'))
-    }, MONACO_INIT_TIMEOUT_MS)
-  })
+  console.log('Monaco: Initialization complete')
 }
 
 export function setupMonacoThemes(): void {
-  window.dispatchEvent(
-    new CustomEvent('setup-monaco-theme', {
-      detail: {
-        name: 'github-dark',
-        theme: {
-          base: 'vs-dark',
-          inherit: true,
-          rules: [
-            { token: '', foreground: 'e1e4e8', background: '0d1117' },
-            { token: 'comment', foreground: '8b949e', fontStyle: 'italic' },
-            { token: 'keyword', foreground: 'ff7b72' },
-            { token: 'string', foreground: 'a5d6ff' },
-            { token: 'number', foreground: '79c0ff' },
-            { token: 'regexp', foreground: '7ee787' },
-            { token: 'type', foreground: 'ffa657' },
-            { token: 'class', foreground: 'ffa657' },
-            { token: 'function', foreground: 'd2a8ff' },
-            { token: 'variable', foreground: 'ffa657' },
-            { token: 'constant', foreground: '79c0ff' },
-            { token: 'property', foreground: '79c0ff' },
-            { token: 'attribute', foreground: '7ee787' },
-            { token: 'tag', foreground: '7ee787' },
-            { token: 'delimiter', foreground: 'e1e4e8' },
-          ],
-          colors: {
-            'editor.background': '#0d1117',
-            'editor.foreground': '#e1e4e8',
-            'editor.lineHighlightBackground': '#161b22',
-            'editor.selectionBackground': '#264f78',
-            'editor.inactiveSelectionBackground': '#3a3d41',
-            'editorCursor.foreground': '#e1e4e8',
-            'editorWhitespace.foreground': '#484f58',
-            'editorLineNumber.foreground': '#6e7681',
-            'editorLineNumber.activeForeground': '#e1e4e8',
-          },
-        },
-      },
-    }),
-  )
+  monaco.editor.defineTheme('github-dark', {
+    base: 'vs-dark',
+    inherit: true,
+    rules: [
+      { token: '', foreground: 'e1e4e8', background: '0d1117' },
+      { token: 'comment', foreground: '8b949e', fontStyle: 'italic' },
+      { token: 'keyword', foreground: 'ff7b72' },
+      { token: 'string', foreground: 'a5d6ff' },
+      { token: 'number', foreground: '79c0ff' },
+      { token: 'regexp', foreground: '7ee787' },
+      { token: 'type', foreground: 'ffa657' },
+      { token: 'class', foreground: 'ffa657' },
+      { token: 'function', foreground: 'd2a8ff' },
+      { token: 'variable', foreground: 'ffa657' },
+      { token: 'constant', foreground: '79c0ff' },
+      { token: 'property', foreground: '79c0ff' },
+      { token: 'attribute', foreground: '7ee787' },
+      { token: 'tag', foreground: '7ee787' },
+      { token: 'delimiter', foreground: 'e1e4e8' },
+    ],
+    colors: {
+      'editor.background': '#0d1117',
+      'editor.foreground': '#e1e4e8',
+      'editor.lineHighlightBackground': '#161b22',
+      'editor.selectionBackground': '#264f78',
+      'editor.inactiveSelectionBackground': '#3a3d41',
+      'editorCursor.foreground': '#e1e4e8',
+      'editorWhitespace.foreground': '#484f58',
+      'editorLineNumber.foreground': '#6e7681',
+      'editorLineNumber.activeForeground': '#e1e4e8',
+    },
+  })
 }
 
-// Language detection functions are now centralized in utils/file-detection.ts
-
-// Store current editor content
-let currentEditorContent: string = ''
-
-export function createMonacoEditor(container: HTMLElement, options: RenderOptions): Promise<MonacoEditorProxy> {
-  // Initialize content
-  currentEditorContent = options.content || ''
+export function createMonacoEditor(container: HTMLElement, options: RenderOptions): Promise<monaco.editor.IStandaloneCodeEditor> {
   return new Promise((resolve, reject) => {
-    console.log('Monaco: Creating editor via main world')
+    try {
+      console.log('Monaco: Creating editor directly with bundled Monaco')
 
-    // Generate unique ID for this editor request
-    const editorId = `editor-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-
-    // Ensure container has an ID
-    if (!container.id) {
-      container.id = `monaco-container-${editorId}`
-    }
-
-    // Set up content change handler
-    const handleContentChange = (event: Event) => {
-      const customEvent = event as CustomEvent
-      if (customEvent.detail && customEvent.detail.editorId === editorId && typeof customEvent.detail.content === 'string') {
-        currentEditorContent = customEvent.detail.content
-        console.log('Monaco: Content updated, new length:', currentEditorContent.length)
-      }
-    }
-    window.addEventListener('monaco-editor-content-changed', handleContentChange)
-
-    const handleEditorCreated = (event: Event) => {
-      const customEvent = event as CustomEvent
-
-      if (!customEvent.detail) {
-        console.error('Monaco: Editor created event has no detail')
-        return
-      }
-
-      if (customEvent.detail.editorId === editorId && customEvent.detail.success) {
-        console.log('Monaco: Editor created successfully in main world')
-        window.removeEventListener('monaco-editor-created', handleEditorCreated)
-        window.removeEventListener('monaco-editor-error', handleEditorError)
-
-        // Create a proxy object for the editor since the real editor stays in main world
-        const editorProxy: MonacoEditorProxy = {
-          editorId,
-          layout: () => {
-            window.dispatchEvent(new CustomEvent(`monaco-editor-${editorId}-resize`))
-          },
-          dispose: () => {
-            window.removeEventListener('monaco-editor-content-changed', handleContentChange)
-            window.dispatchEvent(new CustomEvent(`monaco-editor-${editorId}-dispose`))
-          },
-          getValue: (): string | undefined => {
-            // Return the stored content (updated by change events)
-            console.log('Monaco getValue: returning stored content, length:', currentEditorContent.length)
-            return currentEditorContent
-          },
-          setValue: (value: string) => {
-            // Update stored content and dispatch event
-            currentEditorContent = value
-            window.dispatchEvent(
-              new CustomEvent(`monaco-editor-${editorId}-setValue`, {
-                detail: { value },
-              }),
-            )
-          },
-        }
-
-        resolve(editorProxy)
-      }
-    }
-
-    const handleEditorError = (event: Event) => {
-      const customEvent = event as CustomEvent
-
-      if (!customEvent.detail) {
-        console.error('Monaco: Editor error event has no detail')
-        window.removeEventListener('monaco-editor-error', handleEditorError)
-        window.removeEventListener('monaco-editor-created', handleEditorCreated)
-        reject(new Error('Monaco editor creation failed with no error details'))
-        return
-      }
-
-      if (customEvent.detail.editorId === editorId) {
-        console.error('Monaco: Editor creation failed:', customEvent.detail.error)
-        window.removeEventListener('monaco-editor-error', handleEditorError)
-        window.removeEventListener('monaco-editor-created', handleEditorCreated)
-        reject(new Error(customEvent.detail.error))
-      }
-    }
-
-    window.addEventListener('monaco-editor-created', handleEditorCreated)
-    window.addEventListener('monaco-editor-error', handleEditorError)
-
-    // Add scrollbar track styling to Monaco container
-    const style = document.createElement('style')
-    style.textContent = `
-      #${container.id} ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-      }
-      
-      #${container.id} ::-webkit-scrollbar-track {
-        background: #21262d;
-        border-radius: 4px;
-      }
-      
-      #${container.id} ::-webkit-scrollbar-thumb {
-        background: #656d76;
-        border-radius: 4px;
-      }
-      
-      #${container.id} ::-webkit-scrollbar-thumb:hover {
-        background: #768390;
-      }
-      
-      #${container.id} ::-webkit-scrollbar-corner {
-        background: #21262d;
-      }
-    `
-    document.head.appendChild(style)
-
-    // Send create editor request to main world
-    window.dispatchEvent(
-      new CustomEvent('create-monaco-editor', {
-        detail: {
-          editorId,
-          containerId: container.id,
-          options: {
-            value: options.content,
-            language: options.language,
-            theme: options.theme || 'github-dark',
-            wordWrap: 'on',
-            lineNumbers: 'off',
-            readOnly: options.readOnly || false,
-            automaticLayout: true,
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false,
-            renderWhitespace: 'none',
-            renderControlCharacters: false,
-            fontSize: 14,
-            fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace',
-            lineHeight: 1.5,
-            padding: {
-              top: 20,
-              bottom: 20,
-            },
-            scrollbar: {
-              vertical: 'auto',
-              horizontal: 'auto',
-              verticalScrollbarSize: 8,
-              horizontalScrollbarSize: 8,
-              verticalSliderSize: 8,
-              horizontalSliderSize: 8,
-              useShadows: false,
-              verticalHasArrows: false,
-              horizontalHasArrows: false,
-              alwaysConsumeMouseWheel: false,
-            },
-          },
+      const editor = monaco.editor.create(container, {
+        value: options.content,
+        language: options.language,
+        theme: options.theme || 'github-dark',
+        wordWrap: 'on',
+        lineNumbers: 'off',
+        readOnly: options.readOnly || false,
+        automaticLayout: true,
+        minimap: { enabled: false },
+        scrollBeyondLastLine: false,
+        renderWhitespace: 'none',
+        renderControlCharacters: false,
+        fontSize: 14,
+        fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace',
+        lineHeight: 1.5,
+        // Disable codicon font loading
+        folding: false,
+        padding: {
+          top: 20,
+          bottom: 20,
         },
-      }),
-    )
+        scrollbar: {
+          vertical: 'auto',
+          horizontal: 'auto',
+          verticalScrollbarSize: 8,
+          horizontalScrollbarSize: 8,
+          verticalSliderSize: 8,
+          horizontalSliderSize: 8,
+          useShadows: false,
+          verticalHasArrows: false,
+          horizontalHasArrows: false,
+          alwaysConsumeMouseWheel: false,
+        },
+      })
 
-    // Timeout after 5 seconds
-    setTimeout(() => {
-      window.removeEventListener('monaco-editor-created', handleEditorCreated)
-      window.removeEventListener('monaco-editor-error', handleEditorError)
-      reject(new Error('Monaco editor creation timeout'))
-    }, 5000)
+      console.log('Monaco: Editor created successfully')
+      resolve(editor)
+    } catch (error) {
+      console.error('Monaco: Failed to create editor:', error)
+      reject(error)
+    }
   })
 }

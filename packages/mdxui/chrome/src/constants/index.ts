@@ -62,9 +62,8 @@ export const SUPPORTED_MIME_TYPES = [
   // Removed text/html, application/javascript, etc. to prevent activation on regular websites
 ] as const
 
-// Monaco CDN constants
-export const MONACO_CDN_VERSION = '0.45.0'
-export const MONACO_CDN_BASE = `https://unpkg.com/monaco-editor@${MONACO_CDN_VERSION}/min/vs`
+// Monaco configuration is now handled directly in monaco-renderer.ts
+// Workers are disabled to prevent CSP issues in Chrome extensions
 
 // CSS styles for fallback rendering
 export const FALLBACK_STYLES = {

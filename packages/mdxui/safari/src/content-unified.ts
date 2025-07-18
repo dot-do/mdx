@@ -24,6 +24,7 @@ let monacoEditor: MonacoEditorProxy | null = null
 let monacoInitialized = false
 
 // Initialize Shiki (direct approach like working code)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let codeToHtmlFn: any | null = null
 
 async function initializeShiki(): Promise<boolean> {

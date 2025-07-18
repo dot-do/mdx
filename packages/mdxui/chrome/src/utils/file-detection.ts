@@ -1,6 +1,7 @@
 // Enhanced file detection utilities for Chrome extension
 import type { FileTypeInfo } from '../types/index.js'
 import { SUPPORTED_EXTENSIONS } from '../constants/index.js'
+import { getCurrentUrl, getDocumentMimeType } from './chrome-utils.js'
 
 export function getFileExtension(url: string): string {
   const path = url.split('/').pop() || ''
@@ -152,4 +153,11 @@ export function detectLanguage(url: string, mimeType: string): string {
   // Fallback to extension-based detection
   const extension = url.split('/').pop()?.split('.').pop()?.toLowerCase() || ''
   return getLanguageFromExtension(extension)
+}
+
+// Detect language from current page
+export function detectPageLanguage(): string {
+  const url = getCurrentUrl()
+  const mimeType = getDocumentMimeType()
+  return detectLanguage(url, mimeType)
 }

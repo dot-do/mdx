@@ -12,13 +12,8 @@
     {
       "matches": ["<all_urls>"],
       "js": ["content.js"],
+      "css": ["content.css"],
       "run_at": "document_start"
-    }
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": ["monaco-editor/*"],
-      "matches": ["file://*"]
     }
   ],
   "action": {
