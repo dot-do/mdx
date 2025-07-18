@@ -133,6 +133,7 @@ export function createMonacoEditor(container: HTMLElement, options: RenderOption
         fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace',
         lineHeight: 1.5,
         // Disable codicon font loading
+        glyphMargin: true,
         folding: false,
         padding: {
           top: 20,

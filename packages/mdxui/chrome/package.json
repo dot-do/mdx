@@ -9,12 +9,13 @@
     "manifest.json"
   ],
   "scripts": {
-    "build": "tsup && cp manifest.json dist/",
+    "build": "tsup && cp manifest.json dist/ && cp mdxViewer.png dist/",
     "dev": "tsup --watch",
     "lint": "eslint src --max-warnings 0",
     "test": "echo 'No tests yet'",
     "typecheck": "tsc --noEmit",
-    "analyze": "bun analyze-bundle.ts"
+    "analyze": "bun analyze-bundle.ts",
+    "package": "rm -f mdx-chrome-extension.zip && pnpm build && cd dist && zip -r ../mdx-chrome-extension.zip . && cd .. && echo 'Extension packaged as mdx-chrome-extension.zip'"
   },
   "dependencies": {
     "@mdxui/browser": "workspace:*",
@@ -39,6 +40,10 @@
     "monaco",
     "editor"
   ],
-  "author": "MDX Team",
-  "license": "MIT"
+  "author": "do.industries",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dot-do/mdx/issues/new"
+  },
+  "homepage": "https://do.industries"
 }

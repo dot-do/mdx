@@ -1,0 +1,30 @@
+# Build output
+dist/
+*.zip
+
+# Keep screenshots for Chrome Web Store
+!screenshots/
+
+# Dependencies
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Turbo
+.turbo/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local 

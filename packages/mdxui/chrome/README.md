@@ -1,12 +1,14 @@
 # @mdxui/chrome - MDX File Viewer Extension
 
-A Chrome extension that transforms how you view Markdown, MDX, and text files by providing rich syntax highlighting and an interactive Monaco editor. Features dual rendering modes: streaming Shiki syntax highlighting for beautiful browsing and Monaco editor for editing capabilities.
+A Chrome extension that transforms how you view Markdown, MDX, and text files by providing rich syntax highlighting and an interactive code editor. Features dual rendering modes: beautiful syntax highlighting for browsing and a full-featured editor for viewing and experimenting with code.
+
+![MDX File Viewer Extension](screenshots/Store_Screenshot_Chrome.png)
 
 ## 🌟 Features
 
 ### Dual Rendering Modes
-- **Browse Mode (Shiki)**: Streaming syntax-highlighted rendering with real-time code block processing
-- **Edit Mode (Monaco)**: Full-featured Monaco editor bundled for editing capabilities
+- **Browse Mode**: Beautiful syntax-highlighted rendering with real-time code block processing
+- **Edit Mode**: Full-featured code editor with IntelliSense for viewing and experimenting with code
 - **Seamless Mode Switching**: Toggle between modes with `Cmd/Ctrl + Shift + L` or the floating toggle button
 
 ### File Type Support
@@ -22,10 +24,11 @@ A Chrome extension that transforms how you view Markdown, MDX, and text files by
 - **Incomplete Block Handling**: Graceful rendering of streaming/incomplete content
 
 ### Rich UI Features
+- **Dark Theme**: GitHub Dark theme with instant loading for optimal readability
 - **Auto-scroll**: Intelligent scrolling for streaming content
-- **Dark Theme**: GitHub Dark theme for optimal readability
 - **Responsive Design**: Adapts to different screen sizes
 - **Visual Indicators**: Shows streaming status and incomplete blocks
+- **Smart Content Detection**: Handles `text/plain` markdown files correctly
 
 ## 📁 Project Structure
 
@@ -46,6 +49,10 @@ src/
 
 ## 🏗️ Architecture
 
+### Technical Implementation
+
+The extension uses **Shiki** for syntax highlighting and **Monaco Editor** for code viewing and experimentation, providing industry-standard rendering and editor capabilities.
+
 ### Unified Content Script
 The extension uses a single, comprehensive content script (`content-unified.ts`) that handles:
 - Dual mode rendering (Browse/Edit)
@@ -65,26 +72,27 @@ This unified approach provides:
 The extension operates in two distinct modes:
 
 1. **Browse Mode (Shiki)**
-   - Bundles Shiki for offline syntax highlighting
+   - Uses Shiki for offline syntax highlighting
    - Streams content processing for real-time updates
    - Handles incomplete/streaming markdown gracefully
    - Optimized for reading and browsing
 
 2. **Edit Mode (Monaco)**
-   - Bundles Monaco Editor for offline editing
-   - Full editing capabilities with IntelliSense  
+   - Uses Monaco Editor for code viewing and experimentation
+   - Full IntelliSense and syntax highlighting capabilities  
    - Workers disabled for Chrome extension compatibility
-   - Optimized for editing and code manipulation
+   - Note: File saving functionality coming soon
 
-### Content Script Communication
-- **Isolated World**: Extension context with Shiki bundled
-- **Main World**: Page context with bundled Monaco editor
+### Content Script Integration
+- **Extension Context**: Shiki bundled for syntax highlighting
+- **Page Context**: Monaco editor bundled for code viewing
 - **Direct Integration**: Monaco editor runs in main thread without workers
 - **Background Script**: Handles extension state and tab management
 
 ### File Detection Strategy
 - **URL-based**: Detects file extensions and patterns
 - **MIME-type**: Validates content types for accuracy
+- **Smart Detection**: Treats `text/plain` files with markdown extensions as markdown
 - **Special Cases**: Handles `llms.txt` and direct file access
 - **Website Protection**: Only activates on actual files, not regular websites
 
@@ -178,8 +186,8 @@ pnpm build
 ### Mode Switching
 - **Toggle Button**: Floating button in top-right corner
 - **Visual Indicators**: 
-  - 👁️ Browse mode (Shiki rendering)
-  - ✏️ Edit mode (Monaco editor)
+  - ✏️ Browse mode (syntax highlighting) - shows pencil icon
+  - 👀 Edit mode (code editor - view/experiment) - shows eye icon
 
 ## 🔧 Configuration
 
@@ -232,6 +240,7 @@ This generates:
 - **Content Script**: 8.6 MB (includes optimized Shiki + Monaco)
 - **Content CSS**: 130 KB (Monaco editor styles)
 - **Codicon Font**: 78 KB (Monaco icons)
+- **Extension Icon**: 2.1 KB (128x128px PNG)
 - **Manifest**: 593 bytes
 - **Total Extension**: ~8.81 MB
 
@@ -298,13 +307,14 @@ The extension provides detailed logging:
 - **Initialization**: Setup and file detection
 - **Mode Switching**: Transition states and errors
 - **Rendering**: Shiki processing and Monaco operations
-- **Communication**: Cross-world message passing
+- **Performance**: Loading timing and render optimization
 
 ### Common Issues
 1. **Monaco Load Failures**: Check for console errors during Monaco initialization
-2. **File Detection**: Verify file extensions and MIME types
+2. **File Detection**: Ensure file has a supported extension (.md, .mdx, .txt, etc.)
 3. **Streaming Issues**: Monitor console for Shiki processing errors
-4. **Cross-World Communication**: Check for Content Security Policy conflicts
+4. **Loading Delays**: Check network conditions and file size for rendering performance
+5. **Content Not Rendering**: Ensure file type is supported and extension is enabled
 
 ## 🧪 Development
 
@@ -326,11 +336,21 @@ pnpm analyze
 ### Testing Strategy
 - **Manual Testing**: Load various file types and test mode switching
 - **Performance Testing**: Monitor memory usage and render times
-- **Cross-Browser**: Test Monaco bundled editor across different Chrome versions
+- **Cross-Browser**: Test Monaco editor functionality across different Chrome versions
 
-## 📈 Future Enhancements
+## 📈 Recent Improvements
+
+### v0.1.0 Features
+- ✅ **Custom Extension Icon**: 128x128px mdxViewer.png icon
+- ✅ **Optimized Loading**: Improved page initialization and rendering performance
+- ✅ **Smart MIME Detection**: Proper handling of markdown served as `text/plain`
+- ✅ **Build Optimization**: Automated packaging with proper asset management
+- ✅ **Screenshot Integration**: Chrome Web Store ready with organized screenshots
+
+## 🔮 Future Enhancements
 
 ### Short-term
+- **File Saving**: Complete Edit Mode with save-to-file functionality
 - **Progressive Language Loading**: Load Shiki languages on-demand
 - **Theme Customization**: User-configurable themes
 - **Performance Monitoring**: Built-in performance metrics
@@ -356,3 +376,7 @@ MIT - See [LICENSE](../../../LICENSE) for details.
 ---
 
 **Bundle Size Note**: The current 8.8MB size is primarily due to Shiki's comprehensive language support. Consider the optimization strategies above for production deployments requiring smaller bundle sizes. 
+
+ 
+
+

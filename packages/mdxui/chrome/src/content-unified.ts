@@ -903,7 +903,26 @@ function setupStreamingObserver(): void {
 
 // Add styles - direct port from working code with mode toggle
 function addShikiBaseStyles(): void {
-  // Wait for head to exist
+  // Inject critical styles immediately to prevent flash, even without head
+  const immediateStyle = document.createElement('style')
+  immediateStyle.id = 'chrome-markdown-immediate'
+  immediateStyle.textContent = `
+    html, body {
+      background-color: #0d1117 !important;
+      color: #e6edf3 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  `
+
+  // Inject immediately wherever possible
+  if (document.head) {
+    document.head.appendChild(immediateStyle)
+  } else if (document.documentElement) {
+    document.documentElement.appendChild(immediateStyle)
+  }
+
+  // Wait for head to exist for full styles
   const addStylesImpl = () => {
     const style = document.createElement('style')
     style.textContent = `
@@ -1299,6 +1318,9 @@ window.addEventListener('unhandledrejection', (event) => {
     if (checkIfMarkdown()) {
       console.log('✅ Detected markdown file, setting up extension...')
       isMarkdownFile = true
+
+      // Inject styles immediately to prevent flash
+      addShikiBaseStyles()
 
       await initializeShiki()
 

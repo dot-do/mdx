@@ -150,6 +150,16 @@ export function detectLanguage(url: string, mimeType: string): string {
     return languageFromMime
   }
 
+  // For text/plain, check if URL suggests markdown
+  if (mimeType === 'text/plain') {
+    const hasMarkdownExtension = /\.(md|mdx|markdown)(?:\?|#|$)/i.test(url)
+    const isLlmsTxt = /\/llms\.txt(?:\?|#|$)/i.test(url)
+
+    if (hasMarkdownExtension || isLlmsTxt) {
+      return 'markdown'
+    }
+  }
+
   // Fallback to extension-based detection
   const extension = url.split('/').pop()?.split('.').pop()?.toLowerCase() || ''
   return getLanguageFromExtension(extension)
