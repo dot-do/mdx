@@ -1,6 +1,6 @@
 // Enhanced file detection utilities for Chrome extension
-import type { FileTypeInfo } from '../types/index.js'
 import { SUPPORTED_EXTENSIONS } from '../constants/index.js'
+import type { FileTypeInfo } from '../types/index.js'
 import { getCurrentUrl, getDocumentMimeType } from './chrome-utils.js'
 
 export function getFileExtension(url: string): string {

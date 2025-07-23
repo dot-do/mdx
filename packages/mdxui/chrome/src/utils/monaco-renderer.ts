@@ -3,9 +3,6 @@
 import * as monaco from 'monaco-editor'
 import type { RenderOptions } from '../types/index.js'
 
-// Completely disable Monaco workers for Chrome extension compatibility
-// This prevents all worker-related warnings and errors
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ;(window as any).MonacoEnvironment = {
   getWorkerUrl: () => {
     // Return empty data URL to prevent worker creation

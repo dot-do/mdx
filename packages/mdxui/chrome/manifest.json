@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "MDX File Viewer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Beautiful syntax highlighting for Markdown, MDX, and llms.txt files.",
   "permissions": ["activeTab", "tabs", "scripting", "storage"],
   "host_permissions": ["<all_urls>"],
@@ -21,9 +21,9 @@
     "default_popup": ""
   },
   "icons": {
-    "16": "mdxViewer.png",
-    "48": "mdxViewer.png",
-    "128": "mdxViewer.png"
+    "16": "icons/mdxViewer-rounded.png",
+    "48": "icons/mdxViewer-rounded.png",
+    "128": "icons/mdxViewer-rounded.png"
   },
   "author": "do.industries",
   "homepage_url": "https://do.industries"

@@ -30,7 +30,7 @@ async function initializeShiki() {
   try {
     console.log('Initializing Shiki highlighter...')
     highlighter = await createHighlighter({
-      themes: ['github-dark'], // Use theme name string
+      themes: [DEFAULT_SHIKI_THEME], // Use theme name string
       langs: [...SUPPORTED_LANGUAGES], // Spread to create mutable array
     })
     console.log('Shiki highlighter initialized successfully')
@@ -46,7 +46,7 @@ function codeToHtmlFn(code: string, options: { lang: string; theme: string }) {
   if (highlighter) {
     return highlighter.codeToHtml(code, {
       lang: options.lang,
-      theme: options.theme,
+      theme: options.theme || DEFAULT_SHIKI_THEME,
     })
   }
   // Fallback - should rarely happen
@@ -72,8 +72,8 @@ function checkIfMarkdown() {
 async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
   try {
     // Regular expressions for different content types
-    const codeBlockRegex = /```(\w*)\n([\s\S]*?)```/g
-    const incompleteCodeBlockRegex = /```(\w*)\n([\s\S]*)$/
+    const codeBlockRegex = /```([\w-]+)\s*(.*?)\n([\s\S]*?)```/g
+    const incompleteCodeBlockRegex = /```([\w-]+)\s*(.*?)\n([\s\S]*)$/
     const htmlBlockRegex = /<(\w+)(?:\s[^>]*)?>[\s\S]*?<\/\1>|<\w+(?:\s[^>]*)?\s*\/>/g
     const incompleteHtmlBlockRegex = /<(\w+)(?:\s[^>]*)?>[\s\S]*$/
 
@@ -92,11 +92,25 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
     // Find all complete code blocks
     let match: RegExpExecArray | null
     while ((match = codeBlockRegex.exec(content)) !== null) {
+      const language = match[1] || 'text'
+      const attributes = match[2] || ''
+      let code = match[3] || ''
+
+      // Heuristic to check if attributes are actually the first line of code
+      const looksLikeAttributes = /^\s*[\w-]+\s*=/.test(attributes)
+      let header = language
+      if (looksLikeAttributes && attributes.trim().length > 0) {
+        header = `${language} ${attributes}`
+      } else if (!looksLikeAttributes && attributes.trim().length > 0) {
+        // It's likely the first line of code, prepend it back
+        code = `${attributes}\n${code}`
+      }
+
       specialBlocks.push({
         type: 'code',
         fullMatch: match[0],
-        language: match[1] || 'text',
-        code: match[2],
+        language: header,
+        code,
         index: match.index,
         length: match[0].length,
         isComplete: true,
@@ -113,11 +127,25 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
       )
 
       if (!isPartOfCompleteBlock) {
+        const language = incompleteMatch[1] || 'text'
+        const attributes = incompleteMatch[2] || ''
+        let code = incompleteMatch[3] || ''
+
+        // Heuristic to check if attributes are actually the first line of code
+        const looksLikeAttributes = /^\s*[\w-]+\s*=/.test(attributes)
+        let header = language
+        if (looksLikeAttributes && attributes.trim().length > 0) {
+          header = `${language} ${attributes}`
+        } else if (!looksLikeAttributes && attributes.trim().length > 0) {
+          // It's likely the first line of code, prepend it back
+          code = `${attributes}\n${code}`
+        }
+
         specialBlocks.push({
           type: 'code',
           fullMatch: incompleteMatch[0],
-          language: incompleteMatch[1] || 'text',
-          code: incompleteMatch[2],
+          language: header,
+          code,
           index: incompleteStart,
           length: incompleteMatch[0].length,
           isComplete: false,
@@ -177,7 +205,7 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
     if (specialBlocks.length === 0) {
       return codeToHtmlFn(content, {
         lang: 'markdown',
-        theme: 'github-dark',
+        theme: DEFAULT_SHIKI_THEME,
       })
     }
 
@@ -192,7 +220,7 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
         if (markdownSegment.trim()) {
           result += codeToHtmlFn(markdownSegment, {
             lang: 'markdown',
-            theme: 'github-dark',
+            theme: DEFAULT_SHIKI_THEME,
           })
         }
       }
@@ -200,24 +228,25 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
       if (block.type === 'code') {
         // Handle code block
         try {
+          const lang = block.language?.split(' ')[0] || 'text'
           const codeHtml = codeToHtmlFn(block.code?.trim() || '', {
-            lang: block.language || 'text',
-            theme: 'github-dark',
+            lang,
+            theme: DEFAULT_SHIKI_THEME,
           })
 
           result +=
             `<div class="code-block-wrapper${block.isComplete ? '' : ' incomplete'}">` +
-            `<div class="code-block-header">${block.language}${block.isComplete ? '' : '<span class="streaming-indicator">● Streaming...</span>'}</div>` +
+            `<div class="code-block-header">${block.language}${block.isComplete ? '' : ''}</div>` +
             `${codeHtml}` +
             `</div>`
         } catch {
           const fallbackHtml = codeToHtmlFn(block.code?.trim() || '', {
             lang: 'text',
-            theme: 'github-dark',
+            theme: DEFAULT_SHIKI_THEME,
           })
           result +=
             `<div class="code-block-wrapper${block.isComplete ? '' : ' incomplete'}">` +
-            `<div class="code-block-header">${block.language}${block.isComplete ? '' : '<span class="streaming-indicator">● Streaming...</span>'}</div>` +
+            `<div class="code-block-header">${block.language}${block.isComplete ? '' : ''}</div>` +
             `${fallbackHtml}` +
             `</div>`
         }
@@ -239,36 +268,43 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
                 // Treat content inside <usage> tags as YAML
                 processedInner = codeToHtmlFn(innerContent.trim(), {
                   lang: 'yaml',
-                  theme: 'github-dark',
+                  theme: DEFAULT_SHIKI_THEME,
                 })
+              } else if (tagName.toLowerCase() === 'note') {
+                // Process content inside <Note> as a single markdown block
+                processedInner = await processMarkdownWithCodeBlocks(innerContent.trim())
               } else {
                 // Process as markdown (recursively) for other tags
-                processedInner = await processMarkdownWithCodeBlocks(innerContent)
+                processedInner = await processMarkdownWithCodeBlocks(unIndent(innerContent).trim())
               }
             }
 
-            // Highlight the opening and closing tags
-            const openingTagHtml = codeToHtmlFn(openingTag, {
-              lang: 'html',
-              theme: 'github-dark',
-            })
+            if (tagName.toLowerCase() === 'note') {
+              result += `<div class="html-block-wrapper note-block">` + `${processedInner}` + `</div>`
+            } else {
+              // Highlight the opening and closing tags
+              const openingTagHtml = codeToHtmlFn(openingTag, {
+                lang: 'html',
+                theme: DEFAULT_SHIKI_THEME,
+              })
 
-            const closingTagHtml = codeToHtmlFn(closingTag, {
-              lang: 'html',
-              theme: 'github-dark',
-            })
+              const closingTagHtml = codeToHtmlFn(closingTag, {
+                lang: 'html',
+                theme: DEFAULT_SHIKI_THEME,
+              })
 
-            result +=
-              `<div class="html-block-wrapper${tagName.toLowerCase() === 'usage' ? ' usage-block' : ''}">` +
-              `<div class="html-tag">${openingTagHtml}</div>` +
-              `<div class="html-content">${processedInner}</div>` +
-              `<div class="html-tag">${closingTagHtml}</div>` +
-              `</div>`
+              result +=
+                `<div class="html-block-wrapper${tagName.toLowerCase() === 'usage' ? ' usage-block' : ''}">` +
+                `<div class="html-tag">${openingTagHtml}</div>` +
+                `<div class="html-content">${processedInner}</div>` +
+                `<div class="html-tag">${closingTagHtml}</div>` +
+                `</div>`
+            }
           } else {
             // Self-closing tag or malformed - just highlight as HTML
             const htmlHighlighted = codeToHtmlFn(block.fullMatch, {
               lang: 'html',
-              theme: 'github-dark',
+              theme: DEFAULT_SHIKI_THEME,
             })
 
             result += `<div class="html-block-wrapper">${htmlHighlighted}</div>`
@@ -288,28 +324,27 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
                 // Treat content inside <usage> tags as YAML
                 processedInner = codeToHtmlFn(innerContent.trim(), {
                   lang: 'yaml',
-                  theme: 'github-dark',
+                  theme: DEFAULT_SHIKI_THEME,
                 })
               } else if (tagName.toLowerCase() === 'thinking') {
                 // Treat content inside <thinking> tags as markdown
-                processedInner = await processMarkdownWithCodeBlocks(innerContent)
+                processedInner = await processMarkdownWithCodeBlocks(innerContent.trim())
               } else {
                 // Process as markdown (recursively) for other tags
-                processedInner = await processMarkdownWithCodeBlocks(innerContent)
+                processedInner = await processMarkdownWithCodeBlocks(unIndent(innerContent).trim())
               }
             }
 
             // Highlight the opening tag
             const openingTagHtml = codeToHtmlFn(openingTag, {
               lang: 'html',
-              theme: 'github-dark',
+              theme: DEFAULT_SHIKI_THEME,
             })
 
             result +=
               `<div class="html-block-wrapper${tagName.toLowerCase() === 'usage' ? ' usage-block' : ''} incomplete">` +
               `<div class="html-tag">${openingTagHtml}</div>` +
               `<div class="html-content">${processedInner}</div>` +
-              `<div class="html-tag streaming-tag"><span class="streaming-indicator">● Waiting for </${tagName}>...</span></div>` +
               `</div>`
           }
         }
@@ -324,7 +359,7 @@ async function processMarkdownWithCodeBlocks(content: string): Promise<string> {
       if (remainingContent.trim()) {
         result += codeToHtmlFn(remainingContent, {
           lang: 'markdown',
-          theme: 'github-dark',
+          theme: DEFAULT_SHIKI_THEME,
         })
       }
     }
@@ -381,6 +416,21 @@ function escapeHtml(text: string): string {
   return text.replace(/[&<>"']/g, (m) => map[m] || m)
 }
 
+function unIndent(text: string): string {
+  // Find the minimum indentation of non-empty lines
+  const lines = text.split('\n')
+  const minIndent = lines.reduce((min, line) => {
+    if (line.trim() === '') return min
+    const indent = line.match(/^\s*/)?.[0].length ?? 0
+    return Math.min(min, indent)
+  }, Infinity)
+
+  if (minIndent === Infinity) return text
+
+  // Remove the minimum indentation from each line
+  return lines.map((line) => line.substring(minIndent)).join('\n')
+}
+
 // Render markdown content - direct port from working code
 async function renderMarkdownContent(content: string): Promise<void> {
   if (!container) {
@@ -432,7 +482,7 @@ async function renderMarkdownContent(content: string): Promise<void> {
       // Highlight frontmatter as YAML
       const frontmatterHtml = codeToHtmlFn(frontmatter, {
         lang: 'yaml',
-        theme: 'github-dark',
+        theme: DEFAULT_SHIKI_THEME,
       })
 
       // Process main content with code blocks (supports streaming)
@@ -534,7 +584,7 @@ async function renderEditMode(content: string): Promise<void> {
     monacoEditor = await createMonacoEditor(monacoContainer, {
       content: content || '',
       language: detectedLang,
-      theme: DEFAULT_SHIKI_THEME,
+      theme: 'github-dark',
       readOnly: false,
     })
 
@@ -908,7 +958,7 @@ function addShikiBaseStyles(): void {
   immediateStyle.id = 'chrome-markdown-immediate'
   immediateStyle.textContent = `
     html, body {
-      background-color: #0d1117 !important;
+      background-color: #0A0C10 !important;
       color: #e6edf3 !important;
       margin: 0 !important;
       padding: 0 !important;
@@ -928,6 +978,9 @@ function addShikiBaseStyles(): void {
     style.textContent = `
     :root {
         --content-padding-x: 20px; /* Mobile default */
+        --un-ring-offset-shadow: 0 0 rgb(0 0 0 / 0);
+        --un-ring-shadow: 0 0 rgb(0 0 0 / 0);
+        --un-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
       }
       
       @media (min-width: 768px) {
@@ -939,7 +992,7 @@ function addShikiBaseStyles(): void {
     html, body {
       margin: 0 !important;
       padding: 0 !important;
-      background-color: #0d1117 !important;
+      background-color: #0A0C10 !important;
       color: #e6edf3 !important;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif !important;
       font-size: 16px !important;
@@ -958,31 +1011,30 @@ function addShikiBaseStyles(): void {
     
     .frontmatter-delimiter {
       padding: 0 var(--content-padding-x) !important;
-      background-color: #0d1117;
       color: #7d8590;
       font-family: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
       font-size: 14px;
     }
     
     .code-block-wrapper {
-      margin: 0 0 30px 0;
+      margin: 0 var(--content-padding-x) 16px;
       border: 1px solid #30363d;
       border-radius: 6px;
       overflow: hidden;
-    }
-    
+      box-shadow: var(--un-ring-offset-shadow, 0 0 #0000),
+        var(--un-ring-shadow, 0 0 #0000), var(--un-shadow);
+      }
+        
     .code-block-wrapper.incomplete {
       border-color: #f85149;
       animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { border-color: #f85149; }
-      50% { border-color: #ff7b72; }
+      }
+      
+    .code-block-wrapper pre {
+      padding: 16px !important;
     }
     
     .code-block-header {
-      background-color: #21262d;
       color: #7d8590;
       padding: 8px 16px;
       font-family: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
@@ -991,17 +1043,6 @@ function addShikiBaseStyles(): void {
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-    
-    .streaming-indicator {
-      color: #f85149;
-      font-weight: bold;
-      animation: blink 1s infinite;
-    }
-    
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0.3; }
     }
     
     .html-block-wrapper {
@@ -1017,31 +1058,33 @@ function addShikiBaseStyles(): void {
       border-color: #1f6feb;
     }
     
-    .html-tag {
-      background-color: #21262d;
+    .html-block-wrapper.note-block {
+      border-left: 4px solid #58a6ff;
+      background-color: rgba(88, 166, 255, 0.1);
+      padding: 16px;
+      border-radius: 6px;
+      margin: 0 var(--content-padding-x) 16px;
+      color: #c9d1d9;
+      white-space: pre-wrap;
+    }
+    
+    .html-block-wrapper.note-block pre {
+      background-color: transparent !important;
+      padding: 0 !important;
+    }
+
+    .html-block-wrapper.note-block a {
+      color: #58a6ff !important;
     }
     
     .html-content {
       padding: 0 var(--content-padding-x) !important;
-      background-color: #0d1117;
-    }
-    
-    .streaming-tag {
-      background-color: #21262d;
-      color: #7d8590;
-      padding: 8px 16px;
-      font-family: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
-      font-size: 12px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
     
     /* Override Shiki styles for better integration */
     pre {
       margin: 0 !important;
       padding: 0 var(--content-padding-x) !important;
-      background-color: #0d1117 !important;
       overflow-x: auto !important;
       font-size: 15px !important;
       line-height: 1.4 !important;
@@ -1057,12 +1100,13 @@ function addShikiBaseStyles(): void {
     
     /* Shiki content wrapper for proper spacing */
     .shiki-content-wrapper {
-      padding: 20px 0;
+      padding: 24px 0 48px 0;
+      max-width: 80rem;
+      margin: auto;
     }
 
     /* Ensure proper spacing for markdown content */
     .shiki {
-      background-color: #0d1117 !important;
       word-wrap: break-word !important;
       overflow-wrap: break-word !important;
       max-width: 100% !important;
@@ -1071,7 +1115,7 @@ function addShikiBaseStyles(): void {
     /* Ensure all content blocks have proper spacing */
     .shiki + .shiki,
     .code-block-wrapper + .code-block-wrapper {
-      margin-top: 30px !important;
+      margin-top: 24px !important;
     }
     
     /* Style for clickable links */
@@ -1086,6 +1130,16 @@ function addShikiBaseStyles(): void {
     
     a:visited {
       color: #bc8cff !important;
+    }
+
+    .html-block-wrapper.incomplete {
+      border-color: #f85149;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { border-color: #f85149; }
+      50% { border-color: #ff7b72; }
     }
   `
 

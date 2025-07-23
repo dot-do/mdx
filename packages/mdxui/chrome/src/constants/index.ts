@@ -1,11 +1,11 @@
 // Centralized constants for Chrome extension
 
 // Rendering constants
-export const RENDER_DEBOUNCE_MS = 50
-export const SCROLL_THRESHOLD_PX = 50
+export const RENDER_DEBOUNCE_MS = 10
+export const SCROLL_THRESHOLD_PX = 200
 
 // Shiki theme constants
-export const DEFAULT_SHIKI_THEME = 'github-dark'
+export const DEFAULT_SHIKI_THEME = 'github-dark-high-contrast'
 export const FALLBACK_LANGUAGE = 'text'
 
 // Monaco timeout constants
@@ -14,18 +14,22 @@ export const MONACO_INIT_TIMEOUT_MS = 10000
 // Language subsetting - only bundle these languages for smaller bundle size
 export const SUPPORTED_LANGUAGES = [
   'yaml',
-  'javascript', 
+  'javascript',
   'typescript',
   'markdown',
   'md',
-  'mdx', 
+  'mdx',
   'html',
   'json',
   'xml',
-  'css'
+  'css',
+  'tsx',
+  'jsx',
+  'ts',
+  'js',
 ] as const
 
-export type SupportedLanguage = typeof SUPPORTED_LANGUAGES[number]
+export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number]
 
 // HTML escape mappings
 export const HTML_ESCAPE_MAP: Record<string, string> = {
