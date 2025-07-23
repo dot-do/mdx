@@ -3,6 +3,7 @@
 import * as monaco from 'monaco-editor'
 import type { RenderOptions } from '../types/index.js'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ;(window as any).MonacoEnvironment = {
   getWorkerUrl: () => {
     // Return empty data URL to prevent worker creation
