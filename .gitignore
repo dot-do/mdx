@@ -49,3 +49,4 @@ tsconfig.tsbuildinfo
 
 # test temporary directories
 tmp/
+examples-archive/
