@@ -198,6 +198,238 @@ MIT - schema.org.ai is open source and freely available for use in any project.
 
 ================================================================================\n# TYPE DEFINITIONS\n================================================================================\n
 ---
+$id: https://schema.org.ai/Agent
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/agents
+label: Agent
+comment: An autonomous AI agent that can perform tasks, use tools, and make decisions
+subClassOf:
+  - http://schema.org.ai/vocab#AIEntity
+  - http://schema.org/SoftwareApplication
+properties:
+  role: string
+  capabilities: array
+  tools: array
+  model: Agent.Model
+  systemPrompt: string
+  temperature: number
+  maxTokens: integer
+  topP: number
+  goals: array
+  policies: array
+  skills: array
+  team: Agent.AgentTeam?
+  autonomyLevel: string
+  humanInTheLoop: boolean
+  escalationPolicy: Policy?
+  memoryType: string
+  contextWindow: integer
+  learningEnabled: boolean
+---
+
+# Agent
+
+An **Agent** is an autonomous AI entity that can perform tasks, use tools, and make decisions. Agents have capabilities, follow policies, and can work independently or as part of a team.
+
+## Key Characteristics
+
+- **Autonomous**: Can operate independently with varying levels of human oversight
+- **Tool-enabled**: Can invoke external tools and APIs
+- **Goal-oriented**: Works toward specific objectives
+- **Adaptive**: Can learn from interactions and improve over time
+
+## Properties
+
+### Core Properties
+
+- **role**: The primary function or responsibility of the agent
+- **capabilities**: Array of skills or abilities the agent possesses
+- **tools**: External tools the agent can invoke
+- **model**: The AI model powering the agent's intelligence
+
+### Behavior Configuration
+
+- **systemPrompt**: Instructions defining the agent's behavior and personality
+- **temperature**: Controls randomness in responses (0.0-2.0)
+- **maxTokens**: Maximum length of generated responses
+- **topP**: Nucleus sampling parameter (0.0-1.0)
+
+### Goals & Governance
+
+- **goals**: Objectives the agent is designed to achieve
+- **policies**: Rules and guidelines governing behavior
+- **autonomyLevel**: Level of independence (supervised, semi-autonomous, fully-autonomous)
+- **humanInTheLoop**: Whether human approval is required
+
+### Memory & Learning
+
+- **memoryType**: Type of memory system (episodic, semantic, procedural)
+- **contextWindow**: Size of context window in tokens
+- **learningEnabled**: Whether agent can learn from interactions
+
+## Examples
+
+### Customer Support Agent
+
+```yaml
+$type: Agent
+role: customer-support
+capabilities:
+  - answer-questions
+  - troubleshoot-issues
+  - escalate-to-human
+tools:
+  - knowledge-base-search
+  - ticket-system-api
+model: claude-3-5-sonnet-20241022
+systemPrompt: |
+  You are a helpful customer support agent. Be empathetic,
+  clear, and solution-oriented.
+autonomyLevel: semi-autonomous
+humanInTheLoop: true
+```
+
+### Code Review Agent
+
+```yaml
+$type: Agent
+role: code-reviewer
+capabilities:
+  - analyze-code-quality
+  - detect-bugs
+  - suggest-improvements
+tools:
+  - static-analysis
+  - test-runner
+  - git-api
+model: claude-3-7-sonnet-20250219
+systemPrompt: |
+  Review code for quality, security, and best practices.
+  Provide constructive feedback.
+autonomyLevel: fully-autonomous
+humanInTheLoop: false
+```
+
+## Related Types
+
+- **AgentTeam**: Coordinated group of agents
+- **Skill**: Specific capability an agent possesses
+- **Policy**: Rule governing agent behavior
+- **Tool**: External capability agent can invoke
+- **Model**: AI model powering the agent
+\n\n
+---
+$id: https://schema.org.ai/AgenticAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/ai-context.jsonld
+label: AgenticAction
+comment: An action performed by an AI agent autonomously
+subClassOf:
+  - http://schema.org/Action
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  agent: Agent
+  toolsUsed: array
+  reasoning: string
+  confidenceScore: number
+  requiresApproval: boolean
+  approved: boolean
+  approvedBy: Person?
+---
+
+# AgenticAction
+
+An **AgenticAction** represents an action performed autonomously by an AI agent, potentially using tools and reasoning.
+
+## Properties
+
+- **agent**: The AI agent that performed the action
+- **toolsUsed**: Tools invoked during action execution
+- **reasoning**: Agent's reasoning or thought process
+- **confidenceScore**: Confidence in action outcome (0.0-1.0)
+- **requiresApproval**: Whether human approval was required
+- **approved**: Whether action was approved
+- **approvedBy**: Person who approved the action (if applicable)
+
+## Examples
+
+```yaml
+$type: AgenticAction
+agent: customer-support-agent
+name: Send refund confirmation email
+toolsUsed:
+  - email-api
+  - customer-database
+reasoning: Customer requested refund within 30-day window. Policy allows automatic approval.
+confidenceScore: 0.95
+requiresApproval: false
+```
+
+## Related Types
+
+- **Agent**: Entity performing the action
+- **Tool**: Tools used during execution
+- **Task**: Related task if part of workflow
+\n\n
+---
+$id: https://schema.org.ai/AgentTeam
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/agents
+label: AgentTeam
+comment: A coordinated team of AI agents working together toward common goals
+subClassOf:
+  - http://schema.org.ai/vocab#Agent
+properties:
+  teammates: array
+  coordinator: Agent
+  goals: array
+  policies: array
+  collaboration: string
+---
+
+# AgentTeam
+
+An **AgentTeam** is a coordinated group of AI agents that work together toward common objectives. Teams enable specialization, parallel execution, and collective problem-solving.
+
+## Key Characteristics
+
+- **Coordinated**: Agents communicate and collaborate
+- **Specialized**: Each agent has specific roles and capabilities
+- **Goal-aligned**: All agents work toward shared objectives
+- **Scalable**: Can add or remove agents dynamically
+
+## Properties
+
+- **teammates**: Array of agents in the team
+- **coordinator**: Agent responsible for orchestration
+- **goals**: Shared objectives
+- **policies**: Team-wide governance rules
+- **collaboration**: Strategy for coordination (hierarchical, flat, specialized)
+
+## Examples
+
+### Software Development Team
+
+```yaml
+$type: AgentTeam
+teammates:
+  - frontend-agent
+  - backend-agent
+  - qa-agent
+  - devops-agent
+coordinator: tech-lead-agent
+goals:
+  - build-mvp
+  - maintain-quality
+collaboration: specialized
+```
+
+## Related Types
+
+- **Agent**: Individual team member
+- **Policy**: Team governance rules
+\n\n
+---
 $id: https://schema.org.ai/AIApplication
 $type: http://www.w3.org/2000/01/rdf-schema#Class
 $context: http://schema.org.ai/context/ai-context.jsonld
@@ -612,238 +844,6 @@ agents:
 estimatedTime: 3600
 successRate: 0.88
 ```
-\n\n
----
-$id: https://schema.org.ai/Agent
-$type: http://www.w3.org/2000/01/rdf-schema#Class
-$context: http://schema.org.ai/context/agents
-label: Agent
-comment: An autonomous AI agent that can perform tasks, use tools, and make decisions
-subClassOf:
-  - http://schema.org.ai/vocab#AIEntity
-  - http://schema.org/SoftwareApplication
-properties:
-  role: string
-  capabilities: array
-  tools: array
-  model: Agent.Model
-  systemPrompt: string
-  temperature: number
-  maxTokens: integer
-  topP: number
-  goals: array
-  policies: array
-  skills: array
-  team: Agent.AgentTeam?
-  autonomyLevel: string
-  humanInTheLoop: boolean
-  escalationPolicy: Policy?
-  memoryType: string
-  contextWindow: integer
-  learningEnabled: boolean
----
-
-# Agent
-
-An **Agent** is an autonomous AI entity that can perform tasks, use tools, and make decisions. Agents have capabilities, follow policies, and can work independently or as part of a team.
-
-## Key Characteristics
-
-- **Autonomous**: Can operate independently with varying levels of human oversight
-- **Tool-enabled**: Can invoke external tools and APIs
-- **Goal-oriented**: Works toward specific objectives
-- **Adaptive**: Can learn from interactions and improve over time
-
-## Properties
-
-### Core Properties
-
-- **role**: The primary function or responsibility of the agent
-- **capabilities**: Array of skills or abilities the agent possesses
-- **tools**: External tools the agent can invoke
-- **model**: The AI model powering the agent's intelligence
-
-### Behavior Configuration
-
-- **systemPrompt**: Instructions defining the agent's behavior and personality
-- **temperature**: Controls randomness in responses (0.0-2.0)
-- **maxTokens**: Maximum length of generated responses
-- **topP**: Nucleus sampling parameter (0.0-1.0)
-
-### Goals & Governance
-
-- **goals**: Objectives the agent is designed to achieve
-- **policies**: Rules and guidelines governing behavior
-- **autonomyLevel**: Level of independence (supervised, semi-autonomous, fully-autonomous)
-- **humanInTheLoop**: Whether human approval is required
-
-### Memory & Learning
-
-- **memoryType**: Type of memory system (episodic, semantic, procedural)
-- **contextWindow**: Size of context window in tokens
-- **learningEnabled**: Whether agent can learn from interactions
-
-## Examples
-
-### Customer Support Agent
-
-```yaml
-$type: Agent
-role: customer-support
-capabilities:
-  - answer-questions
-  - troubleshoot-issues
-  - escalate-to-human
-tools:
-  - knowledge-base-search
-  - ticket-system-api
-model: claude-3-5-sonnet-20241022
-systemPrompt: |
-  You are a helpful customer support agent. Be empathetic,
-  clear, and solution-oriented.
-autonomyLevel: semi-autonomous
-humanInTheLoop: true
-```
-
-### Code Review Agent
-
-```yaml
-$type: Agent
-role: code-reviewer
-capabilities:
-  - analyze-code-quality
-  - detect-bugs
-  - suggest-improvements
-tools:
-  - static-analysis
-  - test-runner
-  - git-api
-model: claude-3-7-sonnet-20250219
-systemPrompt: |
-  Review code for quality, security, and best practices.
-  Provide constructive feedback.
-autonomyLevel: fully-autonomous
-humanInTheLoop: false
-```
-
-## Related Types
-
-- **AgentTeam**: Coordinated group of agents
-- **Skill**: Specific capability an agent possesses
-- **Policy**: Rule governing agent behavior
-- **Tool**: External capability agent can invoke
-- **Model**: AI model powering the agent
-\n\n
----
-$id: https://schema.org.ai/AgentTeam
-$type: http://www.w3.org/2000/01/rdf-schema#Class
-$context: http://schema.org.ai/context/agents
-label: AgentTeam
-comment: A coordinated team of AI agents working together toward common goals
-subClassOf:
-  - http://schema.org.ai/vocab#Agent
-properties:
-  teammates: array
-  coordinator: Agent
-  goals: array
-  policies: array
-  collaboration: string
----
-
-# AgentTeam
-
-An **AgentTeam** is a coordinated group of AI agents that work together toward common objectives. Teams enable specialization, parallel execution, and collective problem-solving.
-
-## Key Characteristics
-
-- **Coordinated**: Agents communicate and collaborate
-- **Specialized**: Each agent has specific roles and capabilities
-- **Goal-aligned**: All agents work toward shared objectives
-- **Scalable**: Can add or remove agents dynamically
-
-## Properties
-
-- **teammates**: Array of agents in the team
-- **coordinator**: Agent responsible for orchestration
-- **goals**: Shared objectives
-- **policies**: Team-wide governance rules
-- **collaboration**: Strategy for coordination (hierarchical, flat, specialized)
-
-## Examples
-
-### Software Development Team
-
-```yaml
-$type: AgentTeam
-teammates:
-  - frontend-agent
-  - backend-agent
-  - qa-agent
-  - devops-agent
-coordinator: tech-lead-agent
-goals:
-  - build-mvp
-  - maintain-quality
-collaboration: specialized
-```
-
-## Related Types
-
-- **Agent**: Individual team member
-- **Policy**: Team governance rules
-\n\n
----
-$id: https://schema.org.ai/AgenticAction
-$type: http://www.w3.org/2000/01/rdf-schema#Class
-$context: http://schema.org.ai/context/ai-context.jsonld
-label: AgenticAction
-comment: An action performed by an AI agent autonomously
-subClassOf:
-  - http://schema.org/Action
-  - http://schema.org.ai/vocab#AIEntity
-properties:
-  agent: Agent
-  toolsUsed: array
-  reasoning: string
-  confidenceScore: number
-  requiresApproval: boolean
-  approved: boolean
-  approvedBy: Person?
----
-
-# AgenticAction
-
-An **AgenticAction** represents an action performed autonomously by an AI agent, potentially using tools and reasoning.
-
-## Properties
-
-- **agent**: The AI agent that performed the action
-- **toolsUsed**: Tools invoked during action execution
-- **reasoning**: Agent's reasoning or thought process
-- **confidenceScore**: Confidence in action outcome (0.0-1.0)
-- **requiresApproval**: Whether human approval was required
-- **approved**: Whether action was approved
-- **approvedBy**: Person who approved the action (if applicable)
-
-## Examples
-
-```yaml
-$type: AgenticAction
-agent: customer-support-agent
-name: Send refund confirmation email
-toolsUsed:
-  - email-api
-  - customer-database
-reasoning: Customer requested refund within 30-day window. Policy allows automatic approval.
-confidenceScore: 0.95
-requiresApproval: false
-```
-
-## Related Types
-
-- **Agent**: Entity performing the action
-- **Tool**: Tools used during execution
-- **Task**: Related task if part of workflow
 \n\n
 ---
 $id: https://schema.org.ai/BenchmarkDataset
