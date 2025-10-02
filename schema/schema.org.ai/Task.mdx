@@ -1,0 +1,74 @@
+---
+$id: https://schema.org.ai/Task
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/workflows
+label: Task
+comment: A discrete unit of work to be performed by an agent or system
+subClassOf:
+  - http://schema.org/Action
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  taskType: string
+  taskStatus: string
+  taskPriority: string
+  assignedTo: Agent
+  dependencies: array
+  subtasks: array
+  parentTask: Task?
+  estimatedDuration: integer
+  actualDuration: integer
+  deadline: dateTime?
+  startedAt: dateTime?
+  completedAt: dateTime?
+  result: string?
+  error: string?
+  retryCount: integer
+  maxRetries: integer
+---
+
+# Task
+
+A **Task** is a discrete, actionable unit of work that can be assigned to an AI agent or system for execution.
+
+## Properties
+
+### Core Properties
+
+- **taskType**: Type (generation, analysis, transformation, execution)
+- **taskStatus**: Status (pending, in-progress, completed, failed, cancelled)
+- **taskPriority**: Priority (low, medium, high, critical)
+- **assignedTo**: Agent responsible for the task
+
+### Structure
+
+- **dependencies**: Tasks that must complete first
+- **subtasks**: Child tasks
+- **parentTask**: Parent task (if subtask)
+
+### Timing
+
+- **estimatedDuration**: Expected duration in seconds
+- **actualDuration**: Actual duration in seconds
+- **deadline**: Deadline for completion
+- **startedAt**: When task started
+- **completedAt**: When task finished
+
+### Results
+
+- **result**: Task output
+- **error**: Error message if failed
+- **retryCount**: Number of retry attempts
+- **maxRetries**: Maximum retries allowed
+
+## Examples
+
+```yaml
+$type: Task
+taskType: generation
+taskStatus: in-progress
+taskPriority: high
+assignedTo: content-agent
+description: Generate blog post about AI trends
+estimatedDuration: 300
+deadline: 2025-10-02T15:00:00Z
+```

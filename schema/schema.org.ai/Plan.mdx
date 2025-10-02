@@ -1,0 +1,97 @@
+---
+$id: https://schema.org.ai/Plan
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/workflows
+label: Plan
+comment: A structured plan for achieving a goal through multiple tasks
+subClassOf:
+  - http://schema.org/PlanAction
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  planType: string
+  planStatus: string
+  steps: array
+  currentStep: Task?
+  completedSteps: array
+  objective: string
+  successCriteria: array
+  rollbackStrategy: string?
+  createdAt: dateTime
+  startedAt: dateTime?
+  completedAt: dateTime?
+  estimatedDuration: integer
+  actualDuration: integer
+---
+
+# Plan
+
+A **Plan** is a structured sequence of tasks designed to accomplish a specific goal or objective through coordinated execution.
+
+## Properties
+
+### Core Properties
+
+- **planType**: Type (sequential, parallel, conditional, iterative)
+- **planStatus**: Status (draft, active, paused, completed, failed)
+- **objective**: Goal the plan is designed to achieve
+- **successCriteria**: Criteria for determining success
+
+### Execution
+
+- **steps**: Tasks or steps in the plan
+- **currentStep**: Current task being executed
+- **completedSteps**: Steps already completed
+- **rollbackStrategy**: How to rollback if plan fails
+
+### Timing
+
+- **createdAt**: When plan was created
+- **startedAt**: When execution started
+- **completedAt**: When execution finished
+- **estimatedDuration**: Expected duration in seconds
+- **actualDuration**: Actual duration in seconds
+
+## Examples
+
+### Sequential Plan
+
+```yaml
+$type: Plan
+planType: sequential
+objective: Build and deploy new feature
+steps:
+  - analyze-requirements
+  - design-architecture
+  - implement-code
+  - write-tests
+  - code-review
+  - deploy-production
+successCriteria:
+  - all-tests-passing
+  - code-review-approved
+  - zero-production-errors
+planStatus: active
+currentStep: implement-code
+```
+
+### Conditional Plan
+
+```yaml
+$type: Plan
+planType: conditional
+objective: Process customer inquiry
+steps:
+  - classify-inquiry
+  - route-to-specialist (if complex)
+  - provide-automated-response (if simple)
+  - escalate-to-human (if unsure)
+successCriteria:
+  - customer-satisfied
+  - issue-resolved
+rollbackStrategy: escalate-to-human
+```
+
+## Related Types
+
+- **Task**: Individual step in the plan
+- **Agent**: Entity executing the plan

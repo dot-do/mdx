@@ -1,0 +1,44 @@
+---
+$id: https://schema.org.ai/PromptChain
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/knowledge
+label: PromptChain
+comment: A sequence of prompts chained together for complex workflows
+subClassOf:
+  - http://schema.org.ai/vocab#Prompt
+properties:
+  prompts: array
+  chainType: string
+  nextPrompt: Prompt?
+  previousPrompt: Prompt?
+  branchCondition: string
+  stopCondition: string
+  maxIterations: integer
+  aggregationStrategy: string
+---
+
+# PromptChain
+
+A **PromptChain** connects multiple prompts in sequence to accomplish complex, multi-step reasoning or generation tasks.
+
+## Properties
+
+- **prompts**: Prompts in the chain
+- **chainType**: Type (sequential, parallel, conditional, recursive)
+- **branchCondition**: Condition for branching
+- **stopCondition**: When to stop
+- **maxIterations**: Max iterations for recursive chains
+- **aggregationStrategy**: How to combine results
+
+## Examples
+
+```yaml
+$type: PromptChain
+chainType: sequential
+prompts:
+  - analyze-requirements
+  - generate-plan
+  - implement-solution
+  - review-output
+stopCondition: all-steps-complete
+```

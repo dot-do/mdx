@@ -1,0 +1,53 @@
+---
+$id: https://schema.org.ai/AIApplication
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/ai-context.jsonld
+label: AIApplication
+comment: A software application powered by AI capabilities
+subClassOf:
+  - http://schema.org/SoftwareApplication
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  aiCapabilities: array
+  aiModels: array
+  aiProvider: Organization
+  autonomyLevel: string
+  humanInTheLoop: boolean
+  privacyPolicy: string
+  ethicsGuidelines: string
+---
+
+# AIApplication
+
+An **AIApplication** is a software application that leverages AI capabilities to provide intelligent features and functionality.
+
+## Properties
+
+- **aiCapabilities**: AI capabilities provided by the application
+- **aiModels**: AI models used by the application
+- **aiProvider**: Organization providing the AI capabilities
+- **autonomyLevel**: Level of AI autonomy (supervised, semi-autonomous, autonomous)
+- **humanInTheLoop**: Whether human oversight is required
+- **privacyPolicy**: Privacy policy for AI data handling
+- **ethicsGuidelines**: Ethical guidelines for AI usage
+
+## Examples
+
+```yaml
+$type: AIApplication
+name: AI Writing Assistant
+aiCapabilities:
+  - text-generation
+  - grammar-correction
+  - style-suggestions
+aiModels:
+  - gpt-4
+  - claude-3-opus
+autonomyLevel: supervised
+humanInTheLoop: true
+```
+
+## Related Types
+
+- **Agent**: AI agent that may power the application
+- **Model**: AI models used by the application

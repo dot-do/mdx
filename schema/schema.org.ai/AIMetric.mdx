@@ -1,0 +1,29 @@
+---
+$id: https://schema.org.ai/AIMetric
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/ai-context.jsonld
+label: AIMetric
+comment: A metric for measuring AI performance or behavior
+subClassOf:
+  - http://schema.org/PropertyValue
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  metricName: string
+  value: number
+  unit: string
+  timestamp: dateTime
+---
+
+# AIMetric
+
+**AIMetric** represents a measurable aspect of AI performance such as accuracy, latency, or throughput.
+
+## Examples
+
+```yaml
+$type: AIMetric
+metricName: accuracy
+value: 0.92
+unit: percentage
+timestamp: 2025-10-02T10:00:00Z
+```

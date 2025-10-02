@@ -1,0 +1,38 @@
+---
+$id: https://schema.org.ai/AIService
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/ai-context.jsonld
+label: AIService
+comment: A service providing AI capabilities via API
+subClassOf:
+  - http://schema.org/Service
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  apiEndpoint: string
+  authentication: string
+  pricing: object
+  rateLimit: integer
+  capabilities: array
+  models: array
+---
+
+# AIService
+
+**AIService** represents an API service that provides AI capabilities to applications.
+
+## Examples
+
+```yaml
+$type: AIService
+name: OpenAI API
+apiEndpoint: https://api.openai.com/v1
+authentication: api-key
+capabilities:
+  - text-generation
+  - embeddings
+  - image-generation
+models:
+  - gpt-4
+  - dall-e-3
+rateLimit: 10000
+```

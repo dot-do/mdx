@@ -1,0 +1,43 @@
+---
+$id: https://schema.org.ai/Policy
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/agents
+label: Policy
+comment: A rule or guideline that governs agent behavior
+subClassOf:
+  - http://schema.org/Thing
+properties:
+  name: string
+  description: string
+  policyType: string
+  rules: array
+  enforcement: string
+  priority: integer
+---
+
+# Policy
+
+A **Policy** defines rules and guidelines that govern how agents behave, make decisions, and interact with systems and users.
+
+## Properties
+
+- **name**: Policy identifier
+- **description**: What the policy governs
+- **policyType**: Category (safety, privacy, compliance, operational)
+- **rules**: Specific rules to enforce
+- **enforcement**: How policy is enforced (blocking, warning, logging)
+- **priority**: Policy priority for conflict resolution
+
+## Examples
+
+```yaml
+$type: Policy
+name: human-approval-required
+description: Require human approval for high-risk actions
+policyType: safety
+rules:
+  - no-data-deletion-without-approval
+  - no-financial-transactions-without-approval
+enforcement: blocking
+priority: 1
+```

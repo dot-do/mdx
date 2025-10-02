@@ -1,0 +1,39 @@
+---
+$id: https://schema.org.ai/Embedding
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/models
+label: Embedding
+comment: A model that converts text or data into vector embeddings
+subClassOf:
+  - http://schema.org.ai/vocab#Model
+properties:
+  embeddingDimensions: integer
+  embeddingModel: string
+  provider: Organization
+  maxInputTokens: integer
+  costPer1MTokens: number
+  batchSize: integer
+---
+
+# Embedding
+
+An **Embedding** model converts text, images, or other data into dense vector representations for semantic search and similarity matching.
+
+## Properties
+
+- **embeddingDimensions**: Number of dimensions (e.g., 384, 768, 1536)
+- **embeddingModel**: Model identifier
+- **provider**: Organization providing the model
+- **maxInputTokens**: Maximum input length
+- **costPer1MTokens**: Cost per million tokens
+
+## Examples
+
+```yaml
+$type: Embedding
+embeddingModel: text-embedding-3-large
+embeddingDimensions: 3072
+provider: OpenAI
+maxInputTokens: 8191
+costPer1MTokens: 0.13
+```

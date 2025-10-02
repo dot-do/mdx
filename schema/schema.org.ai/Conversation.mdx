@@ -1,0 +1,47 @@
+---
+$id: https://schema.org.ai/Conversation
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/memory
+label: Conversation
+comment: A conversation thread between agents or between agent and human
+subClassOf:
+  - http://schema.org/Conversation
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  messages: array
+  participants: array
+  startedAt: dateTime
+  lastMessageAt: dateTime
+  status: string
+  title: string
+  summary: string
+  totalTokens: integer
+---
+
+# Conversation
+
+A **Conversation** represents a threaded exchange of messages between AI agents and/or humans.
+
+## Properties
+
+- **messages**: Array of messages
+- **participants**: Agents or users in conversation
+- **startedAt**: Conversation start time
+- **lastMessageAt**: Last message time
+- **status**: Status (active, archived, completed)
+- **title**: Conversation title
+- **summary**: Auto-generated summary
+- **totalTokens**: Total tokens used
+
+## Examples
+
+```yaml
+$type: Conversation
+title: Customer Support Session
+participants:
+  - support-agent
+  - user-12345
+startedAt: 2025-10-02T10:00:00Z
+status: active
+totalTokens: 2453
+```

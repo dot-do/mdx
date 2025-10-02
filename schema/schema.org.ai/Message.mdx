@@ -1,0 +1,47 @@
+---
+$id: https://schema.org.ai/Message
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/memory
+label: Message
+comment: A single message within a conversation
+subClassOf:
+  - http://schema.org/Message
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  conversation: Conversation
+  messageRole: string
+  messageContent: string
+  functionCall: string?
+  functionResult: string?
+  tokenCount: integer
+  timestamp: dateTime
+  inReplyTo: Message?
+  attachments: array
+---
+
+# Message
+
+A **Message** represents a single communication unit within a conversation, sent by an agent or human.
+
+## Properties
+
+- **conversation**: Parent conversation
+- **messageRole**: Role (system, user, assistant, function)
+- **messageContent**: Message text
+- **functionCall**: Function call details (if applicable)
+- **functionResult**: Function result (if applicable)
+- **tokenCount**: Tokens in message
+- **timestamp**: When sent
+- **inReplyTo**: Message this replies to
+- **attachments**: Attached files or data
+
+## Examples
+
+```yaml
+$type: Message
+conversation: conv-12345
+messageRole: assistant
+messageContent: I can help you with that. Let me search our knowledge base.
+tokenCount: 15
+timestamp: 2025-10-02T10:05:32Z
+```

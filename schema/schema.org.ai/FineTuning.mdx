@@ -1,0 +1,48 @@
+---
+$id: https://schema.org.ai/FineTuning
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/models
+label: FineTuning
+comment: Process of fine-tuning a model on custom data
+subClassOf:
+  - http://schema.org/Action
+properties:
+  baseModel: Model
+  trainingData: Dataset
+  hyperparameters: object
+  epochs: integer
+  batchSize: integer
+  learningRate: number
+  validationSplit: number
+  status: string
+  completedAt: dateTime
+  metrics: object
+---
+
+# FineTuning
+
+**FineTuning** is the process of adapting a pre-trained model to perform better on specific tasks or domains by training on custom data.
+
+## Properties
+
+- **baseModel**: Model being fine-tuned
+- **trainingData**: Custom training dataset
+- **hyperparameters**: Training configuration
+- **epochs**: Number of training epochs
+- **learningRate**: Learning rate
+- **status**: Status (pending, training, completed, failed)
+- **metrics**: Training metrics (loss, accuracy, etc.)
+
+## Examples
+
+```yaml
+$type: FineTuning
+baseModel: gpt-4o-mini
+trainingData: customer-support-conversations
+epochs: 3
+learningRate: 0.0001
+status: completed
+metrics:
+  loss: 0.23
+  accuracy: 0.94
+```

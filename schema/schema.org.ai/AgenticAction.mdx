@@ -1,0 +1,52 @@
+---
+$id: https://schema.org.ai/AgenticAction
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/ai-context.jsonld
+label: AgenticAction
+comment: An action performed by an AI agent autonomously
+subClassOf:
+  - http://schema.org/Action
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  agent: Agent
+  toolsUsed: array
+  reasoning: string
+  confidenceScore: number
+  requiresApproval: boolean
+  approved: boolean
+  approvedBy: Person?
+---
+
+# AgenticAction
+
+An **AgenticAction** represents an action performed autonomously by an AI agent, potentially using tools and reasoning.
+
+## Properties
+
+- **agent**: The AI agent that performed the action
+- **toolsUsed**: Tools invoked during action execution
+- **reasoning**: Agent's reasoning or thought process
+- **confidenceScore**: Confidence in action outcome (0.0-1.0)
+- **requiresApproval**: Whether human approval was required
+- **approved**: Whether action was approved
+- **approvedBy**: Person who approved the action (if applicable)
+
+## Examples
+
+```yaml
+$type: AgenticAction
+agent: customer-support-agent
+name: Send refund confirmation email
+toolsUsed:
+  - email-api
+  - customer-database
+reasoning: Customer requested refund within 30-day window. Policy allows automatic approval.
+confidenceScore: 0.95
+requiresApproval: false
+```
+
+## Related Types
+
+- **Agent**: Entity performing the action
+- **Tool**: Tools used during execution
+- **Task**: Related task if part of workflow

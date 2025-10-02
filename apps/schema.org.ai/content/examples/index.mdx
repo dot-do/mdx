@@ -1,0 +1,613 @@
+---
+title: Examples
+description: Real-world examples of schema.org.ai vocabulary usage
+---
+
+# Examples
+
+Comprehensive examples demonstrating how to use schema.org.ai vocabulary in real-world AI systems.
+
+## Example Categories
+
+### Agents
+
+- **[Customer Support Agent](#customer-support-agent)** - Autonomous support agent with knowledge base
+- **[Code Review Agent](#code-review-agent)** - Automated code review with static analysis
+- **[Multi-Agent Team](#multi-agent-team)** - Coordinated team for software development
+
+### Workflows
+
+- **[Content Creation Pipeline](#content-creation-pipeline)** - Multi-step content generation
+- **[Code Generation Workflow](#code-generation-workflow)** - Automated coding pipeline
+- **[Data Analysis Workflow](#data-analysis-workflow)** - AI-powered analytics
+
+### Knowledge & RAG
+
+- **[RAG Knowledge Base](#rag-knowledge-base)** - Retrieval-augmented generation system
+- **[Prompt Chain](#prompt-chain)** - Complex multi-step prompting
+- **[Document Processing](#document-processing)** - Intelligent document handling
+
+### Models & Evaluation
+
+- **[Model Deployment](#model-deployment)** - Production model deployment
+- **[Model Evaluation](#model-evaluation)** - Performance benchmarking
+- **[Fine-tuned Model](#fine-tuned-model)** - Custom model training
+
+---
+
+## Customer Support Agent
+
+Complete customer support agent with tools, knowledge base, and policies.
+
+```yaml
+---
+$context: http://schema.org.ai/context/ai-context.jsonld
+$type: Agent
+$id: https://example.com/agents/customer-support
+name: Customer Support Agent
+role: customer-support
+description: Handles customer inquiries, troubleshoots issues, and escalates when needed
+
+capabilities:
+  - answer-questions
+  - troubleshoot-issues
+  - process-refunds
+  - track-orders
+  - escalate-to-human
+
+tools:
+  - id: knowledge-base-search
+    type: Tool
+    toolType: search
+    apiEndpoint: https://api.example.com/kb/search
+    authentication: api-key
+
+  - id: order-lookup
+    type: Tool
+    toolType: database
+    requiresApproval: false
+    dangerLevel: safe
+
+  - id: process-refund
+    type: Tool
+    toolType: api
+    requiresApproval: true
+    dangerLevel: medium
+
+model:
+  type: Model
+  modelFamily: Claude
+  modelType: llm
+  provider: Anthropic
+  contextWindowSize: 200000
+  functionCalling: true
+
+systemPrompt: |
+  You are a helpful customer support agent for our e-commerce platform.
+
+  Your responsibilities:
+  - Answer customer questions clearly and empathetically
+  - Look up order information and tracking details
+  - Troubleshoot common issues
+  - Process refunds when appropriate (requires approval)
+  - Escalate complex issues to human agents
+
+  Guidelines:
+  - Always be polite and professional
+  - Verify customer identity before sharing order details
+  - Follow company refund policy (30-day window)
+  - Escalate if unsure or if customer requests human agent
+
+temperature: 0.3
+maxTokens: 2000
+topP: 0.95
+
+autonomyLevel: semi-autonomous
+humanInTheLoop: true
+
+policies:
+  - id: refund-policy
+    type: Policy
+    name: Refund approval required
+    policyType: safety
+    rules:
+      - Refunds over $100 require human approval
+      - Refunds must be within 30-day window
+    enforcement: blocking
+    priority: 1
+
+  - id: data-privacy
+    type: Policy
+    name: Customer data protection
+    policyType: privacy
+    rules:
+      - Never share customer data with unauthorized parties
+      - Verify identity before providing order details
+    enforcement: blocking
+    priority: 1
+
+memory:
+  type: Memory
+  memoryType: episodic
+  memoryStore: vector-db
+  retrievalStrategy: semantic
+
+team:
+  type: AgentTeam
+  name: Customer Support Team
+  coordinator: supervisor-agent
+
+skills:
+  - name: customer-communication
+    proficiencyLevel: 0.95
+  - name: problem-solving
+    proficiencyLevel: 0.88
+  - name: product-knowledge
+    proficiencyLevel: 0.92
+
+learningEnabled: true
+---
+
+# Customer Support Agent
+
+This agent handles customer inquiries autonomously while following strict policies for safety and privacy.
+```
+
+---
+
+## Code Review Agent
+
+Fully autonomous code review agent with static analysis tools.
+
+```yaml
+---
+$context: http://schema.org.ai/context/ai-context.jsonld
+$type: Agent
+$id: https://example.com/agents/code-reviewer
+name: Code Review Agent
+role: code-reviewer
+
+capabilities:
+  - analyze-code-quality
+  - detect-bugs
+  - check-security-vulnerabilities
+  - suggest-improvements
+  - verify-tests
+
+tools:
+  - id: eslint
+    type: Tool
+    toolType: code
+    description: JavaScript/TypeScript linting
+
+  - id: prettier
+    type: Tool
+    toolType: code
+    description: Code formatting check
+
+  - id: test-runner
+    type: Tool
+    toolType: code
+    description: Run test suite
+
+model:
+  type: Model
+  modelFamily: Claude
+  modelType: llm
+  contextWindowSize: 200000
+  reasoningModel: true
+
+systemPrompt: |
+  You are an expert code reviewer. Analyze code for:
+  - Code quality and maintainability
+  - Potential bugs and edge cases
+  - Security vulnerabilities
+  - Performance issues
+  - Test coverage
+  - Best practices adherence
+
+  Provide constructive, actionable feedback.
+
+temperature: 0.2
+autonomyLevel: fully-autonomous
+humanInTheLoop: false
+---
+```
+
+---
+
+## Multi-Agent Team
+
+Coordinated team of agents for software development.
+
+```yaml
+---
+$context: http://schema.org.ai/context/ai-context.jsonld
+$type: AgentTeam
+$id: https://example.com/teams/dev-team
+name: Software Development Team
+
+teammates:
+  - id: product-manager-agent
+    role: product-manager
+    capabilities:
+      - requirements-analysis
+      - feature-prioritization
+
+  - id: architect-agent
+    role: software-architect
+    capabilities:
+      - system-design
+      - technology-selection
+
+  - id: frontend-agent
+    role: frontend-developer
+    capabilities:
+      - react-development
+      - ui-implementation
+
+  - id: backend-agent
+    role: backend-developer
+    capabilities:
+      - api-development
+      - database-design
+
+  - id: qa-agent
+    role: qa-engineer
+    capabilities:
+      - test-creation
+      - bug-detection
+
+coordinator:
+  type: Agent
+  role: tech-lead
+  systemPrompt: Coordinate team activities and ensure alignment
+
+goals:
+  - deliver-high-quality-software
+  - maintain-fast-iteration-speed
+  - ensure-good-developer-experience
+
+collaboration: specialized
+---
+```
+
+---
+
+## Content Creation Pipeline
+
+Multi-step workflow for generating blog content.
+
+```yaml
+---
+$context: http://schema.org.ai/context/ai-context.jsonld
+$type: Plan
+$id: https://example.com/workflows/blog-creation
+name: Blog Post Creation Workflow
+planType: sequential
+
+objective: Create high-quality blog post from topic to publication
+
+steps:
+  - id: research
+    type: Task
+    taskType: analysis
+    assignedTo: research-agent
+    description: Research topic and gather information
+    estimatedDuration: 300
+
+  - id: outline
+    type: Task
+    taskType: generation
+    assignedTo: writer-agent
+    description: Create detailed outline
+    dependencies: [research]
+    estimatedDuration: 180
+
+  - id: draft
+    type: Task
+    taskType: generation
+    assignedTo: writer-agent
+    description: Write first draft
+    dependencies: [outline]
+    estimatedDuration: 600
+
+  - id: review
+    type: Task
+    taskType: analysis
+    assignedTo: editor-agent
+    description: Review and provide feedback
+    dependencies: [draft]
+    estimatedDuration: 300
+
+  - id: revise
+    type: Task
+    taskType: transformation
+    assignedTo: writer-agent
+    description: Incorporate feedback
+    dependencies: [review]
+    estimatedDuration: 300
+
+  - id: seo-optimize
+    type: Task
+    taskType: transformation
+    assignedTo: seo-agent
+    description: Optimize for search engines
+    dependencies: [revise]
+    estimatedDuration: 180
+
+  - id: publish
+    type: Task
+    taskType: execution
+    assignedTo: publishing-agent
+    description: Publish to CMS
+    dependencies: [seo-optimize]
+    requiresApproval: true
+
+successCriteria:
+  - word-count: 1500-2000
+  - readability-score: ">= 60"
+  - seo-score: ">= 80"
+  - human-approved: true
+
+estimatedDuration: 1860
+---
+```
+
+---
+
+## RAG Knowledge Base
+
+Retrieval-augmented generation system with vector search.
+
+```yaml
+---
+$context: http://schema.org.ai/context/ai-context.jsonld
+$type: KnowledgeBase
+$id: https://example.com/kb/documentation
+name: Product Documentation Knowledge Base
+
+knowledgeType: factual
+knowledgeSource: https://docs.example.com
+vectorStore: pinecone
+indexStrategy: hybrid
+
+chunkSize: 512
+chunkOverlap: 128
+searchTopK: 5
+
+embeddingModel:
+  type: Embedding
+  embeddingModel: text-embedding-3-large
+  embeddingDimensions: 3072
+  provider: OpenAI
+
+rerankingModel:
+  type: Model
+  modelFamily: Cohere
+  modelType: reranking
+
+documentCount: 1500
+lastUpdated: 2025-10-02T00:00:00Z
+---
+
+# Documentation Knowledge Base
+
+Used by support agents to retrieve accurate, up-to-date product information.
+
+## Usage
+
+```typescript
+const results = await knowledgeBase.search({
+  query: "How do I reset my password?",
+  topK: 5,
+  rerank: true
+})
+```
+```
+
+---
+
+## Model Deployment
+
+Production deployment of AI model with monitoring.
+
+```yaml
+---
+$context: http://schema.org.ai/context/ai-context.jsonld
+$type: AIDeployment
+$id: https://example.com/deployments/chat-model-v2
+name: Customer Chat Model v2.0
+
+model:
+  type: Model
+  modelFamily: Claude
+  modelType: llm
+  version: claude-3-5-sonnet-20241022
+
+environment: production
+deployedAt: 2025-10-01T00:00:00Z
+version: 2.0.0
+status: active
+endpoint: https://api.example.com/v1/chat
+
+monitoring:
+  type: AIMonitoring
+  metrics:
+    - accuracy
+    - latency
+    - throughput
+    - error-rate
+    - token-usage
+
+  alerts:
+    - type: latency-spike
+      threshold: 2000
+      action: notify-team
+
+    - type: error-rate-high
+      threshold: 0.05
+      action: auto-rollback
+
+  period: realtime
+---
+```
+
+---
+
+## Model Evaluation
+
+Comprehensive model evaluation on benchmark datasets.
+
+```yaml
+---
+$context: http://schema.org.ai/context/ai-context.jsonld
+$type: AIEvaluation
+$id: https://example.com/evaluations/claude-3-opus-mmlu
+name: Claude 3 Opus MMLU Evaluation
+
+model:
+  type: Model
+  modelFamily: Claude
+  version: claude-3-opus-20240229
+
+dataset:
+  type: BenchmarkDataset
+  name: MMLU
+  task: multitask-language-understanding
+  size: 15908
+
+metrics:
+  - name: accuracy
+    value: 0.867
+    unit: percentage
+
+  - name: humanities-accuracy
+    value: 0.883
+    unit: percentage
+
+  - name: stem-accuracy
+    value: 0.825
+    unit: percentage
+
+  - name: social-sciences-accuracy
+    value: 0.901
+    unit: percentage
+
+score: 0.867
+evaluatedAt: 2025-10-01T00:00:00Z
+
+notes: |
+  Strong performance across all domains, particularly
+  in social sciences. STEM accuracy slightly lower but
+  still competitive with best models.
+---
+```
+
+---
+
+## Fine-tuned Model
+
+Custom fine-tuned model for specific domain.
+
+```yaml
+---
+$context: http://schema.org.ai/context/ai-context.jsonld
+$type: FineTuning
+$id: https://example.com/finetuning/support-model-v1
+name: Customer Support Fine-tuning v1
+
+baseModel:
+  type: Model
+  modelFamily: GPT
+  version: gpt-4o-mini
+
+trainingData:
+  type: TrainingDataset
+  name: Customer Support Conversations
+  dataType: text
+  size: 50000
+  format: jsonl
+  splits:
+    train: 40000
+    validation: 5000
+    test: 5000
+
+hyperparameters:
+  epochs: 3
+  batchSize: 32
+  learningRate: 0.0001
+  warmupSteps: 100
+
+status: completed
+completedAt: 2025-09-30T00:00:00Z
+
+metrics:
+  loss: 0.23
+  validation_loss: 0.28
+  accuracy: 0.94
+
+notes: |
+  Model fine-tuned on 50k customer support conversations.
+  Shows 15% improvement in task-specific accuracy compared
+  to base model.
+---
+```
+
+---
+
+## Usage Patterns
+
+### JSON-LD Format
+
+All examples can be used as JSON-LD:
+
+```json
+{
+  "@context": "http://schema.org.ai/context/ai-context.jsonld",
+  "@type": "Agent",
+  "@id": "https://example.com/agents/my-agent",
+  "role": "assistant",
+  "model": "claude-3-opus-20240229"
+}
+```
+
+### MDXLD Format (YAML-LD)
+
+Or as MDXLD with YAML-LD frontmatter:
+
+```mdx
+---
+$context: http://schema.org.ai/context/ai-context.jsonld
+$type: Agent
+$id: https://example.com/agents/my-agent
+role: assistant
+model: claude-3-opus-20240229
+---
+
+# My AI Agent
+
+Description and documentation here.
+```
+
+### Integration
+
+Use with knowledge graphs, vector databases, and AI frameworks:
+
+```typescript
+import { Agent } from 'schema.org.ai'
+
+const agent: Agent = {
+  '@context': 'http://schema.org.ai/context/ai-context.jsonld',
+  '@type': 'Agent',
+  role: 'assistant',
+  capabilities: ['answer-questions', 'generate-code'],
+  model: 'claude-3-opus-20240229'
+}
+```
+
+## Next Steps
+
+- Explore [Type Reference](/types) for all available types
+- Read [Specification](/spec) for formal definitions
+- Check [Property Reference](/properties) for all properties

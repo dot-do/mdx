@@ -1,0 +1,45 @@
+---
+$id: https://schema.org.ai/Memory
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/memory
+label: Memory
+comment: Stored knowledge or experience that an agent can recall
+subClassOf:
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  memoryType: string
+  memoryStore: string
+  retrievalStrategy: string
+  relevanceScore: number
+  decayRate: number
+  accessCount: integer
+  lastAccessed: dateTime
+  content: string
+  embedding: array
+  metadata: object
+---
+
+# Memory
+
+**Memory** represents stored knowledge, experiences, or context that an AI agent can recall and utilize during execution.
+
+## Properties
+
+- **memoryType**: Type (short-term, long-term, episodic, semantic, procedural)
+- **memoryStore**: Storage backend (vector-db, database, file, cache)
+- **retrievalStrategy**: How retrieved (semantic, temporal, relevance)
+- **relevanceScore**: Relevance score (0.0-1.0)
+- **decayRate**: How quickly relevance decays
+- **accessCount**: Times accessed
+- **lastAccessed**: Last access timestamp
+
+## Examples
+
+```yaml
+$type: Memory
+memoryType: episodic
+content: User prefers concise responses without preamble
+relevanceScore: 0.95
+memoryStore: vector-db
+retrievalStrategy: semantic
+```

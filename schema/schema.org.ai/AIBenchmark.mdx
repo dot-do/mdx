@@ -1,0 +1,31 @@
+---
+$id: https://schema.org.ai/AIBenchmark
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/ai-context.jsonld
+label: AIBenchmark
+comment: A standardized benchmark for evaluating AI capabilities
+subClassOf:
+  - http://schema.org/QuantitativeValue
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  name: string
+  task: string
+  dataset: BenchmarkDataset
+  metric: string
+  baseline: number
+---
+
+# AIBenchmark
+
+**AIBenchmark** represents a standardized test for comparing AI model performance on specific tasks.
+
+## Examples
+
+```yaml
+$type: AIBenchmark
+name: MMLU
+task: multitask-language-understanding
+dataset: mmlu-benchmark
+metric: accuracy
+baseline: 0.25
+```

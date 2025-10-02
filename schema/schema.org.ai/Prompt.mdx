@@ -1,0 +1,48 @@
+---
+$id: https://schema.org.ai/Prompt
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/knowledge
+label: Prompt
+comment: A prompt template for AI model interaction
+subClassOf:
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  promptTemplate: string
+  promptVariables: array
+  promptType: string
+  fewShotExamples: array
+  chainOfThought: boolean
+  thoughtProcess: string
+  model: Model
+  temperature: number
+  maxTokens: integer
+---
+
+# Prompt
+
+A **Prompt** is a template or instruction used to interact with AI models, guiding their behavior and output.
+
+## Properties
+
+- **promptTemplate**: Template string with variable placeholders
+- **promptVariables**: Variables for interpolation
+- **promptType**: Type (system, user, assistant, few-shot, chain-of-thought)
+- **fewShotExamples**: Examples for few-shot learning
+- **chainOfThought**: Uses reasoning steps
+- **thoughtProcess**: Explicit reasoning
+
+## Examples
+
+```yaml
+$type: Prompt
+promptTemplate: |
+  You are a {{role}}. {{instructions}}
+
+  User: {{query}}
+promptVariables:
+  - role
+  - instructions
+  - query
+promptType: system
+chainOfThought: true
+```

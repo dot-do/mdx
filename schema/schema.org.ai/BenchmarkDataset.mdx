@@ -1,0 +1,33 @@
+---
+$id: https://schema.org.ai/BenchmarkDataset
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/ai-context.jsonld
+label: BenchmarkDataset
+comment: A standardized dataset for evaluating and comparing AI models
+subClassOf:
+  - http://schema.org/Dataset
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  dataType: string
+  size: integer
+  task: string
+  metrics: array
+  leaderboard: string
+---
+
+# BenchmarkDataset
+
+A **BenchmarkDataset** is a standardized evaluation dataset used to compare AI model performance.
+
+## Examples
+
+```yaml
+$type: BenchmarkDataset
+name: MMLU (Massive Multitask Language Understanding)
+task: question-answering
+size: 15908
+metrics:
+  - accuracy
+  - f1-score
+leaderboard: https://huggingface.co/spaces/open-llm-leaderboard
+```

@@ -1,0 +1,55 @@
+---
+$id: https://schema.org.ai/TrainingDataset
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/ai-context.jsonld
+label: TrainingDataset
+comment: A dataset used for training AI models
+subClassOf:
+  - http://schema.org/Dataset
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  dataType: string
+  size: integer
+  format: string
+  license: string
+  splits: object
+  preprocessing: array
+  quality: number
+  bias: object
+---
+
+# TrainingDataset
+
+A **TrainingDataset** is a collection of data used to train AI/ML models.
+
+## Properties
+
+- **dataType**: Type of data (text, image, audio, tabular)
+- **size**: Number of examples in dataset
+- **format**: Data format (jsonl, parquet, csv)
+- **license**: License for dataset usage
+- **splits**: Train/validation/test splits
+- **preprocessing**: Preprocessing steps applied
+- **quality**: Quality score (0.0-1.0)
+- **bias**: Known biases in the dataset
+
+## Examples
+
+```yaml
+$type: TrainingDataset
+name: Customer support conversations
+dataType: text
+size: 50000
+format: jsonl
+license: CC-BY-4.0
+splits:
+  train: 40000
+  validation: 5000
+  test: 5000
+quality: 0.89
+```
+
+## Related Types
+
+- **FineTuning**: Process using this dataset
+- **Model**: Models trained on this dataset

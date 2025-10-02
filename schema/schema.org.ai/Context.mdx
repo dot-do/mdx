@@ -1,0 +1,42 @@
+---
+$id: https://schema.org.ai/Context
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/memory
+label: Context
+comment: Contextual information available to an agent during execution
+subClassOf:
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  contextType: string
+  contextData: string
+  scope: string
+  expiresAt: dateTime?
+  priority: integer
+---
+
+# Context
+
+**Context** represents environmental, session, or domain-specific information available to an AI agent during execution.
+
+## Properties
+
+- **contextType**: Type (user, session, conversation, global, domain)
+- **contextData**: Context information as JSON
+- **scope**: Scope (request, session, global)
+- **expiresAt**: When context expires (optional)
+- **priority**: Priority for context selection
+
+## Examples
+
+```yaml
+$type: Context
+contextType: user
+contextData:
+  userId: user-12345
+  preferences:
+    language: en
+    timezone: America/New_York
+  subscription: premium
+scope: session
+priority: 1
+```

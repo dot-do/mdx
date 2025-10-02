@@ -1,0 +1,77 @@
+---
+$id: https://schema.org.ai/Model
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/models
+label: Model
+comment: An AI/ML model used for inference, generation, or embedding
+subClassOf:
+  - http://schema.org.ai/vocab#AIEntity
+  - http://schema.org/SoftwareApplication
+properties:
+  modelType: string
+  modelFamily: string
+  provider: Organization
+  contextWindowSize: integer
+  inputTokenLimit: integer
+  outputTokenLimit: integer
+  trainingData: Dataset
+  trainingCutoff: date
+  finetuning: FineTuning?
+  baseModel: Model?
+  multimodal: boolean
+  supportedModalities: array
+  visionEnabled: boolean
+  audioEnabled: boolean
+  functionCalling: boolean
+  structuredOutput: boolean
+  reasoningModel: boolean
+  costPerInputToken: number
+  costPerOutputToken: number
+  latencyMs: integer
+  tokensPerSecond: integer
+---
+
+# Model
+
+A **Model** represents an AI/ML model that powers agents, tools, and applications. Models can be used for text generation, embeddings, vision, audio, and multimodal tasks.
+
+## Properties
+
+### Core Properties
+
+- **modelType**: Type (llm, embedding, vision, audio, multimodal)
+- **modelFamily**: Family (GPT, Claude, Llama, Gemini)
+- **provider**: Organization providing the model
+- **contextWindowSize**: Max context window in tokens
+
+### Capabilities
+
+- **multimodal**: Supports multiple modalities
+- **supportedModalities**: List of supported modalities
+- **visionEnabled**: Can process images
+- **audioEnabled**: Can process audio
+- **functionCalling**: Supports tool/function calling
+- **structuredOutput**: Can generate JSON
+- **reasoningModel**: Uses chain-of-thought
+
+### Performance & Cost
+
+- **latencyMs**: Average latency
+- **tokensPerSecond**: Generation speed
+- **costPerInputToken**: Input cost per 1K tokens
+- **costPerOutputToken**: Output cost per 1K tokens
+
+## Examples
+
+```yaml
+$type: Model
+modelType: llm
+modelFamily: Claude
+provider: Anthropic
+contextWindowSize: 200000
+functionCalling: true
+structuredOutput: true
+reasoningModel: true
+costPerInputToken: 0.003
+costPerOutputToken: 0.015
+```

@@ -1,0 +1,49 @@
+---
+$id: https://schema.org.ai/KnowledgeBase
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/knowledge
+label: KnowledgeBase
+comment: A collection of structured knowledge that agents can query and reference
+subClassOf:
+  - http://schema.org/Dataset
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  knowledgeType: string
+  knowledgeSource: string
+  vectorStore: string
+  indexStrategy: string
+  chunkSize: integer
+  chunkOverlap: integer
+  searchTopK: integer
+  rerankingModel: Model?
+  documentCount: integer
+  lastUpdated: dateTime
+---
+
+# KnowledgeBase
+
+A **KnowledgeBase** is a structured collection of information that AI agents can search, retrieve, and use to ground their responses.
+
+## Properties
+
+- **knowledgeType**: Type (factual, procedural, conceptual, meta-cognitive)
+- **knowledgeSource**: Source URL or location
+- **vectorStore**: Vector database backend
+- **indexStrategy**: Indexing approach (semantic, keyword, hybrid)
+- **chunkSize**: Document chunk size
+- **searchTopK**: Number of results to retrieve
+- **rerankingModel**: Optional re-ranking model
+
+## Examples
+
+```yaml
+$type: KnowledgeBase
+knowledgeType: factual
+knowledgeSource: https://docs.example.com
+vectorStore: pinecone
+indexStrategy: hybrid
+chunkSize: 512
+chunkOverlap: 128
+searchTopK: 5
+documentCount: 1250
+```

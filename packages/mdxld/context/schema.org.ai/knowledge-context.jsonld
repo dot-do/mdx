@@ -1,0 +1,168 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "http://schema.org.ai/vocab#",
+    "@base": "http://schema.org.ai/",
+
+    "schema": "http://schema.org/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "KnowledgeBase": {
+      "@id": "ai:KnowledgeBase",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": ["schema:Dataset", "ai:AIEntity"],
+      "rdfs:comment": "A collection of structured knowledge that agents can query and reference"
+    },
+
+    "Prompt": {
+      "@id": "ai:Prompt",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": "ai:AIEntity",
+      "rdfs:comment": "A prompt template for AI model interaction"
+    },
+
+    "PromptChain": {
+      "@id": "ai:PromptChain",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": "ai:Prompt",
+      "rdfs:comment": "A sequence of prompts chained together for complex workflows"
+    },
+
+    "knowledgeType": {
+      "@id": "ai:knowledgeType",
+      "@type": "xsd:string",
+      "rdfs:comment": "Type of knowledge (factual, procedural, conceptual, meta-cognitive)"
+    },
+
+    "knowledgeSource": {
+      "@id": "ai:knowledgeSource",
+      "@type": "xsd:anyURI",
+      "rdfs:comment": "Source of the knowledge (URL, document, database)"
+    },
+
+    "vectorStore": {
+      "@id": "ai:vectorStore",
+      "@type": "xsd:string",
+      "rdfs:comment": "Vector database storing knowledge embeddings"
+    },
+
+    "indexStrategy": {
+      "@id": "ai:indexStrategy",
+      "@type": "xsd:string",
+      "rdfs:comment": "Strategy for indexing knowledge (semantic, keyword, hybrid)"
+    },
+
+    "chunkSize": {
+      "@id": "ai:chunkSize",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Size of chunks for knowledge splitting"
+    },
+
+    "chunkOverlap": {
+      "@id": "ai:chunkOverlap",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Number of tokens to overlap between chunks"
+    },
+
+    "searchTopK": {
+      "@id": "ai:searchTopK",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Number of top results to retrieve in search"
+    },
+
+    "rerankingModel": {
+      "@id": "ai:rerankingModel",
+      "@type": "@id",
+      "rdfs:comment": "Model used for re-ranking search results"
+    },
+
+    "promptTemplate": {
+      "@id": "ai:promptTemplate",
+      "@type": "xsd:string",
+      "rdfs:comment": "Template string for the prompt with variable placeholders"
+    },
+
+    "promptVariables": {
+      "@id": "ai:promptVariables",
+      "@type": "xsd:string",
+      "rdfs:comment": "Variables that can be interpolated into the prompt",
+      "@container": "@list"
+    },
+
+    "promptType": {
+      "@id": "ai:promptType",
+      "@type": "xsd:string",
+      "rdfs:comment": "Type of prompt (system, user, assistant, few-shot, chain-of-thought)"
+    },
+
+    "fewShotExamples": {
+      "@id": "ai:fewShotExamples",
+      "@type": "@id",
+      "rdfs:comment": "Examples for few-shot prompting",
+      "@container": "@list"
+    },
+
+    "chainOfThought": {
+      "@id": "ai:chainOfThought",
+      "@type": "xsd:boolean",
+      "rdfs:comment": "Whether prompt uses chain-of-thought reasoning"
+    },
+
+    "thoughtProcess": {
+      "@id": "ai:thoughtProcess",
+      "@type": "xsd:string",
+      "rdfs:comment": "Reasoning steps in chain-of-thought"
+    },
+
+    "prompts": {
+      "@id": "ai:prompts",
+      "@type": "@id",
+      "rdfs:comment": "Prompts in the chain",
+      "@container": "@list"
+    },
+
+    "chainType": {
+      "@id": "ai:chainType",
+      "@type": "xsd:string",
+      "rdfs:comment": "Type of chain (sequential, parallel, conditional, recursive)"
+    },
+
+    "nextPrompt": {
+      "@id": "ai:nextPrompt",
+      "@type": "@id",
+      "rdfs:comment": "Next prompt in the chain"
+    },
+
+    "previousPrompt": {
+      "@id": "ai:previousPrompt",
+      "@type": "@id",
+      "rdfs:comment": "Previous prompt in the chain"
+    },
+
+    "branchCondition": {
+      "@id": "ai:branchCondition",
+      "@type": "xsd:string",
+      "rdfs:comment": "Condition for branching to different prompts"
+    },
+
+    "stopCondition": {
+      "@id": "ai:stopCondition",
+      "@type": "xsd:string",
+      "rdfs:comment": "Condition to stop the prompt chain"
+    },
+
+    "maxIterations": {
+      "@id": "ai:maxIterations",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Maximum iterations for recursive chains"
+    },
+
+    "aggregationStrategy": {
+      "@id": "ai:aggregationStrategy",
+      "@type": "xsd:string",
+      "rdfs:comment": "How to aggregate results from chain (concat, merge, select)"
+    }
+  }
+}

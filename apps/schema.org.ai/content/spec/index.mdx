@@ -1,0 +1,440 @@
+---
+title: schema.org.ai Specification
+description: Formal specification for AI-native Schema.org vocabulary
+version: 1.0.0
+status: published
+---
+
+# schema.org.ai Specification v1.0
+
+**AI-native vocabulary for the semantic web**
+
+## Abstract
+
+schema.org.ai extends [Schema.org](https://schema.org) with structured vocabulary specifically designed for AI agents, models, tools, workflows, and knowledge systems. This specification defines 17 core AI-native entity types, 21 Schema.org extensions, and 60+ properties using JSON-LD and RDFS.
+
+## Status
+
+This document is a **published specification** (v1.0.0) as of October 2, 2025.
+
+## Table of Contents
+
+1. [Introduction](#introduction)
+2. [Conformance](#conformance)
+3. [Namespaces](#namespaces)
+4. [Core Concepts](#core-concepts)
+5. [Entity Types](#entity-types)
+6. [Properties](#properties)
+7. [JSON-LD Context](#json-ld-context)
+8. [Examples](#examples)
+9. [References](#references)
+
+## 1. Introduction
+
+### 1.1 Purpose
+
+Modern AI systems require structured, machine-readable vocabulary to describe:
+
+- **Agents** - Autonomous entities with capabilities, tools, and goals
+- **Models** - LLMs, embeddings, and fine-tuned models
+- **Tools** - Functions and APIs agents can invoke
+- **Workflows** - Tasks, plans, and orchestration
+- **Knowledge** - Prompts, knowledge bases, and RAG systems
+- **Memory** - Conversations, context, and state
+
+schema.org.ai provides this vocabulary as an extension to Schema.org, enabling:
+
+- **Interoperability** - Standard representation across AI systems
+- **Discoverability** - Search and indexing of AI capabilities
+- **Composability** - Modular, reusable components
+- **Governance** - Policy-driven behavior and safety
+- **Knowledge graphs** - Semantic linking of AI entities
+
+### 1.2 Design Principles
+
+1. **Schema.org Compatible** - Extends existing types where possible
+2. **JSON-LD First** - Native linked data support
+3. **MDXLD Integration** - Works with YAML-LD frontmatter
+4. **Semantic Precision** - Clear, unambiguous definitions
+5. **Practical** - Designed for real-world AI systems
+
+### 1.3 Scope
+
+**In Scope:**
+- AI agents, teams, and multi-agent systems
+- AI models (LLMs, embeddings, multimodal)
+- Tools, functions, and APIs
+- Workflows, tasks, and orchestration
+- Knowledge bases, prompts, and RAG
+- Conversations, messages, and memory
+
+**Out of Scope:**
+- Training data formats (covered by existing standards)
+- Model architectures (implementation details)
+- Deployment infrastructure (covered by IaC)
+- User interfaces (covered by UI schemas)
+
+## 2. Conformance
+
+### 2.1 Conforming Documents
+
+A conforming document:
+- MUST use one or more types from schema.org.ai vocabulary
+- MUST include `@context` with schema.org.ai context URI
+- MUST follow JSON-LD 1.1 specification
+- SHOULD use Schema.org types as base classes where applicable
+
+### 2.2 Conforming Implementations
+
+A conforming implementation:
+- MUST correctly parse JSON-LD with schema.org.ai contexts
+- MUST respect type hierarchies and property domains
+- SHOULD validate against provided JSON Schema (if applicable)
+- MAY extend with additional properties
+
+## 3. Namespaces
+
+### 3.1 Namespace URIs
+
+- **schema.org.ai**: `http://schema.org.ai/vocab#`
+- **Schema.org**: `http://schema.org/`
+- **RDF**: `http://www.w3.org/1999/02/22-rdf-syntax-ns#`
+- **RDFS**: `http://www.w3.org/2000/01/rdf-schema#`
+- **XSD**: `http://www.w3.org/2001/XMLSchema#`
+
+### 3.2 Namespace Prefixes
+
+```json
+{
+  "ai": "http://schema.org.ai/vocab#",
+  "schema": "http://schema.org/",
+  "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+  "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+  "xsd": "http://www.w3.org/2001/XMLSchema#"
+}
+```
+
+## 4. Core Concepts
+
+### 4.1 AIEntity Base Class
+
+All AI-native types inherit from `AIEntity`:
+
+```json
+{
+  "@id": "ai:AIEntity",
+  "@type": "rdfs:Class",
+  "rdfs:subClassOf": "schema:Thing",
+  "rdfs:comment": "Base class for all AI-native entities"
+}
+```
+
+### 4.2 Type Hierarchy
+
+```
+schema:Thing
+  └─ ai:AIEntity
+       ├─ ai:Agent (also schema:SoftwareApplication)
+       ├─ ai:Model (also schema:SoftwareApplication)
+       ├─ ai:Tool (also schema:SoftwareApplication)
+       ├─ ai:Memory
+       ├─ ai:Context
+       ├─ ai:KnowledgeBase (also schema:Dataset)
+       ├─ ai:Conversation (also schema:Conversation)
+       ├─ ai:Message (also schema:Message)
+       ├─ ai:Task (also schema:Action)
+       └─ ai:Plan (also schema:PlanAction)
+```
+
+### 4.3 Multi-Inheritance
+
+Many types inherit from both `AIEntity` and Schema.org types:
+
+- `Agent` ⊂ `AIEntity`, `SoftwareApplication`
+- `Model` ⊂ `AIEntity`, `SoftwareApplication`
+- `KnowledgeBase` ⊂ `AIEntity`, `Dataset`
+- `Conversation` ⊂ `AIEntity`, `Conversation`
+- `Task` ⊂ `AIEntity`, `Action`
+
+## 5. Entity Types
+
+### 5.1 Agents & Teams
+
+#### 5.1.1 Agent
+
+**Definition**: An autonomous AI entity that can perform tasks, use tools, and make decisions.
+
+**Properties**:
+- `role` (xsd:string) - Primary function
+- `capabilities` (array) - Skills/abilities
+- `tools` (array) - Available tools
+- `model` (Model) - Powering AI model
+- `systemPrompt` (xsd:string) - Behavior instructions
+- `temperature` (xsd:float) - Sampling randomness
+- `maxTokens` (xsd:integer) - Max response length
+- `autonomyLevel` (xsd:string) - Independence level
+- `humanInTheLoop` (xsd:boolean) - Human oversight required
+
+**Example**:
+```json
+{
+  "@context": "http://schema.org.ai/context/agents-context.jsonld",
+  "@type": "Agent",
+  "@id": "https://example.com/agents/support",
+  "role": "customer-support",
+  "capabilities": ["answer-questions", "troubleshoot"],
+  "model": "claude-3-5-sonnet-20241022",
+  "autonomyLevel": "semi-autonomous",
+  "humanInTheLoop": true
+}
+```
+
+#### 5.1.2 AgentTeam
+
+**Definition**: A coordinated team of agents working toward common goals.
+
+**Properties**:
+- `teammates` (array of Agent) - Team members
+- `coordinator` (Agent) - Orchestrating agent
+- `goals` (array of xsd:string) - Shared objectives
+- `collaboration` (xsd:string) - Coordination strategy
+
+#### 5.1.3 Skill
+
+**Definition**: A specific capability an agent possesses.
+
+**Properties**:
+- `name` (xsd:string) - Skill identifier
+- `category` (xsd:string) - Skill domain
+- `proficiencyLevel` (xsd:float) - Skill level (0.0-1.0)
+- `prerequisites` (array of Skill) - Required skills
+
+#### 5.1.4 Policy
+
+**Definition**: Rule governing agent behavior.
+
+**Properties**:
+- `policyType` (xsd:string) - Category (safety, privacy, compliance)
+- `rules` (array of xsd:string) - Specific rules
+- `enforcement` (xsd:string) - How enforced (blocking, warning)
+- `priority` (xsd:integer) - Conflict resolution priority
+
+### 5.2 Models & Training
+
+#### 5.2.1 Model
+
+**Definition**: AI/ML model for inference, generation, or embedding.
+
+**Properties**:
+- `modelType` (xsd:string) - Type (llm, embedding, vision, audio)
+- `modelFamily` (xsd:string) - Family (GPT, Claude, Llama)
+- `provider` (schema:Organization) - Provider org
+- `contextWindowSize` (xsd:integer) - Context window tokens
+- `functionCalling` (xsd:boolean) - Supports tool calling
+- `structuredOutput` (xsd:boolean) - Generates JSON
+- `reasoningModel` (xsd:boolean) - Uses chain-of-thought
+- `costPerInputToken` (xsd:float) - Input cost per 1K tokens
+- `costPerOutputToken` (xsd:float) - Output cost per 1K tokens
+
+#### 5.2.2 Embedding
+
+**Definition**: Model converting text/data to vectors.
+
+**Properties**:
+- `embeddingDimensions` (xsd:integer) - Vector dimensions
+- `embeddingModel` (xsd:string) - Model identifier
+- `maxInputTokens` (xsd:integer) - Max input length
+
+#### 5.2.3 FineTuning
+
+**Definition**: Process of fine-tuning a model.
+
+**Properties**:
+- `baseModel` (Model) - Model being fine-tuned
+- `trainingData` (schema:Dataset) - Training dataset
+- `epochs` (xsd:integer) - Training epochs
+- `learningRate` (xsd:float) - Learning rate
+- `status` (xsd:string) - Status (pending, training, completed)
+
+### 5.3 Tools & Functions
+
+#### 5.3.1 Tool
+
+**Definition**: Software tool or function agents can invoke.
+
+**Properties**:
+- `toolType` (xsd:string) - Type (api, function, code, search)
+- `parameters` (object) - Input parameters
+- `authentication` (xsd:string) - Auth method
+- `rateLimit` (xsd:integer) - Requests per minute
+- `apiEndpoint` (xsd:anyURI) - API URL
+- `requiresApproval` (xsd:boolean) - Needs human approval
+- `dangerLevel` (xsd:string) - Risk level
+
+### 5.4 Workflows & Execution
+
+#### 5.4.1 Task
+
+**Definition**: Discrete unit of work.
+
+**Properties**:
+- `taskType` (xsd:string) - Type (generation, analysis, execution)
+- `taskStatus` (xsd:string) - Status (pending, in-progress, completed)
+- `taskPriority` (xsd:string) - Priority (low, medium, high)
+- `assignedTo` (Agent) - Responsible agent
+- `dependencies` (array of Task) - Prerequisite tasks
+- `deadline` (xsd:dateTime) - Completion deadline
+
+#### 5.4.2 Plan
+
+**Definition**: Structured sequence of tasks.
+
+**Properties**:
+- `planType` (xsd:string) - Type (sequential, parallel, conditional)
+- `planStatus` (xsd:string) - Status (draft, active, completed)
+- `steps` (array of Task) - Tasks in plan
+- `objective` (xsd:string) - Goal
+- `successCriteria` (array) - Success measures
+
+### 5.5 Knowledge & Prompts
+
+#### 5.5.1 KnowledgeBase
+
+**Definition**: Collection of queryable knowledge.
+
+**Properties**:
+- `knowledgeType` (xsd:string) - Type (factual, procedural)
+- `vectorStore` (xsd:string) - Vector DB backend
+- `indexStrategy` (xsd:string) - Indexing approach
+- `chunkSize` (xsd:integer) - Document chunk size
+- `searchTopK` (xsd:integer) - Results to retrieve
+
+#### 5.5.2 Prompt
+
+**Definition**: Template for AI interaction.
+
+**Properties**:
+- `promptTemplate` (xsd:string) - Template with placeholders
+- `promptVariables` (array) - Variables for interpolation
+- `promptType` (xsd:string) - Type (system, user, few-shot)
+- `chainOfThought` (xsd:boolean) - Uses reasoning
+
+#### 5.5.3 PromptChain
+
+**Definition**: Sequence of prompts.
+
+**Properties**:
+- `prompts` (array of Prompt) - Prompts in chain
+- `chainType` (xsd:string) - Type (sequential, conditional)
+- `stopCondition` (xsd:string) - When to stop
+
+### 5.6 Memory & Context
+
+#### 5.6.1 Memory
+
+**Definition**: Stored knowledge or experience.
+
+**Properties**:
+- `memoryType` (xsd:string) - Type (short-term, long-term, episodic)
+- `memoryStore` (xsd:string) - Storage backend
+- `retrievalStrategy` (xsd:string) - How retrieved
+- `relevanceScore` (xsd:float) - Relevance (0.0-1.0)
+
+#### 5.6.2 Context
+
+**Definition**: Environmental information.
+
+**Properties**:
+- `contextType` (xsd:string) - Type (user, session, global)
+- `contextData` (xsd:string) - Context as JSON
+- `scope` (xsd:string) - Scope (request, session, global)
+
+#### 5.6.3 Conversation
+
+**Definition**: Thread of messages.
+
+**Properties**:
+- `messages` (array of Message) - Messages
+- `participants` (array) - Agents/users
+- `totalTokens` (xsd:integer) - Total tokens used
+
+#### 5.6.4 Message
+
+**Definition**: Single message in conversation.
+
+**Properties**:
+- `conversation` (Conversation) - Parent conversation
+- `messageRole` (xsd:string) - Role (system, user, assistant)
+- `messageContent` (xsd:string) - Message text
+- `tokenCount` (xsd:integer) - Tokens in message
+
+## 6. Properties
+
+See [Property Reference](/properties) for complete property documentation.
+
+## 7. JSON-LD Context
+
+### 7.1 Master Context
+
+All types and properties are defined in category-specific contexts:
+
+- `ai-context.jsonld` - Master context
+- `agents-context.jsonld` - Agent types
+- `models-context.jsonld` - Model types
+- `tools-context.jsonld` - Tool types
+- `memory-context.jsonld` - Memory types
+- `workflows-context.jsonld` - Workflow types
+- `knowledge-context.jsonld` - Knowledge types
+
+### 7.2 Usage
+
+```json
+{
+  "@context": "http://schema.org.ai/context/ai-context.jsonld",
+  "@type": "Agent",
+  ...
+}
+```
+
+Or with YAML-LD (MDXLD):
+
+```yaml
+---
+$context: http://schema.org.ai/context/ai-context.jsonld
+$type: Agent
+...
+---
+```
+
+## 8. Examples
+
+See [Examples](/examples) for comprehensive usage examples.
+
+## 9. References
+
+### 9.1 Normative References
+
+- **JSON-LD 1.1**: [W3C Recommendation](https://www.w3.org/TR/json-ld11/)
+- **RDF 1.1**: [W3C Recommendation](https://www.w3.org/TR/rdf11-concepts/)
+- **RDFS**: [W3C Recommendation](https://www.w3.org/TR/rdf-schema/)
+- **Schema.org**: [schema.org](https://schema.org)
+
+### 9.2 Informative References
+
+- **MDXLD**: [mdxld.org](https://mdxld.org)
+- **YAML-LD**: YAML representation of JSON-LD
+- **Knowledge Graphs**: Semantic web technologies
+
+## Appendix A: Change Log
+
+### Version 1.0.0 (2025-10-02)
+
+- Initial published specification
+- 17 core AI-native types
+- 60+ properties
+- 7 JSON-LD context files
+- Complete documentation
+
+## Appendix B: License
+
+MIT License - Open source and freely available for use in any project.

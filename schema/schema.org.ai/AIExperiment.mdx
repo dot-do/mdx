@@ -1,0 +1,36 @@
+---
+$id: https://schema.org.ai/AIExperiment
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/ai-context.jsonld
+label: AIExperiment
+comment: An AI research or development experiment
+subClassOf:
+  - http://schema.org/Action
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  hypothesis: string
+  methodology: string
+  model: Model
+  dataset: Dataset
+  results: object
+  conclusion: string
+---
+
+# AIExperiment
+
+**AIExperiment** documents a research or development experiment involving AI models, datasets, or algorithms.
+
+## Examples
+
+```yaml
+$type: AIExperiment
+name: Temperature impact on creativity
+hypothesis: Higher temperature values increase output creativity
+methodology: Generate 100 stories at different temperature settings
+model: gpt-4
+results:
+  temperature_0.7: 65
+  temperature_1.0: 82
+  temperature_1.5: 91
+conclusion: Creativity scores increase with temperature up to 1.5
+```

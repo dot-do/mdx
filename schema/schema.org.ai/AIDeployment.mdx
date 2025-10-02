@@ -1,0 +1,33 @@
+---
+$id: https://schema.org.ai/AIDeployment
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/ai-context.jsonld
+label: AIDeployment
+comment: Deployment of an AI model to production
+subClassOf:
+  - http://schema.org/Action
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  model: Model
+  environment: string
+  deployedAt: dateTime
+  version: string
+  status: string
+  endpoint: string
+---
+
+# AIDeployment
+
+**AIDeployment** represents the deployment of an AI model to a production environment.
+
+## Examples
+
+```yaml
+$type: AIDeployment
+model: claude-3-opus-20240229
+environment: production
+deployedAt: 2025-10-01T00:00:00Z
+version: 1.2.0
+status: active
+endpoint: https://api.example.com/v1/chat
+```

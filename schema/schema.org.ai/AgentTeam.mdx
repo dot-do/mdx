@@ -1,0 +1,57 @@
+---
+$id: https://schema.org.ai/AgentTeam
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/agents
+label: AgentTeam
+comment: A coordinated team of AI agents working together toward common goals
+subClassOf:
+  - http://schema.org.ai/vocab#Agent
+properties:
+  teammates: array
+  coordinator: Agent
+  goals: array
+  policies: array
+  collaboration: string
+---
+
+# AgentTeam
+
+An **AgentTeam** is a coordinated group of AI agents that work together toward common objectives. Teams enable specialization, parallel execution, and collective problem-solving.
+
+## Key Characteristics
+
+- **Coordinated**: Agents communicate and collaborate
+- **Specialized**: Each agent has specific roles and capabilities
+- **Goal-aligned**: All agents work toward shared objectives
+- **Scalable**: Can add or remove agents dynamically
+
+## Properties
+
+- **teammates**: Array of agents in the team
+- **coordinator**: Agent responsible for orchestration
+- **goals**: Shared objectives
+- **policies**: Team-wide governance rules
+- **collaboration**: Strategy for coordination (hierarchical, flat, specialized)
+
+## Examples
+
+### Software Development Team
+
+```yaml
+$type: AgentTeam
+teammates:
+  - frontend-agent
+  - backend-agent
+  - qa-agent
+  - devops-agent
+coordinator: tech-lead-agent
+goals:
+  - build-mvp
+  - maintain-quality
+collaboration: specialized
+```
+
+## Related Types
+
+- **Agent**: Individual team member
+- **Policy**: Team governance rules

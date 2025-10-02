@@ -1,0 +1,38 @@
+---
+$id: https://schema.org.ai/AIMonitoring
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/ai-context.jsonld
+label: AIMonitoring
+comment: Monitoring of AI model performance in production
+subClassOf:
+  - http://schema.org/Action
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  model: Model
+  metrics: array
+  alerts: array
+  period: string
+  lastChecked: dateTime
+---
+
+# AIMonitoring
+
+**AIMonitoring** represents ongoing monitoring of AI models in production to track performance, detect issues, and ensure quality.
+
+## Examples
+
+```yaml
+$type: AIMonitoring
+model: content-moderation-model
+metrics:
+  - accuracy
+  - latency
+  - throughput
+  - error-rate
+alerts:
+  - type: accuracy-drop
+    threshold: 0.05
+    action: notify-team
+period: realtime
+lastChecked: 2025-10-02T10:30:00Z
+```

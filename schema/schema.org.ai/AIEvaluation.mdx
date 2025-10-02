@@ -1,0 +1,35 @@
+---
+$id: https://schema.org.ai/AIEvaluation
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/ai-context.jsonld
+label: AIEvaluation
+comment: An evaluation of AI model performance
+subClassOf:
+  - http://schema.org/Review
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  model: Model
+  dataset: Dataset
+  metrics: array
+  score: number
+  evaluatedAt: dateTime
+---
+
+# AIEvaluation
+
+**AIEvaluation** documents the performance evaluation of an AI model on specific datasets and metrics.
+
+## Examples
+
+```yaml
+$type: AIEvaluation
+model: claude-3-opus
+dataset: mmlu-benchmark
+metrics:
+  - name: accuracy
+    value: 0.867
+  - name: f1-score
+    value: 0.854
+score: 0.867
+evaluatedAt: 2025-10-01T00:00:00Z
+```

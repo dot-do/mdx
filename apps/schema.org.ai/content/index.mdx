@@ -1,0 +1,179 @@
+---
+title: schema.org.ai
+description: AI-native vocabulary for the semantic web
+---
+
+# schema.org.ai
+
+**Structured vocabulary for AI agents, models, and knowledge systems**
+
+schema.org.ai extends [Schema.org](https://schema.org) with AI-native types and properties, enabling structured representation of:
+
+- **AI Agents** - Autonomous entities with goals, capabilities, and tools
+- **Models** - LLMs, embeddings, fine-tuning, and multimodal AI
+- **Tools** - Functions, APIs, and capabilities agents can invoke
+- **Workflows** - Tasks, plans, and orchestration patterns
+- **Knowledge** - Prompts, knowledge bases, and RAG systems
+- **Memory** - Conversations, messages, context, and recall
+
+## Why schema.org.ai?
+
+Modern AI systems need structured, machine-readable vocabulary to:
+
+✅ **Describe agents** - Roles, capabilities, policies, and behavior
+✅ **Catalog models** - Specifications, costs, capabilities, and limits
+✅ **Document tools** - Parameters, schemas, and safety requirements
+✅ **Track workflows** - Tasks, dependencies, and execution status
+✅ **Manage knowledge** - Prompts, embeddings, and retrieval strategies
+✅ **Preserve context** - Conversations, memory, and state
+
+## Quick Start
+
+### JSON-LD Context
+
+```json
+{
+  "@context": "http://schema.org.ai/context/ai-context.jsonld",
+  "@type": "Agent",
+  "@id": "https://example.com/agents/support",
+  "role": "customer-support",
+  "capabilities": ["answer-questions", "troubleshoot-issues"],
+  "model": "claude-3-5-sonnet-20241022",
+  "systemPrompt": "You are a helpful customer support agent."
+}
+```
+
+### MDXLD (YAML-LD)
+
+```yaml
+---
+$context: http://schema.org.ai/context/ai-context.jsonld
+$type: Agent
+$id: https://example.com/agents/support
+role: customer-support
+capabilities:
+  - answer-questions
+  - troubleshoot-issues
+model: claude-3-5-sonnet-20241022
+systemPrompt: You are a helpful customer support agent.
+---
+
+# Customer Support Agent
+
+Autonomous agent for handling customer inquiries.
+```
+
+## Core Entity Types
+
+### Agents & Teams
+
+- **[Agent](/types/Agent)** - Autonomous AI entity with tools and goals
+- **[AgentTeam](/types/AgentTeam)** - Coordinated team of agents
+- **[Skill](/types/Skill)** - Specific capability an agent possesses
+- **[Policy](/types/Policy)** - Rule governing agent behavior
+
+### Models & Training
+
+- **[Model](/types/Model)** - AI/ML model for inference or generation
+- **[Embedding](/types/Embedding)** - Model for vector representations
+- **[FineTuning](/types/FineTuning)** - Model customization process
+
+### Tools & Functions
+
+- **[Tool](/types/Tool)** - Function or API agent can invoke
+
+### Workflows & Execution
+
+- **[Task](/types/Task)** - Discrete unit of work
+- **[Plan](/types/Plan)** - Structured sequence of tasks
+
+### Knowledge & Prompts
+
+- **[KnowledgeBase](/types/KnowledgeBase)** - Queryable knowledge collection
+- **[Prompt](/types/Prompt)** - Template for AI interaction
+- **[PromptChain](/types/PromptChain)** - Sequence of prompts
+
+### Memory & Context
+
+- **[Memory](/types/Memory)** - Stored knowledge or experience
+- **[Context](/types/Context)** - Environmental information
+- **[Conversation](/types/Conversation)** - Thread of messages
+- **[Message](/types/Message)** - Single message in conversation
+
+## Examples
+
+### AI Agent Definition
+
+```yaml
+$type: Agent
+role: code-reviewer
+capabilities:
+  - analyze-code-quality
+  - detect-bugs
+  - suggest-improvements
+tools:
+  - static-analysis
+  - test-runner
+model: claude-3-7-sonnet-20250219
+temperature: 0.3
+autonomyLevel: fully-autonomous
+```
+
+### AI Model Specification
+
+```yaml
+$type: Model
+modelType: llm
+modelFamily: Claude
+provider: Anthropic
+contextWindowSize: 200000
+functionCalling: true
+structuredOutput: true
+costPerInputToken: 0.003
+costPerOutputToken: 0.015
+```
+
+### Tool Definition
+
+```yaml
+$type: Tool
+toolType: api
+apiEndpoint: https://api.search.com/v1/search
+apiMethod: POST
+parameters:
+  query: string
+  limit: integer
+authentication: api-key
+requiresApproval: false
+dangerLevel: safe
+```
+
+## Integration
+
+schema.org.ai integrates seamlessly with:
+
+- **[MDXLD](https://mdxld.org)** - MDX with linked data frontmatter
+- **[Schema.org](https://schema.org)** - Web vocabulary foundation
+- **JSON-LD** - Standard linked data format
+- **Knowledge graphs** - Semantic data representation
+- **Vector databases** - Embeddings and semantic search
+- **AI frameworks** - LangChain, LlamaIndex, Mastra, etc.
+
+## Specification
+
+Read the full specification:
+
+- **[Formal Specification](/spec)** - Complete vocabulary definition
+- **[Type Reference](/types)** - All 38 entity types
+- **[Property Reference](/properties)** - All 60+ properties
+- **[Examples](/examples)** - Real-world usage patterns
+
+## Community
+
+- **GitHub**: [github.com/mdxld/mdxld](https://github.com/mdxld/mdxld)
+- **Discord**: [discord.gg/mdxld](https://discord.gg/mdxld)
+- **Twitter**: [@mdxld](https://twitter.com/mdxld)
+
+## License
+
+MIT - schema.org.ai is open source and freely available for use in any project.

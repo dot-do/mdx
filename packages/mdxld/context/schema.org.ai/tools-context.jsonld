@@ -1,0 +1,129 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "http://schema.org.ai/vocab#",
+    "@base": "http://schema.org.ai/",
+
+    "schema": "http://schema.org/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Tool": {
+      "@id": "ai:Tool",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": ["ai:AIEntity", "schema:SoftwareApplication"],
+      "rdfs:comment": "A software tool or function that can be invoked by an AI agent"
+    },
+
+    "toolType": {
+      "@id": "ai:toolType",
+      "@type": "xsd:string",
+      "rdfs:comment": "Type of tool (api, function, code, search, database)"
+    },
+
+    "parameters": {
+      "@id": "ai:parameters",
+      "@type": "@id",
+      "rdfs:comment": "Input parameters accepted by the tool"
+    },
+
+    "authentication": {
+      "@id": "ai:authentication",
+      "@type": "xsd:string",
+      "rdfs:comment": "Authentication method required (api-key, oauth, none)"
+    },
+
+    "rateLimit": {
+      "@id": "ai:rateLimit",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Maximum requests per minute"
+    },
+
+    "apiEndpoint": {
+      "@id": "ai:apiEndpoint",
+      "@type": "xsd:anyURI",
+      "rdfs:comment": "API endpoint URL for the tool"
+    },
+
+    "apiMethod": {
+      "@id": "ai:apiMethod",
+      "@type": "xsd:string",
+      "rdfs:comment": "HTTP method (GET, POST, PUT, DELETE, PATCH)"
+    },
+
+    "apiHeaders": {
+      "@id": "ai:apiHeaders",
+      "@type": "xsd:string",
+      "rdfs:comment": "Required HTTP headers as JSON object"
+    },
+
+    "requestSchema": {
+      "@id": "ai:requestSchema",
+      "@type": "xsd:string",
+      "rdfs:comment": "JSON Schema for request body"
+    },
+
+    "responseSchema": {
+      "@id": "ai:responseSchema",
+      "@type": "xsd:string",
+      "rdfs:comment": "JSON Schema for response body"
+    },
+
+    "examples": {
+      "@id": "ai:examples",
+      "@type": "@id",
+      "rdfs:comment": "Example usages of the tool",
+      "@container": "@list"
+    },
+
+    "requiresApproval": {
+      "@id": "ai:requiresApproval",
+      "@type": "xsd:boolean",
+      "rdfs:comment": "Whether tool execution requires human approval"
+    },
+
+    "dangerLevel": {
+      "@id": "ai:dangerLevel",
+      "@type": "xsd:string",
+      "rdfs:comment": "Risk level (safe, low, medium, high, critical)"
+    },
+
+    "timeout": {
+      "@id": "ai:timeout",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Maximum execution time in milliseconds"
+    },
+
+    "retryPolicy": {
+      "@id": "ai:retryPolicy",
+      "@type": "xsd:string",
+      "rdfs:comment": "Retry policy for failed executions (none, exponential, fixed)"
+    },
+
+    "caching": {
+      "@id": "ai:caching",
+      "@type": "xsd:boolean",
+      "rdfs:comment": "Whether tool results can be cached"
+    },
+
+    "cacheDuration": {
+      "@id": "ai:cacheDuration",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Cache duration in seconds"
+    },
+
+    "parallel": {
+      "@id": "ai:parallel",
+      "@type": "xsd:boolean",
+      "rdfs:comment": "Whether tool can be called in parallel"
+    },
+
+    "dependencies": {
+      "@id": "ai:dependencies",
+      "@type": "@id",
+      "rdfs:comment": "Other tools this tool depends on",
+      "@container": "@list"
+    }
+  }
+}

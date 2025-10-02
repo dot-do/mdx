@@ -1,0 +1,53 @@
+{
+  "name": "schema.org.ai",
+  "version": "1.0.0",
+  "description": "TypeScript types for schema.org.ai - AI-native vocabulary for the semantic web",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "check-types": "tsc --noEmit"
+  },
+  "keywords": [
+    "schema.org",
+    "ai",
+    "linked-data",
+    "json-ld",
+    "typescript",
+    "types",
+    "agents",
+    "models",
+    "knowledge-graphs"
+  ],
+  "author": "schema.org.ai contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdxld/mdxld",
+    "directory": "packages/schema.org.ai"
+  },
+  "homepage": "https://schema.org.ai",
+  "devDependencies": {
+    "@repo/tsup-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "tsup": "^8.0.0",
+    "typescript": "^5.8.3"
+  }
+}

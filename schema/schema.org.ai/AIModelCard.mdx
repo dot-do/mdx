@@ -1,0 +1,39 @@
+---
+$id: https://schema.org.ai/AIModelCard
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/ai-context.jsonld
+label: AIModelCard
+comment: Documentation describing an AI model's characteristics and limitations
+subClassOf:
+  - http://schema.org/TechArticle
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  model: Model
+  intendedUse: string
+  limitations: array
+  biases: array
+  ethicalConsiderations: array
+  performance: object
+  trainingData: Dataset
+---
+
+# AIModelCard
+
+**AIModelCard** provides comprehensive documentation about an AI model including its capabilities, limitations, and ethical considerations.
+
+## Examples
+
+```yaml
+$type: AIModelCard
+model: gpt-4
+intendedUse: General-purpose language understanding and generation
+limitations:
+  - Knowledge cutoff at April 2023
+  - May generate plausible but incorrect information
+biases:
+  - Possible gender bias in occupational contexts
+  - Cultural bias toward Western perspectives
+ethicalConsiderations:
+  - Should not be used for medical diagnosis
+  - Requires human oversight for high-stakes decisions
+```

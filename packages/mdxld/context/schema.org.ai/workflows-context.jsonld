@@ -1,0 +1,181 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "http://schema.org.ai/vocab#",
+    "@base": "http://schema.org.ai/",
+
+    "schema": "http://schema.org/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Task": {
+      "@id": "ai:Task",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": ["schema:Action", "ai:AIEntity"],
+      "rdfs:comment": "A discrete unit of work to be performed by an agent or system"
+    },
+
+    "Plan": {
+      "@id": "ai:Plan",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": ["schema:PlanAction", "ai:AIEntity"],
+      "rdfs:comment": "A structured plan for achieving a goal through multiple tasks"
+    },
+
+    "taskType": {
+      "@id": "ai:taskType",
+      "@type": "xsd:string",
+      "rdfs:comment": "Type of task (generation, analysis, transformation, execution)"
+    },
+
+    "taskStatus": {
+      "@id": "ai:taskStatus",
+      "@type": "xsd:string",
+      "rdfs:comment": "Current status (pending, in-progress, completed, failed, cancelled)"
+    },
+
+    "taskPriority": {
+      "@id": "ai:taskPriority",
+      "@type": "xsd:string",
+      "rdfs:comment": "Priority level (low, medium, high, critical)"
+    },
+
+    "assignedTo": {
+      "@id": "ai:assignedTo",
+      "@type": "@id",
+      "rdfs:comment": "Agent assigned to perform the task"
+    },
+
+    "dependencies": {
+      "@id": "ai:dependencies",
+      "@type": "@id",
+      "rdfs:comment": "Tasks that must be completed before this task",
+      "@container": "@list"
+    },
+
+    "subtasks": {
+      "@id": "ai:subtasks",
+      "@type": "@id",
+      "rdfs:comment": "Subtasks that make up this task",
+      "@container": "@list"
+    },
+
+    "parentTask": {
+      "@id": "ai:parentTask",
+      "@type": "@id",
+      "rdfs:comment": "Parent task this is a subtask of"
+    },
+
+    "estimatedDuration": {
+      "@id": "ai:estimatedDuration",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Estimated duration in seconds"
+    },
+
+    "actualDuration": {
+      "@id": "ai:actualDuration",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Actual duration in seconds"
+    },
+
+    "deadline": {
+      "@id": "ai:deadline",
+      "@type": "xsd:dateTime",
+      "rdfs:comment": "Deadline for task completion"
+    },
+
+    "startedAt": {
+      "@id": "ai:startedAt",
+      "@type": "xsd:dateTime",
+      "rdfs:comment": "Timestamp when task started"
+    },
+
+    "completedAt": {
+      "@id": "ai:completedAt",
+      "@type": "xsd:dateTime",
+      "rdfs:comment": "Timestamp when task completed"
+    },
+
+    "result": {
+      "@id": "ai:result",
+      "@type": "xsd:string",
+      "rdfs:comment": "Result or output of the task"
+    },
+
+    "error": {
+      "@id": "ai:error",
+      "@type": "xsd:string",
+      "rdfs:comment": "Error message if task failed"
+    },
+
+    "retryCount": {
+      "@id": "ai:retryCount",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Number of times task has been retried"
+    },
+
+    "maxRetries": {
+      "@id": "ai:maxRetries",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Maximum number of retry attempts"
+    },
+
+    "plan": {
+      "@id": "ai:plan",
+      "@type": "@id",
+      "rdfs:comment": "Plan this task belongs to"
+    },
+
+    "planType": {
+      "@id": "ai:planType",
+      "@type": "xsd:string",
+      "rdfs:comment": "Type of plan (sequential, parallel, conditional, iterative)"
+    },
+
+    "planStatus": {
+      "@id": "ai:planStatus",
+      "@type": "xsd:string",
+      "rdfs:comment": "Current status of plan (draft, active, paused, completed, failed)"
+    },
+
+    "steps": {
+      "@id": "ai:steps",
+      "@type": "@id",
+      "rdfs:comment": "Steps or tasks in the plan",
+      "@container": "@list"
+    },
+
+    "currentStep": {
+      "@id": "ai:currentStep",
+      "@type": "@id",
+      "rdfs:comment": "Current step being executed"
+    },
+
+    "completedSteps": {
+      "@id": "ai:completedSteps",
+      "@type": "@id",
+      "rdfs:comment": "Steps that have been completed",
+      "@container": "@list"
+    },
+
+    "objective": {
+      "@id": "ai:objective",
+      "@type": "xsd:string",
+      "rdfs:comment": "Goal or objective the plan is designed to achieve"
+    },
+
+    "successCriteria": {
+      "@id": "ai:successCriteria",
+      "@type": "xsd:string",
+      "rdfs:comment": "Criteria for determining plan success",
+      "@container": "@list"
+    },
+
+    "rollbackStrategy": {
+      "@id": "ai:rollbackStrategy",
+      "@type": "xsd:string",
+      "rdfs:comment": "Strategy for rolling back if plan fails"
+    }
+  }
+}

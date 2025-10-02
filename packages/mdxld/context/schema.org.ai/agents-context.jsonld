@@ -1,0 +1,166 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "http://schema.org.ai/vocab#",
+    "@base": "http://schema.org.ai/",
+
+    "schema": "http://schema.org/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Agent": {
+      "@id": "ai:Agent",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": ["ai:AIEntity", "schema:SoftwareApplication"],
+      "rdfs:comment": "An autonomous AI agent that can perform tasks, use tools, and make decisions"
+    },
+
+    "AgentTeam": {
+      "@id": "ai:AgentTeam",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": "ai:Agent",
+      "rdfs:comment": "A coordinated team of AI agents working together toward common goals"
+    },
+
+    "Skill": {
+      "@id": "ai:Skill",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": "schema:Thing",
+      "rdfs:comment": "A specific capability or skill that an agent can perform"
+    },
+
+    "Policy": {
+      "@id": "ai:Policy",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": "schema:Thing",
+      "rdfs:comment": "A rule or guideline that governs agent behavior"
+    },
+
+    "role": {
+      "@id": "ai:role",
+      "@type": "xsd:string",
+      "rdfs:comment": "The primary role or function of the agent"
+    },
+
+    "capabilities": {
+      "@id": "ai:capabilities",
+      "@type": "@id",
+      "rdfs:comment": "List of capabilities or skills the agent possesses",
+      "@container": "@list"
+    },
+
+    "tools": {
+      "@id": "ai:tools",
+      "@type": "@id",
+      "rdfs:comment": "Tools available to the agent",
+      "@container": "@list"
+    },
+
+    "model": {
+      "@id": "ai:model",
+      "@type": "@id",
+      "rdfs:comment": "The AI model powering the agent"
+    },
+
+    "systemPrompt": {
+      "@id": "ai:systemPrompt",
+      "@type": "xsd:string",
+      "rdfs:comment": "System prompt or instructions that define agent behavior"
+    },
+
+    "temperature": {
+      "@id": "ai:temperature",
+      "@type": "xsd:float",
+      "rdfs:comment": "Temperature parameter for model sampling (0.0-2.0)"
+    },
+
+    "maxTokens": {
+      "@id": "ai:maxTokens",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Maximum number of tokens for model output"
+    },
+
+    "topP": {
+      "@id": "ai:topP",
+      "@type": "xsd:float",
+      "rdfs:comment": "Top-p (nucleus sampling) parameter (0.0-1.0)"
+    },
+
+    "goals": {
+      "@id": "ai:goals",
+      "@type": "xsd:string",
+      "rdfs:comment": "Goals or objectives the agent is designed to achieve",
+      "@container": "@list"
+    },
+
+    "policies": {
+      "@id": "ai:policies",
+      "@type": "@id",
+      "rdfs:comment": "Policies governing agent behavior",
+      "@container": "@list"
+    },
+
+    "skills": {
+      "@id": "ai:skills",
+      "@type": "@id",
+      "rdfs:comment": "Skills the agent possesses",
+      "@container": "@list"
+    },
+
+    "team": {
+      "@id": "ai:team",
+      "@type": "@id",
+      "rdfs:comment": "Team the agent belongs to"
+    },
+
+    "teammates": {
+      "@id": "ai:teammates",
+      "@type": "@id",
+      "rdfs:comment": "Other agents in the team",
+      "@container": "@list"
+    },
+
+    "coordinator": {
+      "@id": "ai:coordinator",
+      "@type": "@id",
+      "rdfs:comment": "Agent responsible for coordinating the team"
+    },
+
+    "autonomyLevel": {
+      "@id": "ai:autonomyLevel",
+      "@type": "xsd:string",
+      "rdfs:comment": "Level of autonomy (supervised, semi-autonomous, fully-autonomous)"
+    },
+
+    "humanInTheLoop": {
+      "@id": "ai:humanInTheLoop",
+      "@type": "xsd:boolean",
+      "rdfs:comment": "Whether human oversight is required for agent actions"
+    },
+
+    "escalationPolicy": {
+      "@id": "ai:escalationPolicy",
+      "@type": "@id",
+      "rdfs:comment": "Policy defining when to escalate to human or other agent"
+    },
+
+    "memoryType": {
+      "@id": "ai:memoryType",
+      "@type": "xsd:string",
+      "rdfs:comment": "Type of memory system (episodic, semantic, procedural)"
+    },
+
+    "contextWindow": {
+      "@id": "ai:contextWindow",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Size of the agent's context window in tokens"
+    },
+
+    "learningEnabled": {
+      "@id": "ai:learningEnabled",
+      "@type": "xsd:boolean",
+      "rdfs:comment": "Whether the agent can learn from interactions"
+    }
+  }
+}

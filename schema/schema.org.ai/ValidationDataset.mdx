@@ -1,0 +1,30 @@
+---
+$id: https://schema.org.ai/ValidationDataset
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/ai-context.jsonld
+label: ValidationDataset
+comment: A dataset used for validating AI model performance
+subClassOf:
+  - http://schema.org/Dataset
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  dataType: string
+  size: integer
+  format: string
+  groundTruth: boolean
+---
+
+# ValidationDataset
+
+A **ValidationDataset** is used to validate and tune AI model hyperparameters during training.
+
+## Examples
+
+```yaml
+$type: ValidationDataset
+name: Validation set for sentiment analysis
+dataType: text
+size: 5000
+format: jsonl
+groundTruth: true
+```

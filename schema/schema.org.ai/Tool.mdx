@@ -1,0 +1,99 @@
+---
+$id: https://schema.org.ai/Tool
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/tools
+label: Tool
+comment: A software tool or function that can be invoked by an AI agent
+subClassOf:
+  - http://schema.org.ai/vocab#AIEntity
+  - http://schema.org/SoftwareApplication
+properties:
+  toolType: string
+  parameters: object
+  authentication: string
+  rateLimit: integer
+  apiEndpoint: string
+  apiMethod: string
+  requestSchema: string
+  responseSchema: string
+  examples: array
+  requiresApproval: boolean
+  dangerLevel: string
+  timeout: integer
+  caching: boolean
+  parallel: boolean
+  dependencies: array
+---
+
+# Tool
+
+A **Tool** is a software function, API, or capability that AI agents can invoke to perform actions or retrieve information.
+
+## Key Characteristics
+
+- **Invocable**: Can be called programmatically
+- **Parameterized**: Accepts structured inputs
+- **Discoverable**: Schema-described for agent understanding
+- **Governed**: Subject to policies and safety checks
+
+## Properties
+
+### Core Properties
+
+- **toolType**: Category (api, function, code, search, database)
+- **parameters**: Input parameters schema
+- **authentication**: Auth method (api-key, oauth, none)
+- **rateLimit**: Maximum requests per minute
+
+### API Tools
+
+- **apiEndpoint**: API URL
+- **apiMethod**: HTTP method (GET, POST, etc.)
+- **requestSchema**: JSON Schema for request
+- **responseSchema**: JSON Schema for response
+
+### Safety & Governance
+
+- **requiresApproval**: Needs human approval
+- **dangerLevel**: Risk level (safe, low, medium, high, critical)
+- **timeout**: Max execution time in ms
+
+### Performance
+
+- **caching**: Results can be cached
+- **parallel**: Can run in parallel
+- **dependencies**: Required tools
+
+## Examples
+
+### Search Tool
+
+```yaml
+$type: Tool
+toolType: search
+parameters:
+  query: string
+  limit: integer
+apiEndpoint: https://api.search.com/v1/search
+apiMethod: POST
+authentication: api-key
+rateLimit: 60
+requiresApproval: false
+dangerLevel: safe
+caching: true
+parallel: true
+```
+
+### Database Query Tool
+
+```yaml
+$type: Tool
+toolType: database
+parameters:
+  sql: string
+authentication: oauth
+requiresApproval: true
+dangerLevel: high
+timeout: 30000
+caching: false
+```

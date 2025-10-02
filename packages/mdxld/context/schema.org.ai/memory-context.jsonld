@@ -1,0 +1,169 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "http://schema.org.ai/vocab#",
+    "@base": "http://schema.org.ai/",
+
+    "schema": "http://schema.org/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Memory": {
+      "@id": "ai:Memory",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": "ai:AIEntity",
+      "rdfs:comment": "Stored knowledge or experience that an agent can recall"
+    },
+
+    "Context": {
+      "@id": "ai:Context",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": "ai:AIEntity",
+      "rdfs:comment": "Contextual information available to an agent during execution"
+    },
+
+    "Conversation": {
+      "@id": "ai:Conversation",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": ["schema:Conversation", "ai:AIEntity"],
+      "rdfs:comment": "A conversation thread between agents or between agent and human"
+    },
+
+    "Message": {
+      "@id": "ai:Message",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": ["schema:Message", "ai:AIEntity"],
+      "rdfs:comment": "A single message within a conversation"
+    },
+
+    "memoryType": {
+      "@id": "ai:memoryType",
+      "@type": "xsd:string",
+      "rdfs:comment": "Type of memory (short-term, long-term, episodic, semantic, procedural)"
+    },
+
+    "memoryStore": {
+      "@id": "ai:memoryStore",
+      "@type": "xsd:string",
+      "rdfs:comment": "Storage backend for memory (vector-db, database, file, cache)"
+    },
+
+    "retrievalStrategy": {
+      "@id": "ai:retrievalStrategy",
+      "@type": "xsd:string",
+      "rdfs:comment": "How memories are retrieved (semantic, temporal, relevance)"
+    },
+
+    "context": {
+      "@id": "ai:context",
+      "@type": "@id",
+      "rdfs:comment": "Context object or information"
+    },
+
+    "contextType": {
+      "@id": "ai:contextType",
+      "@type": "xsd:string",
+      "rdfs:comment": "Type of context (user, session, conversation, global)"
+    },
+
+    "contextData": {
+      "@id": "ai:contextData",
+      "@type": "xsd:string",
+      "rdfs:comment": "Context data as JSON object"
+    },
+
+    "conversation": {
+      "@id": "ai:conversation",
+      "@type": "@id",
+      "rdfs:comment": "Conversation this message belongs to"
+    },
+
+    "messages": {
+      "@id": "ai:messages",
+      "@type": "@id",
+      "rdfs:comment": "Messages in the conversation",
+      "@container": "@list"
+    },
+
+    "participants": {
+      "@id": "ai:participants",
+      "@type": "@id",
+      "rdfs:comment": "Agents or users participating in conversation",
+      "@container": "@list"
+    },
+
+    "messageRole": {
+      "@id": "ai:messageRole",
+      "@type": "xsd:string",
+      "rdfs:comment": "Role of message sender (system, user, assistant, function)"
+    },
+
+    "messageContent": {
+      "@id": "ai:messageContent",
+      "@type": "xsd:string",
+      "rdfs:comment": "Content of the message"
+    },
+
+    "functionCall": {
+      "@id": "ai:functionCall",
+      "@type": "xsd:string",
+      "rdfs:comment": "Function call details if message is a function invocation"
+    },
+
+    "functionResult": {
+      "@id": "ai:functionResult",
+      "@type": "xsd:string",
+      "rdfs:comment": "Result of function call if message is a function response"
+    },
+
+    "tokenCount": {
+      "@id": "ai:tokenCount",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Number of tokens in the message"
+    },
+
+    "timestamp": {
+      "@id": "ai:timestamp",
+      "@type": "xsd:dateTime",
+      "rdfs:comment": "Timestamp when message was created"
+    },
+
+    "inReplyTo": {
+      "@id": "ai:inReplyTo",
+      "@type": "@id",
+      "rdfs:comment": "Message this is a reply to"
+    },
+
+    "attachments": {
+      "@id": "ai:attachments",
+      "@type": "@id",
+      "rdfs:comment": "Files or data attached to the message",
+      "@container": "@list"
+    },
+
+    "relevanceScore": {
+      "@id": "ai:relevanceScore",
+      "@type": "xsd:float",
+      "rdfs:comment": "Relevance score for memory retrieval (0.0-1.0)"
+    },
+
+    "decayRate": {
+      "@id": "ai:decayRate",
+      "@type": "xsd:float",
+      "rdfs:comment": "Rate at which memory relevance decays over time"
+    },
+
+    "accessCount": {
+      "@id": "ai:accessCount",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Number of times this memory has been accessed"
+    },
+
+    "lastAccessed": {
+      "@id": "ai:lastAccessed",
+      "@type": "xsd:dateTime",
+      "rdfs:comment": "Timestamp when memory was last accessed"
+    }
+  }
+}

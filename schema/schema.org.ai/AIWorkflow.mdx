@@ -1,0 +1,39 @@
+---
+$id: https://schema.org.ai/AIWorkflow
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/ai-context.jsonld
+label: AIWorkflow
+comment: A workflow or process involving AI agents and tasks
+subClassOf:
+  - http://schema.org/HowTo
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  steps: array
+  agents: array
+  tools: array
+  estimatedTime: integer
+  successRate: number
+---
+
+# AIWorkflow
+
+An **AIWorkflow** represents a multi-step process involving AI agents, tools, and human collaboration.
+
+## Examples
+
+```yaml
+$type: AIWorkflow
+name: Content creation workflow
+steps:
+  - research-topic
+  - generate-outline
+  - write-draft
+  - review-and-edit
+  - publish
+agents:
+  - research-agent
+  - writer-agent
+  - editor-agent
+estimatedTime: 3600
+successRate: 0.88
+```

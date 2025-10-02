@@ -1,0 +1,34 @@
+---
+$id: https://schema.org.ai/AICapability
+$type: http://www.w3.org/2000/01/rdf-schema#Class
+$context: http://schema.org.ai/context/ai-context.jsonld
+label: AICapability
+comment: A specific AI capability or feature
+subClassOf:
+  - http://schema.org/Thing
+  - http://schema.org.ai/vocab#AIEntity
+properties:
+  capabilityType: string
+  description: string
+  models: array
+  accuracy: number
+  latency: integer
+---
+
+# AICapability
+
+**AICapability** represents a specific AI capability such as image recognition, text generation, or speech synthesis.
+
+## Examples
+
+```yaml
+$type: AICapability
+name: Image classification
+capabilityType: computer-vision
+description: Classify images into 1000 categories
+models:
+  - resnet-50
+  - vit-large
+accuracy: 0.92
+latency: 50
+```

@@ -1,0 +1,178 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "http://schema.org.ai/vocab#",
+    "@base": "http://schema.org.ai/",
+
+    "schema": "http://schema.org/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Model": {
+      "@id": "ai:Model",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": ["ai:AIEntity", "schema:SoftwareApplication"],
+      "rdfs:comment": "An AI/ML model used for inference, generation, or embedding"
+    },
+
+    "Embedding": {
+      "@id": "ai:Embedding",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": "ai:Model",
+      "rdfs:comment": "A model that converts text or data into vector embeddings"
+    },
+
+    "FineTuning": {
+      "@id": "ai:FineTuning",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": "schema:Action",
+      "rdfs:comment": "Process of fine-tuning a model on custom data"
+    },
+
+    "modelType": {
+      "@id": "ai:modelType",
+      "@type": "xsd:string",
+      "rdfs:comment": "Type of model (llm, embedding, vision, audio, multimodal)"
+    },
+
+    "modelFamily": {
+      "@id": "ai:modelFamily",
+      "@type": "xsd:string",
+      "rdfs:comment": "Model family (e.g., GPT, Claude, Llama, Gemini)"
+    },
+
+    "provider": {
+      "@id": "ai:provider",
+      "@type": "schema:Organization",
+      "rdfs:comment": "Organization providing the model"
+    },
+
+    "contextWindowSize": {
+      "@id": "ai:contextWindowSize",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Maximum context window size in tokens"
+    },
+
+    "inputTokenLimit": {
+      "@id": "ai:inputTokenLimit",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Maximum input tokens accepted by the model"
+    },
+
+    "outputTokenLimit": {
+      "@id": "ai:outputTokenLimit",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Maximum output tokens the model can generate"
+    },
+
+    "trainingData": {
+      "@id": "ai:trainingData",
+      "@type": "@id",
+      "rdfs:comment": "Dataset used to train the model"
+    },
+
+    "trainingCutoff": {
+      "@id": "ai:trainingCutoff",
+      "@type": "xsd:date",
+      "rdfs:comment": "Date when model training data was cut off"
+    },
+
+    "finetuning": {
+      "@id": "ai:finetuning",
+      "@type": "@id",
+      "rdfs:comment": "Fine-tuning configuration or process applied to base model"
+    },
+
+    "baseModel": {
+      "@id": "ai:baseModel",
+      "@type": "@id",
+      "rdfs:comment": "Base model that was fine-tuned"
+    },
+
+    "embedding": {
+      "@id": "ai:embedding",
+      "@type": "@id",
+      "rdfs:comment": "Embedding model or vector representation"
+    },
+
+    "embeddingDimensions": {
+      "@id": "ai:embeddingDimensions",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Number of dimensions in embedding vectors"
+    },
+
+    "embeddingModel": {
+      "@id": "ai:embeddingModel",
+      "@type": "@id",
+      "rdfs:comment": "Model used to generate embeddings"
+    },
+
+    "multimodal": {
+      "@id": "ai:multimodal",
+      "@type": "xsd:boolean",
+      "rdfs:comment": "Whether model supports multiple modalities (text, image, audio)"
+    },
+
+    "supportedModalities": {
+      "@id": "ai:supportedModalities",
+      "@type": "xsd:string",
+      "rdfs:comment": "Modalities supported by the model",
+      "@container": "@list"
+    },
+
+    "visionEnabled": {
+      "@id": "ai:visionEnabled",
+      "@type": "xsd:boolean",
+      "rdfs:comment": "Whether model can process images"
+    },
+
+    "audioEnabled": {
+      "@id": "ai:audioEnabled",
+      "@type": "xsd:boolean",
+      "rdfs:comment": "Whether model can process audio"
+    },
+
+    "functionCalling": {
+      "@id": "ai:functionCalling",
+      "@type": "xsd:boolean",
+      "rdfs:comment": "Whether model supports function/tool calling"
+    },
+
+    "structuredOutput": {
+      "@id": "ai:structuredOutput",
+      "@type": "xsd:boolean",
+      "rdfs:comment": "Whether model can generate structured JSON output"
+    },
+
+    "reasoningModel": {
+      "@id": "ai:reasoningModel",
+      "@type": "xsd:boolean",
+      "rdfs:comment": "Whether model uses chain-of-thought reasoning"
+    },
+
+    "costPerInputToken": {
+      "@id": "ai:costPerInputToken",
+      "@type": "xsd:float",
+      "rdfs:comment": "Cost in USD per 1000 input tokens"
+    },
+
+    "costPerOutputToken": {
+      "@id": "ai:costPerOutputToken",
+      "@type": "xsd:float",
+      "rdfs:comment": "Cost in USD per 1000 output tokens"
+    },
+
+    "latencyMs": {
+      "@id": "ai:latencyMs",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Average latency in milliseconds"
+    },
+
+    "tokensPerSecond": {
+      "@id": "ai:tokensPerSecond",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Average tokens generated per second"
+    }
+  }
+}
