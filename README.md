@@ -1,3 +1,54 @@
+# MDX Ecosystem
+
+A monorepo providing the foundational MDX ecosystem for AI-native content with linked data capabilities.
+
+## What is MDX?
+
+**MDX = Markdown + JSX + Linked Data + AI**
+
+MDX extends Markdown by combining:
+- **Unstructured content** via Markdown
+- **Structured data** via YAML frontmatter (YAML-LD)
+- **Executable code** via JavaScript/TypeScript
+- **UI components** via JSX/React
+- **Linked data** via JSON-LD integration
+
+This repository implements key MDX standards:
+- [mdxld.org](https://mdxld.org) - Linked data for MDX
+- [mdx.org.ai](https://mdx.org.ai) - AI-native MDX capabilities
+- [schema.org.ai](https://schema.org.ai) - Semantic web vocabulary
+
+## Repository Scope
+
+### ✅ Belongs in This Repo
+
+**MDX-Specific Functionality:**
+- Directly processes, generates, or manipulates MDX files
+- Integrates MDX with other tools/frameworks
+- Provides MDX-specific developer experience
+
+**MDX Standards Implementation:**
+- mdxld.org - Linked data for MDX
+- mdx.org.ai - AI-native MDX capabilities
+- schema.org.ai - Semantic web vocabulary
+
+**Core MDX Packages:**
+- mdxai - AI-powered MDX generation
+- mdxdb - MDX as a database
+- mdxe - MDX development environment
+- mdxld - MDX linked data
+- mdxui - MDX UI components
+- mdxtra - MDX integrations
+
+### ❌ Does NOT Belong
+
+- Generic AI functions → Use [@dot-do/ai](https://github.com/dot-do/ai) instead
+- Project-specific code → Use projects/ repo
+- Experimental code → Use experiments/ repo
+- Research notes → Use /notes directory
+
+## Core Packages
+
 ## [`mdxai`](./packages/mdxai) - Generate & Edit Markdown & MDX
 
 ```bash
