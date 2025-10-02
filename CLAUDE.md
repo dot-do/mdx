@@ -6,6 +6,55 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a **monorepo for MDX ecosystem tooling** that treats Markdown/MDX files as structured data with AI, database, and linked data capabilities. Uses **pnpm workspaces** and **Turborepo** for efficient development.
 
+## Repository Scope
+
+### ✅ What Belongs in This Repo
+
+**MDX-Specific Functionality:**
+- Code that **directly processes, generates, or manipulates MDX files**
+- Integrations that connect MDX with other tools/frameworks
+- MDX-specific developer experience improvements
+
+**MDX Standards Implementation:**
+- **mdxld.org** - Linked data for MDX
+- **mdx.org.ai** - AI-native MDX capabilities
+- **schema.org.ai** - Semantic web vocabulary for MDX
+
+**Core Packages (2.1MB):**
+- `mdxai` - AI-powered MDX generation (uses AI for MDX-specific tasks)
+- `mdxdb` - MDX files as a database (MDX-specific storage)
+- `mdxe` - MDX development environment (zero-config Next.js + React + Vitest)
+- `mdxld` - MDX linked data (Schema.org integration)
+- `mdxui` - MDX UI components (React components for MDX)
+- `mdxtra` - MDX integrations (framework-specific MDX tools)
+- `schema.org.ai` - Schema.org vocabulary package
+
+**Research & Documentation:**
+- MDX-related research and architecture decisions in `/notes/research/`
+- MDX-focused examples in `/examples/`
+
+### ❌ What Does NOT Belong
+
+**Generic AI Utilities** → Use [@dot-do/ai](https://github.com/dot-do/ai) instead
+- `@dot-do/ai-functions` - Generic text generation, lists, research
+- `@dot-do/ai-workflows` - Generic workflow orchestration with Ink CLI
+
+**Project-Specific Code** → Use `projects/` repository
+- One-off applications and experiments
+- Customer-specific implementations
+
+**Experimental/Research Code** → Use `experiments/` repository or `/notes/`
+- Early-stage prototypes
+- Research implementations
+
+### Decision Criteria
+
+When adding new code, ask:
+1. **Does it process MDX files?** If yes → belongs here
+2. **Is it MDX-agnostic AI?** If yes → belongs in @dot-do/ai
+3. **Is it project-specific?** If yes → belongs in projects/
+4. **Is it experimental?** If yes → belongs in experiments/ or /notes/
+
 ## Essential Commands
 
 ### Development Workflow
