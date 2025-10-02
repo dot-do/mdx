@@ -1,0 +1,582 @@
+# Getting Started with MDXLD
+
+This guide will help you create your first MDXLD document and understand the core concepts.
+
+## Installation
+
+```bash
+npm install mdxld
+# or
+pnpm add mdxld
+# or
+yarn add mdxld
+```
+
+## Your First MDXLD Document
+
+Create a file called `hello.mdx`:
+
+```mdx
+---
+$context: https://schema.org
+$type: Article
+$id: https://example.com/articles/hello-mdxld
+title: Hello MDXLD!
+author:
+  $type: Person
+  name: Your Name
+  email: you@example.com
+datePublished: 2025-10-02
+keywords: [mdxld, getting-started, linked-data]
+---
+
+# Hello MDXLD!
+
+This is your first **MDXLD document**. It combines:
+
+1. **Structured metadata** (YAML-LD frontmatter)
+2. **Rich content** (Markdown)
+3. **Executable code** (JavaScript/TypeScript)
+4. **Interactive UI** (React components)
+
+## Why MDXLD?
+
+MDXLD makes your content machine-readable while keeping it human-friendly.
+
+```typescript
+// You can include code directly in the document
+export function greet(name: string) {
+  return `Hello, ${name}!`
+}
+```
+
+{/* And use React components */}
+<div className="callout">
+  <strong>Tip:</strong> MDXLD documents are executable!
+</div>
+```
+
+## Core Concepts
+
+### 1. YAML-LD Frontmatter
+
+The frontmatter uses YAML-LD syntax (JSON-LD with `$` prefix for keywords):
+
+```yaml
+---
+$context: https://schema.org          # Vocabulary definition
+$type: Article                        # Entity type
+$id: https://example.com/my-article   # Unique identifier
+title: My Article
+description: A great article
+---
+```
+
+**Required fields:**
+- `$context` - Vocabulary URL or inline context
+- `$type` - Entity type (from Schema.org or custom vocabulary)
+
+**Common fields:**
+- `$id` - Unique identifier (URL)
+- `title` - Display name
+- `description` - Brief description
+- `author` - Creator (can be nested object)
+- `dateCreated`, `dateModified`, `datePublished` - Timestamps
+- `keywords` or `tags` - Categorization
+
+### 2. MDXLD Entity Types
+
+MDXLD provides AI-native entity types extending Schema.org:
+
+#### Function
+
+Executable code with inputs and outputs:
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Function
+$id: https://example.com/functions/send-email
+title: Send Email
+programmingLanguage: TypeScript
+parameters:
+  - name: to
+    type: string
+    required: true
+  - name: subject
+    type: string
+    required: true
+  - name: body
+    type: string
+    required: true
+returnType: Promise<EmailResponse>
+---
+
+# Send Email Function
+
+Send transactional emails using Resend API.
+
+```typescript
+import { Resend } from 'resend'
+
+export async function sendEmail({ to, subject, body }) {
+  const resend = new Resend(process.env.RESEND_API_KEY)
+
+  return await resend.emails.send({
+    from: 'noreply@example.com',
+    to,
+    subject,
+    html: body
+  })
+}
+```
+```
+
+#### Component
+
+React/UI components with props:
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Component
+$id: https://example.com/components/button
+title: Button Component
+framework: React
+propsSchema:
+  type: object
+  properties:
+    variant:
+      type: string
+      enum: [primary, secondary, danger]
+    children:
+      type: string
+    onClick:
+      type: function
+---
+
+# Button Component
+
+A reusable button with variants.
+
+```tsx
+import { type ButtonHTMLAttributes } from 'react'
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'danger'
+}
+
+export function Button({ variant = 'primary', children, ...props }: ButtonProps) {
+  const baseStyles = 'px-4 py-2 rounded font-medium'
+  const variantStyles = {
+    primary: 'bg-blue-600 text-white hover:bg-blue-700',
+    secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300',
+    danger: 'bg-red-600 text-white hover:bg-red-700'
+  }
+
+  return (
+    <button className={`${baseStyles} ${variantStyles[variant]}`} {...props}>
+      {children}
+    </button>
+  )
+}
+```
+```
+
+#### Workflow
+
+Multi-step orchestrations:
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Workflow
+$id: https://example.com/workflows/user-onboarding
+title: User Onboarding Workflow
+trigger:
+  type: webhook
+  event: user.created
+steps:
+  - id: send-welcome-email
+    type: function
+    function: https://example.com/functions/send-email
+  - id: create-stripe-customer
+    type: api-call
+    endpoint: https://api.stripe.com/v1/customers
+  - id: add-to-mailing-list
+    type: function
+    function: https://example.com/functions/add-to-mailchimp
+---
+
+# User Onboarding Workflow
+
+Automated workflow triggered when a new user signs up.
+
+## Flow
+
+1. **Send Welcome Email** - Send personalized welcome message
+2. **Create Stripe Customer** - Set up billing account
+3. **Add to Mailing List** - Subscribe to newsletter
+
+```typescript
+export const workflow = {
+  trigger: 'user.created',
+  steps: [
+    {
+      id: 'send-welcome-email',
+      run: async (user) => {
+        return await sendEmail({
+          to: user.email,
+          subject: 'Welcome to our platform!',
+          body: `Hi ${user.name}, welcome!`
+        })
+      }
+    },
+    {
+      id: 'create-stripe-customer',
+      run: async (user) => {
+        return await stripe.customers.create({
+          email: user.email,
+          name: user.name
+        })
+      }
+    },
+    {
+      id: 'add-to-mailing-list',
+      run: async (user) => {
+        return await addToMailchimp(user.email)
+      }
+    }
+  ]
+}
+```
+```
+
+#### Agent
+
+Autonomous AI agents:
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Agent
+$id: https://example.com/agents/support
+title: Customer Support Agent
+role: Customer Support Specialist
+model: claude-3-5-sonnet-20250929
+capabilities:
+  - chat
+  - email
+  - knowledge-base
+tools:
+  - https://example.com/tools/search-docs
+  - https://example.com/tools/create-ticket
+  - https://example.com/tools/check-order-status
+systemPrompt: You are a helpful customer support agent...
+temperature: 0.7
+maxTokens: 2000
+---
+
+# Customer Support Agent
+
+AI-powered support agent that helps customers with questions.
+
+```typescript
+import { Anthropic } from '@anthropic-ai/sdk'
+
+export async function supportAgent(message: string) {
+  const anthropic = new Anthropic({
+    apiKey: process.env.ANTHROPIC_API_KEY
+  })
+
+  const response = await anthropic.messages.create({
+    model: 'claude-3-5-sonnet-20250929',
+    max_tokens: 2000,
+    system: 'You are a helpful customer support agent...',
+    messages: [{ role: 'user', content: message }],
+    tools: [
+      {
+        name: 'search_docs',
+        description: 'Search documentation',
+        input_schema: {
+          type: 'object',
+          properties: {
+            query: { type: 'string' }
+          }
+        }
+      }
+    ]
+  })
+
+  return response.content
+}
+```
+```
+
+### 3. Schema.org Integration
+
+MDXLD fully supports all 800+ Schema.org types:
+
+```mdx
+---
+$context: https://schema.org
+$type: SoftwareApplication
+$id: https://example.com/apps/my-app
+name: My Application
+applicationCategory: ProductivityApplication
+operatingSystem: Web
+offers:
+  $type: Offer
+  price: "9.99"
+  priceCurrency: USD
+aggregateRating:
+  $type: AggregateRating
+  ratingValue: 4.5
+  reviewCount: 1250
+---
+
+# My Application
+
+A productivity app that helps you get things done.
+```
+
+## Parsing MDXLD Documents
+
+### Node.js/TypeScript
+
+```typescript
+import { parse } from 'mdxld'
+import { readFile } from 'fs/promises'
+
+// Parse MDXLD file
+const source = await readFile('hello.mdx', 'utf-8')
+const document = await parse(source)
+
+console.log(document.frontmatter.$type)  // 'Article'
+console.log(document.frontmatter.title)  // 'Hello MDXLD!'
+console.log(document.content)            // Markdown content
+console.log(document.code)               // Extracted code
+```
+
+### Validation with Zod
+
+```typescript
+import { parse, validate } from 'mdxld'
+import { z } from 'zod'
+
+const FunctionSchema = z.object({
+  $type: z.literal('Function'),
+  title: z.string(),
+  programmingLanguage: z.string(),
+  parameters: z.array(z.object({
+    name: z.string(),
+    type: z.string(),
+    required: z.boolean().optional()
+  }))
+})
+
+const doc = await parse(source)
+const result = validate(doc.frontmatter, FunctionSchema)
+
+if (result.success) {
+  console.log('Valid function definition!')
+} else {
+  console.error('Validation errors:', result.error)
+}
+```
+
+### Runtime Execution
+
+```typescript
+import { execute } from 'mdxld'
+
+// Execute MDXLD document as function
+const result = await execute('send-email.mdx', {
+  to: 'user@example.com',
+  subject: 'Test',
+  body: 'Hello!'
+})
+
+console.log(result) // EmailResponse
+```
+
+## Framework Integration
+
+### Next.js
+
+```typescript
+// next.config.js
+import mdx from '@next/mdx'
+import { mdxldRemarkPlugin, mdxldRehypePlugin } from 'mdxld/plugins'
+
+const withMDX = mdx({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [mdxldRemarkPlugin],
+    rehypePlugins: [mdxldRehypePlugin]
+  }
+})
+
+export default withMDX({
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx']
+})
+```
+
+### Vite
+
+```typescript
+// vite.config.ts
+import { defineConfig } from 'vite'
+import mdx from '@mdx-js/rollup'
+import { mdxldPlugin } from 'mdxld/vite'
+
+export default defineConfig({
+  plugins: [
+    mdx(),
+    mdxldPlugin()
+  ]
+})
+```
+
+### Astro
+
+```typescript
+// astro.config.mjs
+import { defineConfig } from 'astro/config'
+import mdx from '@astrojs/mdx'
+import { mdxldIntegration } from 'mdxld/astro'
+
+export default defineConfig({
+  integrations: [
+    mdx(),
+    mdxldIntegration()
+  ]
+})
+```
+
+## Querying with SPARQL
+
+Convert MDXLD to RDF triples and query with SPARQL:
+
+```typescript
+import { toRDF, query } from 'mdxld'
+
+// Convert to RDF
+const doc = await parse('hello.mdx')
+const triples = toRDF(doc)
+
+// SPARQL query
+const results = await query(triples, `
+  SELECT ?title ?author WHERE {
+    ?article a schema:Article .
+    ?article schema:name ?title .
+    ?article schema:author ?person .
+    ?person schema:name ?author .
+  }
+`)
+
+console.log(results)
+// [{ title: 'Hello MDXLD!', author: 'Your Name' }]
+```
+
+## Best Practices
+
+### 1. Use Meaningful IDs
+
+Always provide a unique `$id` for your documents:
+
+```yaml
+# Good
+$id: https://example.com/articles/hello-mdxld
+
+# Avoid
+$id: doc-123
+```
+
+### 2. Choose the Right Type
+
+Use the most specific Schema.org type available:
+
+```yaml
+# Good - specific type
+$type: TechArticle
+
+# Less specific
+$type: Article
+
+# Too generic
+$type: CreativeWork
+```
+
+### 3. Provide Rich Metadata
+
+Include all relevant properties:
+
+```yaml
+---
+$type: SoftwareSourceCode
+title: My Library
+description: A useful library
+programmingLanguage: TypeScript
+codeRepository: https://github.com/org/repo
+license: MIT
+version: 1.0.0
+author:
+  $type: Person
+  name: Developer Name
+  email: dev@example.com
+maintainer:
+  $type: Organization
+  name: My Org
+keywords: [library, typescript, utility]
+---
+```
+
+### 4. Validate Documents
+
+Always validate before publishing:
+
+```bash
+# Using CLI
+npx mdxld validate my-doc.mdx
+
+# Or in code
+const result = await validate(doc)
+if (!result.success) {
+  console.error(result.error)
+}
+```
+
+### 5. Version Your Context
+
+Pin context versions for stability:
+
+```yaml
+# Good - versioned
+$context: http://mdxld.org/context/v1.jsonld
+
+# Risky - unversioned (may change)
+$context: http://mdxld.org/context.jsonld
+```
+
+## Next Steps
+
+- **[Examples](/examples)** - See real-world MDXLD documents
+- **[Specification](/spec)** - Read the formal spec
+- **[API Reference](/api)** - TypeScript API documentation
+- **[Integration Guides](/integrations)** - Framework-specific guides
+
+## Community
+
+- **GitHub**: [github.com/mdxld/mdxld](https://github.com/mdxld/mdxld)
+- **Discord**: [Join the community](https://discord.gg/mdxld)
+- **Twitter**: [@mdxld](https://twitter.com/mdxld)
+
+## Support
+
+Need help?
+
+- 📖 [Documentation](/)
+- 💬 [Discord Community](https://discord.gg/mdxld)
+- 🐛 [Report Issues](https://github.com/mdxld/mdxld/issues)
+- 💡 [Request Features](https://github.com/mdxld/mdxld/discussions)

@@ -1,0 +1,700 @@
+# API Example
+
+A complete example of an MDXLD API entity for a RESTful endpoint with request/response schemas, authentication, and error handling.
+
+## Full MDXLD Document
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: API
+$id: https://api.example.com/docs/endpoints/create-user
+title: Create User API
+description: RESTful endpoint for creating new user accounts with email verification
+version: 2.0.0
+license: MIT
+author:
+  $type: Organization
+  name: MDXLD Working Group
+  url: https://mdxld.org
+dateCreated: 2025-06-01
+dateModified: 2025-10-02
+keywords: [api, rest, user, authentication, registration]
+
+# API-specific properties
+endpointURL: /api/v1/users
+httpMethod: POST
+requiresAuth: false
+
+requestSchema:
+  type: object
+  properties:
+    email:
+      type: string
+      format: email
+      description: User's email address
+      example: user@example.com
+    name:
+      type: string
+      minLength: 2
+      maxLength: 100
+      description: User's full name
+      example: John Doe
+    password:
+      type: string
+      minLength: 8
+      maxLength: 128
+      pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+      description: Password (min 8 chars, must include uppercase, lowercase, number, special char)
+      example: SecurePass123!
+    metadata:
+      type: object
+      description: Optional user metadata
+      properties:
+        company:
+          type: string
+        phone:
+          type: string
+  required: [email, name, password]
+  additionalProperties: false
+
+responseSchema:
+  oneOf:
+    - type: object
+      description: Success response
+      properties:
+        success:
+          type: boolean
+          const: true
+        data:
+          type: object
+          properties:
+            userId:
+              type: string
+              format: uuid
+              example: 550e8400-e29b-41d4-a716-446655440000
+            email:
+              type: string
+              format: email
+            name:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+              example: "2025-10-02T10:30:00Z"
+            emailVerified:
+              type: boolean
+              example: false
+      required: [success, data]
+    - type: object
+      description: Error response
+      properties:
+        success:
+          type: boolean
+          const: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum: [INVALID_INPUT, EMAIL_EXISTS, RATE_LIMITED, SERVER_ERROR]
+            message:
+              type: string
+            details:
+              type: object
+      required: [success, error]
+
+# Status codes
+statusCodes:
+  - code: 201
+    description: User created successfully
+  - code: 400
+    description: Invalid request (validation error)
+  - code: 409
+    description: Email already exists
+  - code: 429
+    description: Rate limit exceeded
+  - code: 500
+    description: Internal server error
+
+# Security
+security:
+  - type: rateLimit
+    requests: 10
+    window: 60 # seconds
+  - type: input-validation
+    library: zod
+  - type: password-hashing
+    algorithm: argon2
+
+# Metadata
+metadata:
+  ns: api
+  visibility: public
+  category: authentication
+tags:
+  - api
+  - rest
+  - user
+  - authentication
+  - registration
+
+# Related entities
+relatedTo:
+  - https://api.example.com/docs/endpoints/login
+  - https://api.example.com/docs/endpoints/verify-email
+  - https://api.example.com/workflows/user-onboarding
+---
+
+# Create User API
+
+RESTful endpoint for creating new user accounts with email verification, password hashing, and automatic onboarding workflow triggering.
+
+## Endpoint
+
+\`\`\`
+POST /api/v1/users
+\`\`\`
+
+**Base URL**: `https://api.example.com`
+**Full URL**: `https://api.example.com/api/v1/users`
+**Authentication**: Not required
+
+## Request
+
+### Headers
+
+\`\`\`http
+Content-Type: application/json
+\`\`\`
+
+### Body
+
+\`\`\`json
+{
+  "email": "user@example.com",
+  "name": "John Doe",
+  "password": "SecurePass123!",
+  "metadata": {
+    "company": "Acme Inc",
+    "phone": "+1-555-0123"
+  }
+}
+\`\`\`
+
+### Schema
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `email` | string | Yes | Valid email address (used for login) |
+| `name` | string | Yes | Full name (2-100 characters) |
+| `password` | string | Yes | Password (min 8 chars, mixed case, number, special char) |
+| `metadata` | object | No | Additional user information |
+
+### Validation Rules
+
+- **Email**: Must be valid email format, unique across all users
+- **Name**: 2-100 characters, letters/spaces/hyphens only
+- **Password**: Minimum 8 characters, must contain:
+  - At least one uppercase letter
+  - At least one lowercase letter
+  - At least one number
+  - At least one special character (@$!%*?&)
+- **Metadata**: Optional object, any valid JSON
+
+## Response
+
+### Success (201 Created)
+
+\`\`\`json
+{
+  "success": true,
+  "data": {
+    "userId": "550e8400-e29b-41d4-a716-446655440000",
+    "email": "user@example.com",
+    "name": "John Doe",
+    "createdAt": "2025-10-02T10:30:00Z",
+    "emailVerified": false
+  }
+}
+\`\`\`
+
+### Error Responses
+
+#### Validation Error (400 Bad Request)
+
+\`\`\`json
+{
+  "success": false,
+  "error": {
+    "code": "INVALID_INPUT",
+    "message": "Validation failed",
+    "details": {
+      "email": "Invalid email format",
+      "password": "Password must contain at least one uppercase letter"
+    }
+  }
+}
+\`\`\`
+
+#### Email Exists (409 Conflict)
+
+\`\`\`json
+{
+  "success": false,
+  "error": {
+    "code": "EMAIL_EXISTS",
+    "message": "An account with this email already exists"
+  }
+}
+\`\`\`
+
+#### Rate Limited (429 Too Many Requests)
+
+\`\`\`json
+{
+  "success": false,
+  "error": {
+    "code": "RATE_LIMITED",
+    "message": "Too many requests, please try again in 60 seconds",
+    "details": {
+      "retryAfter": 60
+    }
+  }
+}
+\`\`\`
+
+#### Server Error (500 Internal Server Error)
+
+\`\`\`json
+{
+  "success": false,
+  "error": {
+    "code": "SERVER_ERROR",
+    "message": "An unexpected error occurred. Please try again later."
+  }
+}
+\`\`\`
+
+## Implementation
+
+\`\`\`typescript
+import { Hono } from 'hono'
+import { z } from 'zod'
+import { hash } from '@node-rs/argon2'
+import { db } from '../db'
+import { userOnboardingWorkflow } from '../workflows/user-onboarding'
+
+const app = new Hono()
+
+// Request validation schema
+const CreateUserSchema = z.object({
+  email: z.string().email('Invalid email format').toLowerCase(),
+  name: z
+    .string()
+    .min(2, 'Name must be at least 2 characters')
+    .max(100, 'Name must be less than 100 characters')
+    .regex(/^[a-zA-Z\\s-]+$/, 'Name can only contain letters, spaces, and hyphens'),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .max(128, 'Password must be less than 128 characters')
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$/,
+      'Password must contain uppercase, lowercase, number, and special character'
+    ),
+  metadata: z.record(z.string(), z.any()).optional()
+})
+
+type CreateUserInput = z.infer<typeof CreateUserSchema>
+
+// Rate limiting (10 requests per minute)
+const rateLimiter = new Map<string, { count: number; resetAt: number }>()
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now()
+  const limit = rateLimiter.get(ip)
+
+  if (!limit || now > limit.resetAt) {
+    rateLimiter.set(ip, { count: 1, resetAt: now + 60000 })
+    return true
+  }
+
+  if (limit.count >= 10) {
+    return false
+  }
+
+  limit.count++
+  return true
+}
+
+/**
+ * Create User Endpoint
+ * POST /api/v1/users
+ */
+app.post('/api/v1/users', async (c) => {
+  try {
+    // Rate limiting
+    const clientIP = c.req.header('cf-connecting-ip') || c.req.header('x-forwarded-for') || 'unknown'
+    if (!checkRateLimit(clientIP)) {
+      return c.json(
+        {
+          success: false,
+          error: {
+            code: 'RATE_LIMITED',
+            message: 'Too many requests, please try again in 60 seconds',
+            details: { retryAfter: 60 }
+          }
+        },
+        429
+      )
+    }
+
+    // Parse and validate input
+    const body = await c.req.json()
+    const validationResult = CreateUserSchema.safeParse(body)
+
+    if (!validationResult.success) {
+      const errors = validationResult.error.errors.reduce(
+        (acc, err) => {
+          acc[err.path[0]] = err.message
+          return acc
+        },
+        {} as Record<string, string>
+      )
+
+      return c.json(
+        {
+          success: false,
+          error: {
+            code: 'INVALID_INPUT',
+            message: 'Validation failed',
+            details: errors
+          }
+        },
+        400
+      )
+    }
+
+    const input = validationResult.data
+
+    // Check if email already exists
+    const existingUser = await db.users.findFirst({
+      where: { email: input.email }
+    })
+
+    if (existingUser) {
+      return c.json(
+        {
+          success: false,
+          error: {
+            code: 'EMAIL_EXISTS',
+            message: 'An account with this email already exists'
+          }
+        },
+        409
+      )
+    }
+
+    // Hash password
+    const passwordHash = await hash(input.password, {
+      memoryCost: 19456,
+      timeCost: 2,
+      outputLen: 32,
+      parallelism: 1
+    })
+
+    // Create user
+    const user = await db.users.create({
+      data: {
+        email: input.email,
+        name: input.name,
+        password: passwordHash,
+        metadata: input.metadata || {},
+        emailVerified: false
+      }
+    })
+
+    // Trigger onboarding workflow
+    await userOnboardingWorkflow.trigger({
+      userId: user.id,
+      email: user.email,
+      name: user.name
+    })
+
+    // Return success response
+    return c.json(
+      {
+        success: true,
+        data: {
+          userId: user.id,
+          email: user.email,
+          name: user.name,
+          createdAt: user.createdAt.toISOString(),
+          emailVerified: user.emailVerified
+        }
+      },
+      201
+    )
+  } catch (error) {
+    console.error('Error creating user:', error)
+
+    return c.json(
+      {
+        success: false,
+        error: {
+          code: 'SERVER_ERROR',
+          message: 'An unexpected error occurred. Please try again later.'
+        }
+      },
+      500
+    )
+  }
+})
+
+export default app
+\`\`\`
+
+## Usage Examples
+
+### cURL
+
+\`\`\`bash
+curl -X POST https://api.example.com/api/v1/users \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "email": "user@example.com",
+    "name": "John Doe",
+    "password": "SecurePass123!",
+    "metadata": {
+      "company": "Acme Inc"
+    }
+  }'
+\`\`\`
+
+### JavaScript/TypeScript
+
+\`\`\`typescript
+const response = await fetch('https://api.example.com/api/v1/users', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    email: 'user@example.com',
+    name: 'John Doe',
+    password: 'SecurePass123!',
+    metadata: {
+      company: 'Acme Inc'
+    }
+  })
+})
+
+const data = await response.json()
+
+if (data.success) {
+  console.log('User created:', data.data.userId)
+} else {
+  console.error('Error:', data.error.message)
+}
+\`\`\`
+
+### Python
+
+\`\`\`python
+import requests
+
+response = requests.post(
+    'https://api.example.com/api/v1/users',
+    json={
+        'email': 'user@example.com',
+        'name': 'John Doe',
+        'password': 'SecurePass123!',
+        'metadata': {
+            'company': 'Acme Inc'
+        }
+    }
+)
+
+data = response.json()
+
+if data['success']:
+    print(f"User created: {data['data']['userId']}")
+else:
+    print(f"Error: {data['error']['message']}")
+\`\`\`
+
+## Testing
+
+\`\`\`typescript
+import { describe, test, expect, beforeEach } from 'vitest'
+import app from './create-user'
+
+describe('POST /api/v1/users', () => {
+  beforeEach(async () => {
+    // Clear test database
+    await db.users.deleteMany({})
+  })
+
+  test('creates user successfully', async () => {
+    const res = await app.request('/api/v1/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: 'test@example.com',
+        name: 'Test User',
+        password: 'SecurePass123!'
+      })
+    })
+
+    expect(res.status).toBe(201)
+    const data = await res.json()
+    expect(data.success).toBe(true)
+    expect(data.data.userId).toBeDefined()
+    expect(data.data.email).toBe('test@example.com')
+  })
+
+  test('validates email format', async () => {
+    const res = await app.request('/api/v1/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: 'invalid-email',
+        name: 'Test User',
+        password: 'SecurePass123!'
+      })
+    })
+
+    expect(res.status).toBe(400)
+    const data = await res.json()
+    expect(data.success).toBe(false)
+    expect(data.error.code).toBe('INVALID_INPUT')
+    expect(data.error.details.email).toContain('Invalid email format')
+  })
+
+  test('enforces password requirements', async () => {
+    const res = await app.request('/api/v1/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: 'test@example.com',
+        name: 'Test User',
+        password: 'weak'
+      })
+    })
+
+    expect(res.status).toBe(400)
+    const data = await res.json()
+    expect(data.error.details.password).toBeDefined()
+  })
+
+  test('rejects duplicate email', async () => {
+    // Create first user
+    await app.request('/api/v1/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: 'test@example.com',
+        name: 'Test User',
+        password: 'SecurePass123!'
+      })
+    })
+
+    // Try to create duplicate
+    const res = await app.request('/api/v1/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: 'test@example.com',
+        name: 'Another User',
+        password: 'SecurePass123!'
+      })
+    })
+
+    expect(res.status).toBe(409)
+    const data = await res.json()
+    expect(data.error.code).toBe('EMAIL_EXISTS')
+  })
+
+  test('enforces rate limiting', async () => {
+    // Make 10 requests (should succeed)
+    for (let i = 0; i < 10; i++) {
+      const res = await app.request('/api/v1/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'cf-connecting-ip': '127.0.0.1'
+        },
+        body: JSON.stringify({
+          email: \`test\${i}@example.com\`,
+          name: 'Test User',
+          password: 'SecurePass123!'
+        })
+      })
+      expect(res.status).not.toBe(429)
+    }
+
+    // 11th request should be rate limited
+    const res = await app.request('/api/v1/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'cf-connecting-ip': '127.0.0.1'
+      },
+      body: JSON.stringify({
+        email: 'test11@example.com',
+        name: 'Test User',
+        password: 'SecurePass123!'
+      })
+    })
+
+    expect(res.status).toBe(429)
+    const data = await res.json()
+    expect(data.error.code).toBe('RATE_LIMITED')
+  })
+})
+\`\`\`
+
+## Security
+
+This endpoint implements several security best practices:
+
+✅ **Input Validation** - Zod schema validation
+✅ **Password Hashing** - Argon2 with secure parameters
+✅ **Rate Limiting** - 10 requests per minute per IP
+✅ **Email Normalization** - Lowercase emails to prevent duplicates
+✅ **Error Messages** - Generic error messages to prevent information leakage
+✅ **No Password Leakage** - Password never returned in responses
+✅ **HTTPS Only** - Enforce HTTPS in production
+
+## Rate Limiting
+
+- **Limit**: 10 requests per 60 seconds
+- **Key**: Client IP address
+- **Response**: 429 Too Many Requests with retry-after info
+
+## Related Endpoints
+
+- **[Login](/examples/api-login)** - POST /api/v1/auth/login
+- **[Verify Email](/examples/api-verify-email)** - POST /api/v1/auth/verify-email
+- **[Get User](/examples/api-get-user)** - GET /api/v1/users/:id
+
+## Related Workflows
+
+- **[User Onboarding Workflow](/examples/workflow)** - Triggered after user creation
+
+## Dependencies
+
+\`\`\`json
+{
+  "dependencies": {
+    "hono": "^4.0.0",
+    "zod": "^3.22.0",
+    "@node-rs/argon2": "^1.8.0"
+  }
+}
+\`\`\`
+
+## License
+
+MIT - See [LICENSE](https://github.com/mdxld/mdxld/blob/main/LICENSE)

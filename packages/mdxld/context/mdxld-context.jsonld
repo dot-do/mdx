@@ -1,0 +1,306 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "http://mdxld.org/vocab#",
+
+    "schema": "https://schema.org/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "mdxld": "http://mdxld.org/vocab#",
+
+    "@comment": "MDXLD Core Types - AI-native entity types extending Schema.org",
+
+    "Function": {
+      "@id": "mdxld:Function",
+      "@type": "@id",
+      "rdfs:subClassOf": "schema:Action",
+      "rdfs:comment": "An executable function with inputs, outputs, and implementation code"
+    },
+
+    "Component": {
+      "@id": "mdxld:Component",
+      "@type": "@id",
+      "rdfs:subClassOf": "schema:SoftwareSourceCode",
+      "rdfs:comment": "A UI component (React, Vue, Svelte, etc.)"
+    },
+
+    "Workflow": {
+      "@id": "mdxld:Workflow",
+      "@type": "@id",
+      "rdfs:subClassOf": "schema:Action",
+      "rdfs:comment": "A multi-step orchestration process with trigger and steps"
+    },
+
+    "Agent": {
+      "@id": "mdxld:Agent",
+      "@type": "@id",
+      "rdfs:subClassOf": "schema:SoftwareApplication",
+      "rdfs:comment": "An autonomous AI agent with role, capabilities, and tools"
+    },
+
+    "API": {
+      "@id": "mdxld:API",
+      "@type": "@id",
+      "rdfs:subClassOf": "schema:WebAPI",
+      "rdfs:comment": "A web service API endpoint with request/response schemas"
+    },
+
+    "Tool": {
+      "@id": "mdxld:Tool",
+      "@type": "@id",
+      "rdfs:subClassOf": "schema:SoftwareApplication",
+      "rdfs:comment": "A software tool or utility function available to agents"
+    },
+
+    "Model": {
+      "@id": "mdxld:Model",
+      "@type": "@id",
+      "rdfs:subClassOf": "schema:Thing",
+      "rdfs:comment": "An AI/ML model (LLM, embedding model, etc.)"
+    },
+
+    "Prompt": {
+      "@id": "mdxld:Prompt",
+      "@type": "@id",
+      "rdfs:subClassOf": "schema:CreativeWork",
+      "rdfs:comment": "An AI prompt template with variables and instructions"
+    },
+
+    "@comment": "MDXLD Properties - Extended properties for AI-native types",
+
+    "programmingLanguage": {
+      "@id": "schema:programmingLanguage",
+      "@type": "xsd:string",
+      "rdfs:comment": "The programming language (e.g., TypeScript, Python)"
+    },
+
+    "parameters": {
+      "@id": "mdxld:parameters",
+      "@type": "@id",
+      "@container": "@list",
+      "rdfs:comment": "Input parameters for a function or API"
+    },
+
+    "returnType": {
+      "@id": "mdxld:returnType",
+      "@type": "xsd:string",
+      "rdfs:comment": "Return value type for a function"
+    },
+
+    "framework": {
+      "@id": "mdxld:framework",
+      "@type": "xsd:string",
+      "rdfs:comment": "UI framework (React, Vue, Svelte, etc.)"
+    },
+
+    "propsSchema": {
+      "@id": "mdxld:propsSchema",
+      "@type": "@json",
+      "rdfs:comment": "JSON Schema for component props"
+    },
+
+    "trigger": {
+      "@id": "mdxld:trigger",
+      "@type": "@json",
+      "rdfs:comment": "Event that initiates a workflow"
+    },
+
+    "steps": {
+      "@id": "mdxld:steps",
+      "@type": "@id",
+      "@container": "@list",
+      "rdfs:comment": "Ordered list of workflow steps"
+    },
+
+    "role": {
+      "@id": "schema:roleName",
+      "@type": "xsd:string",
+      "rdfs:comment": "Agent's role or persona"
+    },
+
+    "capabilities": {
+      "@id": "mdxld:capabilities",
+      "@type": "xsd:string",
+      "@container": "@list",
+      "rdfs:comment": "What an agent can do (chat, email, etc.)"
+    },
+
+    "model": {
+      "@id": "mdxld:model",
+      "@type": "xsd:string",
+      "rdfs:comment": "AI model identifier (e.g., claude-3-5-sonnet)"
+    },
+
+    "systemPrompt": {
+      "@id": "mdxld:systemPrompt",
+      "@type": "xsd:string",
+      "rdfs:comment": "System-level instructions for an agent"
+    },
+
+    "tools": {
+      "@id": "mdxld:tools",
+      "@type": "@id",
+      "@container": "@list",
+      "rdfs:comment": "Tools available to an agent"
+    },
+
+    "endpointURL": {
+      "@id": "mdxld:endpointURL",
+      "@type": "@id",
+      "rdfs:comment": "API endpoint path or full URL"
+    },
+
+    "httpMethod": {
+      "@id": "mdxld:httpMethod",
+      "@type": "xsd:string",
+      "rdfs:comment": "HTTP method (GET, POST, PUT, DELETE, etc.)"
+    },
+
+    "requestSchema": {
+      "@id": "mdxld:requestSchema",
+      "@type": "@json",
+      "rdfs:comment": "JSON Schema for API request body"
+    },
+
+    "responseSchema": {
+      "@id": "mdxld:responseSchema",
+      "@type": "@json",
+      "rdfs:comment": "JSON Schema for API response body"
+    },
+
+    "requiresAuth": {
+      "@id": "mdxld:requiresAuth",
+      "@type": "xsd:boolean",
+      "rdfs:comment": "Whether API endpoint requires authentication"
+    },
+
+    "temperature": {
+      "@id": "mdxld:temperature",
+      "@type": "xsd:decimal",
+      "rdfs:comment": "Model temperature parameter (0.0-1.0)"
+    },
+
+    "maxTokens": {
+      "@id": "mdxld:maxTokens",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Maximum tokens for model generation"
+    },
+
+    "variables": {
+      "@id": "mdxld:variables",
+      "@type": "@json",
+      "rdfs:comment": "Template variables for a prompt"
+    },
+
+    "@comment": "Schema.org aliases - Reuse existing Schema.org vocabulary",
+
+    "name": "schema:name",
+    "description": "schema:description",
+    "version": "schema:version",
+    "author": "schema:author",
+    "license": "schema:license",
+    "url": "schema:url",
+    "identifier": "schema:identifier",
+    "dateCreated": "schema:dateCreated",
+    "dateModified": "schema:dateModified",
+    "datePublished": "schema:datePublished",
+    "keywords": "schema:keywords",
+    "inLanguage": "schema:inLanguage",
+    "maintainer": "schema:maintainer",
+    "contributor": "schema:contributor",
+    "dependencies": "schema:softwareRequirements",
+    "isPartOf": "schema:isPartOf",
+    "hasPart": "schema:hasPart",
+    "relatedTo": "schema:relatedLink",
+
+    "@comment": "Common data types",
+
+    "title": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+
+    "async": {
+      "@id": "mdxld:async",
+      "@type": "xsd:boolean",
+      "rdfs:comment": "Whether a function is asynchronous"
+    },
+
+    "category": {
+      "@id": "schema:category",
+      "@type": "xsd:string"
+    },
+
+    "tags": {
+      "@id": "schema:keywords",
+      "@type": "xsd:string",
+      "@container": "@list"
+    },
+
+    "status": {
+      "@id": "mdxld:status",
+      "@type": "xsd:string",
+      "rdfs:comment": "Current status (draft, published, deprecated, etc.)"
+    },
+
+    "visibility": {
+      "@id": "mdxld:visibility",
+      "@type": "xsd:string",
+      "rdfs:comment": "Visibility level (public, private, unlisted)"
+    },
+
+    "namespace": {
+      "@id": "mdxld:namespace",
+      "@type": "xsd:string",
+      "@container": "@language",
+      "rdfs:comment": "Organizational namespace"
+    },
+
+    "platform": {
+      "@id": "schema:operatingSystem",
+      "@type": "xsd:string",
+      "rdfs:comment": "Platform or OS (Web, iOS, Android, etc.)"
+    },
+
+    "concurrency": {
+      "@id": "mdxld:concurrency",
+      "@type": "xsd:string",
+      "rdfs:comment": "Execution model (sequential, parallel, etc.)"
+    },
+
+    "timeout": {
+      "@id": "mdxld:timeout",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Timeout in milliseconds"
+    },
+
+    "retry": {
+      "@id": "mdxld:retry",
+      "@type": "@json",
+      "rdfs:comment": "Retry configuration (attempts, backoff, etc.)"
+    },
+
+    "inputs": {
+      "@id": "mdxld:inputs",
+      "@type": "@id",
+      "@container": "@list",
+      "rdfs:comment": "Input data or parameters"
+    },
+
+    "outputs": {
+      "@id": "mdxld:outputs",
+      "@type": "@id",
+      "@container": "@list",
+      "rdfs:comment": "Output data or return values"
+    },
+
+    "examples": {
+      "@id": "schema:workExample",
+      "@type": "@id",
+      "@container": "@list",
+      "rdfs:comment": "Usage examples"
+    }
+  }
+}

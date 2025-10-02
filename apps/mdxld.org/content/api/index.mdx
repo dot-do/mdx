@@ -1,0 +1,829 @@
+# API Reference
+
+Complete TypeScript API reference for the MDXLD package.
+
+## Installation
+
+```bash
+npm install mdxld
+# or
+pnpm add mdxld
+# or
+yarn add mdxld
+```
+
+## Core Functions
+
+### `parse()`
+
+Parse an MDXLD document into its constituent parts.
+
+**Signature:**
+
+```typescript
+function parse(source: string, options?: ParseOptions): Promise<MDXLDDocument>
+```
+
+**Parameters:**
+
+| Name | Type | Description |
+|------|------|-------------|
+| `source` | `string` | MDX source code with YAML-LD frontmatter |
+| `options` | `ParseOptions?` | Optional parsing configuration |
+
+**Returns:** `Promise<MDXLDDocument>`
+
+**Example:**
+
+```typescript
+import { parse } from 'mdxld'
+
+const source = `---
+$type: Function
+title: Hello World
+---
+# Hello
+
+This is content.
+`
+
+const doc = await parse(source)
+
+console.log(doc.frontmatter.$type) // 'Function'
+console.log(doc.frontmatter.title) // 'Hello World'
+console.log(doc.content) // '# Hello\n\nThis is content.'
+```
+
+**Types:**
+
+```typescript
+interface ParseOptions {
+  /** Validate frontmatter against JSON-LD context */
+  validateContext?: boolean
+  /** Extract code blocks */
+  extractCode?: boolean
+  /** Extract JSX components */
+  extractComponents?: boolean
+}
+
+interface MDXLDDocument {
+  /** Parsed YAML-LD frontmatter */
+  frontmatter: Record<string, any>
+  /** Markdown content (without frontmatter) */
+  content: string
+  /** Extracted code blocks */
+  code?: CodeBlock[]
+  /** Extracted JSX components */
+  components?: ComponentBlock[]
+  /** Raw source */
+  raw: string
+}
+
+interface CodeBlock {
+  language: string
+  code: string
+  meta?: string
+}
+
+interface ComponentBlock {
+  name: string
+  props: Record<string, any>
+  children?: string
+}
+```
+
+---
+
+### `validate()`
+
+Validate an MDXLD document against a schema.
+
+**Signature:**
+
+```typescript
+function validate<T>(
+  data: unknown,
+  schema: Schema<T>
+): ValidationResult<T>
+```
+
+**Parameters:**
+
+| Name | Type | Description |
+|------|------|-------------|
+| `data` | `unknown` | Data to validate |
+| `schema` | `Schema<T>` | Zod or JSON Schema |
+
+**Returns:** `ValidationResult<T>`
+
+**Example:**
+
+```typescript
+import { parse, validate } from 'mdxld'
+import { z } from 'zod'
+
+const FunctionSchema = z.object({
+  $type: z.literal('Function'),
+  title: z.string(),
+  programmingLanguage: z.string()
+})
+
+const doc = await parse(source)
+const result = validate(doc.frontmatter, FunctionSchema)
+
+if (result.success) {
+  console.log('Valid!', result.data)
+} else {
+  console.error('Validation errors:', result.error)
+}
+```
+
+**Types:**
+
+```typescript
+type Schema<T> = z.ZodSchema<T> | JSONSchema
+
+interface ValidationResult<T> {
+  success: boolean
+  data?: T
+  error?: ValidationError
+}
+
+interface ValidationError {
+  errors: Array<{
+    path: string[]
+    message: string
+  }>
+}
+```
+
+---
+
+### `execute()`
+
+Execute an MDXLD document (for Functions, Workflows, etc.).
+
+**Signature:**
+
+```typescript
+function execute<T = any>(
+  source: string | MDXLDDocument,
+  inputs?: Record<string, any>,
+  options?: ExecuteOptions
+): Promise<T>
+```
+
+**Parameters:**
+
+| Name | Type | Description |
+|------|------|-------------|
+| `source` | `string \| MDXLDDocument` | MDXLD source or parsed document |
+| `inputs` | `Record<string, any>?` | Input parameters |
+| `options` | `ExecuteOptions?` | Execution configuration |
+
+**Returns:** `Promise<T>`
+
+**Example:**
+
+```typescript
+import { execute } from 'mdxld'
+
+// Execute a Function entity
+const result = await execute('send-email.mdx', {
+  to: 'user@example.com',
+  subject: 'Test',
+  body: 'Hello!'
+})
+
+console.log(result) // EmailResponse
+```
+
+**Types:**
+
+```typescript
+interface ExecuteOptions {
+  /** Timeout in milliseconds */
+  timeout?: number
+  /** Environment variables */
+  env?: Record<string, string>
+  /** Custom context */
+  context?: Record<string, any>
+}
+```
+
+---
+
+### `render()`
+
+Render an MDXLD document to HTML/React.
+
+**Signature:**
+
+```typescript
+function render(
+  source: string | MDXLDDocument,
+  options?: RenderOptions
+): Promise<string | ReactElement>
+```
+
+**Parameters:**
+
+| Name | Type | Description |
+|------|------|-------------|
+| `source` | `string \| MDXLDDocument` | MDXLD source or parsed document |
+| `options` | `RenderOptions?` | Rendering configuration |
+
+**Returns:** `Promise<string | ReactElement>`
+
+**Example:**
+
+```typescript
+import { render } from 'mdxld'
+
+// Render to HTML string
+const html = await render(source, { format: 'html' })
+
+// Render to React element
+const element = await render(source, { format: 'react' })
+```
+
+**Types:**
+
+```typescript
+interface RenderOptions {
+  /** Output format */
+  format?: 'html' | 'react'
+  /** Custom components */
+  components?: Record<string, React.ComponentType<any>>
+  /** MDX options */
+  mdx?: MDXOptions
+}
+```
+
+---
+
+### `toRDF()`
+
+Convert MDXLD document to RDF triples.
+
+**Signature:**
+
+```typescript
+function toRDF(
+  source: string | MDXLDDocument,
+  options?: RDFOptions
+): Promise<RDFTriple[]>
+```
+
+**Parameters:**
+
+| Name | Type | Description |
+|------|------|-------------|
+| `source` | `string \| MDXLDDocument` | MDXLD source or parsed document |
+| `options` | `RDFOptions?` | RDF conversion options |
+
+**Returns:** `Promise<RDFTriple[]>`
+
+**Example:**
+
+```typescript
+import { toRDF } from 'mdxld'
+
+const triples = await toRDF(source)
+
+console.log(triples)
+// [
+//   {
+//     subject: 'https://example.com/articles/hello',
+//     predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+//     object: 'https://schema.org/Article'
+//   },
+//   ...
+// ]
+```
+
+**Types:**
+
+```typescript
+interface RDFOptions {
+  /** RDF format */
+  format?: 'n-triples' | 'turtle' | 'json-ld'
+  /** Base IRI for relative references */
+  baseIRI?: string
+}
+
+interface RDFTriple {
+  subject: string
+  predicate: string
+  object: string | number | boolean
+}
+```
+
+---
+
+### `query()`
+
+Query MDXLD documents using SPARQL.
+
+**Signature:**
+
+```typescript
+function query(
+  triples: RDFTriple[] | string,
+  sparql: string
+): Promise<QueryResult[]>
+```
+
+**Parameters:**
+
+| Name | Type | Description |
+|------|------|-------------|
+| `triples` | `RDFTriple[] \| string` | RDF triples or MDXLD source |
+| `sparql` | `string` | SPARQL query |
+
+**Returns:** `Promise<QueryResult[]>`
+
+**Example:**
+
+```typescript
+import { toRDF, query } from 'mdxld'
+
+const triples = await toRDF(source)
+
+const results = await query(triples, `
+  SELECT ?title ?author WHERE {
+    ?article a schema:Article .
+    ?article schema:name ?title .
+    ?article schema:author ?person .
+    ?person schema:name ?author .
+  }
+`)
+
+console.log(results)
+// [{ title: 'Hello MDXLD', author: 'John Doe' }]
+```
+
+**Types:**
+
+```typescript
+type QueryResult = Record<string, string | number | boolean>
+```
+
+---
+
+## TypeScript Types
+
+### Core Types
+
+```typescript
+/**
+ * Base MDXLD entity with JSON-LD support
+ */
+interface MDXLDEntity {
+  /** JSON-LD context */
+  $context?: string | Record<string, any>
+  /** Entity type */
+  $type: string
+  /** Unique identifier */
+  $id?: string
+  /** Embedded graph */
+  $graph?: MDXLDEntity[]
+  /** Additional properties */
+  [key: string]: any
+}
+
+/**
+ * Function entity
+ */
+interface Function extends MDXLDEntity {
+  $type: 'Function'
+  title: string
+  programmingLanguage?: string
+  parameters?: Parameter[]
+  returnType?: string
+  async?: boolean
+}
+
+/**
+ * Component entity
+ */
+interface Component extends MDXLDEntity {
+  $type: 'Component'
+  title: string
+  framework?: string
+  propsSchema?: Record<string, any>
+}
+
+/**
+ * Workflow entity
+ */
+interface Workflow extends MDXLDEntity {
+  $type: 'Workflow'
+  title: string
+  trigger?: Trigger
+  steps?: Step[]
+  concurrency?: 'sequential' | 'parallel'
+}
+
+/**
+ * Agent entity
+ */
+interface Agent extends MDXLDEntity {
+  $type: 'Agent'
+  title: string
+  role?: string
+  model?: string
+  capabilities?: string[]
+  tools?: Tool[]
+  systemPrompt?: string
+  temperature?: number
+  maxTokens?: number
+}
+
+/**
+ * API entity
+ */
+interface API extends MDXLDEntity {
+  $type: 'API'
+  title: string
+  endpointURL: string
+  httpMethod: string
+  requestSchema?: Record<string, any>
+  responseSchema?: Record<string, any>
+  requiresAuth?: boolean
+}
+```
+
+### Parameter Types
+
+```typescript
+interface Parameter {
+  name: string
+  type: string
+  description?: string
+  required?: boolean
+  default?: any
+  example?: any
+}
+
+interface Trigger {
+  type: string
+  event?: string
+  schedule?: string
+  schema?: Record<string, any>
+}
+
+interface Step {
+  id: string
+  title?: string
+  type: string
+  run?: Function
+  timeout?: number
+  retry?: RetryConfig
+  continueOnError?: boolean
+}
+
+interface RetryConfig {
+  attempts: number
+  backoff?: 'linear' | 'exponential'
+  delay?: number
+}
+
+interface Tool {
+  id: string
+  type: string
+  description: string
+  parameters: Record<string, any>
+}
+```
+
+## Utility Functions
+
+### `loadContext()`
+
+Load a JSON-LD context.
+
+```typescript
+function loadContext(url: string): Promise<Record<string, any>>
+
+// Example
+const context = await loadContext('http://mdxld.org/context.jsonld')
+```
+
+### `expandContext()`
+
+Expand a compacted JSON-LD document.
+
+```typescript
+function expandContext(
+  data: Record<string, any>,
+  context: string | Record<string, any>
+): Promise<Record<string, any>>
+
+// Example
+const expanded = await expandContext(frontmatter, 'https://schema.org')
+```
+
+### `compactContext()`
+
+Compact an expanded JSON-LD document.
+
+```typescript
+function compactContext(
+  data: Record<string, any>,
+  context: string | Record<string, any>
+): Promise<Record<string, any>>
+
+// Example
+const compacted = await compactContext(expanded, 'https://schema.org')
+```
+
+### `generateId()`
+
+Generate a unique identifier for an entity.
+
+```typescript
+function generateId(type: string, slug?: string): string
+
+// Example
+const id = generateId('Function', 'send-email')
+// 'https://mdxld.org/functions/send-email'
+```
+
+### `slugify()`
+
+Convert a string to a URL-friendly slug.
+
+```typescript
+function slugify(text: string): string
+
+// Example
+const slug = slugify('Hello World!')
+// 'hello-world'
+```
+
+## CLI Commands
+
+The MDXLD package includes a CLI for common operations.
+
+### Parse
+
+Parse and validate an MDXLD document:
+
+```bash
+npx mdxld parse document.mdx
+```
+
+Options:
+- `--validate` - Validate against schema
+- `--output <format>` - Output format (json, yaml, rdf)
+
+### Validate
+
+Validate MDXLD documents:
+
+```bash
+npx mdxld validate document.mdx
+```
+
+Options:
+- `--schema <file>` - Custom schema file
+- `--strict` - Strict validation mode
+
+### Convert
+
+Convert between formats:
+
+```bash
+npx mdxld convert document.mdx --to rdf
+```
+
+Supported formats:
+- `json-ld` - JSON-LD
+- `rdf` - RDF triples
+- `turtle` - Turtle format
+- `html` - Rendered HTML
+
+### Execute
+
+Execute an MDXLD function:
+
+```bash
+npx mdxld execute function.mdx --input '{"param": "value"}'
+```
+
+Options:
+- `--input <json>` - Input parameters
+- `--timeout <ms>` - Execution timeout
+- `--env <file>` - Environment variables file
+
+### Query
+
+Query MDXLD documents with SPARQL:
+
+```bash
+npx mdxld query document.mdx --sparql query.rq
+```
+
+Options:
+- `--sparql <file>` - SPARQL query file
+- `--output <format>` - Output format (json, csv, table)
+
+## Framework Plugins
+
+### Next.js
+
+```typescript
+// next.config.js
+import mdx from '@next/mdx'
+import { mdxldRemarkPlugin, mdxldRehypePlugin } from 'mdxld/plugins'
+
+const withMDX = mdx({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [mdxldRemarkPlugin],
+    rehypePlugins: [mdxldRehypePlugin]
+  }
+})
+
+export default withMDX({
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx']
+})
+```
+
+### Vite
+
+```typescript
+// vite.config.ts
+import { defineConfig } from 'vite'
+import mdx from '@mdx-js/rollup'
+import { mdxldPlugin } from 'mdxld/vite'
+
+export default defineConfig({
+  plugins: [
+    mdx(),
+    mdxldPlugin({
+      validateContext: true,
+      extractCode: true
+    })
+  ]
+})
+```
+
+### Astro
+
+```typescript
+// astro.config.mjs
+import { defineConfig } from 'astro/config'
+import mdx from '@astrojs/mdx'
+import { mdxldIntegration } from 'mdxld/astro'
+
+export default defineConfig({
+  integrations: [
+    mdx(),
+    mdxldIntegration()
+  ]
+})
+```
+
+### Remix
+
+```typescript
+// remix.config.js
+import { mdxldConfig } from 'mdxld/remix'
+
+export default {
+  ...mdxldConfig,
+  // other config
+}
+```
+
+## Configuration
+
+### `mdxld.config.ts`
+
+Create a configuration file for custom settings:
+
+```typescript
+import { defineConfig } from 'mdxld'
+
+export default defineConfig({
+  // Default context
+  defaultContext: 'http://mdxld.org/context.jsonld',
+
+  // Validation
+  validation: {
+    strict: true,
+    validateContext: true
+  },
+
+  // Execution
+  execution: {
+    timeout: 30000,
+    sandbox: true
+  },
+
+  // Rendering
+  rendering: {
+    format: 'react',
+    components: {
+      // Custom components
+    }
+  }
+})
+```
+
+## Error Handling
+
+All async functions may throw errors. Always handle them appropriately:
+
+```typescript
+try {
+  const doc = await parse(source)
+  const result = validate(doc.frontmatter, schema)
+
+  if (!result.success) {
+    console.error('Validation failed:', result.error)
+    return
+  }
+
+  const output = await execute(doc, inputs)
+  console.log(output)
+} catch (error) {
+  if (error instanceof ParseError) {
+    console.error('Parse error:', error.message)
+  } else if (error instanceof ExecutionError) {
+    console.error('Execution error:', error.message)
+  } else {
+    console.error('Unexpected error:', error)
+  }
+}
+```
+
+### Error Types
+
+```typescript
+class ParseError extends Error {
+  line: number
+  column: number
+}
+
+class ValidationError extends Error {
+  errors: ValidationIssue[]
+}
+
+class ExecutionError extends Error {
+  code: string
+  details?: any
+}
+
+class ContextError extends Error {
+  contextUrl: string
+}
+```
+
+## TypeScript Support
+
+The MDXLD package is written in TypeScript and provides full type definitions.
+
+### Type Inference
+
+```typescript
+import { parse, Function } from 'mdxld'
+
+const doc = await parse(source)
+
+// Type-safe access
+if (doc.frontmatter.$type === 'Function') {
+  const fn = doc.frontmatter as Function
+  console.log(fn.programmingLanguage) // Type-safe
+}
+```
+
+### Generic Types
+
+```typescript
+import { execute } from 'mdxld'
+
+interface EmailResponse {
+  success: boolean
+  messageId: string
+}
+
+const result = await execute<EmailResponse>('send-email.mdx', inputs)
+console.log(result.messageId) // Type-safe
+```
+
+## Related
+
+- **[Getting Started](/getting-started)** - Quickstart guide
+- **[Examples](/examples)** - Real-world examples
+- **[Specification](/spec)** - Formal spec
+- **[GitHub](https://github.com/mdxld/mdxld)** - Source code
+
+## Support
+
+- 📖 [Documentation](/)
+- 💬 [Discord Community](https://discord.gg/mdxld)
+- 🐛 [Report Issues](https://github.com/mdxld/mdxld/issues)
+- 💡 [Request Features](https://github.com/mdxld/mdxld/discussions)

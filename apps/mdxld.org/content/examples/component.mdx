@@ -1,0 +1,532 @@
+# Component Example
+
+A complete example of an MDXLD Component entity for a reusable button with variants, sizes, and accessibility features.
+
+## Full MDXLD Document
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Component
+$id: https://ui.example.com/components/button
+title: Button Component
+description: A versatile button component with variants, sizes, icons, and full accessibility support
+framework: React
+version: 2.1.0
+license: MIT
+author:
+  $type: Organization
+  name: MDXLD Working Group
+  url: https://mdxld.org
+dateCreated: 2025-09-15
+dateModified: 2025-10-02
+keywords: [button, react, ui, accessible, component]
+
+# Component-specific properties
+propsSchema:
+  type: object
+  properties:
+    variant:
+      type: string
+      description: Button visual style
+      enum: [primary, secondary, outline, ghost, danger]
+      default: primary
+    size:
+      type: string
+      description: Button size
+      enum: [sm, md, lg, xl]
+      default: md
+    disabled:
+      type: boolean
+      description: Whether button is disabled
+      default: false
+    loading:
+      type: boolean
+      description: Whether button is in loading state
+      default: false
+    icon:
+      type: element
+      description: Optional icon element
+    iconPosition:
+      type: string
+      enum: [left, right]
+      default: left
+    children:
+      type: node
+      description: Button content
+      required: true
+    onClick:
+      type: function
+      description: Click event handler
+    className:
+      type: string
+      description: Additional CSS classes
+  required: [children]
+
+# Metadata
+metadata:
+  ns: component
+  visibility: public
+  category: ui
+  platform: Web
+tags:
+  - button
+  - ui
+  - react
+  - accessibility
+  - tailwind
+
+# Dependencies
+dependencies:
+  react: "^18.0.0"
+  clsx: "^2.0.0"
+
+# Related components
+relatedTo:
+  - https://ui.example.com/components/icon-button
+  - https://ui.example.com/components/link-button
+  - https://ui.example.com/components/button-group
+
+# Examples
+examples:
+  - $type: CodeExample
+    title: Primary button
+    code: |
+      <Button variant="primary" onClick={() => alert('Clicked!')}>
+        Click Me
+      </Button>
+  - $type: CodeExample
+    title: Loading button
+    code: |
+      <Button variant="primary" loading>
+        Processing...
+      </Button>
+  - $type: CodeExample
+    title: Button with icon
+    code: |
+      <Button variant="outline" icon={<DownloadIcon />}>
+        Download
+      </Button>
+---
+
+# Button Component
+
+A production-ready, accessible button component with multiple variants, sizes, loading states, and icon support. Built with React and Tailwind CSS.
+
+## Features
+
+✅ **Multiple Variants** - Primary, secondary, outline, ghost, danger
+✅ **Flexible Sizing** - Small to extra-large sizes
+✅ **Loading States** - Built-in loading spinner
+✅ **Icon Support** - Optional icons on left or right
+✅ **Fully Accessible** - WCAG 2.1 AA compliant
+✅ **Type Safe** - Complete TypeScript definitions
+✅ **Customizable** - Easy to extend with className
+
+## Implementation
+
+\`\`\`tsx
+import { type ButtonHTMLAttributes, type ReactNode, forwardRef } from 'react'
+import { clsx } from 'clsx'
+
+// Props interface
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+  loading?: boolean
+  icon?: ReactNode
+  iconPosition?: 'left' | 'right'
+  children: ReactNode
+}
+
+// Loading spinner component
+function LoadingSpinner({ size }: { size: 'sm' | 'md' | 'lg' | 'xl' }) {
+  const sizeClasses = {
+    sm: 'w-3 h-3',
+    md: 'w-4 h-4',
+    lg: 'w-5 h-5',
+    xl: 'w-6 h-6'
+  }
+
+  return (
+    <svg
+      className={clsx('animate-spin', sizeClasses[size])}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      />
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      />
+    </svg>
+  )
+}
+
+/**
+ * Button component with variants, sizes, loading states, and icon support
+ */
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      variant = 'primary',
+      size = 'md',
+      loading = false,
+      disabled = false,
+      icon,
+      iconPosition = 'left',
+      className,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    // Base styles
+    const baseStyles = clsx(
+      'inline-flex items-center justify-center',
+      'font-medium rounded-lg',
+      'transition-colors duration-200',
+      'focus:outline-none focus:ring-2 focus:ring-offset-2',
+      'disabled:opacity-50 disabled:cursor-not-allowed'
+    )
+
+    // Variant styles
+    const variantStyles = {
+      primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+      secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500',
+      outline: 'border-2 border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-500',
+      ghost: 'text-gray-700 hover:bg-gray-100 focus:ring-gray-500',
+      danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500'
+    }
+
+    // Size styles
+    const sizeStyles = {
+      sm: 'px-3 py-1.5 text-sm gap-1.5',
+      md: 'px-4 py-2 text-base gap-2',
+      lg: 'px-5 py-2.5 text-lg gap-2.5',
+      xl: 'px-6 py-3 text-xl gap-3'
+    }
+
+    const buttonClasses = clsx(
+      baseStyles,
+      variantStyles[variant],
+      sizeStyles[size],
+      className
+    )
+
+    const isDisabled = disabled || loading
+
+    return (
+      <button
+        ref={ref}
+        className={buttonClasses}
+        disabled={isDisabled}
+        aria-busy={loading}
+        aria-disabled={isDisabled}
+        {...props}
+      >
+        {loading && iconPosition === 'left' && <LoadingSpinner size={size} />}
+        {!loading && icon && iconPosition === 'left' && icon}
+        <span>{children}</span>
+        {!loading && icon && iconPosition === 'right' && icon}
+        {loading && iconPosition === 'right' && <LoadingSpinner size={size} />}
+      </button>
+    )
+  }
+)
+
+Button.displayName = 'Button'
+\`\`\`
+
+## Usage Examples
+
+### Basic Variants
+
+\`\`\`tsx
+import { Button } from '@/components/button'
+
+export function VariantsExample() {
+  return (
+    <div className="flex gap-4">
+      <Button variant="primary">Primary</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="danger">Danger</Button>
+    </div>
+  )
+}
+\`\`\`
+
+### Sizes
+
+\`\`\`tsx
+export function SizesExample() {
+  return (
+    <div className="flex items-center gap-4">
+      <Button size="sm">Small</Button>
+      <Button size="md">Medium</Button>
+      <Button size="lg">Large</Button>
+      <Button size="xl">Extra Large</Button>
+    </div>
+  )
+}
+\`\`\`
+
+### With Icons
+
+\`\`\`tsx
+import { DownloadIcon, ArrowRightIcon } from '@/components/icons'
+
+export function IconsExample() {
+  return (
+    <div className="flex gap-4">
+      <Button icon={<DownloadIcon />}>
+        Download
+      </Button>
+      <Button icon={<ArrowRightIcon />} iconPosition="right">
+        Next
+      </Button>
+    </div>
+  )
+}
+\`\`\`
+
+### Loading State
+
+\`\`\`tsx
+import { useState } from 'react'
+
+export function LoadingExample() {
+  const [loading, setLoading] = useState(false)
+
+  const handleClick = async () => {
+    setLoading(true)
+    await new Promise(resolve => setTimeout(resolve, 2000))
+    setLoading(false)
+  }
+
+  return (
+    <Button loading={loading} onClick={handleClick}>
+      {loading ? 'Processing...' : 'Submit'}
+    </Button>
+  )
+}
+\`\`\`
+
+### Disabled State
+
+\`\`\`tsx
+export function DisabledExample() {
+  return (
+    <div className="flex gap-4">
+      <Button disabled>Disabled Primary</Button>
+      <Button variant="outline" disabled>Disabled Outline</Button>
+    </div>
+  )
+}
+\`\`\`
+
+### Form Integration
+
+\`\`\`tsx
+export function FormExample() {
+  return (
+    <form onSubmit={(e) => {
+      e.preventDefault()
+      console.log('Form submitted')
+    }}>
+      <div className="space-y-4">
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full px-4 py-2 border rounded"
+        />
+        <div className="flex gap-2">
+          <Button type="submit" variant="primary">
+            Submit
+          </Button>
+          <Button type="button" variant="ghost">
+            Cancel
+          </Button>
+        </div>
+      </div>
+    </form>
+  )
+}
+\`\`\`
+
+## Interactive Demo
+
+Try the button variants below:
+
+<div className="space-y-6 p-6 border rounded-lg">
+  <div className="space-y-2">
+    <h3 className="font-semibold">Variants</h3>
+    <div className="flex flex-wrap gap-3">
+      <Button variant="primary">Primary</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="danger">Danger</Button>
+    </div>
+  </div>
+
+  <div className="space-y-2">
+    <h3 className="font-semibold">Sizes</h3>
+    <div className="flex items-center flex-wrap gap-3">
+      <Button size="sm">Small</Button>
+      <Button size="md">Medium</Button>
+      <Button size="lg">Large</Button>
+      <Button size="xl">Extra Large</Button>
+    </div>
+  </div>
+
+  <div className="space-y-2">
+    <h3 className="font-semibold">States</h3>
+    <div className="flex flex-wrap gap-3">
+      <Button loading>Loading...</Button>
+      <Button disabled>Disabled</Button>
+    </div>
+  </div>
+</div>
+
+## Accessibility
+
+The Button component follows WCAG 2.1 AA guidelines:
+
+- ✅ **Keyboard Navigation** - Fully accessible via keyboard
+- ✅ **Screen Readers** - Proper ARIA attributes (`aria-busy`, `aria-disabled`)
+- ✅ **Focus Indicators** - Clear focus ring on keyboard navigation
+- ✅ **Color Contrast** - All variants meet contrast requirements
+- ✅ **Loading States** - Announced to screen readers via `aria-busy`
+- ✅ **Disabled State** - Proper disabled styling and behavior
+
+## Testing
+
+\`\`\`tsx
+import { render, screen, fireEvent } from '@testing-library/react'
+import { describe, test, expect, vi } from 'vitest'
+import { Button } from './button'
+
+describe('Button', () => {
+  test('renders children', () => {
+    render(<Button>Click me</Button>)
+    expect(screen.getByText('Click me')).toBeInTheDocument()
+  })
+
+  test('calls onClick when clicked', () => {
+    const handleClick = vi.fn()
+    render(<Button onClick={handleClick}>Click me</Button>)
+
+    fireEvent.click(screen.getByText('Click me'))
+    expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  test('does not call onClick when disabled', () => {
+    const handleClick = vi.fn()
+    render(<Button disabled onClick={handleClick}>Click me</Button>)
+
+    fireEvent.click(screen.getByText('Click me'))
+    expect(handleClick).not.toHaveBeenCalled()
+  })
+
+  test('shows loading spinner when loading', () => {
+    render(<Button loading>Loading</Button>)
+    expect(screen.getByRole('button')).toHaveAttribute('aria-busy', 'true')
+  })
+
+  test('applies correct variant styles', () => {
+    const { rerender } = render(<Button variant="primary">Primary</Button>)
+    expect(screen.getByText('Primary')).toHaveClass('bg-blue-600')
+
+    rerender(<Button variant="danger">Danger</Button>)
+    expect(screen.getByText('Danger')).toHaveClass('bg-red-600')
+  })
+
+  test('applies correct size styles', () => {
+    const { rerender } = render(<Button size="sm">Small</Button>)
+    expect(screen.getByText('Small')).toHaveClass('px-3', 'py-1.5', 'text-sm')
+
+    rerender(<Button size="xl">Extra Large</Button>)
+    expect(screen.getByText('Extra Large')).toHaveClass('px-6', 'py-3', 'text-xl')
+  })
+
+  test('renders icon in correct position', () => {
+    const Icon = () => <span data-testid="icon">→</span>
+
+    const { rerender } = render(
+      <Button icon={<Icon />} iconPosition="left">
+        Next
+      </Button>
+    )
+    const button = screen.getByRole('button')
+    expect(button.children[0]).toHaveAttribute('data-testid', 'icon')
+
+    rerender(
+      <Button icon={<Icon />} iconPosition="right">
+        Next
+      </Button>
+    )
+    expect(button.children[button.children.length - 1]).toHaveAttribute('data-testid', 'icon')
+  })
+})
+\`\`\`
+
+## Customization
+
+### Extending Variants
+
+Add custom variants by extending the component:
+
+\`\`\`tsx
+const customVariantStyles = {
+  ...variantStyles,
+  success: 'bg-green-600 text-white hover:bg-green-700 focus:ring-green-500',
+  warning: 'bg-yellow-500 text-black hover:bg-yellow-600 focus:ring-yellow-400'
+}
+\`\`\`
+
+### Custom Styling
+
+Override styles with className:
+
+\`\`\`tsx
+<Button className="rounded-full px-8 shadow-lg">
+  Custom Styled
+</Button>
+\`\`\`
+
+## Dependencies
+
+\`\`\`json
+{
+  "dependencies": {
+    "react": "^18.0.0",
+    "clsx": "^2.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^14.0.0",
+    "vitest": "^1.0.0"
+  }
+}
+\`\`\`
+
+## Related
+
+- [Icon Button Component](/examples/icon-button) - Icon-only variant
+- [Link Button Component](/examples/link-button) - Link styled as button
+- [Button Group Component](/examples/button-group) - Group multiple buttons
+
+## License
+
+MIT - See [LICENSE](https://github.com/mdxld/mdxld/blob/main/LICENSE)

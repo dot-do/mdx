@@ -1,0 +1,624 @@
+# Workflow Example
+
+A complete example of an MDXLD Workflow entity for user onboarding with email verification, profile setup, and welcome sequence.
+
+## Full MDXLD Document
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Workflow
+$id: https://api.example.com/workflows/user-onboarding
+title: User Onboarding Workflow
+description: Automated user onboarding process with email verification, profile setup, and welcome sequence
+version: 3.0.0
+license: MIT
+author:
+  $type: Organization
+  name: MDXLD Working Group
+  url: https://mdxld.org
+dateCreated: 2025-08-01
+dateModified: 2025-10-02
+keywords: [onboarding, workflow, automation, email, user]
+
+# Workflow-specific properties
+trigger:
+  type: webhook
+  event: user.created
+  schema:
+    type: object
+    properties:
+      userId:
+        type: string
+        format: uuid
+      email:
+        type: string
+        format: email
+      name:
+        type: string
+    required: [userId, email, name]
+
+steps:
+  - id: send-verification-email
+    title: Send Verification Email
+    type: function
+    function: https://api.example.com/functions/send-transactional-email
+    inputs:
+      to: "{{trigger.email}}"
+      subject: Verify your email address
+      template: verification
+      variables:
+        name: "{{trigger.name}}"
+        verification_url: "{{generateVerificationUrl(trigger.userId)}}"
+    timeout: 30000
+    retry:
+      attempts: 3
+      backoff: exponential
+
+  - id: wait-for-verification
+    title: Wait for Email Verification
+    type: wait
+    event: user.verified
+    condition: "{{event.userId}} === {{trigger.userId}}"
+    timeout: 86400000  # 24 hours
+    onTimeout:
+      - id: send-reminder
+        type: function
+        function: https://api.example.com/functions/send-transactional-email
+        inputs:
+          to: "{{trigger.email}}"
+          subject: Don't forget to verify your email
+          template: verification-reminder
+
+  - id: create-stripe-customer
+    title: Create Stripe Customer
+    type: api-call
+    method: POST
+    endpoint: https://api.stripe.com/v1/customers
+    headers:
+      Authorization: "Bearer {{env.STRIPE_API_KEY}}"
+    body:
+      email: "{{trigger.email}}"
+      name: "{{trigger.name}}"
+      metadata:
+        user_id: "{{trigger.userId}}"
+    retry:
+      attempts: 5
+      backoff: exponential
+
+  - id: update-user-profile
+    title: Update User Profile
+    type: database
+    operation: update
+    table: users
+    where:
+      id: "{{trigger.userId}}"
+    data:
+      stripe_customer_id: "{{steps.create-stripe-customer.response.id}}"
+      email_verified: true
+      email_verified_at: "{{now()}}"
+      onboarding_completed: true
+
+  - id: add-to-mailing-list
+    title: Add to Mailing List
+    type: function
+    function: https://api.example.com/functions/add-to-mailchimp
+    inputs:
+      email: "{{trigger.email}}"
+      firstName: "{{trigger.name}}"
+      tags: [new-user, onboarded]
+    continueOnError: true  # Don't fail workflow if this fails
+
+  - id: send-welcome-email
+    title: Send Welcome Email
+    type: function
+    function: https://api.example.com/functions/send-transactional-email
+    inputs:
+      to: "{{trigger.email}}"
+      subject: "Welcome to {{env.APP_NAME}}!"
+      template: welcome
+      variables:
+        name: "{{trigger.name}}"
+        dashboard_url: "{{env.APP_URL}}/dashboard"
+        support_email: "{{env.SUPPORT_EMAIL}}"
+
+  - id: schedule-follow-up
+    title: Schedule Follow-up Email
+    type: schedule
+    delay: 259200000  # 3 days
+    workflow: https://api.example.com/workflows/send-follow-up
+    inputs:
+      userId: "{{trigger.userId}}"
+      email: "{{trigger.email}}"
+      name: "{{trigger.name}}"
+
+concurrency: sequential
+timeout: 172800000  # 48 hours
+retry:
+  attempts: 3
+  backoff: exponential
+
+# Metadata
+metadata:
+  ns: workflow
+  visibility: public
+  category: onboarding
+tags:
+  - onboarding
+  - automation
+  - email
+  - user-management
+
+# Related entities
+relatedTo:
+  - https://api.example.com/functions/send-transactional-email
+  - https://api.example.com/workflows/send-follow-up
+  - https://api.example.com/agents/support-agent
+---
+
+# User Onboarding Workflow
+
+Comprehensive user onboarding workflow that handles email verification, payment setup, profile completion, and welcome communications.
+
+## Workflow Diagram
+
+\`\`\`
+Trigger: user.created
+    ↓
+1. Send Verification Email
+    ↓
+2. Wait for Email Verification (24h timeout)
+    ├─ Verified → Continue
+    └─ Timeout → Send Reminder → Continue
+    ↓
+3. Create Stripe Customer
+    ↓
+4. Update User Profile
+    ├─ Set stripe_customer_id
+    ├─ Mark email as verified
+    └─ Mark onboarding complete
+    ↓
+5. Add to Mailing List (optional)
+    ↓
+6. Send Welcome Email
+    ↓
+7. Schedule Follow-up (3 days later)
+\`\`\`
+
+## Features
+
+✅ **Email Verification** - Double opt-in with verification link
+✅ **Payment Setup** - Automatic Stripe customer creation
+✅ **Profile Completion** - Update user record with all details
+✅ **Marketing Integration** - Mailchimp list subscription
+✅ **Welcome Sequence** - Personalized welcome email
+✅ **Follow-up Automation** - Scheduled check-in emails
+✅ **Error Handling** - Retry logic and fallbacks
+✅ **Monitoring** - Comprehensive logging and metrics
+
+## Implementation
+
+\`\`\`typescript
+import { WorkflowEngine, Step, Trigger } from '@mdxld/workflow'
+import { sendTransactionalEmail } from '../functions/send-transactional-email'
+import { addToMailchimp } from '../functions/add-to-mailchimp'
+import { db } from '../db'
+import Stripe from 'stripe'
+
+// Initialize dependencies
+const stripe = new Stripe(process.env.STRIPE_API_KEY!)
+
+// Workflow configuration
+export const userOnboardingWorkflow = new WorkflowEngine({
+  id: 'user-onboarding',
+  trigger: {
+    type: 'webhook',
+    event: 'user.created'
+  },
+  steps: [
+    // Step 1: Send verification email
+    {
+      id: 'send-verification-email',
+      run: async (context) => {
+        const { userId, email, name } = context.trigger
+        const verificationUrl = generateVerificationUrl(userId)
+
+        return await sendTransactionalEmail({
+          to: email,
+          subject: 'Verify your email address',
+          template: 'verification',
+          variables: { name, verification_url: verificationUrl }
+        })
+      },
+      retry: {
+        attempts: 3,
+        backoff: 'exponential'
+      }
+    },
+
+    // Step 2: Wait for email verification
+    {
+      id: 'wait-for-verification',
+      type: 'wait',
+      event: 'user.verified',
+      condition: (event, context) => event.userId === context.trigger.userId,
+      timeout: 24 * 60 * 60 * 1000, // 24 hours
+      onTimeout: async (context) => {
+        // Send reminder if not verified within 24 hours
+        await sendTransactionalEmail({
+          to: context.trigger.email,
+          subject: "Don't forget to verify your email",
+          template: 'verification-reminder',
+          variables: { name: context.trigger.name }
+        })
+      }
+    },
+
+    // Step 3: Create Stripe customer
+    {
+      id: 'create-stripe-customer',
+      run: async (context) => {
+        const { email, name, userId } = context.trigger
+
+        const customer = await stripe.customers.create({
+          email,
+          name,
+          metadata: { user_id: userId }
+        })
+
+        return { customerId: customer.id }
+      },
+      retry: {
+        attempts: 5,
+        backoff: 'exponential'
+      }
+    },
+
+    // Step 4: Update user profile
+    {
+      id: 'update-user-profile',
+      run: async (context) => {
+        const { userId } = context.trigger
+        const { customerId } = context.steps['create-stripe-customer']
+
+        await db.users.update({
+          where: { id: userId },
+          data: {
+            stripe_customer_id: customerId,
+            email_verified: true,
+            email_verified_at: new Date(),
+            onboarding_completed: true
+          }
+        })
+      }
+    },
+
+    // Step 5: Add to mailing list (optional - continue on error)
+    {
+      id: 'add-to-mailing-list',
+      run: async (context) => {
+        const { email, name } = context.trigger
+
+        await addToMailchimp({
+          email,
+          firstName: name,
+          tags: ['new-user', 'onboarded']
+        })
+      },
+      continueOnError: true
+    },
+
+    // Step 6: Send welcome email
+    {
+      id: 'send-welcome-email',
+      run: async (context) => {
+        const { email, name } = context.trigger
+
+        return await sendTransactionalEmail({
+          to: email,
+          subject: \`Welcome to \${process.env.APP_NAME}!\`,
+          template: 'welcome',
+          variables: {
+            name,
+            dashboard_url: \`\${process.env.APP_URL}/dashboard\`,
+            support_email: process.env.SUPPORT_EMAIL
+          }
+        })
+      }
+    },
+
+    // Step 7: Schedule follow-up
+    {
+      id: 'schedule-follow-up',
+      run: async (context) => {
+        const { userId, email, name } = context.trigger
+
+        // Schedule follow-up email for 3 days later
+        await WorkflowEngine.schedule({
+          workflow: 'send-follow-up',
+          delay: 3 * 24 * 60 * 60 * 1000,
+          inputs: { userId, email, name }
+        })
+      }
+    }
+  ],
+  concurrency: 'sequential',
+  timeout: 48 * 60 * 60 * 1000, // 48 hours
+  retry: {
+    attempts: 3,
+    backoff: 'exponential'
+  }
+})
+
+// Helper function to generate verification URL
+function generateVerificationUrl(userId: string): string {
+  const token = generateVerificationToken(userId)
+  return \`\${process.env.APP_URL}/verify-email?token=\${token}\`
+}
+
+// Trigger workflow when user is created
+export async function onUserCreated(user: {
+  userId: string
+  email: string
+  name: string
+}) {
+  await userOnboardingWorkflow.trigger(user)
+}
+\`\`\`
+
+## Usage Examples
+
+### Trigger Workflow
+
+\`\`\`typescript
+import { onUserCreated } from './workflows/user-onboarding'
+
+// In your user registration handler
+app.post('/api/register', async (req, res) => {
+  const { email, name, password } = req.body
+
+  // Create user in database
+  const user = await db.users.create({
+    data: { email, name, password: hashPassword(password) }
+  })
+
+  // Trigger onboarding workflow
+  await onUserCreated({
+    userId: user.id,
+    email: user.email,
+    name: user.name
+  })
+
+  res.json({ success: true, userId: user.id })
+})
+\`\`\`
+
+### Monitor Workflow
+
+\`\`\`typescript
+import { WorkflowEngine } from '@mdxld/workflow'
+
+// Get workflow status
+const status = await WorkflowEngine.getStatus('user-onboarding', userId)
+
+console.log(status)
+// {
+//   workflowId: 'user-onboarding',
+//   instanceId: 'run-123',
+//   status: 'running',
+//   currentStep: 'wait-for-verification',
+//   completedSteps: ['send-verification-email'],
+//   startedAt: '2025-10-02T10:00:00Z'
+// }
+\`\`\`
+
+### Cancel Workflow
+
+\`\`\`typescript
+// Cancel a running workflow
+await WorkflowEngine.cancel('user-onboarding', userId)
+\`\`\`
+
+### Retry Failed Step
+
+\`\`\`typescript
+// Retry a specific step that failed
+await WorkflowEngine.retryStep('user-onboarding', userId, 'create-stripe-customer')
+\`\`\`
+
+## Error Handling
+
+The workflow includes comprehensive error handling:
+
+### Retry Logic
+
+Steps with retry configuration automatically retry on failure:
+
+\`\`\`typescript
+retry: {
+  attempts: 3,           // Retry up to 3 times
+  backoff: 'exponential' // Exponential backoff (1s, 2s, 4s, 8s...)
+}
+\`\`\`
+
+### Continue on Error
+
+Non-critical steps can continue even if they fail:
+
+\`\`\`typescript
+{
+  id: 'add-to-mailing-list',
+  continueOnError: true  // Workflow continues even if this fails
+}
+\`\`\`
+
+### Timeout Handling
+
+Steps with timeouts trigger fallback actions:
+
+\`\`\`typescript
+{
+  timeout: 86400000,  // 24 hours
+  onTimeout: async () => {
+    // Send reminder email
+  }
+}
+\`\`\`
+
+### Error Notifications
+
+Failed workflows trigger alerts:
+
+\`\`\`typescript
+userOnboardingWorkflow.on('error', async (error, context) => {
+  await sendAlert({
+    type: 'workflow-error',
+    workflow: 'user-onboarding',
+    userId: context.trigger.userId,
+    error: error.message
+  })
+})
+\`\`\`
+
+## Testing
+
+\`\`\`typescript
+import { describe, test, expect, beforeEach, vi } from 'vitest'
+import { userOnboardingWorkflow } from './user-onboarding'
+import { WorkflowTestHarness } from '@mdxld/workflow/testing'
+
+describe('User Onboarding Workflow', () => {
+  let harness: WorkflowTestHarness
+
+  beforeEach(() => {
+    harness = new WorkflowTestHarness(userOnboardingWorkflow)
+  })
+
+  test('completes successfully with email verification', async () => {
+    const result = await harness
+      .trigger({
+        userId: 'user-123',
+        email: 'test@example.com',
+        name: 'Test User'
+      })
+      .waitForStep('wait-for-verification')
+      .emit('user.verified', { userId: 'user-123' })
+      .run()
+
+    expect(result.status).toBe('completed')
+    expect(result.completedSteps).toHaveLength(7)
+  })
+
+  test('sends reminder on verification timeout', async () => {
+    const sendEmailMock = vi.fn()
+
+    const result = await harness
+      .trigger({
+        userId: 'user-123',
+        email: 'test@example.com',
+        name: 'Test User'
+      })
+      .mock('send-transactional-email', sendEmailMock)
+      .waitForStep('wait-for-verification')
+      .advanceTime(25 * 60 * 60 * 1000) // Advance 25 hours
+      .run()
+
+    expect(sendEmailMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        template: 'verification-reminder'
+      })
+    )
+  })
+
+  test('continues on mailing list error', async () => {
+    const result = await harness
+      .trigger({
+        userId: 'user-123',
+        email: 'test@example.com',
+        name: 'Test User'
+      })
+      .failStep('add-to-mailing-list', new Error('Mailchimp API error'))
+      .run()
+
+    expect(result.status).toBe('completed')
+    expect(result.errors).toHaveLength(1)
+    expect(result.completedSteps).toContain('send-welcome-email')
+  })
+
+  test('retries Stripe customer creation on failure', async () => {
+    const createCustomerMock = vi
+      .fn()
+      .mockRejectedValueOnce(new Error('Network error'))
+      .mockResolvedValue({ id: 'cus-123' })
+
+    const result = await harness
+      .trigger({
+        userId: 'user-123',
+        email: 'test@example.com',
+        name: 'Test User'
+      })
+      .mock('create-stripe-customer', createCustomerMock)
+      .run()
+
+    expect(createCustomerMock).toHaveBeenCalledTimes(2)
+    expect(result.status).toBe('completed')
+  })
+})
+\`\`\`
+
+## Monitoring
+
+View workflow metrics and logs:
+
+\`\`\`typescript
+// Get workflow analytics
+const analytics = await WorkflowEngine.getAnalytics('user-onboarding', {
+  startDate: '2025-10-01',
+  endDate: '2025-10-02'
+})
+
+console.log(analytics)
+// {
+//   totalRuns: 142,
+//   completed: 135,
+//   failed: 4,
+//   running: 3,
+//   averageDuration: 320000, // ms
+//   successRate: 0.95,
+//   stepMetrics: {
+//     'send-verification-email': { success: 142, failed: 0, avgDuration: 1200 },
+//     'create-stripe-customer': { success: 138, failed: 4, avgDuration: 2500 },
+//     ...
+//   }
+// }
+\`\`\`
+
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `STRIPE_API_KEY` | Yes | Stripe API secret key |
+| `APP_NAME` | Yes | Application name for emails |
+| `APP_URL` | Yes | Application base URL |
+| `SUPPORT_EMAIL` | Yes | Support email address |
+
+## Dependencies
+
+\`\`\`json
+{
+  "dependencies": {
+    "@mdxld/workflow": "^1.0.0",
+    "stripe": "^14.0.0"
+  }
+}
+\`\`\`
+
+## Related
+
+- [Function: Send Transactional Email](/examples/function)
+- [Workflow: Send Follow-up](/examples/workflow-follow-up)
+- [Agent: Support Agent](/examples/agent)
+
+## License
+
+MIT - See [LICENSE](https://github.com/mdxld/mdxld/blob/main/LICENSE)

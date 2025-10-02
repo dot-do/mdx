@@ -1,0 +1,615 @@
+# Framework Integrations
+
+MDXLD integrates seamlessly with popular JavaScript frameworks and build tools.
+
+## Next.js
+
+### Installation
+
+```bash
+npm install mdxld @next/mdx
+```
+
+### Configuration
+
+```typescript
+// next.config.js
+import mdx from '@next/mdx'
+import { mdxldRemarkPlugin, mdxldRehypePlugin } from 'mdxld/plugins'
+
+const withMDX = mdx({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [mdxldRemarkPlugin],
+    rehypePlugins: [mdxldRehypePlugin]
+  }
+})
+
+export default withMDX({
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx']
+})
+```
+
+### Usage
+
+```tsx
+// app/page.mdx
+---
+$type: Article
+title: My Page
+---
+
+# Welcome
+
+This is an MDXLD page in Next.js!
+
+export default function Page() {
+  return <div>Custom component</div>
+}
+```
+
+### Programmatic Access
+
+```typescript
+// app/api/parse/route.ts
+import { parse } from 'mdxld'
+import { readFile } from 'fs/promises'
+
+export async function GET() {
+  const source = await readFile('content/article.mdx', 'utf-8')
+  const doc = await parse(source)
+
+  return Response.json({
+    frontmatter: doc.frontmatter,
+    content: doc.content
+  })
+}
+```
+
+## Vite
+
+### Installation
+
+```bash
+npm install mdxld @mdx-js/rollup
+```
+
+### Configuration
+
+```typescript
+// vite.config.ts
+import { defineConfig } from 'vite'
+import mdx from '@mdx-js/rollup'
+import { mdxldPlugin } from 'mdxld/vite'
+
+export default defineConfig({
+  plugins: [
+    mdx(),
+    mdxldPlugin({
+      validateContext: true,
+      extractCode: true
+    })
+  ]
+})
+```
+
+### Usage
+
+```typescript
+// src/main.ts
+import MyDoc from './content/document.mdx'
+
+console.log(MyDoc.frontmatter) // Parsed frontmatter
+```
+
+## Astro
+
+### Installation
+
+```bash
+npm install mdxld @astrojs/mdx
+```
+
+### Configuration
+
+```typescript
+// astro.config.mjs
+import { defineConfig } from 'astro/config'
+import mdx from '@astrojs/mdx'
+import { mdxldIntegration } from 'mdxld/astro'
+
+export default defineConfig({
+  integrations: [
+    mdx(),
+    mdxldIntegration()
+  ]
+})
+```
+
+### Usage
+
+```astro
+---
+// src/pages/index.astro
+import Article from '../content/article.mdx'
+---
+
+<html>
+  <body>
+    <Article />
+  </body>
+</html>
+```
+
+## Remix
+
+### Installation
+
+```bash
+npm install mdxld @remix-run/mdx
+```
+
+### Configuration
+
+```typescript
+// remix.config.js
+import { mdxldConfig } from 'mdxld/remix'
+
+export default {
+  ...mdxldConfig,
+  // Your Remix config
+}
+```
+
+### Usage
+
+```tsx
+// app/routes/article.mdx
+---
+$type: Article
+title: My Article
+---
+
+# Hello from Remix
+
+This is an MDXLD article in Remix!
+
+export function loader() {
+  return json({ data: 'some data' })
+}
+```
+
+## Webpack
+
+### Installation
+
+```bash
+npm install mdxld @mdx-js/loader
+```
+
+### Configuration
+
+```javascript
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.mdx?$/,
+        use: [
+          'babel-loader',
+          {
+            loader: '@mdx-js/loader',
+            options: {
+              remarkPlugins: [require('mdxld/plugins').mdxldRemarkPlugin]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Gatsby
+
+### Installation
+
+```bash
+npm install mdxld gatsby-plugin-mdx
+```
+
+### Configuration
+
+```javascript
+// gatsby-config.js
+module.exports = {
+  plugins: [
+    {
+      resolve: 'gatsby-plugin-mdx',
+      options: {
+        remarkPlugins: [require('mdxld/plugins').mdxldRemarkPlugin]
+      }
+    }
+  ]
+}
+```
+
+## Node.js / Express
+
+### Installation
+
+```bash
+npm install mdxld express
+```
+
+### Usage
+
+```typescript
+import express from 'express'
+import { parse, render } from 'mdxld'
+import { readFile } from 'fs/promises'
+
+const app = express()
+
+app.get('/article/:slug', async (req, res) => {
+  const source = await readFile(`content/${req.params.slug}.mdx`, 'utf-8')
+  const doc = await parse(source)
+  const html = await render(doc, { format: 'html' })
+
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>${doc.frontmatter.title}</title>
+      </head>
+      <body>
+        ${html}
+      </body>
+    </html>
+  `)
+})
+
+app.listen(3000)
+```
+
+## Cloudflare Workers
+
+### Installation
+
+```bash
+npm install mdxld
+```
+
+### Usage
+
+```typescript
+import { parse, execute } from 'mdxld'
+
+export default {
+  async fetch(request: Request, env: Env) {
+    // Parse MDX from KV
+    const source = await env.CONTENT.get('function.mdx')
+    const doc = await parse(source!)
+
+    // Execute as function
+    const result = await execute(doc, {
+      input: await request.json()
+    })
+
+    return Response.json(result)
+  }
+}
+```
+
+## Deno
+
+### Installation
+
+```typescript
+import { parse, render } from 'https://esm.sh/mdxld'
+```
+
+### Usage
+
+```typescript
+const source = await Deno.readTextFile('content/article.mdx')
+const doc = await parse(source)
+const html = await render(doc, { format: 'html' })
+
+console.log(html)
+```
+
+## Bun
+
+### Installation
+
+```bash
+bun add mdxld
+```
+
+### Usage
+
+```typescript
+import { parse } from 'mdxld'
+
+const file = Bun.file('content/article.mdx')
+const source = await file.text()
+const doc = await parse(source)
+
+console.log(doc.frontmatter)
+```
+
+## Velite
+
+### Installation
+
+```bash
+npm install mdxld velite
+```
+
+### Configuration
+
+```typescript
+// velite.config.ts
+import { defineConfig, s } from 'velite'
+import { mdxldLoader } from 'mdxld/velite'
+
+export default defineConfig({
+  collections: {
+    articles: {
+      name: 'Article',
+      pattern: 'articles/**/*.mdx',
+      schema: s.object({
+        $type: s.literal('Article'),
+        title: s.string(),
+        slug: s.slug('title'),
+        content: s.mdx()
+      })
+    }
+  },
+  mdx: {
+    remarkPlugins: [mdxldLoader]
+  }
+})
+```
+
+## Contentlayer
+
+### Installation
+
+```bash
+npm install mdxld contentlayer
+```
+
+### Configuration
+
+```typescript
+// contentlayer.config.ts
+import { defineDocumentType, makeSource } from 'contentlayer/source-files'
+import { mdxldPlugin } from 'mdxld/contentlayer'
+
+export const Article = defineDocumentType(() => ({
+  name: 'Article',
+  filePathPattern: `articles/**/*.mdx`,
+  contentType: 'mdx',
+  fields: {
+    $type: { type: 'string', required: true },
+    title: { type: 'string', required: true }
+  }
+}))
+
+export default makeSource({
+  contentDirPath: 'content',
+  documentTypes: [Article],
+  mdx: {
+    remarkPlugins: [mdxldPlugin]
+  }
+})
+```
+
+## Database Integration
+
+### PostgreSQL with Drizzle
+
+```typescript
+import { parse } from 'mdxld'
+import { db, schema } from './db'
+
+// Save MDXLD to database
+const source = await readFile('content/article.mdx', 'utf-8')
+const doc = await parse(source)
+
+await db.insert(schema.articles).values({
+  slug: doc.frontmatter.slug,
+  type: doc.frontmatter.$type,
+  data: doc.frontmatter,
+  content: doc.content,
+  raw: source
+})
+
+// Query from database
+const articles = await db
+  .select()
+  .from(schema.articles)
+  .where(eq(schema.articles.type, 'Article'))
+```
+
+### Cloudflare D1
+
+```typescript
+import { parse } from 'mdxld'
+
+export default {
+  async fetch(request: Request, env: Env) {
+    const source = await request.text()
+    const doc = await parse(source)
+
+    await env.DB.prepare(`
+      INSERT INTO entities (id, type, data, content)
+      VALUES (?, ?, ?, ?)
+    `)
+      .bind(
+        doc.frontmatter.$id,
+        doc.frontmatter.$type,
+        JSON.stringify(doc.frontmatter),
+        doc.content
+      )
+      .run()
+
+    return Response.json({ success: true })
+  }
+}
+```
+
+## Vector Database Integration
+
+### Pinecone
+
+```typescript
+import { parse } from 'mdxld'
+import { Pinecone } from '@pinecone-database/pinecone'
+import { embed } from './embeddings'
+
+const pc = new Pinecone()
+const index = pc.index('mdxld-content')
+
+const source = await readFile('article.mdx', 'utf-8')
+const doc = await parse(source)
+
+// Generate embedding
+const embedding = await embed(doc.content)
+
+// Upsert to Pinecone
+await index.upsert([
+  {
+    id: doc.frontmatter.$id,
+    values: embedding,
+    metadata: {
+      type: doc.frontmatter.$type,
+      title: doc.frontmatter.title,
+      content: doc.content.substring(0, 1000)
+    }
+  }
+])
+```
+
+### Weaviate
+
+```typescript
+import weaviate from 'weaviate-ts-client'
+import { parse } from 'mdxld'
+
+const client = weaviate.client({
+  scheme: 'https',
+  host: 'your-instance.weaviate.network'
+})
+
+const source = await readFile('article.mdx', 'utf-8')
+const doc = await parse(source)
+
+await client.data
+  .creator()
+  .withClassName('Article')
+  .withProperties({
+    type: doc.frontmatter.$type,
+    title: doc.frontmatter.title,
+    content: doc.content
+  })
+  .do()
+```
+
+## Search Integration
+
+### Pagefind
+
+```typescript
+// Build search index from MDXLD files
+import { parse } from 'mdxld'
+import { glob } from 'glob'
+
+const files = await glob('content/**/*.mdx')
+
+for (const file of files) {
+  const source = await readFile(file, 'utf-8')
+  const doc = await parse(source)
+
+  // Pagefind will automatically index the HTML
+  const html = await render(doc, { format: 'html' })
+  await writeFile(`dist/${file.replace('.mdx', '.html')}`, html)
+}
+
+// Run: npx pagefind --source dist
+```
+
+### Algolia
+
+```typescript
+import algoliasearch from 'algoliasearch'
+import { parse } from 'mdxld'
+
+const client = algoliasearch('APP_ID', 'API_KEY')
+const index = client.initIndex('content')
+
+const source = await readFile('article.mdx', 'utf-8')
+const doc = await parse(source)
+
+await index.saveObject({
+  objectID: doc.frontmatter.$id,
+  type: doc.frontmatter.$type,
+  title: doc.frontmatter.title,
+  content: doc.content,
+  ...doc.frontmatter
+})
+```
+
+## Testing
+
+### Vitest
+
+```typescript
+import { describe, test, expect } from 'vitest'
+import { parse, validate } from 'mdxld'
+import { z } from 'zod'
+
+describe('MDXLD Documents', () => {
+  test('parses frontmatter correctly', async () => {
+    const source = `---
+$type: Function
+title: Test Function
+---
+# Content
+`
+    const doc = await parse(source)
+
+    expect(doc.frontmatter.$type).toBe('Function')
+    expect(doc.frontmatter.title).toBe('Test Function')
+  })
+
+  test('validates against schema', async () => {
+    const schema = z.object({
+      $type: z.literal('Function'),
+      title: z.string()
+    })
+
+    const doc = await parse(source)
+    const result = validate(doc.frontmatter, schema)
+
+    expect(result.success).toBe(true)
+  })
+})
+```
+
+## Related
+
+- **[Getting Started](/getting-started)** - Quickstart guide
+- **[API Reference](/api)** - Complete API docs
+- **[Examples](/examples)** - Real-world examples
+
+## Support
+
+Need help with integration?
+
+- 📖 [Documentation](/)
+- 💬 [Discord Community](https://discord.gg/mdxld)
+- 🐛 [Report Issues](https://github.com/mdxld/mdxld/issues)

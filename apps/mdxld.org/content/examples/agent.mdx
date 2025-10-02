@@ -1,0 +1,705 @@
+# Agent Example
+
+A complete example of an MDXLD Agent entity for a customer support AI agent with tool use, knowledge base integration, and conversation management.
+
+## Full MDXLD Document
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Agent
+$id: https://api.example.com/agents/customer-support
+title: Customer Support Agent
+description: AI-powered customer support agent with knowledge base access, order tracking, and ticket creation
+version: 2.5.0
+license: MIT
+author:
+  $type: Organization
+  name: MDXLD Working Group
+  url: https://mdxld.org
+dateCreated: 2025-07-15
+dateModified: 2025-10-02
+keywords: [agent, ai, support, customer-service, chatbot]
+
+# Agent-specific properties
+role: Customer Support Specialist
+model: claude-3-5-sonnet-20250929
+temperature: 0.7
+maxTokens: 4000
+
+capabilities:
+  - chat
+  - email
+  - knowledge-base
+  - tool-use
+
+systemPrompt: |
+  You are a helpful and empathetic customer support agent for Example Company.
+
+  Your responsibilities:
+  - Answer customer questions accurately and professionally
+  - Help customers track their orders
+  - Resolve common issues and complaints
+  - Escalate complex issues by creating support tickets
+  - Maintain a friendly and understanding tone
+
+  Guidelines:
+  - Always verify customer identity before sharing order information
+  - Use the knowledge base to find accurate answers
+  - Be honest if you don't know something
+  - Offer alternatives when unable to help directly
+  - End conversations with "Is there anything else I can help you with?"
+
+  Available tools:
+  - search_knowledge_base: Search documentation and FAQs
+  - get_order_status: Check order status and tracking
+  - create_ticket: Escalate to human support
+  - send_email: Send follow-up emails
+
+tools:
+  - id: search_knowledge_base
+    type: function
+    function: https://api.example.com/tools/search-knowledge-base
+    description: Search the knowledge base for answers to customer questions
+    parameters:
+      type: object
+      properties:
+        query:
+          type: string
+          description: Search query
+        category:
+          type: string
+          enum: [billing, shipping, returns, technical, account]
+      required: [query]
+
+  - id: get_order_status
+    type: function
+    function: https://api.example.com/tools/get-order-status
+    description: Get the current status and tracking information for an order
+    parameters:
+      type: object
+      properties:
+        order_id:
+          type: string
+          description: Order ID or order number
+        email:
+          type: string
+          description: Customer email for verification
+      required: [order_id, email]
+
+  - id: create_ticket
+    type: function
+    function: https://api.example.com/tools/create-support-ticket
+    description: Create a support ticket for human review
+    parameters:
+      type: object
+      properties:
+        subject:
+          type: string
+          description: Ticket subject
+        description:
+          type: string
+          description: Detailed description of the issue
+        priority:
+          type: string
+          enum: [low, medium, high, urgent]
+        customer_email:
+          type: string
+          description: Customer's email address
+      required: [subject, description, customer_email]
+
+  - id: send_email
+    type: function
+    function: https://api.example.com/functions/send-transactional-email
+    description: Send a follow-up email to the customer
+    parameters:
+      type: object
+      properties:
+        to:
+          type: string
+          description: Customer email
+        subject:
+          type: string
+        template:
+          type: string
+          enum: [follow-up, confirmation, resolution]
+        variables:
+          type: object
+      required: [to, subject, template]
+
+# Memory and context
+memory:
+  type: conversation
+  retention: 7 # days
+  maxMessages: 50
+
+# Guardrails
+guardrails:
+  - type: pii-protection
+    enabled: true
+    redact: [ssn, credit-card]
+  - type: content-filter
+    enabled: true
+    categories: [harmful, offensive]
+  - type: rate-limit
+    requests: 100
+    window: 60 # seconds
+
+# Metadata
+metadata:
+  ns: agent
+  visibility: public
+  category: customer-support
+tags:
+  - agent
+  - ai
+  - customer-support
+  - claude
+  - chatbot
+
+# Related entities
+relatedTo:
+  - https://api.example.com/tools/search-knowledge-base
+  - https://api.example.com/functions/send-transactional-email
+  - https://api.example.com/workflows/support-ticket-workflow
+---
+
+# Customer Support Agent
+
+An AI-powered customer support agent built with Claude 3.5 Sonnet that can answer questions, track orders, search documentation, and escalate issues to human agents.
+
+## Features
+
+✅ **Natural Conversations** - Human-like, empathetic responses
+✅ **Knowledge Base Integration** - Access to docs and FAQs
+✅ **Order Tracking** - Real-time order status lookup
+✅ **Ticket Creation** - Escalation to human support
+✅ **Email Follow-ups** - Automated follow-up emails
+✅ **Conversation Memory** - Context-aware conversations
+✅ **PII Protection** - Automatic redaction of sensitive data
+✅ **Multi-channel** - Chat, email, and API support
+
+## Implementation
+
+\`\`\`typescript
+import { Anthropic } from '@anthropic-ai/sdk'
+import type { Tool } from '@anthropic-ai/sdk/resources'
+
+// Initialize Anthropic client
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY
+})
+
+// Tool definitions
+const tools: Tool[] = [
+  {
+    name: 'search_knowledge_base',
+    description: 'Search the knowledge base for answers to customer questions',
+    input_schema: {
+      type: 'object',
+      properties: {
+        query: {
+          type: 'string',
+          description: 'Search query'
+        },
+        category: {
+          type: 'string',
+          enum: ['billing', 'shipping', 'returns', 'technical', 'account'],
+          description: 'Category to search in'
+        }
+      },
+      required: ['query']
+    }
+  },
+  {
+    name: 'get_order_status',
+    description: 'Get the current status and tracking information for an order',
+    input_schema: {
+      type: 'object',
+      properties: {
+        order_id: {
+          type: 'string',
+          description: 'Order ID or order number'
+        },
+        email: {
+          type: 'string',
+          description: 'Customer email for verification'
+        }
+      },
+      required: ['order_id', 'email']
+    }
+  },
+  {
+    name: 'create_ticket',
+    description: 'Create a support ticket for human review',
+    input_schema: {
+      type: 'object',
+      properties: {
+        subject: { type: 'string', description: 'Ticket subject' },
+        description: { type: 'string', description: 'Detailed description' },
+        priority: {
+          type: 'string',
+          enum: ['low', 'medium', 'high', 'urgent']
+        },
+        customer_email: { type: 'string' }
+      },
+      required: ['subject', 'description', 'customer_email']
+    }
+  },
+  {
+    name: 'send_email',
+    description: 'Send a follow-up email to the customer',
+    input_schema: {
+      type: 'object',
+      properties: {
+        to: { type: 'string' },
+        subject: { type: 'string' },
+        template: {
+          type: 'string',
+          enum: ['follow-up', 'confirmation', 'resolution']
+        },
+        variables: { type: 'object' }
+      },
+      required: ['to', 'subject', 'template']
+    }
+  }
+]
+
+// System prompt
+const systemPrompt = \`
+You are a helpful and empathetic customer support agent for Example Company.
+
+Your responsibilities:
+- Answer customer questions accurately and professionally
+- Help customers track their orders
+- Resolve common issues and complaints
+- Escalate complex issues by creating support tickets
+- Maintain a friendly and understanding tone
+
+Guidelines:
+- Always verify customer identity before sharing order information
+- Use the knowledge base to find accurate answers
+- Be honest if you don't know something
+- Offer alternatives when unable to help directly
+- End conversations with "Is there anything else I can help you with?"
+\`.trim()
+
+// Tool implementations
+async function executeToolCall(toolName: string, toolInput: any) {
+  switch (toolName) {
+    case 'search_knowledge_base':
+      return await searchKnowledgeBase(toolInput.query, toolInput.category)
+
+    case 'get_order_status':
+      return await getOrderStatus(toolInput.order_id, toolInput.email)
+
+    case 'create_ticket':
+      return await createSupportTicket(toolInput)
+
+    case 'send_email':
+      return await sendEmail(toolInput)
+
+    default:
+      throw new Error(\`Unknown tool: \${toolName}\`)
+  }
+}
+
+// Conversation state management
+interface ConversationState {
+  messages: Anthropic.MessageParam[]
+  customerId?: string
+  customerEmail?: string
+}
+
+const conversations = new Map<string, ConversationState>()
+
+/**
+ * Customer support agent
+ */
+export async function customerSupportAgent(params: {
+  message: string
+  conversationId: string
+  customerId?: string
+  customerEmail?: string
+}): Promise<{
+  response: string
+  conversationId: string
+  toolCalls?: string[]
+}> {
+  const { message, conversationId, customerId, customerEmail } = params
+
+  // Get or create conversation state
+  let state = conversations.get(conversationId)
+  if (!state) {
+    state = { messages: [], customerId, customerEmail }
+    conversations.set(conversationId, state)
+  }
+
+  // Add user message
+  state.messages.push({
+    role: 'user',
+    content: message
+  })
+
+  const toolCalls: string[] = []
+  let finalResponse = ''
+
+  // Agentic loop - continue until no more tool calls
+  while (true) {
+    const response = await anthropic.messages.create({
+      model: 'claude-3-5-sonnet-20250929',
+      max_tokens: 4000,
+      temperature: 0.7,
+      system: systemPrompt,
+      messages: state.messages,
+      tools
+    })
+
+    // Check if response requires tool use
+    const toolUseBlock = response.content.find(block => block.type === 'tool_use')
+
+    if (toolUseBlock && toolUseBlock.type === 'tool_use') {
+      // Execute tool
+      console.log(\`Executing tool: \${toolUseBlock.name}\`)
+      toolCalls.push(toolUseBlock.name)
+
+      const toolResult = await executeToolCall(
+        toolUseBlock.name,
+        toolUseBlock.input
+      )
+
+      // Add assistant message with tool use
+      state.messages.push({
+        role: 'assistant',
+        content: response.content
+      })
+
+      // Add tool result
+      state.messages.push({
+        role: 'user',
+        content: [
+          {
+            type: 'tool_result',
+            tool_use_id: toolUseBlock.id,
+            content: JSON.stringify(toolResult)
+          }
+        ]
+      })
+    } else {
+      // No more tool calls - extract final response
+      const textBlock = response.content.find(block => block.type === 'text')
+      finalResponse = textBlock && textBlock.type === 'text' ? textBlock.text : ''
+
+      // Add final assistant message
+      state.messages.push({
+        role: 'assistant',
+        content: finalResponse
+      })
+
+      break
+    }
+  }
+
+  return {
+    response: finalResponse,
+    conversationId,
+    toolCalls: toolCalls.length > 0 ? toolCalls : undefined
+  }
+}
+
+// Tool implementation stubs
+async function searchKnowledgeBase(query: string, category?: string) {
+  // Implementation would search vector database, docs, etc.
+  return {
+    results: [
+      {
+        title: 'How to track your order',
+        content: 'You can track your order using the order number...',
+        relevance: 0.95
+      }
+    ]
+  }
+}
+
+async function getOrderStatus(orderId: string, email: string) {
+  // Implementation would query orders API
+  return {
+    orderId,
+    status: 'shipped',
+    trackingNumber: 'TRACK123',
+    estimatedDelivery: '2025-10-05'
+  }
+}
+
+async function createSupportTicket(input: any) {
+  // Implementation would create ticket in support system
+  return {
+    ticketId: 'TICKET-123',
+    status: 'open',
+    message: 'Support ticket created successfully'
+  }
+}
+
+async function sendEmail(input: any) {
+  // Implementation would send email via Resend/SendGrid
+  return {
+    success: true,
+    messageId: 'msg-123'
+  }
+}
+\`\`\`
+
+## Usage Examples
+
+### Chat Interface
+
+\`\`\`typescript
+import { customerSupportAgent } from './agents/customer-support'
+
+// Handle user message
+app.post('/api/chat', async (req, res) => {
+  const { message, conversationId, customerId, customerEmail } = req.body
+
+  const result = await customerSupportAgent({
+    message,
+    conversationId: conversationId || generateId(),
+    customerId,
+    customerEmail
+  })
+
+  res.json({
+    response: result.response,
+    conversationId: result.conversationId
+  })
+})
+\`\`\`
+
+### Email Support
+
+\`\`\`typescript
+// Process incoming support emails
+app.post('/api/webhooks/inbound-email', async (req, res) => {
+  const { from, subject, body } = req.body
+
+  // Generate response
+  const result = await customerSupportAgent({
+    message: \`Subject: \${subject}\n\n\${body}\`,
+    conversationId: \`email-\${from}\`,
+    customerEmail: from
+  })
+
+  // Send response via email
+  await sendEmail({
+    to: from,
+    subject: \`Re: \${subject}\`,
+    body: result.response
+  })
+
+  res.json({ success: true })
+})
+\`\`\`
+
+### Slack Integration
+
+\`\`\`typescript
+// Handle Slack mentions
+app.post('/api/slack/events', async (req, res) => {
+  const { event } = req.body
+
+  if (event.type === 'app_mention') {
+    const result = await customerSupportAgent({
+      message: event.text.replace(/<@\w+>/, '').trim(),
+      conversationId: \`slack-\${event.channel}\`,
+    })
+
+    await slackClient.chat.postMessage({
+      channel: event.channel,
+      text: result.response
+    })
+  }
+
+  res.json({ ok: true })
+})
+\`\`\`
+
+## Interactive Demo
+
+Try asking the support agent:
+
+<div className="border rounded-lg p-4 space-y-4">
+  <div className="space-y-2">
+    <p className="font-semibold">Example Questions:</p>
+    <ul className="space-y-1 text-sm">
+      <li>• "What's the status of my order #12345?"</li>
+      <li>• "How do I return an item?"</li>
+      <li>• "I haven't received my order yet"</li>
+      <li>• "Can you help me reset my password?"</li>
+    </ul>
+  </div>
+
+  {/* This would be a live chat interface in production */}
+  <div className="bg-gray-50 rounded p-3 text-sm">
+    <p className="font-medium mb-2">Agent Response:</p>
+    <p>I'd be happy to help! Could you provide your order number and the email address used for the purchase so I can look up your order status?</p>
+  </div>
+</div>
+
+## Conversation Memory
+
+The agent maintains conversation context:
+
+\`\`\`typescript
+// First message
+await customerSupportAgent({
+  message: "I have a question about my order",
+  conversationId: "conv-123"
+})
+// Response: "I'd be happy to help with your order! Could you provide your order number?"
+
+// Follow-up (context is maintained)
+await customerSupportAgent({
+  message: "It's order #12345",
+  conversationId: "conv-123" // Same conversation ID
+})
+// Response: "Let me check the status of order #12345..."
+\`\`\`
+
+## PII Protection
+
+Sensitive data is automatically redacted:
+
+\`\`\`typescript
+const message = "My SSN is 123-45-6789 and card number is 4532-1234-5678-9010"
+
+// PII is redacted before being sent to the model
+const sanitized = redactPII(message)
+// "My SSN is [REDACTED] and card number is [REDACTED]"
+\`\`\`
+
+## Rate Limiting
+
+Prevent abuse with rate limiting:
+
+\`\`\`typescript
+const rateLimiter = new RateLimiter({
+  requests: 100,
+  window: 60 // seconds
+})
+
+app.post('/api/chat', rateLimiter.middleware(), async (req, res) => {
+  // Handle request
+})
+\`\`\`
+
+## Monitoring
+
+Track agent performance:
+
+\`\`\`typescript
+import { AgentAnalytics } from '@mdxld/agent'
+
+const analytics = await AgentAnalytics.getMetrics('customer-support', {
+  startDate: '2025-10-01',
+  endDate: '2025-10-02'
+})
+
+console.log(analytics)
+// {
+//   totalConversations: 1250,
+//   averageResponseTime: 1200, // ms
+//   toolUsage: {
+//     search_knowledge_base: 450,
+//     get_order_status: 320,
+//     create_ticket: 45,
+//     send_email: 180
+//   },
+//   satisfactionScore: 4.6,
+//   escalationRate: 0.036, // 3.6%
+//   resolutionRate: 0.89 // 89%
+// }
+\`\`\`
+
+## Testing
+
+\`\`\`typescript
+import { describe, test, expect, vi } from 'vitest'
+import { customerSupportAgent } from './customer-support'
+
+describe('Customer Support Agent', () => {
+  test('answers knowledge base questions', async () => {
+    const result = await customerSupportAgent({
+      message: 'How do I return an item?',
+      conversationId: 'test-1'
+    })
+
+    expect(result.response).toContain('return')
+    expect(result.toolCalls).toContain('search_knowledge_base')
+  })
+
+  test('tracks order status', async () => {
+    const result = await customerSupportAgent({
+      message: 'What\\'s the status of order #12345?',
+      conversationId: 'test-2',
+      customerEmail: 'test@example.com'
+    })
+
+    expect(result.toolCalls).toContain('get_order_status')
+    expect(result.response).toContain('status')
+  })
+
+  test('escalates complex issues', async () => {
+    const result = await customerSupportAgent({
+      message: 'I received the wrong item and need a refund immediately',
+      conversationId: 'test-3',
+      customerEmail: 'test@example.com'
+    })
+
+    expect(result.toolCalls).toContain('create_ticket')
+  })
+
+  test('maintains conversation context', async () => {
+    const convId = 'test-4'
+
+    await customerSupportAgent({
+      message: 'I have a question',
+      conversationId: convId
+    })
+
+    const result = await customerSupportAgent({
+      message: 'About my order',
+      conversationId: convId
+    })
+
+    expect(result.response).toBeDefined()
+  })
+})
+\`\`\`
+
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `ANTHROPIC_API_KEY` | Yes | Anthropic API key |
+| `SUPPORT_EMAIL` | Yes | Support team email |
+| `APP_URL` | Yes | Application URL |
+
+## Dependencies
+
+\`\`\`json
+{
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.0",
+    "@mdxld/agent": "^1.0.0"
+  }
+}
+\`\`\`
+
+## Related
+
+- [Tool: Search Knowledge Base](/examples/tools/search-knowledge-base)
+- [Function: Send Transactional Email](/examples/function)
+- [Workflow: Support Ticket](/examples/workflow-support-ticket)
+
+## License
+
+MIT - See [LICENSE](https://github.com/mdxld/mdxld/blob/main/LICENSE)

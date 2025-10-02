@@ -1,1 +1,248 @@
-# MDX
+# MDXLD - Linked Data for MDX
+
+**MDXLD** (MDX Linked Data) is a standard for embedding structured, machine-readable metadata into MDX documents using YAML-LD frontmatter. It combines the best of JSON-LD, YAML, Markdown, code, and React components into a single executable format.
+
+## What is MDXLD?
+
+MDXLD extends MDX with **YAML-LD frontmatter**, enabling you to:
+
+- ✅ **Describe entities** with Schema.org vocabulary
+- ✅ **Link data** across documents using `$id` and `$type`
+- ✅ **Embed code** (JavaScript/TypeScript imports/exports)
+- ✅ **Include components** (React/JSX for interactive content)
+- ✅ **Execute documents** as functions, workflows, or agents
+- ✅ **Validate schemas** with Zod/JSON Schema
+- ✅ **Query semantically** using SPARQL-like syntax
+
+## Format Structure
+
+An MDXLD document has four sections:
+
+```mdx
+---
+# 1. YAML-LD Frontmatter (structured metadata)
+$context: https://schema.org
+$type: Function
+$id: https://example.com/send-email
+title: Send Email
+description: Send transactional emails
+parameters:
+  - name: to
+    type: string
+  - name: subject
+    type: string
+---
+
+{/* 2. Markdown Content (human-readable documentation) */}
+# Send Email Function
+
+This function sends transactional emails using Resend API.
+
+## Usage
+
+```typescript
+// 3. Code (imports/exports)
+import { Resend } from 'resend'
+
+export async function sendEmail({ to, subject, body }) {
+  const resend = new Resend(process.env.RESEND_API_KEY)
+  return await resend.emails.send({
+    from: 'noreply@example.com',
+    to,
+    subject,
+    html: body
+  })
+}
+```
+
+{/* 4. Components (JSX for interactive UI) */}
+<EmailPreview to="user@example.com" subject="Welcome!" />
+```
+
+## Key Features
+
+### YAML-LD Frontmatter
+
+Use `$`-prefixed keywords for JSON-LD compatibility in YAML:
+
+- `$context` - JSON-LD context (Schema.org, custom vocabularies)
+- `$type` - Entity type (e.g., Function, Workflow, Component)
+- `$id` - Unique identifier (URL)
+- `$graph` - Embedded graph data
+
+### Schema.org Integration
+
+MDXLD provides TypeScript types for all Schema.org entities with `$`-prefix support:
+
+```typescript
+import { Function, Agent, Workflow } from 'mdxld'
+
+const myFunction: Function = {
+  $type: 'Function',
+  name: 'processData',
+  programmingLanguage: 'TypeScript'
+}
+```
+
+### Executable Documents
+
+MDXLD documents are not just documentation—they're **executable entities**:
+
+- **Functions** - Can be invoked directly
+- **Workflows** - Multi-step orchestrations
+- **Agents** - Autonomous AI workers
+- **Components** - Renderable UI elements
+- **APIs** - RESTful endpoints
+
+## Why MDXLD?
+
+### Traditional Approach (Separate Systems)
+
+```
+Documentation (Markdown)
+    ↓
+Code (TypeScript)
+    ↓
+Schema (JSON Schema)
+    ↓
+Metadata (JSON-LD)
+```
+
+**Problem**: Information scattered across multiple files and formats.
+
+### MDXLD Approach (Unified)
+
+```mdx
+---
+$type: Function
+name: processData
+schema: { ... }
+---
+
+# Documentation
+Code, metadata, and docs in ONE file
+```
+
+**Solution**: Everything in a single, executable MDXLD document.
+
+## Use Cases
+
+### 1. API Documentation
+Self-documenting APIs with executable examples:
+
+```mdx
+---
+$type: API
+$id: /api/users
+method: POST
+requestSchema: { ... }
+---
+
+# Create User API
+
+<APIPlayground endpoint="/api/users" method="POST" />
+```
+
+### 2. Component Libraries
+Document and render components together:
+
+```mdx
+---
+$type: Component
+framework: React
+propsSchema: { ... }
+---
+
+# Button Component
+
+<Button variant="primary">Click Me</Button>
+```
+
+### 3. AI Agents
+Define autonomous agents with capabilities:
+
+```mdx
+---
+$type: Agent
+role: Customer Support
+capabilities: [chat, email, knowledge-base]
+model: claude-3-5-sonnet
+---
+
+# Support Agent
+
+export default function supportAgent(message) { ... }
+```
+
+### 4. Workflows
+Multi-step processes with orchestration:
+
+```mdx
+---
+$type: Workflow
+trigger: webhook
+steps: [validate, process, notify]
+---
+
+# User Onboarding Workflow
+
+export const workflow = { ... }
+```
+
+## Getting Started
+
+```bash
+npm install mdxld
+```
+
+Then create your first MDXLD document:
+
+```mdx
+---
+$context: https://schema.org
+$type: Article
+title: My First MDXLD Document
+author:
+  $type: Person
+  name: John Doe
+---
+
+# Hello MDXLD!
+
+This is a self-describing article.
+```
+
+**Next Steps:**
+- [Specification](/spec) - Formal MDXLD standard
+- [Getting Started](/getting-started) - Quickstart guide
+- [Examples](/examples) - Real-world examples
+- [API Reference](/api) - TypeScript API docs
+
+## Ecosystem
+
+MDXLD is part of the broader MDX ecosystem:
+
+- **MDXLD** - This package (linked data + Schema.org)
+- **MDXDB** - Database abstraction for MDX files
+- **MDXAI** - AI-powered content generation
+- **MDXUI** - React component library
+- **MDXE** - Zero-config MDX development environment
+
+## Standards
+
+MDXLD builds on established standards:
+
+- **JSON-LD** - Linked data format (W3C)
+- **Schema.org** - Structured data vocabulary
+- **MDX** - Markdown + JSX (Unified)
+- **YAML** - Human-friendly data serialization
+
+## Community
+
+- **GitHub**: [github.com/mdxld/mdxld](https://github.com/mdxld/mdxld)
+- **Discord**: [Join the community](https://discord.gg/mdxld)
+- **Twitter**: [@mdxld](https://twitter.com/mdxld)
+
+## License
+
+MIT - Use MDXLD in any project, commercial or open source.

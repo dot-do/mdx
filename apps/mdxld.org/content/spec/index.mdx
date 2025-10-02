@@ -1,0 +1,798 @@
+# MDXLD Specification v1.0
+
+**Status**: Draft
+**Version**: 1.0.0
+**Date**: 2025-10-02
+**Organization**: MDXLD Working Group
+
+## Abstract
+
+MDXLD (MDX Linked Data) is a specification for embedding structured, machine-readable metadata into MDX documents using YAML-LD frontmatter. It combines JSON-LD semantics, YAML syntax, Markdown documentation, executable code, and React components into a unified format for describing and executing computational entities.
+
+## 1. Introduction
+
+### 1.1 Purpose
+
+MDXLD addresses the fragmentation of documentation, code, schemas, and metadata across multiple files and formats. It provides a single-file format that is:
+
+- **Human-readable** (Markdown documentation)
+- **Machine-readable** (YAML-LD structured data)
+- **Executable** (JavaScript/TypeScript code)
+- **Interactive** (React/JSX components)
+
+### 1.2 Design Goals
+
+1. **Unified Format**: Single file for docs, code, metadata, and UI
+2. **Standards-Based**: Built on JSON-LD, Schema.org, MDX, YAML
+3. **Type-Safe**: Full TypeScript support with Zod validation
+4. **Executable**: Documents can be invoked as functions, agents, workflows
+5. **Linked Data**: First-class support for semantic relationships
+6. **Developer-Friendly**: Familiar syntax (YAML, Markdown, JSX)
+
+### 1.3 Conformance
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in RFC 2119.
+
+## 2. Document Structure
+
+An MDXLD document consists of four sections in the following order:
+
+```
+┌─────────────────────────────┐
+│  1. YAML-LD Frontmatter     │ ← Structured metadata
+├─────────────────────────────┤
+│  2. Markdown Content        │ ← Human documentation
+├─────────────────────────────┤
+│  3. Code (imports/exports)  │ ← Executable code
+├─────────────────────────────┤
+│  4. Components (JSX)        │ ← Interactive UI
+└─────────────────────────────┘
+```
+
+### 2.1 YAML-LD Frontmatter (REQUIRED)
+
+Every MDXLD document MUST begin with YAML-LD frontmatter delimited by `---`:
+
+```yaml
+---
+$context: https://schema.org
+$type: Function
+$id: https://example.com/entities/my-function
+title: My Function
+description: A brief description
+---
+```
+
+**Requirements:**
+- MUST be valid YAML
+- MUST be the first element in the document
+- MUST include at least `$type` field
+- SHOULD include `$context`, `$id`, `title`, and `description`
+
+### 2.2 Markdown Content (OPTIONAL)
+
+After frontmatter, Markdown content provides human-readable documentation:
+
+```markdown
+# Function Name
+
+This function does something useful.
+
+## Usage
+
+Describe how to use the function.
+```
+
+**Requirements:**
+- MUST be valid CommonMark Markdown
+- MAY include fenced code blocks
+- MAY include inline HTML
+- MAY include JSX comment blocks (`{/* ... */}`)
+
+### 2.3 Code Section (OPTIONAL)
+
+Code sections contain JavaScript/TypeScript imports and exports:
+
+```typescript
+import { helper } from './utils'
+
+export async function myFunction(input: string) {
+  return helper(input)
+}
+```
+
+**Requirements:**
+- MUST be valid JavaScript or TypeScript
+- MAY include import statements
+- SHOULD export at least one named or default export
+- SHOULD align with metadata in frontmatter
+
+### 2.4 Component Section (OPTIONAL)
+
+JSX components provide interactive UI:
+
+```jsx
+<FunctionPreview function={myFunction} />
+<ApiPlayground endpoint="/api/my-function" />
+```
+
+**Requirements:**
+- MUST be valid JSX
+- MUST be renderable by React or compatible runtime
+- MAY reference imported components
+- MAY use frontmatter data via props
+
+## 3. YAML-LD Frontmatter Specification
+
+### 3.1 JSON-LD Keywords
+
+MDXLD uses `$`-prefixed keywords for JSON-LD compatibility with YAML:
+
+| MDXLD Keyword | JSON-LD Equivalent | Description |
+|---------------|-------------------|-------------|
+| `$context` | `@context` | JSON-LD context (vocabulary definitions) |
+| `$id` | `@id` | Unique identifier (IRI/URL) |
+| `$type` | `@type` | Entity type from vocabulary |
+| `$graph` | `@graph` | Embedded graph data |
+| `$value` | `@value` | Value in a value object |
+| `$language` | `@language` | Language tag |
+
+**Rationale**: YAML does not allow `@` in unquoted keys. Using `$` provides cleaner syntax while maintaining JSON-LD semantics.
+
+### 3.2 Context (`$context`)
+
+The `$context` field defines vocabularies used in the document:
+
+**Simple context (Schema.org):**
+```yaml
+$context: https://schema.org
+```
+
+**Multiple contexts:**
+```yaml
+$context:
+  - https://schema.org
+  - https://mdxld.org/context.jsonld
+```
+
+**Inline context:**
+```yaml
+$context:
+  "@vocab": "https://schema.org/"
+  "mdxld": "https://mdxld.org/vocab#"
+  "Component": "mdxld:Component"
+```
+
+**Requirements:**
+- SHOULD reference Schema.org context
+- MAY reference custom context files
+- MAY define inline context mappings
+- MUST be a valid JSON-LD context
+
+### 3.3 Type (`$type`)
+
+The `$type` field specifies the entity type:
+
+```yaml
+$type: Function
+```
+
+**Multiple types:**
+```yaml
+$type:
+  - Function
+  - SoftwareSourceCode
+```
+
+**Requirements:**
+- MUST be defined in `$context`
+- SHOULD use Schema.org types when applicable
+- MAY use custom types from MDXLD or domain vocabularies
+
+### 3.4 Identifier (`$id`)
+
+The `$id` field provides a unique identifier (IRI):
+
+```yaml
+$id: https://example.com/functions/send-email
+```
+
+**Requirements:**
+- SHOULD be a valid URL
+- SHOULD be globally unique
+- SHOULD be dereferenceable (return the MDXLD document)
+- SHOULD use HTTPS scheme
+
+### 3.5 Properties
+
+Additional properties depend on the `$type`:
+
+**For Schema.org types:**
+```yaml
+$type: Person
+name: John Doe
+jobTitle: Software Engineer
+email: john@example.com
+```
+
+**For custom types:**
+```yaml
+$type: Function
+name: processData
+programmingLanguage: TypeScript
+parameters:
+  - name: input
+    type: string
+    required: true
+```
+
+**Requirements:**
+- MUST conform to the type's schema
+- SHOULD use camelCase for property names
+- MAY nest objects and arrays
+- MAY reference other entities via `$id`
+
+## 4. Entity Types
+
+### 4.1 Core Types
+
+MDXLD defines additional types beyond Schema.org:
+
+#### 4.1.1 Function
+
+Represents an executable function:
+
+```yaml
+---
+$type: Function
+$id: https://example.com/send-email
+name: sendEmail
+description: Send transactional emails
+programmingLanguage: TypeScript
+parameters:
+  - name: to
+    type: string
+    required: true
+  - name: subject
+    type: string
+  - name: body
+    type: string
+returnType: Promise<{ id: string }>
+---
+```
+
+**Properties:**
+- `name` (string, required) - Function name
+- `programmingLanguage` (string) - Language (e.g., TypeScript)
+- `parameters` (array) - Input parameters
+- `returnType` (string) - Return value type
+- `async` (boolean) - Whether function is async
+
+#### 4.1.2 Component
+
+Represents a UI component:
+
+```yaml
+---
+$type: Component
+$id: https://example.com/components/button
+name: Button
+framework: React
+propsSchema:
+  type: object
+  properties:
+    variant:
+      type: string
+      enum: [primary, secondary]
+    children:
+      type: string
+---
+```
+
+**Properties:**
+- `name` (string, required) - Component name
+- `framework` (string) - UI framework (React, Vue, Svelte)
+- `propsSchema` (object) - JSON Schema for props
+- `category` (string) - Component category
+
+#### 4.1.3 Workflow
+
+Represents a multi-step process:
+
+```yaml
+---
+$type: Workflow
+$id: https://example.com/workflows/user-onboarding
+name: User Onboarding
+trigger:
+  type: webhook
+  event: user.created
+steps:
+  - name: Send welcome email
+    function: sendEmail
+    inputs:
+      to: "{{user.email}}"
+  - name: Create profile
+    function: createProfile
+  - name: Notify team
+    function: notifySlack
+---
+```
+
+**Properties:**
+- `name` (string, required) - Workflow name
+- `trigger` (object) - How workflow starts
+- `steps` (array, required) - Sequence of steps
+- `concurrency` (string) - Execution model (sequential, parallel)
+
+#### 4.1.4 Agent
+
+Represents an AI agent:
+
+```yaml
+---
+$type: Agent
+$id: https://example.com/agents/support
+name: Support Agent
+role: Customer support specialist
+model: claude-3-5-sonnet
+capabilities:
+  - chat
+  - email
+  - knowledge-base
+systemPrompt: |
+  You are a helpful customer support agent...
+tools:
+  - search_docs
+  - create_ticket
+---
+```
+
+**Properties:**
+- `name` (string, required) - Agent name
+- `role` (string) - Agent's role/persona
+- `model` (string) - LLM model identifier
+- `capabilities` (array) - What agent can do
+- `systemPrompt` (string) - Initial instructions
+- `tools` (array) - Available tool functions
+
+#### 4.1.5 API
+
+Represents a web API endpoint:
+
+```yaml
+---
+$type: API
+$id: https://api.example.com/users
+name: Create User
+endpointURL: /api/users
+httpMethod: POST
+requestSchema:
+  type: object
+  properties:
+    name:
+      type: string
+    email:
+      type: string
+      format: email
+responseSchema:
+  type: object
+  properties:
+    id:
+      type: string
+    created:
+      type: boolean
+---
+```
+
+**Properties:**
+- `endpointURL` (string, required) - API path
+- `httpMethod` (string) - HTTP verb (GET, POST, etc.)
+- `requestSchema` (object) - JSON Schema for request
+- `responseSchema` (object) - JSON Schema for response
+- `requiresAuth` (boolean) - Whether auth is required
+
+### 4.2 Schema.org Types
+
+All Schema.org types are supported:
+
+- `Article` - Blog posts, news articles
+- `Person` - People, authors, users
+- `Organization` - Companies, teams
+- `Product` - Physical or digital products
+- `Event` - Scheduled events
+- `Place` - Geographic locations
+- `CreativeWork` - Any creative work
+- And 800+ more...
+
+Full list: https://schema.org/docs/full.html
+
+## 5. Validation
+
+### 5.1 Schema Validation
+
+MDXLD documents SHOULD be validated against their type's schema:
+
+**Using Zod:**
+```typescript
+import { z } from 'zod'
+import { parse } from 'mdxld'
+
+const functionSchema = z.object({
+  $type: z.literal('Function'),
+  name: z.string(),
+  parameters: z.array(z.object({
+    name: z.string(),
+    type: z.string(),
+    required: z.boolean().default(false)
+  }))
+})
+
+const doc = await parse('function.mdx')
+functionSchema.parse(doc.frontmatter)
+```
+
+**Using JSON Schema:**
+```typescript
+import Ajv from 'ajv'
+import { parse } from 'mdxld'
+
+const ajv = new Ajv()
+const validate = ajv.compile(functionSchema)
+
+const doc = await parse('function.mdx')
+validate(doc.frontmatter)
+```
+
+### 5.2 Required Fields
+
+All MDXLD documents MUST include:
+- `$type` - Entity type
+
+SHOULD include:
+- `$context` - Vocabulary context
+- `$id` - Unique identifier
+- `title` or `name` - Human-readable name
+- `description` - Brief description
+
+### 5.3 Validation Errors
+
+Implementations SHOULD report:
+- Missing required fields
+- Type mismatches
+- Invalid property names
+- Malformed YAML
+- Invalid JSON-LD context
+
+## 6. Execution Model
+
+### 6.1 Invocation
+
+MDXLD documents with `$type: Function` MAY be invoked:
+
+```typescript
+import { invoke } from 'mdxld'
+
+const result = await invoke('send-email.mdx', {
+  to: 'user@example.com',
+  subject: 'Welcome!'
+})
+```
+
+**Process:**
+1. Parse MDXLD document
+2. Validate frontmatter
+3. Execute exported function
+4. Return result
+
+### 6.2 Rendering
+
+MDXLD documents with components MAY be rendered:
+
+```typescript
+import { render } from 'mdxld'
+
+const Component = await render('button.mdx')
+<Component variant="primary">Click Me</Component>
+```
+
+**Process:**
+1. Parse MDXLD document
+2. Compile MDX to JSX
+3. Return renderable component
+
+### 6.3 Workflows
+
+MDXLD documents with `$type: Workflow` MAY be executed as orchestrations:
+
+```typescript
+import { executeWorkflow } from 'mdxld'
+
+await executeWorkflow('onboarding.mdx', {
+  user: { email: 'new@example.com' }
+})
+```
+
+**Process:**
+1. Parse workflow document
+2. Validate steps
+3. Execute each step in order (or parallel)
+4. Handle errors and retries
+
+## 7. Interoperability
+
+### 7.1 JSON-LD Export
+
+MDXLD frontmatter MUST be exportable as valid JSON-LD:
+
+```typescript
+import { toJSONLD } from 'mdxld'
+
+const jsonld = toJSONLD('document.mdx')
+console.log(JSON.stringify(jsonld, null, 2))
+```
+
+**Output:**
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Function",
+  "@id": "https://example.com/my-function",
+  "name": "myFunction",
+  "description": "..."
+}
+```
+
+### 7.2 RDF Triples
+
+Frontmatter MAY be converted to RDF triples:
+
+```typescript
+import { toRDF } from 'mdxld'
+
+const triples = toRDF('document.mdx')
+// Subject, Predicate, Object format
+```
+
+### 7.3 SPARQL Queries
+
+Collections of MDXLD documents MAY be queried with SPARQL:
+
+```sparql
+PREFIX schema: <https://schema.org/>
+PREFIX mdxld: <https://mdxld.org/vocab#>
+
+SELECT ?function ?name
+WHERE {
+  ?function a mdxld:Function ;
+           schema:programmingLanguage "TypeScript" ;
+           schema:name ?name .
+}
+```
+
+## 8. Security Considerations
+
+### 8.1 Code Execution
+
+Executing MDXLD documents involves running untrusted code. Implementations SHOULD:
+
+- **Sandbox execution** - Use VM, worker threads, or containers
+- **Validate inputs** - Check all parameters before execution
+- **Rate limit** - Prevent resource exhaustion
+- **Timeout** - Limit execution time
+- **Permissions** - Require explicit grants for file/network access
+
+### 8.2 XSS Prevention
+
+Rendering MDXLD components in browsers requires XSS prevention:
+
+- **Sanitize user input** - Clean all user-provided data
+- **CSP headers** - Set restrictive Content-Security-Policy
+- **Trusted sources only** - Only render from known origins
+
+### 8.3 Data Privacy
+
+MDXLD documents MAY contain sensitive information:
+
+- **Access control** - Restrict who can read documents
+- **Encryption** - Encrypt at rest and in transit
+- **PII redaction** - Remove personal data before sharing
+
+## 9. Best Practices
+
+### 9.1 File Naming
+
+- Use kebab-case: `send-email.mdx`
+- Match function name: `sendEmail.mdx` → `sendEmail()`
+- Descriptive names: `create-user-account.mdx`
+
+### 9.2 Directory Structure
+
+Organize by entity type:
+
+```
+entities/
+├── functions/
+│   ├── send-email.mdx
+│   └── process-payment.mdx
+├── workflows/
+│   └── user-onboarding.mdx
+├── agents/
+│   └── support-agent.mdx
+└── components/
+    └── button.mdx
+```
+
+### 9.3 Versioning
+
+Include version in `$id`:
+
+```yaml
+$id: https://example.com/send-email/v2
+version: "2.0.0"
+```
+
+### 9.4 Documentation
+
+- Write clear Markdown documentation
+- Include usage examples
+- Document all parameters
+- Explain return values
+- Provide error examples
+
+## 10. Extensibility
+
+### 10.1 Custom Types
+
+Define custom types in context:
+
+```yaml
+---
+$context:
+  "@vocab": "https://schema.org/"
+  "MyCustomType": "https://example.com/types#CustomType"
+$type: MyCustomType
+customProperty: value
+---
+```
+
+### 10.2 Custom Properties
+
+Add domain-specific properties:
+
+```yaml
+---
+$context: https://schema.org
+$type: Function
+name: myFunction
+
+# Custom properties
+internal:security: high
+internal:team: platform
+---
+```
+
+### 10.3 Plugins
+
+Extend MDXLD with plugins:
+
+```typescript
+import { MDXLD } from 'mdxld'
+
+const mdxld = new MDXLD({
+  plugins: [
+    myValidationPlugin,
+    myTransformPlugin
+  ]
+})
+```
+
+## 11. References
+
+- **JSON-LD**: https://json-ld.org/spec/latest/json-ld/
+- **Schema.org**: https://schema.org
+- **MDX**: https://mdxjs.com
+- **YAML**: https://yaml.org/spec/1.2/spec.html
+- **CommonMark**: https://commonmark.org
+- **RFC 2119**: https://www.rfc-editor.org/rfc/rfc2119
+
+## Appendix A: Complete Example
+
+```mdx
+---
+$context: https://schema.org
+$type: Function
+$id: https://example.com/functions/send-email/v1
+name: sendEmail
+description: Send transactional emails via Resend API
+programmingLanguage: TypeScript
+version: "1.0.0"
+parameters:
+  - name: to
+    type: string
+    description: Recipient email address
+    required: true
+  - name: subject
+    type: string
+    description: Email subject line
+    required: true
+  - name: body
+    type: string
+    description: HTML email body
+    required: true
+returnType: Promise<{ id: string; status: string }>
+author:
+  $type: Organization
+  name: MDXLD
+  url: https://mdxld.org
+license: MIT
+---
+
+# Send Email Function
+
+Send transactional emails using the Resend API.
+
+## Installation
+
+```bash
+npm install resend
+```
+
+## Environment Variables
+
+- `RESEND_API_KEY` - Your Resend API key
+
+## Usage
+
+```typescript
+const result = await sendEmail({
+  to: 'user@example.com',
+  subject: 'Welcome to our service!',
+  body: '<h1>Welcome!</h1><p>Thanks for signing up.</p>'
+})
+```
+
+## Implementation
+
+```typescript
+import { Resend } from 'resend'
+
+export async function sendEmail({
+  to,
+  subject,
+  body
+}: {
+  to: string
+  subject: string
+  body: string
+}) {
+  const resend = new Resend(process.env.RESEND_API_KEY)
+
+  const result = await resend.emails.send({
+    from: 'noreply@example.com',
+    to,
+    subject,
+    html: body
+  })
+
+  return {
+    id: result.id,
+    status: 'sent'
+  }
+}
+```
+
+## Interactive Demo
+
+<EmailPreview
+  to="demo@example.com"
+  subject="Test Email"
+  body="<p>This is a test</p>"
+/>
+```
+
+---
+
+**Specification Status**: Draft
+**Last Updated**: 2025-10-02
+**Feedback**: https://github.com/mdxld/mdxld/issues

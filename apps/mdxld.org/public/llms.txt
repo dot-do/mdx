@@ -1,0 +1,6540 @@
+# MDXLD (MDX Linked Data) - Complete Documentation
+
+> This file contains the complete MDXLD documentation optimized for Large Language Model consumption.
+> Source: https://mdxld.org
+> GitHub: https://github.com/mdxld/mdxld
+> Generated: $(date +%Y-%m-%d)
+> Format: Markdown
+
+================================================================================
+TABLE OF CONTENTS
+================================================================================
+
+1. Introduction - What is MDXLD?
+2. Getting Started - Installation and first document
+3. Specification - Formal MDXLD standard v1.0
+4. API Reference - TypeScript API documentation
+5. Examples Index - Overview of all examples
+6. Function Example - Executable code with inputs/outputs
+7. Component Example - React UI components
+8. Workflow Example - Multi-step orchestrations
+9. Agent Example - AI agents with tools
+10. API Example - RESTful endpoints
+11. Integrations - Framework integration guides
+12. JSON-LD Context - Vocabulary definitions
+
+================================================================================
+
+# MDXLD - Linked Data for MDX
+
+**MDXLD** (MDX Linked Data) is a standard for embedding structured, machine-readable metadata into MDX documents using YAML-LD frontmatter. It combines the best of JSON-LD, YAML, Markdown, code, and React components into a single executable format.
+
+## What is MDXLD?
+
+MDXLD extends MDX with **YAML-LD frontmatter**, enabling you to:
+
+- ✅ **Describe entities** with Schema.org vocabulary
+- ✅ **Link data** across documents using `$id` and `$type`
+- ✅ **Embed code** (JavaScript/TypeScript imports/exports)
+- ✅ **Include components** (React/JSX for interactive content)
+- ✅ **Execute documents** as functions, workflows, or agents
+- ✅ **Validate schemas** with Zod/JSON Schema
+- ✅ **Query semantically** using SPARQL-like syntax
+
+## Format Structure
+
+An MDXLD document has four sections:
+
+```mdx
+---
+# 1. YAML-LD Frontmatter (structured metadata)
+$context: https://schema.org
+$type: Function
+$id: https://example.com/send-email
+title: Send Email
+description: Send transactional emails
+parameters:
+  - name: to
+    type: string
+  - name: subject
+    type: string
+---
+
+{/* 2. Markdown Content (human-readable documentation) */}
+# Send Email Function
+
+This function sends transactional emails using Resend API.
+
+## Usage
+
+```typescript
+// 3. Code (imports/exports)
+import { Resend } from 'resend'
+
+export async function sendEmail({ to, subject, body }) {
+  const resend = new Resend(process.env.RESEND_API_KEY)
+  return await resend.emails.send({
+    from: 'noreply@example.com',
+    to,
+    subject,
+    html: body
+  })
+}
+```
+
+{/* 4. Components (JSX for interactive UI) */}
+<EmailPreview to="user@example.com" subject="Welcome!" />
+```
+
+## Key Features
+
+### YAML-LD Frontmatter
+
+Use `$`-prefixed keywords for JSON-LD compatibility in YAML:
+
+- `$context` - JSON-LD context (Schema.org, custom vocabularies)
+- `$type` - Entity type (e.g., Function, Workflow, Component)
+- `$id` - Unique identifier (URL)
+- `$graph` - Embedded graph data
+
+### Schema.org Integration
+
+MDXLD provides TypeScript types for all Schema.org entities with `$`-prefix support:
+
+```typescript
+import { Function, Agent, Workflow } from 'mdxld'
+
+const myFunction: Function = {
+  $type: 'Function',
+  name: 'processData',
+  programmingLanguage: 'TypeScript'
+}
+```
+
+### Executable Documents
+
+MDXLD documents are not just documentation—they're **executable entities**:
+
+- **Functions** - Can be invoked directly
+- **Workflows** - Multi-step orchestrations
+- **Agents** - Autonomous AI workers
+- **Components** - Renderable UI elements
+- **APIs** - RESTful endpoints
+
+## Why MDXLD?
+
+### Traditional Approach (Separate Systems)
+
+```
+Documentation (Markdown)
+    ↓
+Code (TypeScript)
+    ↓
+Schema (JSON Schema)
+    ↓
+Metadata (JSON-LD)
+```
+
+**Problem**: Information scattered across multiple files and formats.
+
+### MDXLD Approach (Unified)
+
+```mdx
+---
+$type: Function
+name: processData
+schema: { ... }
+---
+
+# Documentation
+Code, metadata, and docs in ONE file
+```
+
+**Solution**: Everything in a single, executable MDXLD document.
+
+## Use Cases
+
+### 1. API Documentation
+Self-documenting APIs with executable examples:
+
+```mdx
+---
+$type: API
+$id: /api/users
+method: POST
+requestSchema: { ... }
+---
+
+# Create User API
+
+<APIPlayground endpoint="/api/users" method="POST" />
+```
+
+### 2. Component Libraries
+Document and render components together:
+
+```mdx
+---
+$type: Component
+framework: React
+propsSchema: { ... }
+---
+
+# Button Component
+
+<Button variant="primary">Click Me</Button>
+```
+
+### 3. AI Agents
+Define autonomous agents with capabilities:
+
+```mdx
+---
+$type: Agent
+role: Customer Support
+capabilities: [chat, email, knowledge-base]
+model: claude-3-5-sonnet
+---
+
+# Support Agent
+
+export default function supportAgent(message) { ... }
+```
+
+### 4. Workflows
+Multi-step processes with orchestration:
+
+```mdx
+---
+$type: Workflow
+trigger: webhook
+steps: [validate, process, notify]
+---
+
+# User Onboarding Workflow
+
+export const workflow = { ... }
+```
+
+## Getting Started
+
+```bash
+npm install mdxld
+```
+
+Then create your first MDXLD document:
+
+```mdx
+---
+$context: https://schema.org
+$type: Article
+title: My First MDXLD Document
+author:
+  $type: Person
+  name: John Doe
+---
+
+# Hello MDXLD!
+
+This is a self-describing article.
+```
+
+**Next Steps:**
+- [Specification](/spec) - Formal MDXLD standard
+- [Getting Started](/getting-started) - Quickstart guide
+- [Examples](/examples) - Real-world examples
+- [API Reference](/api) - TypeScript API docs
+
+## Ecosystem
+
+MDXLD is part of the broader MDX ecosystem:
+
+- **MDXLD** - This package (linked data + Schema.org)
+- **MDXDB** - Database abstraction for MDX files
+- **MDXAI** - AI-powered content generation
+- **MDXUI** - React component library
+- **MDXE** - Zero-config MDX development environment
+
+## Standards
+
+MDXLD builds on established standards:
+
+- **JSON-LD** - Linked data format (W3C)
+- **Schema.org** - Structured data vocabulary
+- **MDX** - Markdown + JSX (Unified)
+- **YAML** - Human-friendly data serialization
+
+## Community
+
+- **GitHub**: [github.com/mdxld/mdxld](https://github.com/mdxld/mdxld)
+- **Discord**: [Join the community](https://discord.gg/mdxld)
+- **Twitter**: [@mdxld](https://twitter.com/mdxld)
+
+## License
+
+MIT - Use MDXLD in any project, commercial or open source.
+# Getting Started with MDXLD
+
+This guide will help you create your first MDXLD document and understand the core concepts.
+
+## Installation
+
+```bash
+npm install mdxld
+# or
+pnpm add mdxld
+# or
+yarn add mdxld
+```
+
+## Your First MDXLD Document
+
+Create a file called `hello.mdx`:
+
+```mdx
+---
+$context: https://schema.org
+$type: Article
+$id: https://example.com/articles/hello-mdxld
+title: Hello MDXLD!
+author:
+  $type: Person
+  name: Your Name
+  email: you@example.com
+datePublished: 2025-10-02
+keywords: [mdxld, getting-started, linked-data]
+---
+
+# Hello MDXLD!
+
+This is your first **MDXLD document**. It combines:
+
+1. **Structured metadata** (YAML-LD frontmatter)
+2. **Rich content** (Markdown)
+3. **Executable code** (JavaScript/TypeScript)
+4. **Interactive UI** (React components)
+
+## Why MDXLD?
+
+MDXLD makes your content machine-readable while keeping it human-friendly.
+
+```typescript
+// You can include code directly in the document
+export function greet(name: string) {
+  return `Hello, ${name}!`
+}
+```
+
+{/* And use React components */}
+<div className="callout">
+  <strong>Tip:</strong> MDXLD documents are executable!
+</div>
+```
+
+## Core Concepts
+
+### 1. YAML-LD Frontmatter
+
+The frontmatter uses YAML-LD syntax (JSON-LD with `$` prefix for keywords):
+
+```yaml
+---
+$context: https://schema.org          # Vocabulary definition
+$type: Article                        # Entity type
+$id: https://example.com/my-article   # Unique identifier
+title: My Article
+description: A great article
+---
+```
+
+**Required fields:**
+- `$context` - Vocabulary URL or inline context
+- `$type` - Entity type (from Schema.org or custom vocabulary)
+
+**Common fields:**
+- `$id` - Unique identifier (URL)
+- `title` - Display name
+- `description` - Brief description
+- `author` - Creator (can be nested object)
+- `dateCreated`, `dateModified`, `datePublished` - Timestamps
+- `keywords` or `tags` - Categorization
+
+### 2. MDXLD Entity Types
+
+MDXLD provides AI-native entity types extending Schema.org:
+
+#### Function
+
+Executable code with inputs and outputs:
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Function
+$id: https://example.com/functions/send-email
+title: Send Email
+programmingLanguage: TypeScript
+parameters:
+  - name: to
+    type: string
+    required: true
+  - name: subject
+    type: string
+    required: true
+  - name: body
+    type: string
+    required: true
+returnType: Promise<EmailResponse>
+---
+
+# Send Email Function
+
+Send transactional emails using Resend API.
+
+```typescript
+import { Resend } from 'resend'
+
+export async function sendEmail({ to, subject, body }) {
+  const resend = new Resend(process.env.RESEND_API_KEY)
+
+  return await resend.emails.send({
+    from: 'noreply@example.com',
+    to,
+    subject,
+    html: body
+  })
+}
+```
+```
+
+#### Component
+
+React/UI components with props:
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Component
+$id: https://example.com/components/button
+title: Button Component
+framework: React
+propsSchema:
+  type: object
+  properties:
+    variant:
+      type: string
+      enum: [primary, secondary, danger]
+    children:
+      type: string
+    onClick:
+      type: function
+---
+
+# Button Component
+
+A reusable button with variants.
+
+```tsx
+import { type ButtonHTMLAttributes } from 'react'
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'danger'
+}
+
+export function Button({ variant = 'primary', children, ...props }: ButtonProps) {
+  const baseStyles = 'px-4 py-2 rounded font-medium'
+  const variantStyles = {
+    primary: 'bg-blue-600 text-white hover:bg-blue-700',
+    secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300',
+    danger: 'bg-red-600 text-white hover:bg-red-700'
+  }
+
+  return (
+    <button className={`${baseStyles} ${variantStyles[variant]}`} {...props}>
+      {children}
+    </button>
+  )
+}
+```
+```
+
+#### Workflow
+
+Multi-step orchestrations:
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Workflow
+$id: https://example.com/workflows/user-onboarding
+title: User Onboarding Workflow
+trigger:
+  type: webhook
+  event: user.created
+steps:
+  - id: send-welcome-email
+    type: function
+    function: https://example.com/functions/send-email
+  - id: create-stripe-customer
+    type: api-call
+    endpoint: https://api.stripe.com/v1/customers
+  - id: add-to-mailing-list
+    type: function
+    function: https://example.com/functions/add-to-mailchimp
+---
+
+# User Onboarding Workflow
+
+Automated workflow triggered when a new user signs up.
+
+## Flow
+
+1. **Send Welcome Email** - Send personalized welcome message
+2. **Create Stripe Customer** - Set up billing account
+3. **Add to Mailing List** - Subscribe to newsletter
+
+```typescript
+export const workflow = {
+  trigger: 'user.created',
+  steps: [
+    {
+      id: 'send-welcome-email',
+      run: async (user) => {
+        return await sendEmail({
+          to: user.email,
+          subject: 'Welcome to our platform!',
+          body: `Hi ${user.name}, welcome!`
+        })
+      }
+    },
+    {
+      id: 'create-stripe-customer',
+      run: async (user) => {
+        return await stripe.customers.create({
+          email: user.email,
+          name: user.name
+        })
+      }
+    },
+    {
+      id: 'add-to-mailing-list',
+      run: async (user) => {
+        return await addToMailchimp(user.email)
+      }
+    }
+  ]
+}
+```
+```
+
+#### Agent
+
+Autonomous AI agents:
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Agent
+$id: https://example.com/agents/support
+title: Customer Support Agent
+role: Customer Support Specialist
+model: claude-3-5-sonnet-20250929
+capabilities:
+  - chat
+  - email
+  - knowledge-base
+tools:
+  - https://example.com/tools/search-docs
+  - https://example.com/tools/create-ticket
+  - https://example.com/tools/check-order-status
+systemPrompt: You are a helpful customer support agent...
+temperature: 0.7
+maxTokens: 2000
+---
+
+# Customer Support Agent
+
+AI-powered support agent that helps customers with questions.
+
+```typescript
+import { Anthropic } from '@anthropic-ai/sdk'
+
+export async function supportAgent(message: string) {
+  const anthropic = new Anthropic({
+    apiKey: process.env.ANTHROPIC_API_KEY
+  })
+
+  const response = await anthropic.messages.create({
+    model: 'claude-3-5-sonnet-20250929',
+    max_tokens: 2000,
+    system: 'You are a helpful customer support agent...',
+    messages: [{ role: 'user', content: message }],
+    tools: [
+      {
+        name: 'search_docs',
+        description: 'Search documentation',
+        input_schema: {
+          type: 'object',
+          properties: {
+            query: { type: 'string' }
+          }
+        }
+      }
+    ]
+  })
+
+  return response.content
+}
+```
+```
+
+### 3. Schema.org Integration
+
+MDXLD fully supports all 800+ Schema.org types:
+
+```mdx
+---
+$context: https://schema.org
+$type: SoftwareApplication
+$id: https://example.com/apps/my-app
+name: My Application
+applicationCategory: ProductivityApplication
+operatingSystem: Web
+offers:
+  $type: Offer
+  price: "9.99"
+  priceCurrency: USD
+aggregateRating:
+  $type: AggregateRating
+  ratingValue: 4.5
+  reviewCount: 1250
+---
+
+# My Application
+
+A productivity app that helps you get things done.
+```
+
+## Parsing MDXLD Documents
+
+### Node.js/TypeScript
+
+```typescript
+import { parse } from 'mdxld'
+import { readFile } from 'fs/promises'
+
+// Parse MDXLD file
+const source = await readFile('hello.mdx', 'utf-8')
+const document = await parse(source)
+
+console.log(document.frontmatter.$type)  // 'Article'
+console.log(document.frontmatter.title)  // 'Hello MDXLD!'
+console.log(document.content)            // Markdown content
+console.log(document.code)               // Extracted code
+```
+
+### Validation with Zod
+
+```typescript
+import { parse, validate } from 'mdxld'
+import { z } from 'zod'
+
+const FunctionSchema = z.object({
+  $type: z.literal('Function'),
+  title: z.string(),
+  programmingLanguage: z.string(),
+  parameters: z.array(z.object({
+    name: z.string(),
+    type: z.string(),
+    required: z.boolean().optional()
+  }))
+})
+
+const doc = await parse(source)
+const result = validate(doc.frontmatter, FunctionSchema)
+
+if (result.success) {
+  console.log('Valid function definition!')
+} else {
+  console.error('Validation errors:', result.error)
+}
+```
+
+### Runtime Execution
+
+```typescript
+import { execute } from 'mdxld'
+
+// Execute MDXLD document as function
+const result = await execute('send-email.mdx', {
+  to: 'user@example.com',
+  subject: 'Test',
+  body: 'Hello!'
+})
+
+console.log(result) // EmailResponse
+```
+
+## Framework Integration
+
+### Next.js
+
+```typescript
+// next.config.js
+import mdx from '@next/mdx'
+import { mdxldRemarkPlugin, mdxldRehypePlugin } from 'mdxld/plugins'
+
+const withMDX = mdx({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [mdxldRemarkPlugin],
+    rehypePlugins: [mdxldRehypePlugin]
+  }
+})
+
+export default withMDX({
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx']
+})
+```
+
+### Vite
+
+```typescript
+// vite.config.ts
+import { defineConfig } from 'vite'
+import mdx from '@mdx-js/rollup'
+import { mdxldPlugin } from 'mdxld/vite'
+
+export default defineConfig({
+  plugins: [
+    mdx(),
+    mdxldPlugin()
+  ]
+})
+```
+
+### Astro
+
+```typescript
+// astro.config.mjs
+import { defineConfig } from 'astro/config'
+import mdx from '@astrojs/mdx'
+import { mdxldIntegration } from 'mdxld/astro'
+
+export default defineConfig({
+  integrations: [
+    mdx(),
+    mdxldIntegration()
+  ]
+})
+```
+
+## Querying with SPARQL
+
+Convert MDXLD to RDF triples and query with SPARQL:
+
+```typescript
+import { toRDF, query } from 'mdxld'
+
+// Convert to RDF
+const doc = await parse('hello.mdx')
+const triples = toRDF(doc)
+
+// SPARQL query
+const results = await query(triples, `
+  SELECT ?title ?author WHERE {
+    ?article a schema:Article .
+    ?article schema:name ?title .
+    ?article schema:author ?person .
+    ?person schema:name ?author .
+  }
+`)
+
+console.log(results)
+// [{ title: 'Hello MDXLD!', author: 'Your Name' }]
+```
+
+## Best Practices
+
+### 1. Use Meaningful IDs
+
+Always provide a unique `$id` for your documents:
+
+```yaml
+# Good
+$id: https://example.com/articles/hello-mdxld
+
+# Avoid
+$id: doc-123
+```
+
+### 2. Choose the Right Type
+
+Use the most specific Schema.org type available:
+
+```yaml
+# Good - specific type
+$type: TechArticle
+
+# Less specific
+$type: Article
+
+# Too generic
+$type: CreativeWork
+```
+
+### 3. Provide Rich Metadata
+
+Include all relevant properties:
+
+```yaml
+---
+$type: SoftwareSourceCode
+title: My Library
+description: A useful library
+programmingLanguage: TypeScript
+codeRepository: https://github.com/org/repo
+license: MIT
+version: 1.0.0
+author:
+  $type: Person
+  name: Developer Name
+  email: dev@example.com
+maintainer:
+  $type: Organization
+  name: My Org
+keywords: [library, typescript, utility]
+---
+```
+
+### 4. Validate Documents
+
+Always validate before publishing:
+
+```bash
+# Using CLI
+npx mdxld validate my-doc.mdx
+
+# Or in code
+const result = await validate(doc)
+if (!result.success) {
+  console.error(result.error)
+}
+```
+
+### 5. Version Your Context
+
+Pin context versions for stability:
+
+```yaml
+# Good - versioned
+$context: http://mdxld.org/context/v1.jsonld
+
+# Risky - unversioned (may change)
+$context: http://mdxld.org/context.jsonld
+```
+
+## Next Steps
+
+- **[Examples](/examples)** - See real-world MDXLD documents
+- **[Specification](/spec)** - Read the formal spec
+- **[API Reference](/api)** - TypeScript API documentation
+- **[Integration Guides](/integrations)** - Framework-specific guides
+
+## Community
+
+- **GitHub**: [github.com/mdxld/mdxld](https://github.com/mdxld/mdxld)
+- **Discord**: [Join the community](https://discord.gg/mdxld)
+- **Twitter**: [@mdxld](https://twitter.com/mdxld)
+
+## Support
+
+Need help?
+
+- 📖 [Documentation](/)
+- 💬 [Discord Community](https://discord.gg/mdxld)
+- 🐛 [Report Issues](https://github.com/mdxld/mdxld/issues)
+- 💡 [Request Features](https://github.com/mdxld/mdxld/discussions)
+# MDXLD Specification v1.0
+
+**Status**: Draft
+**Version**: 1.0.0
+**Date**: 2025-10-02
+**Organization**: MDXLD Working Group
+
+## Abstract
+
+MDXLD (MDX Linked Data) is a specification for embedding structured, machine-readable metadata into MDX documents using YAML-LD frontmatter. It combines JSON-LD semantics, YAML syntax, Markdown documentation, executable code, and React components into a unified format for describing and executing computational entities.
+
+## 1. Introduction
+
+### 1.1 Purpose
+
+MDXLD addresses the fragmentation of documentation, code, schemas, and metadata across multiple files and formats. It provides a single-file format that is:
+
+- **Human-readable** (Markdown documentation)
+- **Machine-readable** (YAML-LD structured data)
+- **Executable** (JavaScript/TypeScript code)
+- **Interactive** (React/JSX components)
+
+### 1.2 Design Goals
+
+1. **Unified Format**: Single file for docs, code, metadata, and UI
+2. **Standards-Based**: Built on JSON-LD, Schema.org, MDX, YAML
+3. **Type-Safe**: Full TypeScript support with Zod validation
+4. **Executable**: Documents can be invoked as functions, agents, workflows
+5. **Linked Data**: First-class support for semantic relationships
+6. **Developer-Friendly**: Familiar syntax (YAML, Markdown, JSX)
+
+### 1.3 Conformance
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in RFC 2119.
+
+## 2. Document Structure
+
+An MDXLD document consists of four sections in the following order:
+
+```
+┌─────────────────────────────┐
+│  1. YAML-LD Frontmatter     │ ← Structured metadata
+├─────────────────────────────┤
+│  2. Markdown Content        │ ← Human documentation
+├─────────────────────────────┤
+│  3. Code (imports/exports)  │ ← Executable code
+├─────────────────────────────┤
+│  4. Components (JSX)        │ ← Interactive UI
+└─────────────────────────────┘
+```
+
+### 2.1 YAML-LD Frontmatter (REQUIRED)
+
+Every MDXLD document MUST begin with YAML-LD frontmatter delimited by `---`:
+
+```yaml
+---
+$context: https://schema.org
+$type: Function
+$id: https://example.com/entities/my-function
+title: My Function
+description: A brief description
+---
+```
+
+**Requirements:**
+- MUST be valid YAML
+- MUST be the first element in the document
+- MUST include at least `$type` field
+- SHOULD include `$context`, `$id`, `title`, and `description`
+
+### 2.2 Markdown Content (OPTIONAL)
+
+After frontmatter, Markdown content provides human-readable documentation:
+
+```markdown
+# Function Name
+
+This function does something useful.
+
+## Usage
+
+Describe how to use the function.
+```
+
+**Requirements:**
+- MUST be valid CommonMark Markdown
+- MAY include fenced code blocks
+- MAY include inline HTML
+- MAY include JSX comment blocks (`{/* ... */}`)
+
+### 2.3 Code Section (OPTIONAL)
+
+Code sections contain JavaScript/TypeScript imports and exports:
+
+```typescript
+import { helper } from './utils'
+
+export async function myFunction(input: string) {
+  return helper(input)
+}
+```
+
+**Requirements:**
+- MUST be valid JavaScript or TypeScript
+- MAY include import statements
+- SHOULD export at least one named or default export
+- SHOULD align with metadata in frontmatter
+
+### 2.4 Component Section (OPTIONAL)
+
+JSX components provide interactive UI:
+
+```jsx
+<FunctionPreview function={myFunction} />
+<ApiPlayground endpoint="/api/my-function" />
+```
+
+**Requirements:**
+- MUST be valid JSX
+- MUST be renderable by React or compatible runtime
+- MAY reference imported components
+- MAY use frontmatter data via props
+
+## 3. YAML-LD Frontmatter Specification
+
+### 3.1 JSON-LD Keywords
+
+MDXLD uses `$`-prefixed keywords for JSON-LD compatibility with YAML:
+
+| MDXLD Keyword | JSON-LD Equivalent | Description |
+|---------------|-------------------|-------------|
+| `$context` | `@context` | JSON-LD context (vocabulary definitions) |
+| `$id` | `@id` | Unique identifier (IRI/URL) |
+| `$type` | `@type` | Entity type from vocabulary |
+| `$graph` | `@graph` | Embedded graph data |
+| `$value` | `@value` | Value in a value object |
+| `$language` | `@language` | Language tag |
+
+**Rationale**: YAML does not allow `@` in unquoted keys. Using `$` provides cleaner syntax while maintaining JSON-LD semantics.
+
+### 3.2 Context (`$context`)
+
+The `$context` field defines vocabularies used in the document:
+
+**Simple context (Schema.org):**
+```yaml
+$context: https://schema.org
+```
+
+**Multiple contexts:**
+```yaml
+$context:
+  - https://schema.org
+  - https://mdxld.org/context.jsonld
+```
+
+**Inline context:**
+```yaml
+$context:
+  "@vocab": "https://schema.org/"
+  "mdxld": "https://mdxld.org/vocab#"
+  "Component": "mdxld:Component"
+```
+
+**Requirements:**
+- SHOULD reference Schema.org context
+- MAY reference custom context files
+- MAY define inline context mappings
+- MUST be a valid JSON-LD context
+
+### 3.3 Type (`$type`)
+
+The `$type` field specifies the entity type:
+
+```yaml
+$type: Function
+```
+
+**Multiple types:**
+```yaml
+$type:
+  - Function
+  - SoftwareSourceCode
+```
+
+**Requirements:**
+- MUST be defined in `$context`
+- SHOULD use Schema.org types when applicable
+- MAY use custom types from MDXLD or domain vocabularies
+
+### 3.4 Identifier (`$id`)
+
+The `$id` field provides a unique identifier (IRI):
+
+```yaml
+$id: https://example.com/functions/send-email
+```
+
+**Requirements:**
+- SHOULD be a valid URL
+- SHOULD be globally unique
+- SHOULD be dereferenceable (return the MDXLD document)
+- SHOULD use HTTPS scheme
+
+### 3.5 Properties
+
+Additional properties depend on the `$type`:
+
+**For Schema.org types:**
+```yaml
+$type: Person
+name: John Doe
+jobTitle: Software Engineer
+email: john@example.com
+```
+
+**For custom types:**
+```yaml
+$type: Function
+name: processData
+programmingLanguage: TypeScript
+parameters:
+  - name: input
+    type: string
+    required: true
+```
+
+**Requirements:**
+- MUST conform to the type's schema
+- SHOULD use camelCase for property names
+- MAY nest objects and arrays
+- MAY reference other entities via `$id`
+
+## 4. Entity Types
+
+### 4.1 Core Types
+
+MDXLD defines additional types beyond Schema.org:
+
+#### 4.1.1 Function
+
+Represents an executable function:
+
+```yaml
+---
+$type: Function
+$id: https://example.com/send-email
+name: sendEmail
+description: Send transactional emails
+programmingLanguage: TypeScript
+parameters:
+  - name: to
+    type: string
+    required: true
+  - name: subject
+    type: string
+  - name: body
+    type: string
+returnType: Promise<{ id: string }>
+---
+```
+
+**Properties:**
+- `name` (string, required) - Function name
+- `programmingLanguage` (string) - Language (e.g., TypeScript)
+- `parameters` (array) - Input parameters
+- `returnType` (string) - Return value type
+- `async` (boolean) - Whether function is async
+
+#### 4.1.2 Component
+
+Represents a UI component:
+
+```yaml
+---
+$type: Component
+$id: https://example.com/components/button
+name: Button
+framework: React
+propsSchema:
+  type: object
+  properties:
+    variant:
+      type: string
+      enum: [primary, secondary]
+    children:
+      type: string
+---
+```
+
+**Properties:**
+- `name` (string, required) - Component name
+- `framework` (string) - UI framework (React, Vue, Svelte)
+- `propsSchema` (object) - JSON Schema for props
+- `category` (string) - Component category
+
+#### 4.1.3 Workflow
+
+Represents a multi-step process:
+
+```yaml
+---
+$type: Workflow
+$id: https://example.com/workflows/user-onboarding
+name: User Onboarding
+trigger:
+  type: webhook
+  event: user.created
+steps:
+  - name: Send welcome email
+    function: sendEmail
+    inputs:
+      to: "{{user.email}}"
+  - name: Create profile
+    function: createProfile
+  - name: Notify team
+    function: notifySlack
+---
+```
+
+**Properties:**
+- `name` (string, required) - Workflow name
+- `trigger` (object) - How workflow starts
+- `steps` (array, required) - Sequence of steps
+- `concurrency` (string) - Execution model (sequential, parallel)
+
+#### 4.1.4 Agent
+
+Represents an AI agent:
+
+```yaml
+---
+$type: Agent
+$id: https://example.com/agents/support
+name: Support Agent
+role: Customer support specialist
+model: claude-3-5-sonnet
+capabilities:
+  - chat
+  - email
+  - knowledge-base
+systemPrompt: |
+  You are a helpful customer support agent...
+tools:
+  - search_docs
+  - create_ticket
+---
+```
+
+**Properties:**
+- `name` (string, required) - Agent name
+- `role` (string) - Agent's role/persona
+- `model` (string) - LLM model identifier
+- `capabilities` (array) - What agent can do
+- `systemPrompt` (string) - Initial instructions
+- `tools` (array) - Available tool functions
+
+#### 4.1.5 API
+
+Represents a web API endpoint:
+
+```yaml
+---
+$type: API
+$id: https://api.example.com/users
+name: Create User
+endpointURL: /api/users
+httpMethod: POST
+requestSchema:
+  type: object
+  properties:
+    name:
+      type: string
+    email:
+      type: string
+      format: email
+responseSchema:
+  type: object
+  properties:
+    id:
+      type: string
+    created:
+      type: boolean
+---
+```
+
+**Properties:**
+- `endpointURL` (string, required) - API path
+- `httpMethod` (string) - HTTP verb (GET, POST, etc.)
+- `requestSchema` (object) - JSON Schema for request
+- `responseSchema` (object) - JSON Schema for response
+- `requiresAuth` (boolean) - Whether auth is required
+
+### 4.2 Schema.org Types
+
+All Schema.org types are supported:
+
+- `Article` - Blog posts, news articles
+- `Person` - People, authors, users
+- `Organization` - Companies, teams
+- `Product` - Physical or digital products
+- `Event` - Scheduled events
+- `Place` - Geographic locations
+- `CreativeWork` - Any creative work
+- And 800+ more...
+
+Full list: https://schema.org/docs/full.html
+
+## 5. Validation
+
+### 5.1 Schema Validation
+
+MDXLD documents SHOULD be validated against their type's schema:
+
+**Using Zod:**
+```typescript
+import { z } from 'zod'
+import { parse } from 'mdxld'
+
+const functionSchema = z.object({
+  $type: z.literal('Function'),
+  name: z.string(),
+  parameters: z.array(z.object({
+    name: z.string(),
+    type: z.string(),
+    required: z.boolean().default(false)
+  }))
+})
+
+const doc = await parse('function.mdx')
+functionSchema.parse(doc.frontmatter)
+```
+
+**Using JSON Schema:**
+```typescript
+import Ajv from 'ajv'
+import { parse } from 'mdxld'
+
+const ajv = new Ajv()
+const validate = ajv.compile(functionSchema)
+
+const doc = await parse('function.mdx')
+validate(doc.frontmatter)
+```
+
+### 5.2 Required Fields
+
+All MDXLD documents MUST include:
+- `$type` - Entity type
+
+SHOULD include:
+- `$context` - Vocabulary context
+- `$id` - Unique identifier
+- `title` or `name` - Human-readable name
+- `description` - Brief description
+
+### 5.3 Validation Errors
+
+Implementations SHOULD report:
+- Missing required fields
+- Type mismatches
+- Invalid property names
+- Malformed YAML
+- Invalid JSON-LD context
+
+## 6. Execution Model
+
+### 6.1 Invocation
+
+MDXLD documents with `$type: Function` MAY be invoked:
+
+```typescript
+import { invoke } from 'mdxld'
+
+const result = await invoke('send-email.mdx', {
+  to: 'user@example.com',
+  subject: 'Welcome!'
+})
+```
+
+**Process:**
+1. Parse MDXLD document
+2. Validate frontmatter
+3. Execute exported function
+4. Return result
+
+### 6.2 Rendering
+
+MDXLD documents with components MAY be rendered:
+
+```typescript
+import { render } from 'mdxld'
+
+const Component = await render('button.mdx')
+<Component variant="primary">Click Me</Component>
+```
+
+**Process:**
+1. Parse MDXLD document
+2. Compile MDX to JSX
+3. Return renderable component
+
+### 6.3 Workflows
+
+MDXLD documents with `$type: Workflow` MAY be executed as orchestrations:
+
+```typescript
+import { executeWorkflow } from 'mdxld'
+
+await executeWorkflow('onboarding.mdx', {
+  user: { email: 'new@example.com' }
+})
+```
+
+**Process:**
+1. Parse workflow document
+2. Validate steps
+3. Execute each step in order (or parallel)
+4. Handle errors and retries
+
+## 7. Interoperability
+
+### 7.1 JSON-LD Export
+
+MDXLD frontmatter MUST be exportable as valid JSON-LD:
+
+```typescript
+import { toJSONLD } from 'mdxld'
+
+const jsonld = toJSONLD('document.mdx')
+console.log(JSON.stringify(jsonld, null, 2))
+```
+
+**Output:**
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Function",
+  "@id": "https://example.com/my-function",
+  "name": "myFunction",
+  "description": "..."
+}
+```
+
+### 7.2 RDF Triples
+
+Frontmatter MAY be converted to RDF triples:
+
+```typescript
+import { toRDF } from 'mdxld'
+
+const triples = toRDF('document.mdx')
+// Subject, Predicate, Object format
+```
+
+### 7.3 SPARQL Queries
+
+Collections of MDXLD documents MAY be queried with SPARQL:
+
+```sparql
+PREFIX schema: <https://schema.org/>
+PREFIX mdxld: <https://mdxld.org/vocab#>
+
+SELECT ?function ?name
+WHERE {
+  ?function a mdxld:Function ;
+           schema:programmingLanguage "TypeScript" ;
+           schema:name ?name .
+}
+```
+
+## 8. Security Considerations
+
+### 8.1 Code Execution
+
+Executing MDXLD documents involves running untrusted code. Implementations SHOULD:
+
+- **Sandbox execution** - Use VM, worker threads, or containers
+- **Validate inputs** - Check all parameters before execution
+- **Rate limit** - Prevent resource exhaustion
+- **Timeout** - Limit execution time
+- **Permissions** - Require explicit grants for file/network access
+
+### 8.2 XSS Prevention
+
+Rendering MDXLD components in browsers requires XSS prevention:
+
+- **Sanitize user input** - Clean all user-provided data
+- **CSP headers** - Set restrictive Content-Security-Policy
+- **Trusted sources only** - Only render from known origins
+
+### 8.3 Data Privacy
+
+MDXLD documents MAY contain sensitive information:
+
+- **Access control** - Restrict who can read documents
+- **Encryption** - Encrypt at rest and in transit
+- **PII redaction** - Remove personal data before sharing
+
+## 9. Best Practices
+
+### 9.1 File Naming
+
+- Use kebab-case: `send-email.mdx`
+- Match function name: `sendEmail.mdx` → `sendEmail()`
+- Descriptive names: `create-user-account.mdx`
+
+### 9.2 Directory Structure
+
+Organize by entity type:
+
+```
+entities/
+├── functions/
+│   ├── send-email.mdx
+│   └── process-payment.mdx
+├── workflows/
+│   └── user-onboarding.mdx
+├── agents/
+│   └── support-agent.mdx
+└── components/
+    └── button.mdx
+```
+
+### 9.3 Versioning
+
+Include version in `$id`:
+
+```yaml
+$id: https://example.com/send-email/v2
+version: "2.0.0"
+```
+
+### 9.4 Documentation
+
+- Write clear Markdown documentation
+- Include usage examples
+- Document all parameters
+- Explain return values
+- Provide error examples
+
+## 10. Extensibility
+
+### 10.1 Custom Types
+
+Define custom types in context:
+
+```yaml
+---
+$context:
+  "@vocab": "https://schema.org/"
+  "MyCustomType": "https://example.com/types#CustomType"
+$type: MyCustomType
+customProperty: value
+---
+```
+
+### 10.2 Custom Properties
+
+Add domain-specific properties:
+
+```yaml
+---
+$context: https://schema.org
+$type: Function
+name: myFunction
+
+# Custom properties
+internal:security: high
+internal:team: platform
+---
+```
+
+### 10.3 Plugins
+
+Extend MDXLD with plugins:
+
+```typescript
+import { MDXLD } from 'mdxld'
+
+const mdxld = new MDXLD({
+  plugins: [
+    myValidationPlugin,
+    myTransformPlugin
+  ]
+})
+```
+
+## 11. References
+
+- **JSON-LD**: https://json-ld.org/spec/latest/json-ld/
+- **Schema.org**: https://schema.org
+- **MDX**: https://mdxjs.com
+- **YAML**: https://yaml.org/spec/1.2/spec.html
+- **CommonMark**: https://commonmark.org
+- **RFC 2119**: https://www.rfc-editor.org/rfc/rfc2119
+
+## Appendix A: Complete Example
+
+```mdx
+---
+$context: https://schema.org
+$type: Function
+$id: https://example.com/functions/send-email/v1
+name: sendEmail
+description: Send transactional emails via Resend API
+programmingLanguage: TypeScript
+version: "1.0.0"
+parameters:
+  - name: to
+    type: string
+    description: Recipient email address
+    required: true
+  - name: subject
+    type: string
+    description: Email subject line
+    required: true
+  - name: body
+    type: string
+    description: HTML email body
+    required: true
+returnType: Promise<{ id: string; status: string }>
+author:
+  $type: Organization
+  name: MDXLD
+  url: https://mdxld.org
+license: MIT
+---
+
+# Send Email Function
+
+Send transactional emails using the Resend API.
+
+## Installation
+
+```bash
+npm install resend
+```
+
+## Environment Variables
+
+- `RESEND_API_KEY` - Your Resend API key
+
+## Usage
+
+```typescript
+const result = await sendEmail({
+  to: 'user@example.com',
+  subject: 'Welcome to our service!',
+  body: '<h1>Welcome!</h1><p>Thanks for signing up.</p>'
+})
+```
+
+## Implementation
+
+```typescript
+import { Resend } from 'resend'
+
+export async function sendEmail({
+  to,
+  subject,
+  body
+}: {
+  to: string
+  subject: string
+  body: string
+}) {
+  const resend = new Resend(process.env.RESEND_API_KEY)
+
+  const result = await resend.emails.send({
+    from: 'noreply@example.com',
+    to,
+    subject,
+    html: body
+  })
+
+  return {
+    id: result.id,
+    status: 'sent'
+  }
+}
+```
+
+## Interactive Demo
+
+<EmailPreview
+  to="demo@example.com"
+  subject="Test Email"
+  body="<p>This is a test</p>"
+/>
+```
+
+---
+
+**Specification Status**: Draft
+**Last Updated**: 2025-10-02
+**Feedback**: https://github.com/mdxld/mdxld/issues
+# API Reference
+
+Complete TypeScript API reference for the MDXLD package.
+
+## Installation
+
+```bash
+npm install mdxld
+# or
+pnpm add mdxld
+# or
+yarn add mdxld
+```
+
+## Core Functions
+
+### `parse()`
+
+Parse an MDXLD document into its constituent parts.
+
+**Signature:**
+
+```typescript
+function parse(source: string, options?: ParseOptions): Promise<MDXLDDocument>
+```
+
+**Parameters:**
+
+| Name | Type | Description |
+|------|------|-------------|
+| `source` | `string` | MDX source code with YAML-LD frontmatter |
+| `options` | `ParseOptions?` | Optional parsing configuration |
+
+**Returns:** `Promise<MDXLDDocument>`
+
+**Example:**
+
+```typescript
+import { parse } from 'mdxld'
+
+const source = `---
+$type: Function
+title: Hello World
+---
+# Hello
+
+This is content.
+`
+
+const doc = await parse(source)
+
+console.log(doc.frontmatter.$type) // 'Function'
+console.log(doc.frontmatter.title) // 'Hello World'
+console.log(doc.content) // '# Hello\n\nThis is content.'
+```
+
+**Types:**
+
+```typescript
+interface ParseOptions {
+  /** Validate frontmatter against JSON-LD context */
+  validateContext?: boolean
+  /** Extract code blocks */
+  extractCode?: boolean
+  /** Extract JSX components */
+  extractComponents?: boolean
+}
+
+interface MDXLDDocument {
+  /** Parsed YAML-LD frontmatter */
+  frontmatter: Record<string, any>
+  /** Markdown content (without frontmatter) */
+  content: string
+  /** Extracted code blocks */
+  code?: CodeBlock[]
+  /** Extracted JSX components */
+  components?: ComponentBlock[]
+  /** Raw source */
+  raw: string
+}
+
+interface CodeBlock {
+  language: string
+  code: string
+  meta?: string
+}
+
+interface ComponentBlock {
+  name: string
+  props: Record<string, any>
+  children?: string
+}
+```
+
+---
+
+### `validate()`
+
+Validate an MDXLD document against a schema.
+
+**Signature:**
+
+```typescript
+function validate<T>(
+  data: unknown,
+  schema: Schema<T>
+): ValidationResult<T>
+```
+
+**Parameters:**
+
+| Name | Type | Description |
+|------|------|-------------|
+| `data` | `unknown` | Data to validate |
+| `schema` | `Schema<T>` | Zod or JSON Schema |
+
+**Returns:** `ValidationResult<T>`
+
+**Example:**
+
+```typescript
+import { parse, validate } from 'mdxld'
+import { z } from 'zod'
+
+const FunctionSchema = z.object({
+  $type: z.literal('Function'),
+  title: z.string(),
+  programmingLanguage: z.string()
+})
+
+const doc = await parse(source)
+const result = validate(doc.frontmatter, FunctionSchema)
+
+if (result.success) {
+  console.log('Valid!', result.data)
+} else {
+  console.error('Validation errors:', result.error)
+}
+```
+
+**Types:**
+
+```typescript
+type Schema<T> = z.ZodSchema<T> | JSONSchema
+
+interface ValidationResult<T> {
+  success: boolean
+  data?: T
+  error?: ValidationError
+}
+
+interface ValidationError {
+  errors: Array<{
+    path: string[]
+    message: string
+  }>
+}
+```
+
+---
+
+### `execute()`
+
+Execute an MDXLD document (for Functions, Workflows, etc.).
+
+**Signature:**
+
+```typescript
+function execute<T = any>(
+  source: string | MDXLDDocument,
+  inputs?: Record<string, any>,
+  options?: ExecuteOptions
+): Promise<T>
+```
+
+**Parameters:**
+
+| Name | Type | Description |
+|------|------|-------------|
+| `source` | `string \| MDXLDDocument` | MDXLD source or parsed document |
+| `inputs` | `Record<string, any>?` | Input parameters |
+| `options` | `ExecuteOptions?` | Execution configuration |
+
+**Returns:** `Promise<T>`
+
+**Example:**
+
+```typescript
+import { execute } from 'mdxld'
+
+// Execute a Function entity
+const result = await execute('send-email.mdx', {
+  to: 'user@example.com',
+  subject: 'Test',
+  body: 'Hello!'
+})
+
+console.log(result) // EmailResponse
+```
+
+**Types:**
+
+```typescript
+interface ExecuteOptions {
+  /** Timeout in milliseconds */
+  timeout?: number
+  /** Environment variables */
+  env?: Record<string, string>
+  /** Custom context */
+  context?: Record<string, any>
+}
+```
+
+---
+
+### `render()`
+
+Render an MDXLD document to HTML/React.
+
+**Signature:**
+
+```typescript
+function render(
+  source: string | MDXLDDocument,
+  options?: RenderOptions
+): Promise<string | ReactElement>
+```
+
+**Parameters:**
+
+| Name | Type | Description |
+|------|------|-------------|
+| `source` | `string \| MDXLDDocument` | MDXLD source or parsed document |
+| `options` | `RenderOptions?` | Rendering configuration |
+
+**Returns:** `Promise<string | ReactElement>`
+
+**Example:**
+
+```typescript
+import { render } from 'mdxld'
+
+// Render to HTML string
+const html = await render(source, { format: 'html' })
+
+// Render to React element
+const element = await render(source, { format: 'react' })
+```
+
+**Types:**
+
+```typescript
+interface RenderOptions {
+  /** Output format */
+  format?: 'html' | 'react'
+  /** Custom components */
+  components?: Record<string, React.ComponentType<any>>
+  /** MDX options */
+  mdx?: MDXOptions
+}
+```
+
+---
+
+### `toRDF()`
+
+Convert MDXLD document to RDF triples.
+
+**Signature:**
+
+```typescript
+function toRDF(
+  source: string | MDXLDDocument,
+  options?: RDFOptions
+): Promise<RDFTriple[]>
+```
+
+**Parameters:**
+
+| Name | Type | Description |
+|------|------|-------------|
+| `source` | `string \| MDXLDDocument` | MDXLD source or parsed document |
+| `options` | `RDFOptions?` | RDF conversion options |
+
+**Returns:** `Promise<RDFTriple[]>`
+
+**Example:**
+
+```typescript
+import { toRDF } from 'mdxld'
+
+const triples = await toRDF(source)
+
+console.log(triples)
+// [
+//   {
+//     subject: 'https://example.com/articles/hello',
+//     predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+//     object: 'https://schema.org/Article'
+//   },
+//   ...
+// ]
+```
+
+**Types:**
+
+```typescript
+interface RDFOptions {
+  /** RDF format */
+  format?: 'n-triples' | 'turtle' | 'json-ld'
+  /** Base IRI for relative references */
+  baseIRI?: string
+}
+
+interface RDFTriple {
+  subject: string
+  predicate: string
+  object: string | number | boolean
+}
+```
+
+---
+
+### `query()`
+
+Query MDXLD documents using SPARQL.
+
+**Signature:**
+
+```typescript
+function query(
+  triples: RDFTriple[] | string,
+  sparql: string
+): Promise<QueryResult[]>
+```
+
+**Parameters:**
+
+| Name | Type | Description |
+|------|------|-------------|
+| `triples` | `RDFTriple[] \| string` | RDF triples or MDXLD source |
+| `sparql` | `string` | SPARQL query |
+
+**Returns:** `Promise<QueryResult[]>`
+
+**Example:**
+
+```typescript
+import { toRDF, query } from 'mdxld'
+
+const triples = await toRDF(source)
+
+const results = await query(triples, `
+  SELECT ?title ?author WHERE {
+    ?article a schema:Article .
+    ?article schema:name ?title .
+    ?article schema:author ?person .
+    ?person schema:name ?author .
+  }
+`)
+
+console.log(results)
+// [{ title: 'Hello MDXLD', author: 'John Doe' }]
+```
+
+**Types:**
+
+```typescript
+type QueryResult = Record<string, string | number | boolean>
+```
+
+---
+
+## TypeScript Types
+
+### Core Types
+
+```typescript
+/**
+ * Base MDXLD entity with JSON-LD support
+ */
+interface MDXLDEntity {
+  /** JSON-LD context */
+  $context?: string | Record<string, any>
+  /** Entity type */
+  $type: string
+  /** Unique identifier */
+  $id?: string
+  /** Embedded graph */
+  $graph?: MDXLDEntity[]
+  /** Additional properties */
+  [key: string]: any
+}
+
+/**
+ * Function entity
+ */
+interface Function extends MDXLDEntity {
+  $type: 'Function'
+  title: string
+  programmingLanguage?: string
+  parameters?: Parameter[]
+  returnType?: string
+  async?: boolean
+}
+
+/**
+ * Component entity
+ */
+interface Component extends MDXLDEntity {
+  $type: 'Component'
+  title: string
+  framework?: string
+  propsSchema?: Record<string, any>
+}
+
+/**
+ * Workflow entity
+ */
+interface Workflow extends MDXLDEntity {
+  $type: 'Workflow'
+  title: string
+  trigger?: Trigger
+  steps?: Step[]
+  concurrency?: 'sequential' | 'parallel'
+}
+
+/**
+ * Agent entity
+ */
+interface Agent extends MDXLDEntity {
+  $type: 'Agent'
+  title: string
+  role?: string
+  model?: string
+  capabilities?: string[]
+  tools?: Tool[]
+  systemPrompt?: string
+  temperature?: number
+  maxTokens?: number
+}
+
+/**
+ * API entity
+ */
+interface API extends MDXLDEntity {
+  $type: 'API'
+  title: string
+  endpointURL: string
+  httpMethod: string
+  requestSchema?: Record<string, any>
+  responseSchema?: Record<string, any>
+  requiresAuth?: boolean
+}
+```
+
+### Parameter Types
+
+```typescript
+interface Parameter {
+  name: string
+  type: string
+  description?: string
+  required?: boolean
+  default?: any
+  example?: any
+}
+
+interface Trigger {
+  type: string
+  event?: string
+  schedule?: string
+  schema?: Record<string, any>
+}
+
+interface Step {
+  id: string
+  title?: string
+  type: string
+  run?: Function
+  timeout?: number
+  retry?: RetryConfig
+  continueOnError?: boolean
+}
+
+interface RetryConfig {
+  attempts: number
+  backoff?: 'linear' | 'exponential'
+  delay?: number
+}
+
+interface Tool {
+  id: string
+  type: string
+  description: string
+  parameters: Record<string, any>
+}
+```
+
+## Utility Functions
+
+### `loadContext()`
+
+Load a JSON-LD context.
+
+```typescript
+function loadContext(url: string): Promise<Record<string, any>>
+
+// Example
+const context = await loadContext('http://mdxld.org/context.jsonld')
+```
+
+### `expandContext()`
+
+Expand a compacted JSON-LD document.
+
+```typescript
+function expandContext(
+  data: Record<string, any>,
+  context: string | Record<string, any>
+): Promise<Record<string, any>>
+
+// Example
+const expanded = await expandContext(frontmatter, 'https://schema.org')
+```
+
+### `compactContext()`
+
+Compact an expanded JSON-LD document.
+
+```typescript
+function compactContext(
+  data: Record<string, any>,
+  context: string | Record<string, any>
+): Promise<Record<string, any>>
+
+// Example
+const compacted = await compactContext(expanded, 'https://schema.org')
+```
+
+### `generateId()`
+
+Generate a unique identifier for an entity.
+
+```typescript
+function generateId(type: string, slug?: string): string
+
+// Example
+const id = generateId('Function', 'send-email')
+// 'https://mdxld.org/functions/send-email'
+```
+
+### `slugify()`
+
+Convert a string to a URL-friendly slug.
+
+```typescript
+function slugify(text: string): string
+
+// Example
+const slug = slugify('Hello World!')
+// 'hello-world'
+```
+
+## CLI Commands
+
+The MDXLD package includes a CLI for common operations.
+
+### Parse
+
+Parse and validate an MDXLD document:
+
+```bash
+npx mdxld parse document.mdx
+```
+
+Options:
+- `--validate` - Validate against schema
+- `--output <format>` - Output format (json, yaml, rdf)
+
+### Validate
+
+Validate MDXLD documents:
+
+```bash
+npx mdxld validate document.mdx
+```
+
+Options:
+- `--schema <file>` - Custom schema file
+- `--strict` - Strict validation mode
+
+### Convert
+
+Convert between formats:
+
+```bash
+npx mdxld convert document.mdx --to rdf
+```
+
+Supported formats:
+- `json-ld` - JSON-LD
+- `rdf` - RDF triples
+- `turtle` - Turtle format
+- `html` - Rendered HTML
+
+### Execute
+
+Execute an MDXLD function:
+
+```bash
+npx mdxld execute function.mdx --input '{"param": "value"}'
+```
+
+Options:
+- `--input <json>` - Input parameters
+- `--timeout <ms>` - Execution timeout
+- `--env <file>` - Environment variables file
+
+### Query
+
+Query MDXLD documents with SPARQL:
+
+```bash
+npx mdxld query document.mdx --sparql query.rq
+```
+
+Options:
+- `--sparql <file>` - SPARQL query file
+- `--output <format>` - Output format (json, csv, table)
+
+## Framework Plugins
+
+### Next.js
+
+```typescript
+// next.config.js
+import mdx from '@next/mdx'
+import { mdxldRemarkPlugin, mdxldRehypePlugin } from 'mdxld/plugins'
+
+const withMDX = mdx({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [mdxldRemarkPlugin],
+    rehypePlugins: [mdxldRehypePlugin]
+  }
+})
+
+export default withMDX({
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx']
+})
+```
+
+### Vite
+
+```typescript
+// vite.config.ts
+import { defineConfig } from 'vite'
+import mdx from '@mdx-js/rollup'
+import { mdxldPlugin } from 'mdxld/vite'
+
+export default defineConfig({
+  plugins: [
+    mdx(),
+    mdxldPlugin({
+      validateContext: true,
+      extractCode: true
+    })
+  ]
+})
+```
+
+### Astro
+
+```typescript
+// astro.config.mjs
+import { defineConfig } from 'astro/config'
+import mdx from '@astrojs/mdx'
+import { mdxldIntegration } from 'mdxld/astro'
+
+export default defineConfig({
+  integrations: [
+    mdx(),
+    mdxldIntegration()
+  ]
+})
+```
+
+### Remix
+
+```typescript
+// remix.config.js
+import { mdxldConfig } from 'mdxld/remix'
+
+export default {
+  ...mdxldConfig,
+  // other config
+}
+```
+
+## Configuration
+
+### `mdxld.config.ts`
+
+Create a configuration file for custom settings:
+
+```typescript
+import { defineConfig } from 'mdxld'
+
+export default defineConfig({
+  // Default context
+  defaultContext: 'http://mdxld.org/context.jsonld',
+
+  // Validation
+  validation: {
+    strict: true,
+    validateContext: true
+  },
+
+  // Execution
+  execution: {
+    timeout: 30000,
+    sandbox: true
+  },
+
+  // Rendering
+  rendering: {
+    format: 'react',
+    components: {
+      // Custom components
+    }
+  }
+})
+```
+
+## Error Handling
+
+All async functions may throw errors. Always handle them appropriately:
+
+```typescript
+try {
+  const doc = await parse(source)
+  const result = validate(doc.frontmatter, schema)
+
+  if (!result.success) {
+    console.error('Validation failed:', result.error)
+    return
+  }
+
+  const output = await execute(doc, inputs)
+  console.log(output)
+} catch (error) {
+  if (error instanceof ParseError) {
+    console.error('Parse error:', error.message)
+  } else if (error instanceof ExecutionError) {
+    console.error('Execution error:', error.message)
+  } else {
+    console.error('Unexpected error:', error)
+  }
+}
+```
+
+### Error Types
+
+```typescript
+class ParseError extends Error {
+  line: number
+  column: number
+}
+
+class ValidationError extends Error {
+  errors: ValidationIssue[]
+}
+
+class ExecutionError extends Error {
+  code: string
+  details?: any
+}
+
+class ContextError extends Error {
+  contextUrl: string
+}
+```
+
+## TypeScript Support
+
+The MDXLD package is written in TypeScript and provides full type definitions.
+
+### Type Inference
+
+```typescript
+import { parse, Function } from 'mdxld'
+
+const doc = await parse(source)
+
+// Type-safe access
+if (doc.frontmatter.$type === 'Function') {
+  const fn = doc.frontmatter as Function
+  console.log(fn.programmingLanguage) // Type-safe
+}
+```
+
+### Generic Types
+
+```typescript
+import { execute } from 'mdxld'
+
+interface EmailResponse {
+  success: boolean
+  messageId: string
+}
+
+const result = await execute<EmailResponse>('send-email.mdx', inputs)
+console.log(result.messageId) // Type-safe
+```
+
+## Related
+
+- **[Getting Started](/getting-started)** - Quickstart guide
+- **[Examples](/examples)** - Real-world examples
+- **[Specification](/spec)** - Formal spec
+- **[GitHub](https://github.com/mdxld/mdxld)** - Source code
+
+## Support
+
+- 📖 [Documentation](/)
+- 💬 [Discord Community](https://discord.gg/mdxld)
+- 🐛 [Report Issues](https://github.com/mdxld/mdxld/issues)
+- 💡 [Request Features](https://github.com/mdxld/mdxld/discussions)
+# MDXLD Examples
+
+Real-world examples demonstrating MDXLD capabilities across different entity types and use cases.
+
+## Entity Type Examples
+
+### Core AI-Native Types
+
+- **[Function](/examples/function)** - Executable code with inputs/outputs
+- **[Component](/examples/component)** - React UI components
+- **[Workflow](/examples/workflow)** - Multi-step orchestrations
+- **[Agent](/examples/agent)** - Autonomous AI workers
+- **[API](/examples/api)** - RESTful endpoints
+- **[Tool](/examples/tool)** - Software utilities
+- **[Model](/examples/model)** - AI/ML models
+- **[Prompt](/examples/prompt)** - AI prompt templates
+
+### Schema.org Types
+
+- **[Article](/examples/article)** - Blog posts and articles
+- **[SoftwareApplication](/examples/software-application)** - Applications
+- **[Dataset](/examples/dataset)** - Data collections
+- **[Course](/examples/course)** - Educational courses
+- **[Recipe](/examples/recipe)** - Cooking recipes
+- **[Event](/examples/event)** - Events and webinars
+
+## Use Case Examples
+
+### Documentation
+
+- **[API Documentation](/examples/use-cases/api-docs)** - Self-documenting APIs
+- **[Component Library](/examples/use-cases/component-library)** - UI documentation
+- **[Code Examples](/examples/use-cases/code-examples)** - Executable tutorials
+
+### Automation
+
+- **[Email Workflows](/examples/use-cases/email-workflows)** - Automated email flows
+- **[Data Processing](/examples/use-cases/data-processing)** - ETL pipelines
+- **[Content Generation](/examples/use-cases/content-generation)** - AI content creation
+
+### Applications
+
+- **[Chatbot](/examples/use-cases/chatbot)** - Conversational AI
+- **[CMS Integration](/examples/use-cases/cms)** - Content management
+- **[E-commerce](/examples/use-cases/ecommerce)** - Product catalog
+
+## Quick Start Templates
+
+### Function Template
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Function
+$id: https://example.com/functions/your-function
+title: Your Function
+description: What your function does
+programmingLanguage: TypeScript
+parameters:
+  - name: input
+    type: string
+    required: true
+returnType: string
+---
+
+# Your Function
+
+Description of what this function does.
+
+\`\`\`typescript
+export function yourFunction(input: string): string {
+  return \`Result: ${input}\`
+}
+\`\`\`
+```
+
+### Component Template
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Component
+$id: https://example.com/components/your-component
+title: Your Component
+framework: React
+propsSchema:
+  type: object
+  properties:
+    prop1:
+      type: string
+---
+
+# Your Component
+
+\`\`\`tsx
+export function YourComponent({ prop1 }: { prop1: string }) {
+  return <div>{prop1}</div>
+}
+\`\`\`
+```
+
+### Workflow Template
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Workflow
+$id: https://example.com/workflows/your-workflow
+title: Your Workflow
+trigger:
+  type: webhook
+  event: your.event
+steps:
+  - id: step1
+    type: function
+---
+
+# Your Workflow
+
+\`\`\`typescript
+export const workflow = {
+  trigger: 'your.event',
+  steps: [
+    {
+      id: 'step1',
+      run: async (data) => {
+        // Step logic
+      }
+    }
+  ]
+}
+\`\`\`
+```
+
+### Agent Template
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Agent
+$id: https://example.com/agents/your-agent
+title: Your Agent
+role: Agent Role
+model: claude-3-5-sonnet-20250929
+capabilities: [chat]
+systemPrompt: You are a helpful agent...
+---
+
+# Your Agent
+
+\`\`\`typescript
+import { Anthropic } from '@anthropic-ai/sdk'
+
+export async function agent(message: string) {
+  // Agent implementation
+}
+\`\`\`
+```
+
+## Browse by Feature
+
+### Linked Data Features
+
+- **[Nested Objects](/examples/features/nested-objects)** - Complex data structures
+- **[References](/examples/features/references)** - Linking documents with `$id`
+- **[Multiple Contexts](/examples/features/multiple-contexts)** - Combining vocabularies
+- **[Custom Vocabulary](/examples/features/custom-vocabulary)** - Define your own types
+
+### Code Features
+
+- **[TypeScript](/examples/features/typescript)** - Type-safe code
+- **[Async Functions](/examples/features/async)** - Asynchronous operations
+- **[Error Handling](/examples/features/error-handling)** - Robust error management
+- **[Testing](/examples/features/testing)** - Test your MDXLD documents
+
+### Component Features
+
+- **[Interactive Components](/examples/features/interactive)** - Stateful UI
+- **[Server Components](/examples/features/server-components)** - SSR patterns
+- **[Styling](/examples/features/styling)** - CSS and Tailwind
+- **[Accessibility](/examples/features/accessibility)** - A11y best practices
+
+## Community Examples
+
+Check out examples from the community:
+
+- [mdxld/examples](https://github.com/mdxld/examples) - Official example repository
+- [Awesome MDXLD](https://github.com/mdxld/awesome-mdxld) - Curated list of MDXLD projects
+
+## Contributing
+
+Have an example to share?
+
+1. Fork the [examples repository](https://github.com/mdxld/examples)
+2. Add your example with documentation
+3. Submit a pull request
+
+See our [contribution guidelines](https://github.com/mdxld/mdxld/blob/main/CONTRIBUTING.md) for details.
+# Function Example
+
+A complete example of an MDXLD Function entity for sending transactional emails using Resend.
+
+## Full MDXLD Document
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Function
+$id: https://api.example.com/functions/send-transactional-email
+title: Send Transactional Email
+description: Send transactional emails using Resend API with template support
+programmingLanguage: TypeScript
+version: 1.2.0
+license: MIT
+author:
+  $type: Person
+  name: MDXLD Working Group
+  email: hello@mdxld.org
+dateCreated: 2025-10-01
+dateModified: 2025-10-02
+keywords: [email, resend, transactional, api]
+
+# Function-specific properties
+async: true
+parameters:
+  - name: to
+    type: string
+    description: Recipient email address
+    required: true
+    example: user@example.com
+  - name: subject
+    type: string
+    description: Email subject line
+    required: true
+    example: Welcome to our platform!
+  - name: template
+    type: string
+    description: Email template identifier
+    required: true
+    enum: [welcome, reset-password, receipt, notification]
+  - name: variables
+    type: object
+    description: Template variables for personalization
+    required: false
+    properties:
+      name: { type: string }
+      action_url: { type: string }
+      support_email: { type: string }
+returnType: "Promise<EmailResponse>"
+
+# Metadata
+metadata:
+  ns: function
+  visibility: public
+  category: communication
+tags:
+  - email
+  - communication
+  - transactional
+
+# Related entities
+relatedTo:
+  - https://api.example.com/workflows/user-onboarding
+  - https://api.example.com/agents/support-agent
+
+# Examples
+examples:
+  - $type: CodeExample
+    title: Send welcome email
+    code: |
+      await sendTransactionalEmail({
+        to: 'newuser@example.com',
+        subject: 'Welcome!',
+        template: 'welcome',
+        variables: {
+          name: 'John Doe',
+          action_url: 'https://app.example.com/verify'
+        }
+      })
+  - $type: CodeExample
+    title: Send password reset
+    code: |
+      await sendTransactionalEmail({
+        to: 'user@example.com',
+        subject: 'Reset your password',
+        template: 'reset-password',
+        variables: {
+          action_url: 'https://app.example.com/reset?token=abc123',
+          support_email: 'support@example.com'
+        }
+      })
+---
+
+# Send Transactional Email
+
+A production-ready function for sending transactional emails using the Resend API with built-in template support, error handling, and retry logic.
+
+## Features
+
+✅ **Template Support** - Pre-built email templates (welcome, password reset, receipts)
+✅ **Type Safety** - Full TypeScript types and validation
+✅ **Error Handling** - Comprehensive error handling with detailed messages
+✅ **Retry Logic** - Automatic retry on temporary failures
+✅ **Rate Limiting** - Built-in rate limit handling
+✅ **Logging** - Structured logging for debugging
+
+## Implementation
+
+\`\`\`typescript
+import { Resend } from 'resend'
+import { z } from 'zod'
+
+// Environment configuration
+const RESEND_API_KEY = process.env.RESEND_API_KEY
+const FROM_EMAIL = process.env.FROM_EMAIL || 'noreply@example.com'
+
+// Input validation schema
+const InputSchema = z.object({
+  to: z.string().email('Invalid email address'),
+  subject: z.string().min(1, 'Subject is required'),
+  template: z.enum(['welcome', 'reset-password', 'receipt', 'notification']),
+  variables: z.record(z.string(), z.any()).optional()
+})
+
+// Template definitions
+const templates = {
+  welcome: (vars: Record<string, any>) => \`
+    <h1>Welcome, \${vars.name || 'there'}!</h1>
+    <p>We're excited to have you on board.</p>
+    <a href="\${vars.action_url}">Get Started</a>
+  \`,
+  'reset-password': (vars: Record<string, any>) => \`
+    <h1>Reset Your Password</h1>
+    <p>Click the link below to reset your password:</p>
+    <a href="\${vars.action_url}">Reset Password</a>
+    <p>If you didn't request this, contact us at \${vars.support_email}</p>
+  \`,
+  receipt: (vars: Record<string, any>) => \`
+    <h1>Receipt for Your Purchase</h1>
+    <p>Thank you for your purchase!</p>
+    <p>Order ID: \${vars.order_id}</p>
+    <p>Total: $\${vars.amount}</p>
+  \`,
+  notification: (vars: Record<string, any>) => \`
+    <h1>\${vars.title || 'Notification'}</h1>
+    <p>\${vars.message || ''}</p>
+  \`
+}
+
+// Response type
+export interface EmailResponse {
+  success: boolean
+  id?: string
+  error?: string
+}
+
+/**
+ * Send a transactional email using Resend API
+ */
+export async function sendTransactionalEmail(input: {
+  to: string
+  subject: string
+  template: string
+  variables?: Record<string, any>
+}): Promise<EmailResponse> {
+  try {
+    // Validate input
+    const validated = InputSchema.parse(input)
+
+    // Initialize Resend client
+    if (!RESEND_API_KEY) {
+      throw new Error('RESEND_API_KEY environment variable is not set')
+    }
+    const resend = new Resend(RESEND_API_KEY)
+
+    // Get template and render with variables
+    const templateFn = templates[validated.template as keyof typeof templates]
+    if (!templateFn) {
+      throw new Error(\`Template '\${validated.template}' not found\`)
+    }
+    const html = templateFn(validated.variables || {})
+
+    // Send email with retry logic
+    let attempt = 0
+    const maxAttempts = 3
+
+    while (attempt < maxAttempts) {
+      try {
+        const response = await resend.emails.send({
+          from: FROM_EMAIL,
+          to: validated.to,
+          subject: validated.subject,
+          html
+        })
+
+        console.log(\`Email sent successfully: \${response.id}\`)
+        return {
+          success: true,
+          id: response.id
+        }
+      } catch (error: any) {
+        attempt++
+
+        // Don't retry on permanent failures
+        if (error.statusCode === 400 || error.statusCode === 422) {
+          throw error
+        }
+
+        // Retry on temporary failures
+        if (attempt < maxAttempts) {
+          const delay = Math.pow(2, attempt) * 1000 // Exponential backoff
+          console.log(\`Attempt \${attempt} failed, retrying in \${delay}ms...\`)
+          await new Promise(resolve => setTimeout(resolve, delay))
+        } else {
+          throw error
+        }
+      }
+    }
+
+    throw new Error('Max retry attempts reached')
+
+  } catch (error: any) {
+    console.error('Failed to send email:', error)
+    return {
+      success: false,
+      error: error.message || 'Unknown error occurred'
+    }
+  }
+}
+\`\`\`
+
+## Usage Examples
+
+### Welcome Email
+
+\`\`\`typescript
+const result = await sendTransactionalEmail({
+  to: 'newuser@example.com',
+  subject: 'Welcome to Example App!',
+  template: 'welcome',
+  variables: {
+    name: 'Alice Johnson',
+    action_url: 'https://app.example.com/verify-email?token=abc123'
+  }
+})
+
+if (result.success) {
+  console.log(\`Email sent: \${result.id}\`)
+} else {
+  console.error(\`Failed to send: \${result.error}\`)
+}
+\`\`\`
+
+### Password Reset
+
+\`\`\`typescript
+const result = await sendTransactionalEmail({
+  to: 'user@example.com',
+  subject: 'Reset Your Password',
+  template: 'reset-password',
+  variables: {
+    action_url: 'https://app.example.com/reset?token=xyz789',
+    support_email: 'support@example.com'
+  }
+})
+\`\`\`
+
+### Purchase Receipt
+
+\`\`\`typescript
+const result = await sendTransactionalEmail({
+  to: 'customer@example.com',
+  subject: 'Receipt for Order #12345',
+  template: 'receipt',
+  variables: {
+    order_id: '12345',
+    amount: '99.99'
+  }
+})
+\`\`\`
+
+## Error Handling
+
+The function handles various error scenarios:
+
+- **Validation Errors**: Invalid email addresses, missing required fields
+- **API Errors**: Resend API failures, rate limiting
+- **Network Errors**: Connection issues, timeouts
+- **Template Errors**: Missing or invalid templates
+
+All errors are caught and returned in a consistent format:
+
+\`\`\`typescript
+{
+  success: false,
+  error: "Detailed error message"
+}
+\`\`\`
+
+## Testing
+
+\`\`\`typescript
+import { describe, test, expect, beforeAll } from 'vitest'
+import { sendTransactionalEmail } from './send-transactional-email'
+
+describe('sendTransactionalEmail', () => {
+  beforeAll(() => {
+    process.env.RESEND_API_KEY = 'test-api-key'
+  })
+
+  test('validates email address', async () => {
+    const result = await sendTransactionalEmail({
+      to: 'invalid-email',
+      subject: 'Test',
+      template: 'welcome'
+    })
+
+    expect(result.success).toBe(false)
+    expect(result.error).toContain('Invalid email address')
+  })
+
+  test('requires subject', async () => {
+    const result = await sendTransactionalEmail({
+      to: 'user@example.com',
+      subject: '',
+      template: 'welcome'
+    })
+
+    expect(result.success).toBe(false)
+    expect(result.error).toContain('Subject is required')
+  })
+
+  test('validates template name', async () => {
+    const result = await sendTransactionalEmail({
+      to: 'user@example.com',
+      subject: 'Test',
+      template: 'invalid-template' as any
+    })
+
+    expect(result.success).toBe(false)
+  })
+})
+\`\`\`
+
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `RESEND_API_KEY` | Yes | Your Resend API key |
+| `FROM_EMAIL` | No | Sender email address (default: noreply@example.com) |
+
+## Dependencies
+
+\`\`\`json
+{
+  "dependencies": {
+    "resend": "^3.0.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "vitest": "^1.0.0"
+  }
+}
+\`\`\`
+
+## Related
+
+- [Workflow: User Onboarding](/examples/workflow) - Uses this function
+- [Agent: Support Agent](/examples/agent) - Can trigger this function
+- [Resend Documentation](https://resend.com/docs)
+
+## License
+
+MIT - See [LICENSE](https://github.com/mdxld/mdxld/blob/main/LICENSE)
+# Component Example
+
+A complete example of an MDXLD Component entity for a reusable button with variants, sizes, and accessibility features.
+
+## Full MDXLD Document
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Component
+$id: https://ui.example.com/components/button
+title: Button Component
+description: A versatile button component with variants, sizes, icons, and full accessibility support
+framework: React
+version: 2.1.0
+license: MIT
+author:
+  $type: Organization
+  name: MDXLD Working Group
+  url: https://mdxld.org
+dateCreated: 2025-09-15
+dateModified: 2025-10-02
+keywords: [button, react, ui, accessible, component]
+
+# Component-specific properties
+propsSchema:
+  type: object
+  properties:
+    variant:
+      type: string
+      description: Button visual style
+      enum: [primary, secondary, outline, ghost, danger]
+      default: primary
+    size:
+      type: string
+      description: Button size
+      enum: [sm, md, lg, xl]
+      default: md
+    disabled:
+      type: boolean
+      description: Whether button is disabled
+      default: false
+    loading:
+      type: boolean
+      description: Whether button is in loading state
+      default: false
+    icon:
+      type: element
+      description: Optional icon element
+    iconPosition:
+      type: string
+      enum: [left, right]
+      default: left
+    children:
+      type: node
+      description: Button content
+      required: true
+    onClick:
+      type: function
+      description: Click event handler
+    className:
+      type: string
+      description: Additional CSS classes
+  required: [children]
+
+# Metadata
+metadata:
+  ns: component
+  visibility: public
+  category: ui
+  platform: Web
+tags:
+  - button
+  - ui
+  - react
+  - accessibility
+  - tailwind
+
+# Dependencies
+dependencies:
+  react: "^18.0.0"
+  clsx: "^2.0.0"
+
+# Related components
+relatedTo:
+  - https://ui.example.com/components/icon-button
+  - https://ui.example.com/components/link-button
+  - https://ui.example.com/components/button-group
+
+# Examples
+examples:
+  - $type: CodeExample
+    title: Primary button
+    code: |
+      <Button variant="primary" onClick={() => alert('Clicked!')}>
+        Click Me
+      </Button>
+  - $type: CodeExample
+    title: Loading button
+    code: |
+      <Button variant="primary" loading>
+        Processing...
+      </Button>
+  - $type: CodeExample
+    title: Button with icon
+    code: |
+      <Button variant="outline" icon={<DownloadIcon />}>
+        Download
+      </Button>
+---
+
+# Button Component
+
+A production-ready, accessible button component with multiple variants, sizes, loading states, and icon support. Built with React and Tailwind CSS.
+
+## Features
+
+✅ **Multiple Variants** - Primary, secondary, outline, ghost, danger
+✅ **Flexible Sizing** - Small to extra-large sizes
+✅ **Loading States** - Built-in loading spinner
+✅ **Icon Support** - Optional icons on left or right
+✅ **Fully Accessible** - WCAG 2.1 AA compliant
+✅ **Type Safe** - Complete TypeScript definitions
+✅ **Customizable** - Easy to extend with className
+
+## Implementation
+
+\`\`\`tsx
+import { type ButtonHTMLAttributes, type ReactNode, forwardRef } from 'react'
+import { clsx } from 'clsx'
+
+// Props interface
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+  loading?: boolean
+  icon?: ReactNode
+  iconPosition?: 'left' | 'right'
+  children: ReactNode
+}
+
+// Loading spinner component
+function LoadingSpinner({ size }: { size: 'sm' | 'md' | 'lg' | 'xl' }) {
+  const sizeClasses = {
+    sm: 'w-3 h-3',
+    md: 'w-4 h-4',
+    lg: 'w-5 h-5',
+    xl: 'w-6 h-6'
+  }
+
+  return (
+    <svg
+      className={clsx('animate-spin', sizeClasses[size])}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      />
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      />
+    </svg>
+  )
+}
+
+/**
+ * Button component with variants, sizes, loading states, and icon support
+ */
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      variant = 'primary',
+      size = 'md',
+      loading = false,
+      disabled = false,
+      icon,
+      iconPosition = 'left',
+      className,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    // Base styles
+    const baseStyles = clsx(
+      'inline-flex items-center justify-center',
+      'font-medium rounded-lg',
+      'transition-colors duration-200',
+      'focus:outline-none focus:ring-2 focus:ring-offset-2',
+      'disabled:opacity-50 disabled:cursor-not-allowed'
+    )
+
+    // Variant styles
+    const variantStyles = {
+      primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+      secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500',
+      outline: 'border-2 border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-500',
+      ghost: 'text-gray-700 hover:bg-gray-100 focus:ring-gray-500',
+      danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500'
+    }
+
+    // Size styles
+    const sizeStyles = {
+      sm: 'px-3 py-1.5 text-sm gap-1.5',
+      md: 'px-4 py-2 text-base gap-2',
+      lg: 'px-5 py-2.5 text-lg gap-2.5',
+      xl: 'px-6 py-3 text-xl gap-3'
+    }
+
+    const buttonClasses = clsx(
+      baseStyles,
+      variantStyles[variant],
+      sizeStyles[size],
+      className
+    )
+
+    const isDisabled = disabled || loading
+
+    return (
+      <button
+        ref={ref}
+        className={buttonClasses}
+        disabled={isDisabled}
+        aria-busy={loading}
+        aria-disabled={isDisabled}
+        {...props}
+      >
+        {loading && iconPosition === 'left' && <LoadingSpinner size={size} />}
+        {!loading && icon && iconPosition === 'left' && icon}
+        <span>{children}</span>
+        {!loading && icon && iconPosition === 'right' && icon}
+        {loading && iconPosition === 'right' && <LoadingSpinner size={size} />}
+      </button>
+    )
+  }
+)
+
+Button.displayName = 'Button'
+\`\`\`
+
+## Usage Examples
+
+### Basic Variants
+
+\`\`\`tsx
+import { Button } from '@/components/button'
+
+export function VariantsExample() {
+  return (
+    <div className="flex gap-4">
+      <Button variant="primary">Primary</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="danger">Danger</Button>
+    </div>
+  )
+}
+\`\`\`
+
+### Sizes
+
+\`\`\`tsx
+export function SizesExample() {
+  return (
+    <div className="flex items-center gap-4">
+      <Button size="sm">Small</Button>
+      <Button size="md">Medium</Button>
+      <Button size="lg">Large</Button>
+      <Button size="xl">Extra Large</Button>
+    </div>
+  )
+}
+\`\`\`
+
+### With Icons
+
+\`\`\`tsx
+import { DownloadIcon, ArrowRightIcon } from '@/components/icons'
+
+export function IconsExample() {
+  return (
+    <div className="flex gap-4">
+      <Button icon={<DownloadIcon />}>
+        Download
+      </Button>
+      <Button icon={<ArrowRightIcon />} iconPosition="right">
+        Next
+      </Button>
+    </div>
+  )
+}
+\`\`\`
+
+### Loading State
+
+\`\`\`tsx
+import { useState } from 'react'
+
+export function LoadingExample() {
+  const [loading, setLoading] = useState(false)
+
+  const handleClick = async () => {
+    setLoading(true)
+    await new Promise(resolve => setTimeout(resolve, 2000))
+    setLoading(false)
+  }
+
+  return (
+    <Button loading={loading} onClick={handleClick}>
+      {loading ? 'Processing...' : 'Submit'}
+    </Button>
+  )
+}
+\`\`\`
+
+### Disabled State
+
+\`\`\`tsx
+export function DisabledExample() {
+  return (
+    <div className="flex gap-4">
+      <Button disabled>Disabled Primary</Button>
+      <Button variant="outline" disabled>Disabled Outline</Button>
+    </div>
+  )
+}
+\`\`\`
+
+### Form Integration
+
+\`\`\`tsx
+export function FormExample() {
+  return (
+    <form onSubmit={(e) => {
+      e.preventDefault()
+      console.log('Form submitted')
+    }}>
+      <div className="space-y-4">
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full px-4 py-2 border rounded"
+        />
+        <div className="flex gap-2">
+          <Button type="submit" variant="primary">
+            Submit
+          </Button>
+          <Button type="button" variant="ghost">
+            Cancel
+          </Button>
+        </div>
+      </div>
+    </form>
+  )
+}
+\`\`\`
+
+## Interactive Demo
+
+Try the button variants below:
+
+<div className="space-y-6 p-6 border rounded-lg">
+  <div className="space-y-2">
+    <h3 className="font-semibold">Variants</h3>
+    <div className="flex flex-wrap gap-3">
+      <Button variant="primary">Primary</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="danger">Danger</Button>
+    </div>
+  </div>
+
+  <div className="space-y-2">
+    <h3 className="font-semibold">Sizes</h3>
+    <div className="flex items-center flex-wrap gap-3">
+      <Button size="sm">Small</Button>
+      <Button size="md">Medium</Button>
+      <Button size="lg">Large</Button>
+      <Button size="xl">Extra Large</Button>
+    </div>
+  </div>
+
+  <div className="space-y-2">
+    <h3 className="font-semibold">States</h3>
+    <div className="flex flex-wrap gap-3">
+      <Button loading>Loading...</Button>
+      <Button disabled>Disabled</Button>
+    </div>
+  </div>
+</div>
+
+## Accessibility
+
+The Button component follows WCAG 2.1 AA guidelines:
+
+- ✅ **Keyboard Navigation** - Fully accessible via keyboard
+- ✅ **Screen Readers** - Proper ARIA attributes (`aria-busy`, `aria-disabled`)
+- ✅ **Focus Indicators** - Clear focus ring on keyboard navigation
+- ✅ **Color Contrast** - All variants meet contrast requirements
+- ✅ **Loading States** - Announced to screen readers via `aria-busy`
+- ✅ **Disabled State** - Proper disabled styling and behavior
+
+## Testing
+
+\`\`\`tsx
+import { render, screen, fireEvent } from '@testing-library/react'
+import { describe, test, expect, vi } from 'vitest'
+import { Button } from './button'
+
+describe('Button', () => {
+  test('renders children', () => {
+    render(<Button>Click me</Button>)
+    expect(screen.getByText('Click me')).toBeInTheDocument()
+  })
+
+  test('calls onClick when clicked', () => {
+    const handleClick = vi.fn()
+    render(<Button onClick={handleClick}>Click me</Button>)
+
+    fireEvent.click(screen.getByText('Click me'))
+    expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  test('does not call onClick when disabled', () => {
+    const handleClick = vi.fn()
+    render(<Button disabled onClick={handleClick}>Click me</Button>)
+
+    fireEvent.click(screen.getByText('Click me'))
+    expect(handleClick).not.toHaveBeenCalled()
+  })
+
+  test('shows loading spinner when loading', () => {
+    render(<Button loading>Loading</Button>)
+    expect(screen.getByRole('button')).toHaveAttribute('aria-busy', 'true')
+  })
+
+  test('applies correct variant styles', () => {
+    const { rerender } = render(<Button variant="primary">Primary</Button>)
+    expect(screen.getByText('Primary')).toHaveClass('bg-blue-600')
+
+    rerender(<Button variant="danger">Danger</Button>)
+    expect(screen.getByText('Danger')).toHaveClass('bg-red-600')
+  })
+
+  test('applies correct size styles', () => {
+    const { rerender } = render(<Button size="sm">Small</Button>)
+    expect(screen.getByText('Small')).toHaveClass('px-3', 'py-1.5', 'text-sm')
+
+    rerender(<Button size="xl">Extra Large</Button>)
+    expect(screen.getByText('Extra Large')).toHaveClass('px-6', 'py-3', 'text-xl')
+  })
+
+  test('renders icon in correct position', () => {
+    const Icon = () => <span data-testid="icon">→</span>
+
+    const { rerender } = render(
+      <Button icon={<Icon />} iconPosition="left">
+        Next
+      </Button>
+    )
+    const button = screen.getByRole('button')
+    expect(button.children[0]).toHaveAttribute('data-testid', 'icon')
+
+    rerender(
+      <Button icon={<Icon />} iconPosition="right">
+        Next
+      </Button>
+    )
+    expect(button.children[button.children.length - 1]).toHaveAttribute('data-testid', 'icon')
+  })
+})
+\`\`\`
+
+## Customization
+
+### Extending Variants
+
+Add custom variants by extending the component:
+
+\`\`\`tsx
+const customVariantStyles = {
+  ...variantStyles,
+  success: 'bg-green-600 text-white hover:bg-green-700 focus:ring-green-500',
+  warning: 'bg-yellow-500 text-black hover:bg-yellow-600 focus:ring-yellow-400'
+}
+\`\`\`
+
+### Custom Styling
+
+Override styles with className:
+
+\`\`\`tsx
+<Button className="rounded-full px-8 shadow-lg">
+  Custom Styled
+</Button>
+\`\`\`
+
+## Dependencies
+
+\`\`\`json
+{
+  "dependencies": {
+    "react": "^18.0.0",
+    "clsx": "^2.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^14.0.0",
+    "vitest": "^1.0.0"
+  }
+}
+\`\`\`
+
+## Related
+
+- [Icon Button Component](/examples/icon-button) - Icon-only variant
+- [Link Button Component](/examples/link-button) - Link styled as button
+- [Button Group Component](/examples/button-group) - Group multiple buttons
+
+## License
+
+MIT - See [LICENSE](https://github.com/mdxld/mdxld/blob/main/LICENSE)
+# Workflow Example
+
+A complete example of an MDXLD Workflow entity for user onboarding with email verification, profile setup, and welcome sequence.
+
+## Full MDXLD Document
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Workflow
+$id: https://api.example.com/workflows/user-onboarding
+title: User Onboarding Workflow
+description: Automated user onboarding process with email verification, profile setup, and welcome sequence
+version: 3.0.0
+license: MIT
+author:
+  $type: Organization
+  name: MDXLD Working Group
+  url: https://mdxld.org
+dateCreated: 2025-08-01
+dateModified: 2025-10-02
+keywords: [onboarding, workflow, automation, email, user]
+
+# Workflow-specific properties
+trigger:
+  type: webhook
+  event: user.created
+  schema:
+    type: object
+    properties:
+      userId:
+        type: string
+        format: uuid
+      email:
+        type: string
+        format: email
+      name:
+        type: string
+    required: [userId, email, name]
+
+steps:
+  - id: send-verification-email
+    title: Send Verification Email
+    type: function
+    function: https://api.example.com/functions/send-transactional-email
+    inputs:
+      to: "{{trigger.email}}"
+      subject: Verify your email address
+      template: verification
+      variables:
+        name: "{{trigger.name}}"
+        verification_url: "{{generateVerificationUrl(trigger.userId)}}"
+    timeout: 30000
+    retry:
+      attempts: 3
+      backoff: exponential
+
+  - id: wait-for-verification
+    title: Wait for Email Verification
+    type: wait
+    event: user.verified
+    condition: "{{event.userId}} === {{trigger.userId}}"
+    timeout: 86400000  # 24 hours
+    onTimeout:
+      - id: send-reminder
+        type: function
+        function: https://api.example.com/functions/send-transactional-email
+        inputs:
+          to: "{{trigger.email}}"
+          subject: Don't forget to verify your email
+          template: verification-reminder
+
+  - id: create-stripe-customer
+    title: Create Stripe Customer
+    type: api-call
+    method: POST
+    endpoint: https://api.stripe.com/v1/customers
+    headers:
+      Authorization: "Bearer {{env.STRIPE_API_KEY}}"
+    body:
+      email: "{{trigger.email}}"
+      name: "{{trigger.name}}"
+      metadata:
+        user_id: "{{trigger.userId}}"
+    retry:
+      attempts: 5
+      backoff: exponential
+
+  - id: update-user-profile
+    title: Update User Profile
+    type: database
+    operation: update
+    table: users
+    where:
+      id: "{{trigger.userId}}"
+    data:
+      stripe_customer_id: "{{steps.create-stripe-customer.response.id}}"
+      email_verified: true
+      email_verified_at: "{{now()}}"
+      onboarding_completed: true
+
+  - id: add-to-mailing-list
+    title: Add to Mailing List
+    type: function
+    function: https://api.example.com/functions/add-to-mailchimp
+    inputs:
+      email: "{{trigger.email}}"
+      firstName: "{{trigger.name}}"
+      tags: [new-user, onboarded]
+    continueOnError: true  # Don't fail workflow if this fails
+
+  - id: send-welcome-email
+    title: Send Welcome Email
+    type: function
+    function: https://api.example.com/functions/send-transactional-email
+    inputs:
+      to: "{{trigger.email}}"
+      subject: "Welcome to {{env.APP_NAME}}!"
+      template: welcome
+      variables:
+        name: "{{trigger.name}}"
+        dashboard_url: "{{env.APP_URL}}/dashboard"
+        support_email: "{{env.SUPPORT_EMAIL}}"
+
+  - id: schedule-follow-up
+    title: Schedule Follow-up Email
+    type: schedule
+    delay: 259200000  # 3 days
+    workflow: https://api.example.com/workflows/send-follow-up
+    inputs:
+      userId: "{{trigger.userId}}"
+      email: "{{trigger.email}}"
+      name: "{{trigger.name}}"
+
+concurrency: sequential
+timeout: 172800000  # 48 hours
+retry:
+  attempts: 3
+  backoff: exponential
+
+# Metadata
+metadata:
+  ns: workflow
+  visibility: public
+  category: onboarding
+tags:
+  - onboarding
+  - automation
+  - email
+  - user-management
+
+# Related entities
+relatedTo:
+  - https://api.example.com/functions/send-transactional-email
+  - https://api.example.com/workflows/send-follow-up
+  - https://api.example.com/agents/support-agent
+---
+
+# User Onboarding Workflow
+
+Comprehensive user onboarding workflow that handles email verification, payment setup, profile completion, and welcome communications.
+
+## Workflow Diagram
+
+\`\`\`
+Trigger: user.created
+    ↓
+1. Send Verification Email
+    ↓
+2. Wait for Email Verification (24h timeout)
+    ├─ Verified → Continue
+    └─ Timeout → Send Reminder → Continue
+    ↓
+3. Create Stripe Customer
+    ↓
+4. Update User Profile
+    ├─ Set stripe_customer_id
+    ├─ Mark email as verified
+    └─ Mark onboarding complete
+    ↓
+5. Add to Mailing List (optional)
+    ↓
+6. Send Welcome Email
+    ↓
+7. Schedule Follow-up (3 days later)
+\`\`\`
+
+## Features
+
+✅ **Email Verification** - Double opt-in with verification link
+✅ **Payment Setup** - Automatic Stripe customer creation
+✅ **Profile Completion** - Update user record with all details
+✅ **Marketing Integration** - Mailchimp list subscription
+✅ **Welcome Sequence** - Personalized welcome email
+✅ **Follow-up Automation** - Scheduled check-in emails
+✅ **Error Handling** - Retry logic and fallbacks
+✅ **Monitoring** - Comprehensive logging and metrics
+
+## Implementation
+
+\`\`\`typescript
+import { WorkflowEngine, Step, Trigger } from '@mdxld/workflow'
+import { sendTransactionalEmail } from '../functions/send-transactional-email'
+import { addToMailchimp } from '../functions/add-to-mailchimp'
+import { db } from '../db'
+import Stripe from 'stripe'
+
+// Initialize dependencies
+const stripe = new Stripe(process.env.STRIPE_API_KEY!)
+
+// Workflow configuration
+export const userOnboardingWorkflow = new WorkflowEngine({
+  id: 'user-onboarding',
+  trigger: {
+    type: 'webhook',
+    event: 'user.created'
+  },
+  steps: [
+    // Step 1: Send verification email
+    {
+      id: 'send-verification-email',
+      run: async (context) => {
+        const { userId, email, name } = context.trigger
+        const verificationUrl = generateVerificationUrl(userId)
+
+        return await sendTransactionalEmail({
+          to: email,
+          subject: 'Verify your email address',
+          template: 'verification',
+          variables: { name, verification_url: verificationUrl }
+        })
+      },
+      retry: {
+        attempts: 3,
+        backoff: 'exponential'
+      }
+    },
+
+    // Step 2: Wait for email verification
+    {
+      id: 'wait-for-verification',
+      type: 'wait',
+      event: 'user.verified',
+      condition: (event, context) => event.userId === context.trigger.userId,
+      timeout: 24 * 60 * 60 * 1000, // 24 hours
+      onTimeout: async (context) => {
+        // Send reminder if not verified within 24 hours
+        await sendTransactionalEmail({
+          to: context.trigger.email,
+          subject: "Don't forget to verify your email",
+          template: 'verification-reminder',
+          variables: { name: context.trigger.name }
+        })
+      }
+    },
+
+    // Step 3: Create Stripe customer
+    {
+      id: 'create-stripe-customer',
+      run: async (context) => {
+        const { email, name, userId } = context.trigger
+
+        const customer = await stripe.customers.create({
+          email,
+          name,
+          metadata: { user_id: userId }
+        })
+
+        return { customerId: customer.id }
+      },
+      retry: {
+        attempts: 5,
+        backoff: 'exponential'
+      }
+    },
+
+    // Step 4: Update user profile
+    {
+      id: 'update-user-profile',
+      run: async (context) => {
+        const { userId } = context.trigger
+        const { customerId } = context.steps['create-stripe-customer']
+
+        await db.users.update({
+          where: { id: userId },
+          data: {
+            stripe_customer_id: customerId,
+            email_verified: true,
+            email_verified_at: new Date(),
+            onboarding_completed: true
+          }
+        })
+      }
+    },
+
+    // Step 5: Add to mailing list (optional - continue on error)
+    {
+      id: 'add-to-mailing-list',
+      run: async (context) => {
+        const { email, name } = context.trigger
+
+        await addToMailchimp({
+          email,
+          firstName: name,
+          tags: ['new-user', 'onboarded']
+        })
+      },
+      continueOnError: true
+    },
+
+    // Step 6: Send welcome email
+    {
+      id: 'send-welcome-email',
+      run: async (context) => {
+        const { email, name } = context.trigger
+
+        return await sendTransactionalEmail({
+          to: email,
+          subject: \`Welcome to \${process.env.APP_NAME}!\`,
+          template: 'welcome',
+          variables: {
+            name,
+            dashboard_url: \`\${process.env.APP_URL}/dashboard\`,
+            support_email: process.env.SUPPORT_EMAIL
+          }
+        })
+      }
+    },
+
+    // Step 7: Schedule follow-up
+    {
+      id: 'schedule-follow-up',
+      run: async (context) => {
+        const { userId, email, name } = context.trigger
+
+        // Schedule follow-up email for 3 days later
+        await WorkflowEngine.schedule({
+          workflow: 'send-follow-up',
+          delay: 3 * 24 * 60 * 60 * 1000,
+          inputs: { userId, email, name }
+        })
+      }
+    }
+  ],
+  concurrency: 'sequential',
+  timeout: 48 * 60 * 60 * 1000, // 48 hours
+  retry: {
+    attempts: 3,
+    backoff: 'exponential'
+  }
+})
+
+// Helper function to generate verification URL
+function generateVerificationUrl(userId: string): string {
+  const token = generateVerificationToken(userId)
+  return \`\${process.env.APP_URL}/verify-email?token=\${token}\`
+}
+
+// Trigger workflow when user is created
+export async function onUserCreated(user: {
+  userId: string
+  email: string
+  name: string
+}) {
+  await userOnboardingWorkflow.trigger(user)
+}
+\`\`\`
+
+## Usage Examples
+
+### Trigger Workflow
+
+\`\`\`typescript
+import { onUserCreated } from './workflows/user-onboarding'
+
+// In your user registration handler
+app.post('/api/register', async (req, res) => {
+  const { email, name, password } = req.body
+
+  // Create user in database
+  const user = await db.users.create({
+    data: { email, name, password: hashPassword(password) }
+  })
+
+  // Trigger onboarding workflow
+  await onUserCreated({
+    userId: user.id,
+    email: user.email,
+    name: user.name
+  })
+
+  res.json({ success: true, userId: user.id })
+})
+\`\`\`
+
+### Monitor Workflow
+
+\`\`\`typescript
+import { WorkflowEngine } from '@mdxld/workflow'
+
+// Get workflow status
+const status = await WorkflowEngine.getStatus('user-onboarding', userId)
+
+console.log(status)
+// {
+//   workflowId: 'user-onboarding',
+//   instanceId: 'run-123',
+//   status: 'running',
+//   currentStep: 'wait-for-verification',
+//   completedSteps: ['send-verification-email'],
+//   startedAt: '2025-10-02T10:00:00Z'
+// }
+\`\`\`
+
+### Cancel Workflow
+
+\`\`\`typescript
+// Cancel a running workflow
+await WorkflowEngine.cancel('user-onboarding', userId)
+\`\`\`
+
+### Retry Failed Step
+
+\`\`\`typescript
+// Retry a specific step that failed
+await WorkflowEngine.retryStep('user-onboarding', userId, 'create-stripe-customer')
+\`\`\`
+
+## Error Handling
+
+The workflow includes comprehensive error handling:
+
+### Retry Logic
+
+Steps with retry configuration automatically retry on failure:
+
+\`\`\`typescript
+retry: {
+  attempts: 3,           // Retry up to 3 times
+  backoff: 'exponential' // Exponential backoff (1s, 2s, 4s, 8s...)
+}
+\`\`\`
+
+### Continue on Error
+
+Non-critical steps can continue even if they fail:
+
+\`\`\`typescript
+{
+  id: 'add-to-mailing-list',
+  continueOnError: true  // Workflow continues even if this fails
+}
+\`\`\`
+
+### Timeout Handling
+
+Steps with timeouts trigger fallback actions:
+
+\`\`\`typescript
+{
+  timeout: 86400000,  // 24 hours
+  onTimeout: async () => {
+    // Send reminder email
+  }
+}
+\`\`\`
+
+### Error Notifications
+
+Failed workflows trigger alerts:
+
+\`\`\`typescript
+userOnboardingWorkflow.on('error', async (error, context) => {
+  await sendAlert({
+    type: 'workflow-error',
+    workflow: 'user-onboarding',
+    userId: context.trigger.userId,
+    error: error.message
+  })
+})
+\`\`\`
+
+## Testing
+
+\`\`\`typescript
+import { describe, test, expect, beforeEach, vi } from 'vitest'
+import { userOnboardingWorkflow } from './user-onboarding'
+import { WorkflowTestHarness } from '@mdxld/workflow/testing'
+
+describe('User Onboarding Workflow', () => {
+  let harness: WorkflowTestHarness
+
+  beforeEach(() => {
+    harness = new WorkflowTestHarness(userOnboardingWorkflow)
+  })
+
+  test('completes successfully with email verification', async () => {
+    const result = await harness
+      .trigger({
+        userId: 'user-123',
+        email: 'test@example.com',
+        name: 'Test User'
+      })
+      .waitForStep('wait-for-verification')
+      .emit('user.verified', { userId: 'user-123' })
+      .run()
+
+    expect(result.status).toBe('completed')
+    expect(result.completedSteps).toHaveLength(7)
+  })
+
+  test('sends reminder on verification timeout', async () => {
+    const sendEmailMock = vi.fn()
+
+    const result = await harness
+      .trigger({
+        userId: 'user-123',
+        email: 'test@example.com',
+        name: 'Test User'
+      })
+      .mock('send-transactional-email', sendEmailMock)
+      .waitForStep('wait-for-verification')
+      .advanceTime(25 * 60 * 60 * 1000) // Advance 25 hours
+      .run()
+
+    expect(sendEmailMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        template: 'verification-reminder'
+      })
+    )
+  })
+
+  test('continues on mailing list error', async () => {
+    const result = await harness
+      .trigger({
+        userId: 'user-123',
+        email: 'test@example.com',
+        name: 'Test User'
+      })
+      .failStep('add-to-mailing-list', new Error('Mailchimp API error'))
+      .run()
+
+    expect(result.status).toBe('completed')
+    expect(result.errors).toHaveLength(1)
+    expect(result.completedSteps).toContain('send-welcome-email')
+  })
+
+  test('retries Stripe customer creation on failure', async () => {
+    const createCustomerMock = vi
+      .fn()
+      .mockRejectedValueOnce(new Error('Network error'))
+      .mockResolvedValue({ id: 'cus-123' })
+
+    const result = await harness
+      .trigger({
+        userId: 'user-123',
+        email: 'test@example.com',
+        name: 'Test User'
+      })
+      .mock('create-stripe-customer', createCustomerMock)
+      .run()
+
+    expect(createCustomerMock).toHaveBeenCalledTimes(2)
+    expect(result.status).toBe('completed')
+  })
+})
+\`\`\`
+
+## Monitoring
+
+View workflow metrics and logs:
+
+\`\`\`typescript
+// Get workflow analytics
+const analytics = await WorkflowEngine.getAnalytics('user-onboarding', {
+  startDate: '2025-10-01',
+  endDate: '2025-10-02'
+})
+
+console.log(analytics)
+// {
+//   totalRuns: 142,
+//   completed: 135,
+//   failed: 4,
+//   running: 3,
+//   averageDuration: 320000, // ms
+//   successRate: 0.95,
+//   stepMetrics: {
+//     'send-verification-email': { success: 142, failed: 0, avgDuration: 1200 },
+//     'create-stripe-customer': { success: 138, failed: 4, avgDuration: 2500 },
+//     ...
+//   }
+// }
+\`\`\`
+
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `STRIPE_API_KEY` | Yes | Stripe API secret key |
+| `APP_NAME` | Yes | Application name for emails |
+| `APP_URL` | Yes | Application base URL |
+| `SUPPORT_EMAIL` | Yes | Support email address |
+
+## Dependencies
+
+\`\`\`json
+{
+  "dependencies": {
+    "@mdxld/workflow": "^1.0.0",
+    "stripe": "^14.0.0"
+  }
+}
+\`\`\`
+
+## Related
+
+- [Function: Send Transactional Email](/examples/function)
+- [Workflow: Send Follow-up](/examples/workflow-follow-up)
+- [Agent: Support Agent](/examples/agent)
+
+## License
+
+MIT - See [LICENSE](https://github.com/mdxld/mdxld/blob/main/LICENSE)
+# Agent Example
+
+A complete example of an MDXLD Agent entity for a customer support AI agent with tool use, knowledge base integration, and conversation management.
+
+## Full MDXLD Document
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Agent
+$id: https://api.example.com/agents/customer-support
+title: Customer Support Agent
+description: AI-powered customer support agent with knowledge base access, order tracking, and ticket creation
+version: 2.5.0
+license: MIT
+author:
+  $type: Organization
+  name: MDXLD Working Group
+  url: https://mdxld.org
+dateCreated: 2025-07-15
+dateModified: 2025-10-02
+keywords: [agent, ai, support, customer-service, chatbot]
+
+# Agent-specific properties
+role: Customer Support Specialist
+model: claude-3-5-sonnet-20250929
+temperature: 0.7
+maxTokens: 4000
+
+capabilities:
+  - chat
+  - email
+  - knowledge-base
+  - tool-use
+
+systemPrompt: |
+  You are a helpful and empathetic customer support agent for Example Company.
+
+  Your responsibilities:
+  - Answer customer questions accurately and professionally
+  - Help customers track their orders
+  - Resolve common issues and complaints
+  - Escalate complex issues by creating support tickets
+  - Maintain a friendly and understanding tone
+
+  Guidelines:
+  - Always verify customer identity before sharing order information
+  - Use the knowledge base to find accurate answers
+  - Be honest if you don't know something
+  - Offer alternatives when unable to help directly
+  - End conversations with "Is there anything else I can help you with?"
+
+  Available tools:
+  - search_knowledge_base: Search documentation and FAQs
+  - get_order_status: Check order status and tracking
+  - create_ticket: Escalate to human support
+  - send_email: Send follow-up emails
+
+tools:
+  - id: search_knowledge_base
+    type: function
+    function: https://api.example.com/tools/search-knowledge-base
+    description: Search the knowledge base for answers to customer questions
+    parameters:
+      type: object
+      properties:
+        query:
+          type: string
+          description: Search query
+        category:
+          type: string
+          enum: [billing, shipping, returns, technical, account]
+      required: [query]
+
+  - id: get_order_status
+    type: function
+    function: https://api.example.com/tools/get-order-status
+    description: Get the current status and tracking information for an order
+    parameters:
+      type: object
+      properties:
+        order_id:
+          type: string
+          description: Order ID or order number
+        email:
+          type: string
+          description: Customer email for verification
+      required: [order_id, email]
+
+  - id: create_ticket
+    type: function
+    function: https://api.example.com/tools/create-support-ticket
+    description: Create a support ticket for human review
+    parameters:
+      type: object
+      properties:
+        subject:
+          type: string
+          description: Ticket subject
+        description:
+          type: string
+          description: Detailed description of the issue
+        priority:
+          type: string
+          enum: [low, medium, high, urgent]
+        customer_email:
+          type: string
+          description: Customer's email address
+      required: [subject, description, customer_email]
+
+  - id: send_email
+    type: function
+    function: https://api.example.com/functions/send-transactional-email
+    description: Send a follow-up email to the customer
+    parameters:
+      type: object
+      properties:
+        to:
+          type: string
+          description: Customer email
+        subject:
+          type: string
+        template:
+          type: string
+          enum: [follow-up, confirmation, resolution]
+        variables:
+          type: object
+      required: [to, subject, template]
+
+# Memory and context
+memory:
+  type: conversation
+  retention: 7 # days
+  maxMessages: 50
+
+# Guardrails
+guardrails:
+  - type: pii-protection
+    enabled: true
+    redact: [ssn, credit-card]
+  - type: content-filter
+    enabled: true
+    categories: [harmful, offensive]
+  - type: rate-limit
+    requests: 100
+    window: 60 # seconds
+
+# Metadata
+metadata:
+  ns: agent
+  visibility: public
+  category: customer-support
+tags:
+  - agent
+  - ai
+  - customer-support
+  - claude
+  - chatbot
+
+# Related entities
+relatedTo:
+  - https://api.example.com/tools/search-knowledge-base
+  - https://api.example.com/functions/send-transactional-email
+  - https://api.example.com/workflows/support-ticket-workflow
+---
+
+# Customer Support Agent
+
+An AI-powered customer support agent built with Claude 3.5 Sonnet that can answer questions, track orders, search documentation, and escalate issues to human agents.
+
+## Features
+
+✅ **Natural Conversations** - Human-like, empathetic responses
+✅ **Knowledge Base Integration** - Access to docs and FAQs
+✅ **Order Tracking** - Real-time order status lookup
+✅ **Ticket Creation** - Escalation to human support
+✅ **Email Follow-ups** - Automated follow-up emails
+✅ **Conversation Memory** - Context-aware conversations
+✅ **PII Protection** - Automatic redaction of sensitive data
+✅ **Multi-channel** - Chat, email, and API support
+
+## Implementation
+
+\`\`\`typescript
+import { Anthropic } from '@anthropic-ai/sdk'
+import type { Tool } from '@anthropic-ai/sdk/resources'
+
+// Initialize Anthropic client
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY
+})
+
+// Tool definitions
+const tools: Tool[] = [
+  {
+    name: 'search_knowledge_base',
+    description: 'Search the knowledge base for answers to customer questions',
+    input_schema: {
+      type: 'object',
+      properties: {
+        query: {
+          type: 'string',
+          description: 'Search query'
+        },
+        category: {
+          type: 'string',
+          enum: ['billing', 'shipping', 'returns', 'technical', 'account'],
+          description: 'Category to search in'
+        }
+      },
+      required: ['query']
+    }
+  },
+  {
+    name: 'get_order_status',
+    description: 'Get the current status and tracking information for an order',
+    input_schema: {
+      type: 'object',
+      properties: {
+        order_id: {
+          type: 'string',
+          description: 'Order ID or order number'
+        },
+        email: {
+          type: 'string',
+          description: 'Customer email for verification'
+        }
+      },
+      required: ['order_id', 'email']
+    }
+  },
+  {
+    name: 'create_ticket',
+    description: 'Create a support ticket for human review',
+    input_schema: {
+      type: 'object',
+      properties: {
+        subject: { type: 'string', description: 'Ticket subject' },
+        description: { type: 'string', description: 'Detailed description' },
+        priority: {
+          type: 'string',
+          enum: ['low', 'medium', 'high', 'urgent']
+        },
+        customer_email: { type: 'string' }
+      },
+      required: ['subject', 'description', 'customer_email']
+    }
+  },
+  {
+    name: 'send_email',
+    description: 'Send a follow-up email to the customer',
+    input_schema: {
+      type: 'object',
+      properties: {
+        to: { type: 'string' },
+        subject: { type: 'string' },
+        template: {
+          type: 'string',
+          enum: ['follow-up', 'confirmation', 'resolution']
+        },
+        variables: { type: 'object' }
+      },
+      required: ['to', 'subject', 'template']
+    }
+  }
+]
+
+// System prompt
+const systemPrompt = \`
+You are a helpful and empathetic customer support agent for Example Company.
+
+Your responsibilities:
+- Answer customer questions accurately and professionally
+- Help customers track their orders
+- Resolve common issues and complaints
+- Escalate complex issues by creating support tickets
+- Maintain a friendly and understanding tone
+
+Guidelines:
+- Always verify customer identity before sharing order information
+- Use the knowledge base to find accurate answers
+- Be honest if you don't know something
+- Offer alternatives when unable to help directly
+- End conversations with "Is there anything else I can help you with?"
+\`.trim()
+
+// Tool implementations
+async function executeToolCall(toolName: string, toolInput: any) {
+  switch (toolName) {
+    case 'search_knowledge_base':
+      return await searchKnowledgeBase(toolInput.query, toolInput.category)
+
+    case 'get_order_status':
+      return await getOrderStatus(toolInput.order_id, toolInput.email)
+
+    case 'create_ticket':
+      return await createSupportTicket(toolInput)
+
+    case 'send_email':
+      return await sendEmail(toolInput)
+
+    default:
+      throw new Error(\`Unknown tool: \${toolName}\`)
+  }
+}
+
+// Conversation state management
+interface ConversationState {
+  messages: Anthropic.MessageParam[]
+  customerId?: string
+  customerEmail?: string
+}
+
+const conversations = new Map<string, ConversationState>()
+
+/**
+ * Customer support agent
+ */
+export async function customerSupportAgent(params: {
+  message: string
+  conversationId: string
+  customerId?: string
+  customerEmail?: string
+}): Promise<{
+  response: string
+  conversationId: string
+  toolCalls?: string[]
+}> {
+  const { message, conversationId, customerId, customerEmail } = params
+
+  // Get or create conversation state
+  let state = conversations.get(conversationId)
+  if (!state) {
+    state = { messages: [], customerId, customerEmail }
+    conversations.set(conversationId, state)
+  }
+
+  // Add user message
+  state.messages.push({
+    role: 'user',
+    content: message
+  })
+
+  const toolCalls: string[] = []
+  let finalResponse = ''
+
+  // Agentic loop - continue until no more tool calls
+  while (true) {
+    const response = await anthropic.messages.create({
+      model: 'claude-3-5-sonnet-20250929',
+      max_tokens: 4000,
+      temperature: 0.7,
+      system: systemPrompt,
+      messages: state.messages,
+      tools
+    })
+
+    // Check if response requires tool use
+    const toolUseBlock = response.content.find(block => block.type === 'tool_use')
+
+    if (toolUseBlock && toolUseBlock.type === 'tool_use') {
+      // Execute tool
+      console.log(\`Executing tool: \${toolUseBlock.name}\`)
+      toolCalls.push(toolUseBlock.name)
+
+      const toolResult = await executeToolCall(
+        toolUseBlock.name,
+        toolUseBlock.input
+      )
+
+      // Add assistant message with tool use
+      state.messages.push({
+        role: 'assistant',
+        content: response.content
+      })
+
+      // Add tool result
+      state.messages.push({
+        role: 'user',
+        content: [
+          {
+            type: 'tool_result',
+            tool_use_id: toolUseBlock.id,
+            content: JSON.stringify(toolResult)
+          }
+        ]
+      })
+    } else {
+      // No more tool calls - extract final response
+      const textBlock = response.content.find(block => block.type === 'text')
+      finalResponse = textBlock && textBlock.type === 'text' ? textBlock.text : ''
+
+      // Add final assistant message
+      state.messages.push({
+        role: 'assistant',
+        content: finalResponse
+      })
+
+      break
+    }
+  }
+
+  return {
+    response: finalResponse,
+    conversationId,
+    toolCalls: toolCalls.length > 0 ? toolCalls : undefined
+  }
+}
+
+// Tool implementation stubs
+async function searchKnowledgeBase(query: string, category?: string) {
+  // Implementation would search vector database, docs, etc.
+  return {
+    results: [
+      {
+        title: 'How to track your order',
+        content: 'You can track your order using the order number...',
+        relevance: 0.95
+      }
+    ]
+  }
+}
+
+async function getOrderStatus(orderId: string, email: string) {
+  // Implementation would query orders API
+  return {
+    orderId,
+    status: 'shipped',
+    trackingNumber: 'TRACK123',
+    estimatedDelivery: '2025-10-05'
+  }
+}
+
+async function createSupportTicket(input: any) {
+  // Implementation would create ticket in support system
+  return {
+    ticketId: 'TICKET-123',
+    status: 'open',
+    message: 'Support ticket created successfully'
+  }
+}
+
+async function sendEmail(input: any) {
+  // Implementation would send email via Resend/SendGrid
+  return {
+    success: true,
+    messageId: 'msg-123'
+  }
+}
+\`\`\`
+
+## Usage Examples
+
+### Chat Interface
+
+\`\`\`typescript
+import { customerSupportAgent } from './agents/customer-support'
+
+// Handle user message
+app.post('/api/chat', async (req, res) => {
+  const { message, conversationId, customerId, customerEmail } = req.body
+
+  const result = await customerSupportAgent({
+    message,
+    conversationId: conversationId || generateId(),
+    customerId,
+    customerEmail
+  })
+
+  res.json({
+    response: result.response,
+    conversationId: result.conversationId
+  })
+})
+\`\`\`
+
+### Email Support
+
+\`\`\`typescript
+// Process incoming support emails
+app.post('/api/webhooks/inbound-email', async (req, res) => {
+  const { from, subject, body } = req.body
+
+  // Generate response
+  const result = await customerSupportAgent({
+    message: \`Subject: \${subject}\n\n\${body}\`,
+    conversationId: \`email-\${from}\`,
+    customerEmail: from
+  })
+
+  // Send response via email
+  await sendEmail({
+    to: from,
+    subject: \`Re: \${subject}\`,
+    body: result.response
+  })
+
+  res.json({ success: true })
+})
+\`\`\`
+
+### Slack Integration
+
+\`\`\`typescript
+// Handle Slack mentions
+app.post('/api/slack/events', async (req, res) => {
+  const { event } = req.body
+
+  if (event.type === 'app_mention') {
+    const result = await customerSupportAgent({
+      message: event.text.replace(/<@\w+>/, '').trim(),
+      conversationId: \`slack-\${event.channel}\`,
+    })
+
+    await slackClient.chat.postMessage({
+      channel: event.channel,
+      text: result.response
+    })
+  }
+
+  res.json({ ok: true })
+})
+\`\`\`
+
+## Interactive Demo
+
+Try asking the support agent:
+
+<div className="border rounded-lg p-4 space-y-4">
+  <div className="space-y-2">
+    <p className="font-semibold">Example Questions:</p>
+    <ul className="space-y-1 text-sm">
+      <li>• "What's the status of my order #12345?"</li>
+      <li>• "How do I return an item?"</li>
+      <li>• "I haven't received my order yet"</li>
+      <li>• "Can you help me reset my password?"</li>
+    </ul>
+  </div>
+
+  {/* This would be a live chat interface in production */}
+  <div className="bg-gray-50 rounded p-3 text-sm">
+    <p className="font-medium mb-2">Agent Response:</p>
+    <p>I'd be happy to help! Could you provide your order number and the email address used for the purchase so I can look up your order status?</p>
+  </div>
+</div>
+
+## Conversation Memory
+
+The agent maintains conversation context:
+
+\`\`\`typescript
+// First message
+await customerSupportAgent({
+  message: "I have a question about my order",
+  conversationId: "conv-123"
+})
+// Response: "I'd be happy to help with your order! Could you provide your order number?"
+
+// Follow-up (context is maintained)
+await customerSupportAgent({
+  message: "It's order #12345",
+  conversationId: "conv-123" // Same conversation ID
+})
+// Response: "Let me check the status of order #12345..."
+\`\`\`
+
+## PII Protection
+
+Sensitive data is automatically redacted:
+
+\`\`\`typescript
+const message = "My SSN is 123-45-6789 and card number is 4532-1234-5678-9010"
+
+// PII is redacted before being sent to the model
+const sanitized = redactPII(message)
+// "My SSN is [REDACTED] and card number is [REDACTED]"
+\`\`\`
+
+## Rate Limiting
+
+Prevent abuse with rate limiting:
+
+\`\`\`typescript
+const rateLimiter = new RateLimiter({
+  requests: 100,
+  window: 60 // seconds
+})
+
+app.post('/api/chat', rateLimiter.middleware(), async (req, res) => {
+  // Handle request
+})
+\`\`\`
+
+## Monitoring
+
+Track agent performance:
+
+\`\`\`typescript
+import { AgentAnalytics } from '@mdxld/agent'
+
+const analytics = await AgentAnalytics.getMetrics('customer-support', {
+  startDate: '2025-10-01',
+  endDate: '2025-10-02'
+})
+
+console.log(analytics)
+// {
+//   totalConversations: 1250,
+//   averageResponseTime: 1200, // ms
+//   toolUsage: {
+//     search_knowledge_base: 450,
+//     get_order_status: 320,
+//     create_ticket: 45,
+//     send_email: 180
+//   },
+//   satisfactionScore: 4.6,
+//   escalationRate: 0.036, // 3.6%
+//   resolutionRate: 0.89 // 89%
+// }
+\`\`\`
+
+## Testing
+
+\`\`\`typescript
+import { describe, test, expect, vi } from 'vitest'
+import { customerSupportAgent } from './customer-support'
+
+describe('Customer Support Agent', () => {
+  test('answers knowledge base questions', async () => {
+    const result = await customerSupportAgent({
+      message: 'How do I return an item?',
+      conversationId: 'test-1'
+    })
+
+    expect(result.response).toContain('return')
+    expect(result.toolCalls).toContain('search_knowledge_base')
+  })
+
+  test('tracks order status', async () => {
+    const result = await customerSupportAgent({
+      message: 'What\\'s the status of order #12345?',
+      conversationId: 'test-2',
+      customerEmail: 'test@example.com'
+    })
+
+    expect(result.toolCalls).toContain('get_order_status')
+    expect(result.response).toContain('status')
+  })
+
+  test('escalates complex issues', async () => {
+    const result = await customerSupportAgent({
+      message: 'I received the wrong item and need a refund immediately',
+      conversationId: 'test-3',
+      customerEmail: 'test@example.com'
+    })
+
+    expect(result.toolCalls).toContain('create_ticket')
+  })
+
+  test('maintains conversation context', async () => {
+    const convId = 'test-4'
+
+    await customerSupportAgent({
+      message: 'I have a question',
+      conversationId: convId
+    })
+
+    const result = await customerSupportAgent({
+      message: 'About my order',
+      conversationId: convId
+    })
+
+    expect(result.response).toBeDefined()
+  })
+})
+\`\`\`
+
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `ANTHROPIC_API_KEY` | Yes | Anthropic API key |
+| `SUPPORT_EMAIL` | Yes | Support team email |
+| `APP_URL` | Yes | Application URL |
+
+## Dependencies
+
+\`\`\`json
+{
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.0",
+    "@mdxld/agent": "^1.0.0"
+  }
+}
+\`\`\`
+
+## Related
+
+- [Tool: Search Knowledge Base](/examples/tools/search-knowledge-base)
+- [Function: Send Transactional Email](/examples/function)
+- [Workflow: Support Ticket](/examples/workflow-support-ticket)
+
+## License
+
+MIT - See [LICENSE](https://github.com/mdxld/mdxld/blob/main/LICENSE)
+# API Example
+
+A complete example of an MDXLD API entity for a RESTful endpoint with request/response schemas, authentication, and error handling.
+
+## Full MDXLD Document
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: API
+$id: https://api.example.com/docs/endpoints/create-user
+title: Create User API
+description: RESTful endpoint for creating new user accounts with email verification
+version: 2.0.0
+license: MIT
+author:
+  $type: Organization
+  name: MDXLD Working Group
+  url: https://mdxld.org
+dateCreated: 2025-06-01
+dateModified: 2025-10-02
+keywords: [api, rest, user, authentication, registration]
+
+# API-specific properties
+endpointURL: /api/v1/users
+httpMethod: POST
+requiresAuth: false
+
+requestSchema:
+  type: object
+  properties:
+    email:
+      type: string
+      format: email
+      description: User's email address
+      example: user@example.com
+    name:
+      type: string
+      minLength: 2
+      maxLength: 100
+      description: User's full name
+      example: John Doe
+    password:
+      type: string
+      minLength: 8
+      maxLength: 128
+      pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+      description: Password (min 8 chars, must include uppercase, lowercase, number, special char)
+      example: SecurePass123!
+    metadata:
+      type: object
+      description: Optional user metadata
+      properties:
+        company:
+          type: string
+        phone:
+          type: string
+  required: [email, name, password]
+  additionalProperties: false
+
+responseSchema:
+  oneOf:
+    - type: object
+      description: Success response
+      properties:
+        success:
+          type: boolean
+          const: true
+        data:
+          type: object
+          properties:
+            userId:
+              type: string
+              format: uuid
+              example: 550e8400-e29b-41d4-a716-446655440000
+            email:
+              type: string
+              format: email
+            name:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+              example: "2025-10-02T10:30:00Z"
+            emailVerified:
+              type: boolean
+              example: false
+      required: [success, data]
+    - type: object
+      description: Error response
+      properties:
+        success:
+          type: boolean
+          const: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum: [INVALID_INPUT, EMAIL_EXISTS, RATE_LIMITED, SERVER_ERROR]
+            message:
+              type: string
+            details:
+              type: object
+      required: [success, error]
+
+# Status codes
+statusCodes:
+  - code: 201
+    description: User created successfully
+  - code: 400
+    description: Invalid request (validation error)
+  - code: 409
+    description: Email already exists
+  - code: 429
+    description: Rate limit exceeded
+  - code: 500
+    description: Internal server error
+
+# Security
+security:
+  - type: rateLimit
+    requests: 10
+    window: 60 # seconds
+  - type: input-validation
+    library: zod
+  - type: password-hashing
+    algorithm: argon2
+
+# Metadata
+metadata:
+  ns: api
+  visibility: public
+  category: authentication
+tags:
+  - api
+  - rest
+  - user
+  - authentication
+  - registration
+
+# Related entities
+relatedTo:
+  - https://api.example.com/docs/endpoints/login
+  - https://api.example.com/docs/endpoints/verify-email
+  - https://api.example.com/workflows/user-onboarding
+---
+
+# Create User API
+
+RESTful endpoint for creating new user accounts with email verification, password hashing, and automatic onboarding workflow triggering.
+
+## Endpoint
+
+\`\`\`
+POST /api/v1/users
+\`\`\`
+
+**Base URL**: `https://api.example.com`
+**Full URL**: `https://api.example.com/api/v1/users`
+**Authentication**: Not required
+
+## Request
+
+### Headers
+
+\`\`\`http
+Content-Type: application/json
+\`\`\`
+
+### Body
+
+\`\`\`json
+{
+  "email": "user@example.com",
+  "name": "John Doe",
+  "password": "SecurePass123!",
+  "metadata": {
+    "company": "Acme Inc",
+    "phone": "+1-555-0123"
+  }
+}
+\`\`\`
+
+### Schema
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `email` | string | Yes | Valid email address (used for login) |
+| `name` | string | Yes | Full name (2-100 characters) |
+| `password` | string | Yes | Password (min 8 chars, mixed case, number, special char) |
+| `metadata` | object | No | Additional user information |
+
+### Validation Rules
+
+- **Email**: Must be valid email format, unique across all users
+- **Name**: 2-100 characters, letters/spaces/hyphens only
+- **Password**: Minimum 8 characters, must contain:
+  - At least one uppercase letter
+  - At least one lowercase letter
+  - At least one number
+  - At least one special character (@$!%*?&)
+- **Metadata**: Optional object, any valid JSON
+
+## Response
+
+### Success (201 Created)
+
+\`\`\`json
+{
+  "success": true,
+  "data": {
+    "userId": "550e8400-e29b-41d4-a716-446655440000",
+    "email": "user@example.com",
+    "name": "John Doe",
+    "createdAt": "2025-10-02T10:30:00Z",
+    "emailVerified": false
+  }
+}
+\`\`\`
+
+### Error Responses
+
+#### Validation Error (400 Bad Request)
+
+\`\`\`json
+{
+  "success": false,
+  "error": {
+    "code": "INVALID_INPUT",
+    "message": "Validation failed",
+    "details": {
+      "email": "Invalid email format",
+      "password": "Password must contain at least one uppercase letter"
+    }
+  }
+}
+\`\`\`
+
+#### Email Exists (409 Conflict)
+
+\`\`\`json
+{
+  "success": false,
+  "error": {
+    "code": "EMAIL_EXISTS",
+    "message": "An account with this email already exists"
+  }
+}
+\`\`\`
+
+#### Rate Limited (429 Too Many Requests)
+
+\`\`\`json
+{
+  "success": false,
+  "error": {
+    "code": "RATE_LIMITED",
+    "message": "Too many requests, please try again in 60 seconds",
+    "details": {
+      "retryAfter": 60
+    }
+  }
+}
+\`\`\`
+
+#### Server Error (500 Internal Server Error)
+
+\`\`\`json
+{
+  "success": false,
+  "error": {
+    "code": "SERVER_ERROR",
+    "message": "An unexpected error occurred. Please try again later."
+  }
+}
+\`\`\`
+
+## Implementation
+
+\`\`\`typescript
+import { Hono } from 'hono'
+import { z } from 'zod'
+import { hash } from '@node-rs/argon2'
+import { db } from '../db'
+import { userOnboardingWorkflow } from '../workflows/user-onboarding'
+
+const app = new Hono()
+
+// Request validation schema
+const CreateUserSchema = z.object({
+  email: z.string().email('Invalid email format').toLowerCase(),
+  name: z
+    .string()
+    .min(2, 'Name must be at least 2 characters')
+    .max(100, 'Name must be less than 100 characters')
+    .regex(/^[a-zA-Z\\s-]+$/, 'Name can only contain letters, spaces, and hyphens'),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .max(128, 'Password must be less than 128 characters')
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$/,
+      'Password must contain uppercase, lowercase, number, and special character'
+    ),
+  metadata: z.record(z.string(), z.any()).optional()
+})
+
+type CreateUserInput = z.infer<typeof CreateUserSchema>
+
+// Rate limiting (10 requests per minute)
+const rateLimiter = new Map<string, { count: number; resetAt: number }>()
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now()
+  const limit = rateLimiter.get(ip)
+
+  if (!limit || now > limit.resetAt) {
+    rateLimiter.set(ip, { count: 1, resetAt: now + 60000 })
+    return true
+  }
+
+  if (limit.count >= 10) {
+    return false
+  }
+
+  limit.count++
+  return true
+}
+
+/**
+ * Create User Endpoint
+ * POST /api/v1/users
+ */
+app.post('/api/v1/users', async (c) => {
+  try {
+    // Rate limiting
+    const clientIP = c.req.header('cf-connecting-ip') || c.req.header('x-forwarded-for') || 'unknown'
+    if (!checkRateLimit(clientIP)) {
+      return c.json(
+        {
+          success: false,
+          error: {
+            code: 'RATE_LIMITED',
+            message: 'Too many requests, please try again in 60 seconds',
+            details: { retryAfter: 60 }
+          }
+        },
+        429
+      )
+    }
+
+    // Parse and validate input
+    const body = await c.req.json()
+    const validationResult = CreateUserSchema.safeParse(body)
+
+    if (!validationResult.success) {
+      const errors = validationResult.error.errors.reduce(
+        (acc, err) => {
+          acc[err.path[0]] = err.message
+          return acc
+        },
+        {} as Record<string, string>
+      )
+
+      return c.json(
+        {
+          success: false,
+          error: {
+            code: 'INVALID_INPUT',
+            message: 'Validation failed',
+            details: errors
+          }
+        },
+        400
+      )
+    }
+
+    const input = validationResult.data
+
+    // Check if email already exists
+    const existingUser = await db.users.findFirst({
+      where: { email: input.email }
+    })
+
+    if (existingUser) {
+      return c.json(
+        {
+          success: false,
+          error: {
+            code: 'EMAIL_EXISTS',
+            message: 'An account with this email already exists'
+          }
+        },
+        409
+      )
+    }
+
+    // Hash password
+    const passwordHash = await hash(input.password, {
+      memoryCost: 19456,
+      timeCost: 2,
+      outputLen: 32,
+      parallelism: 1
+    })
+
+    // Create user
+    const user = await db.users.create({
+      data: {
+        email: input.email,
+        name: input.name,
+        password: passwordHash,
+        metadata: input.metadata || {},
+        emailVerified: false
+      }
+    })
+
+    // Trigger onboarding workflow
+    await userOnboardingWorkflow.trigger({
+      userId: user.id,
+      email: user.email,
+      name: user.name
+    })
+
+    // Return success response
+    return c.json(
+      {
+        success: true,
+        data: {
+          userId: user.id,
+          email: user.email,
+          name: user.name,
+          createdAt: user.createdAt.toISOString(),
+          emailVerified: user.emailVerified
+        }
+      },
+      201
+    )
+  } catch (error) {
+    console.error('Error creating user:', error)
+
+    return c.json(
+      {
+        success: false,
+        error: {
+          code: 'SERVER_ERROR',
+          message: 'An unexpected error occurred. Please try again later.'
+        }
+      },
+      500
+    )
+  }
+})
+
+export default app
+\`\`\`
+
+## Usage Examples
+
+### cURL
+
+\`\`\`bash
+curl -X POST https://api.example.com/api/v1/users \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "email": "user@example.com",
+    "name": "John Doe",
+    "password": "SecurePass123!",
+    "metadata": {
+      "company": "Acme Inc"
+    }
+  }'
+\`\`\`
+
+### JavaScript/TypeScript
+
+\`\`\`typescript
+const response = await fetch('https://api.example.com/api/v1/users', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    email: 'user@example.com',
+    name: 'John Doe',
+    password: 'SecurePass123!',
+    metadata: {
+      company: 'Acme Inc'
+    }
+  })
+})
+
+const data = await response.json()
+
+if (data.success) {
+  console.log('User created:', data.data.userId)
+} else {
+  console.error('Error:', data.error.message)
+}
+\`\`\`
+
+### Python
+
+\`\`\`python
+import requests
+
+response = requests.post(
+    'https://api.example.com/api/v1/users',
+    json={
+        'email': 'user@example.com',
+        'name': 'John Doe',
+        'password': 'SecurePass123!',
+        'metadata': {
+            'company': 'Acme Inc'
+        }
+    }
+)
+
+data = response.json()
+
+if data['success']:
+    print(f"User created: {data['data']['userId']}")
+else:
+    print(f"Error: {data['error']['message']}")
+\`\`\`
+
+## Testing
+
+\`\`\`typescript
+import { describe, test, expect, beforeEach } from 'vitest'
+import app from './create-user'
+
+describe('POST /api/v1/users', () => {
+  beforeEach(async () => {
+    // Clear test database
+    await db.users.deleteMany({})
+  })
+
+  test('creates user successfully', async () => {
+    const res = await app.request('/api/v1/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: 'test@example.com',
+        name: 'Test User',
+        password: 'SecurePass123!'
+      })
+    })
+
+    expect(res.status).toBe(201)
+    const data = await res.json()
+    expect(data.success).toBe(true)
+    expect(data.data.userId).toBeDefined()
+    expect(data.data.email).toBe('test@example.com')
+  })
+
+  test('validates email format', async () => {
+    const res = await app.request('/api/v1/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: 'invalid-email',
+        name: 'Test User',
+        password: 'SecurePass123!'
+      })
+    })
+
+    expect(res.status).toBe(400)
+    const data = await res.json()
+    expect(data.success).toBe(false)
+    expect(data.error.code).toBe('INVALID_INPUT')
+    expect(data.error.details.email).toContain('Invalid email format')
+  })
+
+  test('enforces password requirements', async () => {
+    const res = await app.request('/api/v1/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: 'test@example.com',
+        name: 'Test User',
+        password: 'weak'
+      })
+    })
+
+    expect(res.status).toBe(400)
+    const data = await res.json()
+    expect(data.error.details.password).toBeDefined()
+  })
+
+  test('rejects duplicate email', async () => {
+    // Create first user
+    await app.request('/api/v1/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: 'test@example.com',
+        name: 'Test User',
+        password: 'SecurePass123!'
+      })
+    })
+
+    // Try to create duplicate
+    const res = await app.request('/api/v1/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: 'test@example.com',
+        name: 'Another User',
+        password: 'SecurePass123!'
+      })
+    })
+
+    expect(res.status).toBe(409)
+    const data = await res.json()
+    expect(data.error.code).toBe('EMAIL_EXISTS')
+  })
+
+  test('enforces rate limiting', async () => {
+    // Make 10 requests (should succeed)
+    for (let i = 0; i < 10; i++) {
+      const res = await app.request('/api/v1/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'cf-connecting-ip': '127.0.0.1'
+        },
+        body: JSON.stringify({
+          email: \`test\${i}@example.com\`,
+          name: 'Test User',
+          password: 'SecurePass123!'
+        })
+      })
+      expect(res.status).not.toBe(429)
+    }
+
+    // 11th request should be rate limited
+    const res = await app.request('/api/v1/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'cf-connecting-ip': '127.0.0.1'
+      },
+      body: JSON.stringify({
+        email: 'test11@example.com',
+        name: 'Test User',
+        password: 'SecurePass123!'
+      })
+    })
+
+    expect(res.status).toBe(429)
+    const data = await res.json()
+    expect(data.error.code).toBe('RATE_LIMITED')
+  })
+})
+\`\`\`
+
+## Security
+
+This endpoint implements several security best practices:
+
+✅ **Input Validation** - Zod schema validation
+✅ **Password Hashing** - Argon2 with secure parameters
+✅ **Rate Limiting** - 10 requests per minute per IP
+✅ **Email Normalization** - Lowercase emails to prevent duplicates
+✅ **Error Messages** - Generic error messages to prevent information leakage
+✅ **No Password Leakage** - Password never returned in responses
+✅ **HTTPS Only** - Enforce HTTPS in production
+
+## Rate Limiting
+
+- **Limit**: 10 requests per 60 seconds
+- **Key**: Client IP address
+- **Response**: 429 Too Many Requests with retry-after info
+
+## Related Endpoints
+
+- **[Login](/examples/api-login)** - POST /api/v1/auth/login
+- **[Verify Email](/examples/api-verify-email)** - POST /api/v1/auth/verify-email
+- **[Get User](/examples/api-get-user)** - GET /api/v1/users/:id
+
+## Related Workflows
+
+- **[User Onboarding Workflow](/examples/workflow)** - Triggered after user creation
+
+## Dependencies
+
+\`\`\`json
+{
+  "dependencies": {
+    "hono": "^4.0.0",
+    "zod": "^3.22.0",
+    "@node-rs/argon2": "^1.8.0"
+  }
+}
+\`\`\`
+
+## License
+
+MIT - See [LICENSE](https://github.com/mdxld/mdxld/blob/main/LICENSE)
+# Framework Integrations
+
+MDXLD integrates seamlessly with popular JavaScript frameworks and build tools.
+
+## Next.js
+
+### Installation
+
+```bash
+npm install mdxld @next/mdx
+```
+
+### Configuration
+
+```typescript
+// next.config.js
+import mdx from '@next/mdx'
+import { mdxldRemarkPlugin, mdxldRehypePlugin } from 'mdxld/plugins'
+
+const withMDX = mdx({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [mdxldRemarkPlugin],
+    rehypePlugins: [mdxldRehypePlugin]
+  }
+})
+
+export default withMDX({
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx']
+})
+```
+
+### Usage
+
+```tsx
+// app/page.mdx
+---
+$type: Article
+title: My Page
+---
+
+# Welcome
+
+This is an MDXLD page in Next.js!
+
+export default function Page() {
+  return <div>Custom component</div>
+}
+```
+
+### Programmatic Access
+
+```typescript
+// app/api/parse/route.ts
+import { parse } from 'mdxld'
+import { readFile } from 'fs/promises'
+
+export async function GET() {
+  const source = await readFile('content/article.mdx', 'utf-8')
+  const doc = await parse(source)
+
+  return Response.json({
+    frontmatter: doc.frontmatter,
+    content: doc.content
+  })
+}
+```
+
+## Vite
+
+### Installation
+
+```bash
+npm install mdxld @mdx-js/rollup
+```
+
+### Configuration
+
+```typescript
+// vite.config.ts
+import { defineConfig } from 'vite'
+import mdx from '@mdx-js/rollup'
+import { mdxldPlugin } from 'mdxld/vite'
+
+export default defineConfig({
+  plugins: [
+    mdx(),
+    mdxldPlugin({
+      validateContext: true,
+      extractCode: true
+    })
+  ]
+})
+```
+
+### Usage
+
+```typescript
+// src/main.ts
+import MyDoc from './content/document.mdx'
+
+console.log(MyDoc.frontmatter) // Parsed frontmatter
+```
+
+## Astro
+
+### Installation
+
+```bash
+npm install mdxld @astrojs/mdx
+```
+
+### Configuration
+
+```typescript
+// astro.config.mjs
+import { defineConfig } from 'astro/config'
+import mdx from '@astrojs/mdx'
+import { mdxldIntegration } from 'mdxld/astro'
+
+export default defineConfig({
+  integrations: [
+    mdx(),
+    mdxldIntegration()
+  ]
+})
+```
+
+### Usage
+
+```astro
+---
+// src/pages/index.astro
+import Article from '../content/article.mdx'
+---
+
+<html>
+  <body>
+    <Article />
+  </body>
+</html>
+```
+
+## Remix
+
+### Installation
+
+```bash
+npm install mdxld @remix-run/mdx
+```
+
+### Configuration
+
+```typescript
+// remix.config.js
+import { mdxldConfig } from 'mdxld/remix'
+
+export default {
+  ...mdxldConfig,
+  // Your Remix config
+}
+```
+
+### Usage
+
+```tsx
+// app/routes/article.mdx
+---
+$type: Article
+title: My Article
+---
+
+# Hello from Remix
+
+This is an MDXLD article in Remix!
+
+export function loader() {
+  return json({ data: 'some data' })
+}
+```
+
+## Webpack
+
+### Installation
+
+```bash
+npm install mdxld @mdx-js/loader
+```
+
+### Configuration
+
+```javascript
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.mdx?$/,
+        use: [
+          'babel-loader',
+          {
+            loader: '@mdx-js/loader',
+            options: {
+              remarkPlugins: [require('mdxld/plugins').mdxldRemarkPlugin]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Gatsby
+
+### Installation
+
+```bash
+npm install mdxld gatsby-plugin-mdx
+```
+
+### Configuration
+
+```javascript
+// gatsby-config.js
+module.exports = {
+  plugins: [
+    {
+      resolve: 'gatsby-plugin-mdx',
+      options: {
+        remarkPlugins: [require('mdxld/plugins').mdxldRemarkPlugin]
+      }
+    }
+  ]
+}
+```
+
+## Node.js / Express
+
+### Installation
+
+```bash
+npm install mdxld express
+```
+
+### Usage
+
+```typescript
+import express from 'express'
+import { parse, render } from 'mdxld'
+import { readFile } from 'fs/promises'
+
+const app = express()
+
+app.get('/article/:slug', async (req, res) => {
+  const source = await readFile(`content/${req.params.slug}.mdx`, 'utf-8')
+  const doc = await parse(source)
+  const html = await render(doc, { format: 'html' })
+
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>${doc.frontmatter.title}</title>
+      </head>
+      <body>
+        ${html}
+      </body>
+    </html>
+  `)
+})
+
+app.listen(3000)
+```
+
+## Cloudflare Workers
+
+### Installation
+
+```bash
+npm install mdxld
+```
+
+### Usage
+
+```typescript
+import { parse, execute } from 'mdxld'
+
+export default {
+  async fetch(request: Request, env: Env) {
+    // Parse MDX from KV
+    const source = await env.CONTENT.get('function.mdx')
+    const doc = await parse(source!)
+
+    // Execute as function
+    const result = await execute(doc, {
+      input: await request.json()
+    })
+
+    return Response.json(result)
+  }
+}
+```
+
+## Deno
+
+### Installation
+
+```typescript
+import { parse, render } from 'https://esm.sh/mdxld'
+```
+
+### Usage
+
+```typescript
+const source = await Deno.readTextFile('content/article.mdx')
+const doc = await parse(source)
+const html = await render(doc, { format: 'html' })
+
+console.log(html)
+```
+
+## Bun
+
+### Installation
+
+```bash
+bun add mdxld
+```
+
+### Usage
+
+```typescript
+import { parse } from 'mdxld'
+
+const file = Bun.file('content/article.mdx')
+const source = await file.text()
+const doc = await parse(source)
+
+console.log(doc.frontmatter)
+```
+
+## Velite
+
+### Installation
+
+```bash
+npm install mdxld velite
+```
+
+### Configuration
+
+```typescript
+// velite.config.ts
+import { defineConfig, s } from 'velite'
+import { mdxldLoader } from 'mdxld/velite'
+
+export default defineConfig({
+  collections: {
+    articles: {
+      name: 'Article',
+      pattern: 'articles/**/*.mdx',
+      schema: s.object({
+        $type: s.literal('Article'),
+        title: s.string(),
+        slug: s.slug('title'),
+        content: s.mdx()
+      })
+    }
+  },
+  mdx: {
+    remarkPlugins: [mdxldLoader]
+  }
+})
+```
+
+## Contentlayer
+
+### Installation
+
+```bash
+npm install mdxld contentlayer
+```
+
+### Configuration
+
+```typescript
+// contentlayer.config.ts
+import { defineDocumentType, makeSource } from 'contentlayer/source-files'
+import { mdxldPlugin } from 'mdxld/contentlayer'
+
+export const Article = defineDocumentType(() => ({
+  name: 'Article',
+  filePathPattern: `articles/**/*.mdx`,
+  contentType: 'mdx',
+  fields: {
+    $type: { type: 'string', required: true },
+    title: { type: 'string', required: true }
+  }
+}))
+
+export default makeSource({
+  contentDirPath: 'content',
+  documentTypes: [Article],
+  mdx: {
+    remarkPlugins: [mdxldPlugin]
+  }
+})
+```
+
+## Database Integration
+
+### PostgreSQL with Drizzle
+
+```typescript
+import { parse } from 'mdxld'
+import { db, schema } from './db'
+
+// Save MDXLD to database
+const source = await readFile('content/article.mdx', 'utf-8')
+const doc = await parse(source)
+
+await db.insert(schema.articles).values({
+  slug: doc.frontmatter.slug,
+  type: doc.frontmatter.$type,
+  data: doc.frontmatter,
+  content: doc.content,
+  raw: source
+})
+
+// Query from database
+const articles = await db
+  .select()
+  .from(schema.articles)
+  .where(eq(schema.articles.type, 'Article'))
+```
+
+### Cloudflare D1
+
+```typescript
+import { parse } from 'mdxld'
+
+export default {
+  async fetch(request: Request, env: Env) {
+    const source = await request.text()
+    const doc = await parse(source)
+
+    await env.DB.prepare(`
+      INSERT INTO entities (id, type, data, content)
+      VALUES (?, ?, ?, ?)
+    `)
+      .bind(
+        doc.frontmatter.$id,
+        doc.frontmatter.$type,
+        JSON.stringify(doc.frontmatter),
+        doc.content
+      )
+      .run()
+
+    return Response.json({ success: true })
+  }
+}
+```
+
+## Vector Database Integration
+
+### Pinecone
+
+```typescript
+import { parse } from 'mdxld'
+import { Pinecone } from '@pinecone-database/pinecone'
+import { embed } from './embeddings'
+
+const pc = new Pinecone()
+const index = pc.index('mdxld-content')
+
+const source = await readFile('article.mdx', 'utf-8')
+const doc = await parse(source)
+
+// Generate embedding
+const embedding = await embed(doc.content)
+
+// Upsert to Pinecone
+await index.upsert([
+  {
+    id: doc.frontmatter.$id,
+    values: embedding,
+    metadata: {
+      type: doc.frontmatter.$type,
+      title: doc.frontmatter.title,
+      content: doc.content.substring(0, 1000)
+    }
+  }
+])
+```
+
+### Weaviate
+
+```typescript
+import weaviate from 'weaviate-ts-client'
+import { parse } from 'mdxld'
+
+const client = weaviate.client({
+  scheme: 'https',
+  host: 'your-instance.weaviate.network'
+})
+
+const source = await readFile('article.mdx', 'utf-8')
+const doc = await parse(source)
+
+await client.data
+  .creator()
+  .withClassName('Article')
+  .withProperties({
+    type: doc.frontmatter.$type,
+    title: doc.frontmatter.title,
+    content: doc.content
+  })
+  .do()
+```
+
+## Search Integration
+
+### Pagefind
+
+```typescript
+// Build search index from MDXLD files
+import { parse } from 'mdxld'
+import { glob } from 'glob'
+
+const files = await glob('content/**/*.mdx')
+
+for (const file of files) {
+  const source = await readFile(file, 'utf-8')
+  const doc = await parse(source)
+
+  // Pagefind will automatically index the HTML
+  const html = await render(doc, { format: 'html' })
+  await writeFile(`dist/${file.replace('.mdx', '.html')}`, html)
+}
+
+// Run: npx pagefind --source dist
+```
+
+### Algolia
+
+```typescript
+import algoliasearch from 'algoliasearch'
+import { parse } from 'mdxld'
+
+const client = algoliasearch('APP_ID', 'API_KEY')
+const index = client.initIndex('content')
+
+const source = await readFile('article.mdx', 'utf-8')
+const doc = await parse(source)
+
+await index.saveObject({
+  objectID: doc.frontmatter.$id,
+  type: doc.frontmatter.$type,
+  title: doc.frontmatter.title,
+  content: doc.content,
+  ...doc.frontmatter
+})
+```
+
+## Testing
+
+### Vitest
+
+```typescript
+import { describe, test, expect } from 'vitest'
+import { parse, validate } from 'mdxld'
+import { z } from 'zod'
+
+describe('MDXLD Documents', () => {
+  test('parses frontmatter correctly', async () => {
+    const source = `---
+$type: Function
+title: Test Function
+---
+# Content
+`
+    const doc = await parse(source)
+
+    expect(doc.frontmatter.$type).toBe('Function')
+    expect(doc.frontmatter.title).toBe('Test Function')
+  })
+
+  test('validates against schema', async () => {
+    const schema = z.object({
+      $type: z.literal('Function'),
+      title: z.string()
+    })
+
+    const doc = await parse(source)
+    const result = validate(doc.frontmatter, schema)
+
+    expect(result.success).toBe(true)
+  })
+})
+```
+
+## Related
+
+- **[Getting Started](/getting-started)** - Quickstart guide
+- **[API Reference](/api)** - Complete API docs
+- **[Examples](/examples)** - Real-world examples
+
+## Support
+
+Need help with integration?
+
+- 📖 [Documentation](/)
+- 💬 [Discord Community](https://discord.gg/mdxld)
+- 🐛 [Report Issues](https://github.com/mdxld/mdxld/issues)
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "http://mdxld.org/vocab#",
+
+    "schema": "https://schema.org/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "mdxld": "http://mdxld.org/vocab#",
+
+    "@comment": "MDXLD Core Types - AI-native entity types extending Schema.org",
+
+    "Function": {
+      "@id": "mdxld:Function",
+      "@type": "@id",
+      "rdfs:subClassOf": "schema:Action",
+      "rdfs:comment": "An executable function with inputs, outputs, and implementation code"
+    },
+
+    "Component": {
+      "@id": "mdxld:Component",
+      "@type": "@id",
+      "rdfs:subClassOf": "schema:SoftwareSourceCode",
+      "rdfs:comment": "A UI component (React, Vue, Svelte, etc.)"
+    },
+
+    "Workflow": {
+      "@id": "mdxld:Workflow",
+      "@type": "@id",
+      "rdfs:subClassOf": "schema:Action",
+      "rdfs:comment": "A multi-step orchestration process with trigger and steps"
+    },
+
+    "Agent": {
+      "@id": "mdxld:Agent",
+      "@type": "@id",
+      "rdfs:subClassOf": "schema:SoftwareApplication",
+      "rdfs:comment": "An autonomous AI agent with role, capabilities, and tools"
+    },
+
+    "API": {
+      "@id": "mdxld:API",
+      "@type": "@id",
+      "rdfs:subClassOf": "schema:WebAPI",
+      "rdfs:comment": "A web service API endpoint with request/response schemas"
+    },
+
+    "Tool": {
+      "@id": "mdxld:Tool",
+      "@type": "@id",
+      "rdfs:subClassOf": "schema:SoftwareApplication",
+      "rdfs:comment": "A software tool or utility function available to agents"
+    },
+
+    "Model": {
+      "@id": "mdxld:Model",
+      "@type": "@id",
+      "rdfs:subClassOf": "schema:Thing",
+      "rdfs:comment": "An AI/ML model (LLM, embedding model, etc.)"
+    },
+
+    "Prompt": {
+      "@id": "mdxld:Prompt",
+      "@type": "@id",
+      "rdfs:subClassOf": "schema:CreativeWork",
+      "rdfs:comment": "An AI prompt template with variables and instructions"
+    },
+
+    "@comment": "MDXLD Properties - Extended properties for AI-native types",
+
+    "programmingLanguage": {
+      "@id": "schema:programmingLanguage",
+      "@type": "xsd:string",
+      "rdfs:comment": "The programming language (e.g., TypeScript, Python)"
+    },
+
+    "parameters": {
+      "@id": "mdxld:parameters",
+      "@type": "@id",
+      "@container": "@list",
+      "rdfs:comment": "Input parameters for a function or API"
+    },
+
+    "returnType": {
+      "@id": "mdxld:returnType",
+      "@type": "xsd:string",
+      "rdfs:comment": "Return value type for a function"
+    },
+
+    "framework": {
+      "@id": "mdxld:framework",
+      "@type": "xsd:string",
+      "rdfs:comment": "UI framework (React, Vue, Svelte, etc.)"
+    },
+
+    "propsSchema": {
+      "@id": "mdxld:propsSchema",
+      "@type": "@json",
+      "rdfs:comment": "JSON Schema for component props"
+    },
+
+    "trigger": {
+      "@id": "mdxld:trigger",
+      "@type": "@json",
+      "rdfs:comment": "Event that initiates a workflow"
+    },
+
+    "steps": {
+      "@id": "mdxld:steps",
+      "@type": "@id",
+      "@container": "@list",
+      "rdfs:comment": "Ordered list of workflow steps"
+    },
+
+    "role": {
+      "@id": "schema:roleName",
+      "@type": "xsd:string",
+      "rdfs:comment": "Agent's role or persona"
+    },
+
+    "capabilities": {
+      "@id": "mdxld:capabilities",
+      "@type": "xsd:string",
+      "@container": "@list",
+      "rdfs:comment": "What an agent can do (chat, email, etc.)"
+    },
+
+    "model": {
+      "@id": "mdxld:model",
+      "@type": "xsd:string",
+      "rdfs:comment": "AI model identifier (e.g., claude-3-5-sonnet)"
+    },
+
+    "systemPrompt": {
+      "@id": "mdxld:systemPrompt",
+      "@type": "xsd:string",
+      "rdfs:comment": "System-level instructions for an agent"
+    },
+
+    "tools": {
+      "@id": "mdxld:tools",
+      "@type": "@id",
+      "@container": "@list",
+      "rdfs:comment": "Tools available to an agent"
+    },
+
+    "endpointURL": {
+      "@id": "mdxld:endpointURL",
+      "@type": "@id",
+      "rdfs:comment": "API endpoint path or full URL"
+    },
+
+    "httpMethod": {
+      "@id": "mdxld:httpMethod",
+      "@type": "xsd:string",
+      "rdfs:comment": "HTTP method (GET, POST, PUT, DELETE, etc.)"
+    },
+
+    "requestSchema": {
+      "@id": "mdxld:requestSchema",
+      "@type": "@json",
+      "rdfs:comment": "JSON Schema for API request body"
+    },
+
+    "responseSchema": {
+      "@id": "mdxld:responseSchema",
+      "@type": "@json",
+      "rdfs:comment": "JSON Schema for API response body"
+    },
+
+    "requiresAuth": {
+      "@id": "mdxld:requiresAuth",
+      "@type": "xsd:boolean",
+      "rdfs:comment": "Whether API endpoint requires authentication"
+    },
+
+    "temperature": {
+      "@id": "mdxld:temperature",
+      "@type": "xsd:decimal",
+      "rdfs:comment": "Model temperature parameter (0.0-1.0)"
+    },
+
+    "maxTokens": {
+      "@id": "mdxld:maxTokens",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Maximum tokens for model generation"
+    },
+
+    "variables": {
+      "@id": "mdxld:variables",
+      "@type": "@json",
+      "rdfs:comment": "Template variables for a prompt"
+    },
+
+    "@comment": "Schema.org aliases - Reuse existing Schema.org vocabulary",
+
+    "name": "schema:name",
+    "description": "schema:description",
+    "version": "schema:version",
+    "author": "schema:author",
+    "license": "schema:license",
+    "url": "schema:url",
+    "identifier": "schema:identifier",
+    "dateCreated": "schema:dateCreated",
+    "dateModified": "schema:dateModified",
+    "datePublished": "schema:datePublished",
+    "keywords": "schema:keywords",
+    "inLanguage": "schema:inLanguage",
+    "maintainer": "schema:maintainer",
+    "contributor": "schema:contributor",
+    "dependencies": "schema:softwareRequirements",
+    "isPartOf": "schema:isPartOf",
+    "hasPart": "schema:hasPart",
+    "relatedTo": "schema:relatedLink",
+
+    "@comment": "Common data types",
+
+    "title": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+
+    "async": {
+      "@id": "mdxld:async",
+      "@type": "xsd:boolean",
+      "rdfs:comment": "Whether a function is asynchronous"
+    },
+
+    "category": {
+      "@id": "schema:category",
+      "@type": "xsd:string"
+    },
+
+    "tags": {
+      "@id": "schema:keywords",
+      "@type": "xsd:string",
+      "@container": "@list"
+    },
+
+    "status": {
+      "@id": "mdxld:status",
+      "@type": "xsd:string",
+      "rdfs:comment": "Current status (draft, published, deprecated, etc.)"
+    },
+
+    "visibility": {
+      "@id": "mdxld:visibility",
+      "@type": "xsd:string",
+      "rdfs:comment": "Visibility level (public, private, unlisted)"
+    },
+
+    "namespace": {
+      "@id": "mdxld:namespace",
+      "@type": "xsd:string",
+      "@container": "@language",
+      "rdfs:comment": "Organizational namespace"
+    },
+
+    "platform": {
+      "@id": "schema:operatingSystem",
+      "@type": "xsd:string",
+      "rdfs:comment": "Platform or OS (Web, iOS, Android, etc.)"
+    },
+
+    "concurrency": {
+      "@id": "mdxld:concurrency",
+      "@type": "xsd:string",
+      "rdfs:comment": "Execution model (sequential, parallel, etc.)"
+    },
+
+    "timeout": {
+      "@id": "mdxld:timeout",
+      "@type": "xsd:integer",
+      "rdfs:comment": "Timeout in milliseconds"
+    },
+
+    "retry": {
+      "@id": "mdxld:retry",
+      "@type": "@json",
+      "rdfs:comment": "Retry configuration (attempts, backoff, etc.)"
+    },
+
+    "inputs": {
+      "@id": "mdxld:inputs",
+      "@type": "@id",
+      "@container": "@list",
+      "rdfs:comment": "Input data or parameters"
+    },
+
+    "outputs": {
+      "@id": "mdxld:outputs",
+      "@type": "@id",
+      "@container": "@list",
+      "rdfs:comment": "Output data or return values"
+    },
+
+    "examples": {
+      "@id": "schema:workExample",
+      "@type": "@id",
+      "@container": "@list",
+      "rdfs:comment": "Usage examples"
+    }
+  }
+}

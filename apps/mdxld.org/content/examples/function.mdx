@@ -1,0 +1,376 @@
+# Function Example
+
+A complete example of an MDXLD Function entity for sending transactional emails using Resend.
+
+## Full MDXLD Document
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Function
+$id: https://api.example.com/functions/send-transactional-email
+title: Send Transactional Email
+description: Send transactional emails using Resend API with template support
+programmingLanguage: TypeScript
+version: 1.2.0
+license: MIT
+author:
+  $type: Person
+  name: MDXLD Working Group
+  email: hello@mdxld.org
+dateCreated: 2025-10-01
+dateModified: 2025-10-02
+keywords: [email, resend, transactional, api]
+
+# Function-specific properties
+async: true
+parameters:
+  - name: to
+    type: string
+    description: Recipient email address
+    required: true
+    example: user@example.com
+  - name: subject
+    type: string
+    description: Email subject line
+    required: true
+    example: Welcome to our platform!
+  - name: template
+    type: string
+    description: Email template identifier
+    required: true
+    enum: [welcome, reset-password, receipt, notification]
+  - name: variables
+    type: object
+    description: Template variables for personalization
+    required: false
+    properties:
+      name: { type: string }
+      action_url: { type: string }
+      support_email: { type: string }
+returnType: "Promise<EmailResponse>"
+
+# Metadata
+metadata:
+  ns: function
+  visibility: public
+  category: communication
+tags:
+  - email
+  - communication
+  - transactional
+
+# Related entities
+relatedTo:
+  - https://api.example.com/workflows/user-onboarding
+  - https://api.example.com/agents/support-agent
+
+# Examples
+examples:
+  - $type: CodeExample
+    title: Send welcome email
+    code: |
+      await sendTransactionalEmail({
+        to: 'newuser@example.com',
+        subject: 'Welcome!',
+        template: 'welcome',
+        variables: {
+          name: 'John Doe',
+          action_url: 'https://app.example.com/verify'
+        }
+      })
+  - $type: CodeExample
+    title: Send password reset
+    code: |
+      await sendTransactionalEmail({
+        to: 'user@example.com',
+        subject: 'Reset your password',
+        template: 'reset-password',
+        variables: {
+          action_url: 'https://app.example.com/reset?token=abc123',
+          support_email: 'support@example.com'
+        }
+      })
+---
+
+# Send Transactional Email
+
+A production-ready function for sending transactional emails using the Resend API with built-in template support, error handling, and retry logic.
+
+## Features
+
+✅ **Template Support** - Pre-built email templates (welcome, password reset, receipts)
+✅ **Type Safety** - Full TypeScript types and validation
+✅ **Error Handling** - Comprehensive error handling with detailed messages
+✅ **Retry Logic** - Automatic retry on temporary failures
+✅ **Rate Limiting** - Built-in rate limit handling
+✅ **Logging** - Structured logging for debugging
+
+## Implementation
+
+\`\`\`typescript
+import { Resend } from 'resend'
+import { z } from 'zod'
+
+// Environment configuration
+const RESEND_API_KEY = process.env.RESEND_API_KEY
+const FROM_EMAIL = process.env.FROM_EMAIL || 'noreply@example.com'
+
+// Input validation schema
+const InputSchema = z.object({
+  to: z.string().email('Invalid email address'),
+  subject: z.string().min(1, 'Subject is required'),
+  template: z.enum(['welcome', 'reset-password', 'receipt', 'notification']),
+  variables: z.record(z.string(), z.any()).optional()
+})
+
+// Template definitions
+const templates = {
+  welcome: (vars: Record<string, any>) => \`
+    <h1>Welcome, \${vars.name || 'there'}!</h1>
+    <p>We're excited to have you on board.</p>
+    <a href="\${vars.action_url}">Get Started</a>
+  \`,
+  'reset-password': (vars: Record<string, any>) => \`
+    <h1>Reset Your Password</h1>
+    <p>Click the link below to reset your password:</p>
+    <a href="\${vars.action_url}">Reset Password</a>
+    <p>If you didn't request this, contact us at \${vars.support_email}</p>
+  \`,
+  receipt: (vars: Record<string, any>) => \`
+    <h1>Receipt for Your Purchase</h1>
+    <p>Thank you for your purchase!</p>
+    <p>Order ID: \${vars.order_id}</p>
+    <p>Total: $\${vars.amount}</p>
+  \`,
+  notification: (vars: Record<string, any>) => \`
+    <h1>\${vars.title || 'Notification'}</h1>
+    <p>\${vars.message || ''}</p>
+  \`
+}
+
+// Response type
+export interface EmailResponse {
+  success: boolean
+  id?: string
+  error?: string
+}
+
+/**
+ * Send a transactional email using Resend API
+ */
+export async function sendTransactionalEmail(input: {
+  to: string
+  subject: string
+  template: string
+  variables?: Record<string, any>
+}): Promise<EmailResponse> {
+  try {
+    // Validate input
+    const validated = InputSchema.parse(input)
+
+    // Initialize Resend client
+    if (!RESEND_API_KEY) {
+      throw new Error('RESEND_API_KEY environment variable is not set')
+    }
+    const resend = new Resend(RESEND_API_KEY)
+
+    // Get template and render with variables
+    const templateFn = templates[validated.template as keyof typeof templates]
+    if (!templateFn) {
+      throw new Error(\`Template '\${validated.template}' not found\`)
+    }
+    const html = templateFn(validated.variables || {})
+
+    // Send email with retry logic
+    let attempt = 0
+    const maxAttempts = 3
+
+    while (attempt < maxAttempts) {
+      try {
+        const response = await resend.emails.send({
+          from: FROM_EMAIL,
+          to: validated.to,
+          subject: validated.subject,
+          html
+        })
+
+        console.log(\`Email sent successfully: \${response.id}\`)
+        return {
+          success: true,
+          id: response.id
+        }
+      } catch (error: any) {
+        attempt++
+
+        // Don't retry on permanent failures
+        if (error.statusCode === 400 || error.statusCode === 422) {
+          throw error
+        }
+
+        // Retry on temporary failures
+        if (attempt < maxAttempts) {
+          const delay = Math.pow(2, attempt) * 1000 // Exponential backoff
+          console.log(\`Attempt \${attempt} failed, retrying in \${delay}ms...\`)
+          await new Promise(resolve => setTimeout(resolve, delay))
+        } else {
+          throw error
+        }
+      }
+    }
+
+    throw new Error('Max retry attempts reached')
+
+  } catch (error: any) {
+    console.error('Failed to send email:', error)
+    return {
+      success: false,
+      error: error.message || 'Unknown error occurred'
+    }
+  }
+}
+\`\`\`
+
+## Usage Examples
+
+### Welcome Email
+
+\`\`\`typescript
+const result = await sendTransactionalEmail({
+  to: 'newuser@example.com',
+  subject: 'Welcome to Example App!',
+  template: 'welcome',
+  variables: {
+    name: 'Alice Johnson',
+    action_url: 'https://app.example.com/verify-email?token=abc123'
+  }
+})
+
+if (result.success) {
+  console.log(\`Email sent: \${result.id}\`)
+} else {
+  console.error(\`Failed to send: \${result.error}\`)
+}
+\`\`\`
+
+### Password Reset
+
+\`\`\`typescript
+const result = await sendTransactionalEmail({
+  to: 'user@example.com',
+  subject: 'Reset Your Password',
+  template: 'reset-password',
+  variables: {
+    action_url: 'https://app.example.com/reset?token=xyz789',
+    support_email: 'support@example.com'
+  }
+})
+\`\`\`
+
+### Purchase Receipt
+
+\`\`\`typescript
+const result = await sendTransactionalEmail({
+  to: 'customer@example.com',
+  subject: 'Receipt for Order #12345',
+  template: 'receipt',
+  variables: {
+    order_id: '12345',
+    amount: '99.99'
+  }
+})
+\`\`\`
+
+## Error Handling
+
+The function handles various error scenarios:
+
+- **Validation Errors**: Invalid email addresses, missing required fields
+- **API Errors**: Resend API failures, rate limiting
+- **Network Errors**: Connection issues, timeouts
+- **Template Errors**: Missing or invalid templates
+
+All errors are caught and returned in a consistent format:
+
+\`\`\`typescript
+{
+  success: false,
+  error: "Detailed error message"
+}
+\`\`\`
+
+## Testing
+
+\`\`\`typescript
+import { describe, test, expect, beforeAll } from 'vitest'
+import { sendTransactionalEmail } from './send-transactional-email'
+
+describe('sendTransactionalEmail', () => {
+  beforeAll(() => {
+    process.env.RESEND_API_KEY = 'test-api-key'
+  })
+
+  test('validates email address', async () => {
+    const result = await sendTransactionalEmail({
+      to: 'invalid-email',
+      subject: 'Test',
+      template: 'welcome'
+    })
+
+    expect(result.success).toBe(false)
+    expect(result.error).toContain('Invalid email address')
+  })
+
+  test('requires subject', async () => {
+    const result = await sendTransactionalEmail({
+      to: 'user@example.com',
+      subject: '',
+      template: 'welcome'
+    })
+
+    expect(result.success).toBe(false)
+    expect(result.error).toContain('Subject is required')
+  })
+
+  test('validates template name', async () => {
+    const result = await sendTransactionalEmail({
+      to: 'user@example.com',
+      subject: 'Test',
+      template: 'invalid-template' as any
+    })
+
+    expect(result.success).toBe(false)
+  })
+})
+\`\`\`
+
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `RESEND_API_KEY` | Yes | Your Resend API key |
+| `FROM_EMAIL` | No | Sender email address (default: noreply@example.com) |
+
+## Dependencies
+
+\`\`\`json
+{
+  "dependencies": {
+    "resend": "^3.0.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "vitest": "^1.0.0"
+  }
+}
+\`\`\`
+
+## Related
+
+- [Workflow: User Onboarding](/examples/workflow) - Uses this function
+- [Agent: Support Agent](/examples/agent) - Can trigger this function
+- [Resend Documentation](https://resend.com/docs)
+
+## License
+
+MIT - See [LICENSE](https://github.com/mdxld/mdxld/blob/main/LICENSE)

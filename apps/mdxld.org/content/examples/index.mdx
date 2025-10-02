@@ -1,0 +1,198 @@
+# MDXLD Examples
+
+Real-world examples demonstrating MDXLD capabilities across different entity types and use cases.
+
+## Entity Type Examples
+
+### Core AI-Native Types
+
+- **[Function](/examples/function)** - Executable code with inputs/outputs
+- **[Component](/examples/component)** - React UI components
+- **[Workflow](/examples/workflow)** - Multi-step orchestrations
+- **[Agent](/examples/agent)** - Autonomous AI workers
+- **[API](/examples/api)** - RESTful endpoints
+- **[Tool](/examples/tool)** - Software utilities
+- **[Model](/examples/model)** - AI/ML models
+- **[Prompt](/examples/prompt)** - AI prompt templates
+
+### Schema.org Types
+
+- **[Article](/examples/article)** - Blog posts and articles
+- **[SoftwareApplication](/examples/software-application)** - Applications
+- **[Dataset](/examples/dataset)** - Data collections
+- **[Course](/examples/course)** - Educational courses
+- **[Recipe](/examples/recipe)** - Cooking recipes
+- **[Event](/examples/event)** - Events and webinars
+
+## Use Case Examples
+
+### Documentation
+
+- **[API Documentation](/examples/use-cases/api-docs)** - Self-documenting APIs
+- **[Component Library](/examples/use-cases/component-library)** - UI documentation
+- **[Code Examples](/examples/use-cases/code-examples)** - Executable tutorials
+
+### Automation
+
+- **[Email Workflows](/examples/use-cases/email-workflows)** - Automated email flows
+- **[Data Processing](/examples/use-cases/data-processing)** - ETL pipelines
+- **[Content Generation](/examples/use-cases/content-generation)** - AI content creation
+
+### Applications
+
+- **[Chatbot](/examples/use-cases/chatbot)** - Conversational AI
+- **[CMS Integration](/examples/use-cases/cms)** - Content management
+- **[E-commerce](/examples/use-cases/ecommerce)** - Product catalog
+
+## Quick Start Templates
+
+### Function Template
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Function
+$id: https://example.com/functions/your-function
+title: Your Function
+description: What your function does
+programmingLanguage: TypeScript
+parameters:
+  - name: input
+    type: string
+    required: true
+returnType: string
+---
+
+# Your Function
+
+Description of what this function does.
+
+\`\`\`typescript
+export function yourFunction(input: string): string {
+  return \`Result: ${input}\`
+}
+\`\`\`
+```
+
+### Component Template
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Component
+$id: https://example.com/components/your-component
+title: Your Component
+framework: React
+propsSchema:
+  type: object
+  properties:
+    prop1:
+      type: string
+---
+
+# Your Component
+
+\`\`\`tsx
+export function YourComponent({ prop1 }: { prop1: string }) {
+  return <div>{prop1}</div>
+}
+\`\`\`
+```
+
+### Workflow Template
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Workflow
+$id: https://example.com/workflows/your-workflow
+title: Your Workflow
+trigger:
+  type: webhook
+  event: your.event
+steps:
+  - id: step1
+    type: function
+---
+
+# Your Workflow
+
+\`\`\`typescript
+export const workflow = {
+  trigger: 'your.event',
+  steps: [
+    {
+      id: 'step1',
+      run: async (data) => {
+        // Step logic
+      }
+    }
+  ]
+}
+\`\`\`
+```
+
+### Agent Template
+
+```mdx
+---
+$context: http://mdxld.org/context.jsonld
+$type: Agent
+$id: https://example.com/agents/your-agent
+title: Your Agent
+role: Agent Role
+model: claude-3-5-sonnet-20250929
+capabilities: [chat]
+systemPrompt: You are a helpful agent...
+---
+
+# Your Agent
+
+\`\`\`typescript
+import { Anthropic } from '@anthropic-ai/sdk'
+
+export async function agent(message: string) {
+  // Agent implementation
+}
+\`\`\`
+```
+
+## Browse by Feature
+
+### Linked Data Features
+
+- **[Nested Objects](/examples/features/nested-objects)** - Complex data structures
+- **[References](/examples/features/references)** - Linking documents with `$id`
+- **[Multiple Contexts](/examples/features/multiple-contexts)** - Combining vocabularies
+- **[Custom Vocabulary](/examples/features/custom-vocabulary)** - Define your own types
+
+### Code Features
+
+- **[TypeScript](/examples/features/typescript)** - Type-safe code
+- **[Async Functions](/examples/features/async)** - Asynchronous operations
+- **[Error Handling](/examples/features/error-handling)** - Robust error management
+- **[Testing](/examples/features/testing)** - Test your MDXLD documents
+
+### Component Features
+
+- **[Interactive Components](/examples/features/interactive)** - Stateful UI
+- **[Server Components](/examples/features/server-components)** - SSR patterns
+- **[Styling](/examples/features/styling)** - CSS and Tailwind
+- **[Accessibility](/examples/features/accessibility)** - A11y best practices
+
+## Community Examples
+
+Check out examples from the community:
+
+- [mdxld/examples](https://github.com/mdxld/examples) - Official example repository
+- [Awesome MDXLD](https://github.com/mdxld/awesome-mdxld) - Curated list of MDXLD projects
+
+## Contributing
+
+Have an example to share?
+
+1. Fork the [examples repository](https://github.com/mdxld/examples)
+2. Add your example with documentation
+3. Submit a pull request
+
+See our [contribution guidelines](https://github.com/mdxld/mdxld/blob/main/CONTRIBUTING.md) for details.
