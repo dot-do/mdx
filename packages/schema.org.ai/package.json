@@ -1,5 +1,5 @@
 {
-  "name": "schema.org.ai",
+  "name": "@mdxld/schema.org.ai",
   "version": "1.0.0",
   "description": "TypeScript types for schema.org.ai - AI-native vocabulary for the semantic web",
   "type": "module",
