@@ -1,0 +1,35 @@
+{
+  "name": "@mdxdb/importers",
+  "type": "module",
+  "version": "0.1.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "mdxdb-import": "./dist/cli.js"
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mdxdb/core": "workspace:*",
+    "@mdxdb/fs": "workspace:*",
+    "commander": "^12.1.0",
+    "csv-parse": "^5.5.6",
+    "gray-matter": "^4.0.3",
+    "node-fetch": "^3.3.2",
+    "github-slugger": "^2.0.0",
+    "yaml": "^2.8.0",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.20",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
+  }
+}
