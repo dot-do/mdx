@@ -1,0 +1,92 @@
+# Documentation tweakcn configuration
+# Optimized for technical documentation and API references
+
+theme:
+  colors:
+    primary: "#2563eb"
+    secondary: "#7c3aed"
+    background: "#ffffff"
+    foreground: "#1e293b"
+    muted: "#f1f5f9"
+    mutedForeground: "#64748b"
+    border: "#cbd5e1"
+    success: "#059669"
+    warning: "#d97706"
+    info: "#0284c7"
+    destructive: "#dc2626"
+
+  fonts:
+    body: "Inter"
+    heading: "Inter"
+    mono: "JetBrains Mono"
+
+  spacing:
+    xs: "0.5rem"
+    sm: "1rem"
+    md: "1.5rem"
+    lg: "2rem"
+    xl: "3rem"
+
+  borderRadius: "0.375rem"
+
+  components:
+    heading:
+      className: "font-semibold text-foreground border-b border-border pb-2 mb-4"
+      variants:
+        h1: "text-4xl"
+        h2: "text-3xl"
+        h3: "text-2xl"
+        h4: "text-xl"
+        h5: "text-lg"
+        h6: "text-base"
+
+    paragraph:
+      className: "mb-4 leading-7 text-foreground"
+
+    link:
+      className: "text-primary hover:underline underline-offset-4 font-medium"
+
+    code:
+      className: "px-1 py-0.5 rounded bg-muted text-sm font-mono text-primary font-semibold"
+
+    pre:
+      className: "p-4 rounded-lg bg-slate-900 text-slate-50 overflow-x-auto my-4 border border-slate-800"
+
+    blockquote:
+      className: "border-l-4 border-primary pl-4 italic text-mutedForeground my-4 bg-muted p-4 rounded-r"
+
+    table:
+      className: "w-full border-collapse my-4"
+
+    th:
+      className: "border border-border bg-muted px-4 py-2 text-left font-semibold"
+
+    td:
+      className: "border border-border px-4 py-2"
+
+  customCSS: |
+    /* Code syntax highlighting enhancement */
+    pre code {
+      font-size: 0.875rem;
+      line-height: 1.7;
+    }
+
+    /* API reference styling */
+    .api-method {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+    }
+
+    .api-method.get { background: #059669; color: white; }
+    .api-method.post { background: #2563eb; color: white; }
+    .api-method.put { background: #d97706; color: white; }
+    .api-method.delete { background: #dc2626; color: white; }
+
+    /* Parameter table styling */
+    .params-table {
+      font-size: 0.875rem;
+    }

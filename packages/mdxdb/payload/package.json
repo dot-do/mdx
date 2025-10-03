@@ -1,0 +1,49 @@
+{
+  "name": "@mdxdb/payload",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Payload CMS integration for mdxdb with D1 and SQLite support",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/",
+    "MIGRATION.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mdxdb/core": "workspace:^",
+    "@libsql/client": "^0.15.7",
+    "@payloadcms/db-sqlite": "^3.38.0",
+    "drizzle-orm": "^0.38.0",
+    "gray-matter": "^4.0.3",
+    "payload": "^3.38.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250127.0",
+    "@types/node": "^22.15.20",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
+  },
+  "peerDependencies": {
+    "payload": "^3.38.0"
+  },
+  "keywords": [
+    "mdx",
+    "payload",
+    "cms",
+    "d1",
+    "sqlite",
+    "cloudflare",
+    "drizzle",
+    "orm"
+  ],
+  "author": "dot-do",
+  "license": "MIT"
+}

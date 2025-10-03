@@ -13,6 +13,9 @@ import { runExecCommand } from './commands/exec'
 import { runSendCommand } from './commands/send'
 import { runTestCommand } from './commands/test'
 import { runLintCommand } from './commands/lint'
+import { runPublishCommand } from './commands/publish'
+import { runSnippetCommand } from './commands/snippet'
+import { runAssetsCommand } from './commands/assets'
 import { ExecutionContextType } from './utils/execution-context'
 
 export { executeCodeBlock, executeCodeBlocks, executeMdxCodeBlocks } from './utils/execution-engine'
@@ -65,6 +68,35 @@ export async function run() {
     const verboseFlag = args.includes('--verbose') || args.includes('-v')
 
     return runSendCommand(eventName, eventData, { verbose: verboseFlag })
+  } else if (command === 'publish') {
+    const targetFlag = args.find((arg) => ['--worker', '--snippet', '--assets'].includes(arg))
+    const target = targetFlag?.replace('--', '') as 'worker' | 'snippet' | 'assets' | undefined
+    const nameFlag = args.indexOf('--name')
+    const name = nameFlag !== -1 ? args[nameFlag + 1] : undefined
+    const envFlag = args.indexOf('--env')
+    const env = envFlag !== -1 ? args[envFlag + 1] : undefined
+    const minify = !args.includes('--no-minify')
+    const sourcemap = args.includes('--sourcemap')
+
+    return runPublishCommand({ target, name, env, minify, sourcemap })
+  } else if (command === 'snippet') {
+    const nameFlag = args.indexOf('--name')
+    const name = nameFlag !== -1 ? args[nameFlag + 1] : undefined
+    const outputFlag = args.indexOf('--output')
+    const output = outputFlag !== -1 ? args[outputFlag + 1] : undefined
+    const minify = !args.includes('--no-minify')
+
+    return runSnippetCommand({ name, output, minify })
+  } else if (command === 'assets') {
+    const nameFlag = args.indexOf('--name')
+    const name = nameFlag !== -1 ? args[nameFlag + 1] : undefined
+    const envFlag = args.indexOf('--env')
+    const env = envFlag !== -1 ? args[envFlag + 1] : undefined
+    const bucketFlag = args.indexOf('--bucket')
+    const bucket = bucketFlag !== -1 ? args[bucketFlag + 1] : undefined
+    const isPublic = !args.includes('--private')
+
+    return runAssetsCommand({ name, env, bucket, public: isPublic })
   }
 
   let targetDir = cwd

@@ -1,0 +1,41 @@
+{
+  "name": "@mdxdb/velite",
+  "version": "0.1.0",
+  "description": "Velite integration for mdxdb with schema validation",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/lib/index.d.ts",
+      "import": "./dist/lib/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mdxdb/core": "workspace:*",
+    "gray-matter": "^4.0.3",
+    "micromatch": "^4.0.8",
+    "yaml": "^2.6.1"
+  },
+  "devDependencies": {
+    "@repo/tsup-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/micromatch": "^4.0.9",
+    "@types/node": "^22.10.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "velite": "^0.1.1",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "velite": "^0.1.1"
+  }
+}

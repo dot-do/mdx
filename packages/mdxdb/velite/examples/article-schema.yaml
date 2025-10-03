@@ -1,0 +1,138 @@
+# Example article schema with relationships
+name: Article
+slug: articles
+labels:
+  singular: Article
+  plural: Articles
+admin:
+  useAsTitle: title
+  description: Long-form article management
+
+fields:
+  # Core content
+  title:
+    type: text
+    label: Article Title
+    required: true
+    minLength: 10
+    maxLength: 200
+
+  slug:
+    type: text
+    label: URL Slug
+    required: true
+
+  subtitle:
+    type: text
+    label: Subtitle
+    maxLength: 300
+
+  excerpt:
+    type: textarea
+    label: Excerpt
+    required: true
+    minLength: 50
+    maxLength: 500
+
+  # Author (relationship example)
+  author:
+    type: relationship
+    label: Author
+    relationTo: users
+    required: true
+    description: Primary author of the article
+
+  contributors:
+    type: relationship
+    label: Contributors
+    relationTo: users
+    hasMany: true
+    max: 5
+    description: Additional contributors
+
+  # Classification
+  category:
+    type: relationship
+    label: Category
+    relationTo: categories
+    required: true
+
+  tags:
+    type: relationship
+    label: Tags
+    relationTo: tags
+    hasMany: true
+    max: 10
+
+  # Content sections
+  sections:
+    type: array
+    label: Article Sections
+    min: 1
+    fields:
+      heading: "Section heading (text)"
+      content: "Section content (richText)"
+
+      callout:
+        type: group
+        label: Callout Box
+        fields:
+          type: "Callout type (info|warning|success|error)"
+          title: "Callout title (text)"
+          message: "Callout message (textarea)"
+
+      media:
+        type: group
+        label: Media
+        fields:
+          type: "Media type (image|video|embed)"
+          url: "Media URL (text)"
+          caption: "Caption (text)"
+          credit: "Credit (text)"
+
+  # Publishing
+  publishedAt:
+    type: date
+    label: Publish Date
+    required: true
+
+  updatedAt:
+    type: date
+    label: Last Updated
+
+  status: "Article status (draft|in-review|published|archived)"
+
+  featured:
+    type: checkbox
+    label: Featured Article
+    defaultValue: false
+
+  # Engagement
+  allowComments:
+    type: checkbox
+    label: Allow Comments
+    defaultValue: true
+
+  viewCount:
+    type: number
+    label: View Count
+    min: 0
+    defaultValue: 0
+
+  # SEO & Social
+  metadata:
+    type: group
+    label: Metadata
+    fields:
+      seoTitle: "SEO Title (text)"
+      seoDescription: "SEO Description (textarea)"
+      ogImage: "OG Image URL (text)"
+      twitterCard: "Twitter Card Type (summary|summary_large_image)"
+
+  # Related content
+  relatedArticles:
+    type: relationship
+    label: Related Articles
+    relationTo: articles
+    hasMany: true
+    max: 3

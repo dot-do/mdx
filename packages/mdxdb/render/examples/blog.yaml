@@ -1,0 +1,102 @@
+# Blog tweakcn configuration
+# Elegant reading experience for long-form content
+
+theme:
+  colors:
+    primary: "#0ea5e9"
+    secondary: "#a855f7"
+    accent: "#f43f5e"
+    background: "#ffffff"
+    foreground: "#1f2937"
+    muted: "#f9fafb"
+    mutedForeground: "#6b7280"
+    border: "#d1d5db"
+    success: "#10b981"
+    warning: "#f59e0b"
+    info: "#3b82f6"
+
+  fonts:
+    body: "Georgia"
+    heading: "Inter"
+    mono: "Courier New"
+
+  spacing:
+    xs: "0.5rem"
+    sm: "1rem"
+    md: "1.5rem"
+    lg: "2rem"
+    xl: "3rem"
+    2xl: "4rem"
+
+  borderRadius: "0.5rem"
+
+  components:
+    heading:
+      className: "font-bold text-foreground mb-4"
+      variants:
+        h1: "text-5xl leading-tight"
+        h2: "text-4xl leading-tight"
+        h3: "text-3xl leading-snug"
+        h4: "text-2xl leading-snug"
+        h5: "text-xl leading-normal"
+        h6: "text-lg leading-normal"
+
+    paragraph:
+      className: "text-lg leading-relaxed text-foreground mb-4"
+
+    link:
+      className: "text-primary underline-offset-4 hover:underline font-medium"
+
+    image:
+      className: "rounded-lg shadow-md w-full my-6"
+
+    blockquote:
+      className: "border-l-4 border-accent pl-6 italic text-xl text-mutedForeground my-6"
+
+    code:
+      className: "px-1.5 py-0.5 rounded bg-muted text-sm font-mono text-accent"
+
+    pre:
+      className: "p-6 rounded-lg bg-slate-900 text-slate-50 overflow-x-auto my-6 shadow-lg"
+
+    list:
+      className: "space-y-2 my-4"
+
+  customCSS: |
+    /* Reading-optimized typography */
+    .blog-content {
+      max-width: 65ch;
+      margin: 0 auto;
+    }
+
+    /* Drop cap for first paragraph */
+    .blog-content > p:first-of-type::first-letter {
+      float: left;
+      font-size: 3.5rem;
+      line-height: 3rem;
+      padding-right: 0.5rem;
+      font-weight: bold;
+      color: #0ea5e9;
+    }
+
+    /* Pull quotes */
+    .pullquote {
+      font-size: 1.5rem;
+      font-style: italic;
+      text-align: center;
+      padding: 2rem;
+      margin: 2rem 0;
+      border-top: 2px solid #d1d5db;
+      border-bottom: 2px solid #d1d5db;
+      color: #6b7280;
+    }
+
+    /* Image captions */
+    img + em {
+      display: block;
+      text-align: center;
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-top: -1rem;
+      margin-bottom: 2rem;
+    }

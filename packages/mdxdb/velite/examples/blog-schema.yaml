@@ -1,0 +1,48 @@
+# Example blog post schema
+name: BlogPost
+slug: posts
+labels:
+  singular: Blog Post
+  plural: Blog Posts
+admin:
+  useAsTitle: title
+  defaultColumns:
+    - title
+    - author
+    - publishedAt
+    - status
+  description: Blog post management
+
+fields:
+  # Basic fields
+  title: "Post title (text)"
+  slug: "URL slug (text)"
+  excerpt: "Post excerpt (textarea)"
+  content: "Post content (richText)"
+
+  # Author information
+  author: "Author name (text)"
+  authorEmail: "Author email (email)"
+
+  # Publishing metadata
+  publishedAt: "Publish date (date)"
+  published: "Is published (checkbox)"
+  status: "Post status (draft|published|archived)"
+
+  # SEO metadata
+  seoTitle: "SEO Title (text)"
+  seoDescription: "SEO Description (textarea)"
+
+  # Engagement metrics
+  views: "View count (number)"
+  featured: "Featured post (checkbox)"
+
+  # Tags (simple array example)
+  tags:
+    type: array
+    label: Tags
+    min: 1
+    max: 5
+    fields:
+      name: "Tag name (text)"
+      slug: "Tag slug (text)"

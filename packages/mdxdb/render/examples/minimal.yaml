@@ -1,0 +1,45 @@
+# Minimal tweakcn configuration
+# Perfect for simple websites and documentation
+
+theme:
+  colors:
+    primary: "#000000"
+    secondary: "#666666"
+    background: "#ffffff"
+    foreground: "#000000"
+    muted: "#f5f5f5"
+    mutedForeground: "#999999"
+    border: "#e5e5e5"
+
+  fonts:
+    body: "system-ui"
+    heading: "system-ui"
+    mono: "monospace"
+
+  spacing:
+    xs: "0.5rem"
+    sm: "1rem"
+    md: "1.5rem"
+    lg: "2rem"
+    xl: "3rem"
+
+  borderRadius: "0.25rem"
+
+  components:
+    heading:
+      className: "font-bold tracking-tight"
+
+    paragraph:
+      className: "mb-4"
+
+    link:
+      className: "text-primary underline hover:opacity-80"
+
+    button:
+      className: "px-4 py-2 rounded bg-primary text-background hover:opacity-90 transition-opacity"
+
+    code:
+      className: "px-1 py-0.5 rounded bg-muted text-sm font-mono"
+
+    pre:
+      className: "p-4 rounded bg-muted overflow-x-auto"

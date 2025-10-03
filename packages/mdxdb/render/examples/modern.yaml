@@ -1,0 +1,82 @@
+# Modern tweakcn configuration
+# Vibrant colors, modern fonts, smooth transitions
+
+theme:
+  colors:
+    primary: "#3b82f6"
+    secondary: "#8b5cf6"
+    accent: "#ec4899"
+    background: "#ffffff"
+    foreground: "#0f172a"
+    muted: "#f8fafc"
+    mutedForeground: "#64748b"
+    border: "#e2e8f0"
+    success: "#10b981"
+    warning: "#f59e0b"
+    destructive: "#ef4444"
+    info: "#0ea5e9"
+
+  fonts:
+    body: "Inter"
+    heading: "Poppins"
+    mono: "Fira Code"
+
+  spacing:
+    xs: "0.5rem"
+    sm: "1rem"
+    md: "1.5rem"
+    lg: "2rem"
+    xl: "3rem"
+    2xl: "4rem"
+
+  borderRadius: "0.5rem"
+
+  components:
+    heading:
+      className: "font-bold text-foreground tracking-tight"
+      variants:
+        h1: "text-4xl md:text-5xl lg:text-6xl"
+        h2: "text-3xl md:text-4xl lg:text-5xl"
+        h3: "text-2xl md:text-3xl lg:text-4xl"
+        h4: "text-xl md:text-2xl lg:text-3xl"
+        h5: "text-lg md:text-xl lg:text-2xl"
+        h6: "text-base md:text-lg lg:text-xl"
+
+    paragraph:
+      className: "mb-4 leading-relaxed"
+
+    link:
+      className: "text-primary hover:underline transition-all hover:opacity-80"
+
+    button:
+      className: "px-4 py-2 rounded-lg font-medium transition-all duration-200"
+      variants:
+        default: "bg-primary text-white hover:opacity-90 shadow-sm hover:shadow-md"
+        secondary: "bg-secondary text-white hover:opacity-90 shadow-sm hover:shadow-md"
+        outline: "border-2 border-primary text-primary hover:bg-primary hover:text-white"
+        ghost: "hover:bg-muted"
+
+    card:
+      className: "p-6 rounded-lg border border-border bg-background shadow-sm hover:shadow-md transition-shadow"
+
+    code:
+      className: "px-1.5 py-0.5 rounded bg-muted text-sm font-mono text-primary"
+
+    pre:
+      className: "p-4 rounded-lg bg-slate-900 text-slate-50 overflow-x-auto shadow-inner"
+
+    blockquote:
+      className: "border-l-4 border-primary pl-4 italic my-4 text-mutedForeground"
+
+  customCSS: |
+    /* Modern glassmorphism effect */
+    .glass {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Smooth animations */
+    * {
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }

@@ -1,0 +1,25 @@
+# Cloudflare Workers configuration for Markdown mode
+
+name = "mdxe-markdown-worker"
+main = "index.ts"
+compatibility_date = "2024-10-01"
+
+# Worker routes (configure for your domain)
+# routes = [
+#   { pattern = "docs.example.com/*", zone_name = "example.com" }
+# ]
+
+# Environment variables
+[env.production]
+# Add your production environment variables here
+
+[env.staging]
+# Add your staging environment variables here
+
+# Build configuration
+[build]
+command = "npm run build"
+
+# Enable local development
+[dev]
+port = 8787

@@ -1,0 +1,34 @@
+{
+  "name": "payload-blog-example",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Blog example with mdxdb and Payload CMS",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "db:build": "mdxdb build",
+    "db:watch": "mdxdb watch",
+    "admin": "payload dev",
+    "generate:posts": "mdxai generate 10 blog posts about modern web development"
+  },
+  "dependencies": {
+    "@mdxdb/fs": "workspace:*",
+    "@mdxdb/core": "workspace:*",
+    "mdxe": "workspace:*",
+    "mdxui": "workspace:*",
+    "payload": "^3.46.0",
+    "@payloadcms/db-sqlite": "^3.46.0",
+    "@payloadcms/next": "^3.46.0",
+    "next": "^15.3.5",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "velite": "^0.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5.8"
+  }
+}

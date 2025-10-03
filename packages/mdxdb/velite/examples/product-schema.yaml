@@ -1,0 +1,121 @@
+# Example product catalog schema
+name: Product
+slug: products
+labels:
+  singular: Product
+  plural: Products
+admin:
+  useAsTitle: name
+  defaultColumns:
+    - name
+    - price
+    - category
+    - inStock
+
+fields:
+  # Product details
+  name:
+    type: text
+    label: Product Name
+    required: true
+    description: The name of the product
+    minLength: 3
+    maxLength: 100
+
+  sku:
+    type: text
+    label: SKU
+    required: true
+    description: Stock Keeping Unit
+
+  description:
+    type: richText
+    label: Description
+    required: true
+
+  # Pricing
+  price:
+    type: number
+    label: Price (USD)
+    required: true
+    min: 0
+    max: 1000000
+
+  compareAtPrice:
+    type: number
+    label: Compare at Price
+    min: 0
+    description: Original price for showing discounts
+
+  # Inventory
+  inStock:
+    type: checkbox
+    label: In Stock
+    defaultValue: true
+
+  quantity:
+    type: number
+    label: Available Quantity
+    min: 0
+    defaultValue: 0
+
+  # Classification
+  category:
+    type: select
+    label: Category
+    required: true
+    options:
+      - label: Electronics
+        value: electronics
+      - label: Clothing
+        value: clothing
+      - label: Books
+        value: books
+      - label: Home & Garden
+        value: home-garden
+      - label: Toys & Games
+        value: toys-games
+
+  tags:
+    type: select
+    label: Product Tags
+    hasMany: true
+    options:
+      - label: New Arrival
+        value: new
+      - label: Best Seller
+        value: bestseller
+      - label: On Sale
+        value: sale
+      - label: Limited Edition
+        value: limited
+
+  # Images
+  images:
+    type: array
+    label: Product Images
+    min: 1
+    max: 10
+    fields:
+      url: "Image URL (text)"
+      alt: "Alt text (text)"
+      position: "Display order (number)"
+
+  # Specifications
+  specifications:
+    type: group
+    label: Specifications
+    fields:
+      weight: "Weight in kg (number)"
+      dimensions: "Dimensions (text)"
+      material: "Material (text)"
+      color: "Color (text)"
+
+  # SEO
+  seo:
+    type: group
+    label: SEO
+    fields:
+      metaTitle: "Meta Title (text)"
+      metaDescription: "Meta Description (textarea)"
+      keywords: "Keywords (text)"
