@@ -1,0 +1,54 @@
+{
+  "name": "@mdxui/types",
+  "version": "0.0.0",
+  "description": "TypeScript types for mdxui components",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./marketing": {
+      "types": "./dist/components/marketing/index.d.ts",
+      "import": "./dist/components/marketing/index.js"
+    },
+    "./docs": {
+      "types": "./dist/components/docs/index.d.ts",
+      "import": "./dist/components/docs/index.js"
+    },
+    "./dashboard": {
+      "types": "./dist/components/dashboard/index.d.ts",
+      "import": "./dist/components/dashboard/index.js"
+    },
+    "./chat": {
+      "types": "./dist/components/chat/index.d.ts",
+      "import": "./dist/components/chat/index.js"
+    },
+    "./theme": {
+      "types": "./dist/theme/index.d.ts",
+      "import": "./dist/theme/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "devDependencies": {
+    "@repo/tsup-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/react": "^19.1.5",
+    "tsup": "^8.0.2",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
+  },
+  "license": "MIT"
+}
