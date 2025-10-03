@@ -1,0 +1,49 @@
+{
+  "name": "@mdxui/react",
+  "version": "0.0.0",
+  "description": "React components for mdxui with dual API support",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./marketing": {
+      "types": "./dist/components/marketing/index.d.ts",
+      "import": "./dist/components/marketing/index.js"
+    },
+    "./backgrounds": {
+      "types": "./dist/components/backgrounds/index.d.ts",
+      "import": "./dist/components/backgrounds/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@mdxui/types": "workspace:*",
+    "@mdxui/semantic-mapping": "workspace:*",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.15.0"
+  },
+  "devDependencies": {
+    "@repo/tsup-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
+    "tsup": "^8.0.2",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "license": "MIT"
+}
