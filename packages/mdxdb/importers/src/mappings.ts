@@ -267,11 +267,11 @@ export const naicsIndustriesMapping: ThingMapping = {
   sourceId: 'naics',
   collection: 'Industries',
   transform: async (data: any) => {
-    const naicsCode = data['NAICS Code']
-    const title = data['NAICS Title']
-    const level = naicsCode.length
+    const naicsCode = data.naics || data['NAICS Code']
+    const title = data.industry || data['NAICS Title']
+    const level = naicsCode?.length || 0
     const parentCode = level > 2 ? naicsCode.substring(0, level - 1) : undefined
-    const sectorCode = naicsCode.substring(0, 2)
+    const sectorCode = naicsCode?.substring(0, 2) || ''
 
     return {
       slug: generateSlug(title),

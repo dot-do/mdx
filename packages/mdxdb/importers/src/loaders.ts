@@ -101,6 +101,13 @@ export async function loadMDX(source: SourceDefinition, dirPath: string): Promis
 
   for (const file of mdxFiles) {
     const filePath = path.join(dirPath, file)
+
+    // Check if it's a file (not a directory)
+    const stats = await fs.stat(filePath)
+    if (!stats.isFile()) {
+      continue
+    }
+
     const content = await fs.readFile(filePath, 'utf-8')
 
     // Parse frontmatter
@@ -179,6 +186,7 @@ export async function loadONetData(dataDir: string, version: string = '30_0') {
       trim: true,
       delimiter: '\t',
       relax_column_count: true,
+      relax_quotes: true, // Handle unescaped quotes in text fields
     })
 
     data[key] = records
