@@ -16,6 +16,7 @@ import { runLintCommand } from './commands/lint'
 import { runPublishCommand } from './commands/publish'
 import { runSnippetCommand } from './commands/snippet'
 import { runAssetsCommand } from './commands/assets'
+import { runCodeCommand, type CodeOptions } from './commands/code'
 import { ExecutionContextType } from './utils/execution-context'
 import { ensureAuthenticated } from './utils/auth'
 
@@ -112,6 +113,31 @@ export async function run() {
     const isPublic = !args.includes('--private')
 
     return runAssetsCommand({ name, env, bucket, public: isPublic })
+  } else if (command === 'code') {
+    // Parse code command options
+    const options: CodeOptions = {}
+
+    const bindingsFlag = args.indexOf('--bindings')
+    if (bindingsFlag !== -1 && args[bindingsFlag + 1]) {
+      options.bindings = args[bindingsFlag + 1].split(',')
+    }
+
+    const timeoutFlag = args.indexOf('--timeout')
+    if (timeoutFlag !== -1 && args[timeoutFlag + 1]) {
+      options.timeout = parseInt(args[timeoutFlag + 1])
+    }
+
+    options.cache = args.includes('--cache')
+
+    const outputFlag = args.indexOf('--output')
+    if (outputFlag !== -1 && args[outputFlag + 1]) {
+      options.output = args[outputFlag + 1] as 'json' | 'text'
+    }
+
+    // Get subcommand and remaining args
+    const subcommandArgs = args.slice(1).filter(arg => !arg.startsWith('--'))
+
+    return runCodeCommand(subcommandArgs, options)
   }
 
   let targetDir = cwd

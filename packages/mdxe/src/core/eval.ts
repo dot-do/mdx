@@ -333,7 +333,7 @@ export class MdxEvaluator {
 
       // Create worker
       const workerId = options.workerId || `mdx-eval-${Date.now()}`
-      const { loader, id } = await createCodeWorker(this.workerLoader['loader'], wrappedCode, {
+      const { loader, id } = await createCodeWorker(this.workerLoader.getLoaderBinding(), wrappedCode, {
         id: workerId,
         bindings,
       })

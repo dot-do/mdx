@@ -170,6 +170,16 @@ export class WorkerLoader {
   }
 
   /**
+   * Get the underlying loader binding
+   */
+  getLoaderBinding(): WorkerLoaderBinding {
+    if (!this.loader) {
+      throw new Error('Worker Loader binding not available')
+    }
+    return this.loader
+  }
+
+  /**
    * Load a worker with the given configuration
    *
    * @param id Unique identifier for this worker
