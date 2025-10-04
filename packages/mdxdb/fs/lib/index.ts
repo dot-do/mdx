@@ -1,2 +1,5 @@
 export { MdxDbFs } from './mdxdb-fs.js'
 export { MdxDb } from './mdxdb.js'
+export { push, type PushOptions, type PushResult } from './commands/push.js'
+export { pull, type PullOptions, type PullResult } from './commands/pull.js'
+export type { DbWorkerClient } from './commands/push.js'

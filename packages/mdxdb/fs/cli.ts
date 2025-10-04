@@ -2,6 +2,8 @@ import { Command } from 'commander'
 import { promises as fs } from 'fs'
 import path from 'path'
 import { MdxDbFs } from './lib/mdxdb-fs.js'
+import { push, pull } from './lib/index.js'
+import { createHttpClient } from './lib/http-client.js'
 
 const packageJsonPath = new URL('../package.json', import.meta.url)
 try {
@@ -241,6 +243,122 @@ program
         )
       } else {
         console.error('Error generating documents:', error)
+      }
+      process.exit(1)
+    }
+  })
+
+program
+  .command('push')
+  .description('Push entities from database to filesystem as MDX files')
+  .requiredOption('-n, --namespace <namespace>', 'Namespace to export (e.g., "payload", "notes")')
+  .requiredOption('-d, --directory <directory>', 'Output directory for MDX files')
+  .option('-c, --collections <collections>', 'Collection types to export (comma-separated)', '')
+  .option('-u, --db-url <url>', 'Database worker URL', process.env.DB_WORKER_URL || 'https://db.do')
+  .option('-k, --api-key <key>', 'API key for authentication', process.env.DB_API_KEY)
+  .option('-f, --force', 'Force overwrite existing files without conflict check', false)
+  .option('--commit', 'Create git commit after push', false)
+  .option('-m, --message <message>', 'Git commit message')
+  .option('--dry-run', 'Show what would be pushed without writing files', false)
+  .action(async (options) => {
+    const { json } = program.opts()
+    try {
+      // Create HTTP client for db worker
+      const dbWorker = createHttpClient({
+        baseUrl: options.dbUrl,
+        apiKey: options.apiKey,
+      })
+
+      // Parse collections if provided
+      const collections = options.collections ? options.collections.split(',').map((c: string) => c.trim()) : undefined
+
+      // Execute push command
+      const result = await push({
+        namespace: options.namespace,
+        directory: path.resolve(options.directory),
+        collections,
+        force: options.force,
+        commit: options.commit,
+        commitMessage: options.message,
+        dbWorker,
+        dryRun: options.dryRun,
+      })
+
+      if (json) {
+        console.log(JSON.stringify({ status: 'success', result }))
+      }
+
+      // Report conflicts if any
+      if (result.conflicts.length > 0 && !json) {
+        process.exit(1)
+      }
+    } catch (error) {
+      if (json) {
+        console.error(
+          JSON.stringify({
+            status: 'error',
+            message: error instanceof Error ? error.message : String(error),
+          }),
+        )
+      } else {
+        console.error('Error during push:', error)
+      }
+      process.exit(1)
+    }
+  })
+
+program
+  .command('pull')
+  .description('Pull MDX files from filesystem into database')
+  .requiredOption('-n, --namespace <namespace>', 'Namespace to import into (e.g., "payload", "notes")')
+  .requiredOption('-d, --directory <directory>', 'Directory containing MDX files')
+  .option('-c, --collections <collections>', 'Collection types to import (comma-separated)', '')
+  .option('-u, --db-url <url>', 'Database worker URL', process.env.DB_WORKER_URL || 'https://db.do')
+  .option('-k, --api-key <key>', 'API key for authentication', process.env.DB_API_KEY)
+  .option('-o, --overwrite', 'Overwrite existing database entries', false)
+  .option('-p, --pattern <pattern>', 'File pattern to match', '**/*.mdx')
+  .option('--dry-run', 'Show what would be pulled without writing to database', false)
+  .action(async (options) => {
+    const { json } = program.opts()
+    try {
+      // Create HTTP client for db worker
+      const dbWorker = createHttpClient({
+        baseUrl: options.dbUrl,
+        apiKey: options.apiKey,
+      })
+
+      // Parse collections if provided
+      const collections = options.collections ? options.collections.split(',').map((c: string) => c.trim()) : undefined
+
+      // Execute pull command
+      const result = await pull({
+        namespace: options.namespace,
+        directory: path.resolve(options.directory),
+        collections,
+        overwrite: options.overwrite,
+        dbWorker,
+        dryRun: options.dryRun,
+        pattern: options.pattern,
+      })
+
+      if (json) {
+        console.log(JSON.stringify({ status: 'success', result }))
+      }
+
+      // Exit with error if there were errors
+      if (result.errors > 0 && !json) {
+        process.exit(1)
+      }
+    } catch (error) {
+      if (json) {
+        console.error(
+          JSON.stringify({
+            status: 'error',
+            message: error instanceof Error ? error.message : String(error),
+          }),
+        )
+      } else {
+        console.error('Error during pull:', error)
       }
       process.exit(1)
     }
