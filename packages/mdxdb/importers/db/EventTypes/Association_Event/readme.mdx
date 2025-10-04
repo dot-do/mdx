@@ -1,0 +1,53 @@
+---
+id: Association Event
+name: Association Event
+description: >-
+  Records the association between an object and an entity (person, location,
+  etc.)
+dimensions: >-
+  What (parentID, childEPCs/childQuantityList), When (eventTime), Where
+  (location), Why (bizStep), How (action: ADD/DELETE/OBSERVE)
+collection: EventTypes
+source: gs1
+category: epcis
+epcisVersion: '2.0'
+url: 'https://ref.gs1.org/epcis/AssociationEvent'
+---
+# Association Event
+
+**EPCIS 2.0 Event Type**
+
+## Description
+
+Records the association between an object and an entity (person, location, etc.)
+
+## Event Dimensions
+
+What (parentID, childEPCs/childQuantityList), When (eventTime), Where (location), Why (bizStep), How (action: ADD/DELETE/OBSERVE)
+
+## Category
+
+Supply Chain Event Tracking
+
+## Usage
+
+This event type is part of the EPCIS 2.0 standard for recording supply chain events. EPCIS (Electronic Product Code Information Services) enables trading partners to share information about the physical movement and status of products.
+
+## EPCIS Model: The 5 W's + How
+
+- **What**: Identifies objects involved
+- **When**: Timestamp of the event
+- **Where**: Location information
+- **Why**: Business context (bizStep, disposition)
+- **Who**: Trading partners involved
+- **How**: Action performed
+
+## Related Standards
+
+- **EPCIS 2.0**: [Event Processing Standard](https://ref.gs1.org/standards/epcis/)
+- **GS1 CBV 2.0**: [Core Business Vocabulary](https://ref.gs1.org/standards/cbv/)
+
+## References
+
+- [Official EPCIS Definition](https://ref.gs1.org/epcis/AssociationEvent)
+- [EPCIS Documentation](https://www.gs1.org/standards/epcis)

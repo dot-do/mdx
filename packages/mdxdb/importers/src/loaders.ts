@@ -302,8 +302,186 @@ export async function loadSourceData(
       return await loadSchemaOrgData(mdxDir)
     }
 
+    case 'zapier': {
+      const collection = options?.collection?.toLowerCase()
+      const maxPages = (options as any)?.maxPages // For testing, limit pages
+      return await loadZapierData(collection, maxPages)
+    }
+
+    case 'gs1': {
+      const collection = options?.collection?.toLowerCase()
+      return await loadGS1Data(collection)
+    }
+
     default:
       console.warn(`  ⚠️  Unknown source: ${source.id}`)
+      return []
+  }
+}
+
+/**
+ * Load Zapier data from API
+ */
+export async function loadZapierData(collection?: string, maxPagesLimit?: number): Promise<any[]> {
+  console.log(`  Loading Zapier data for collection: ${collection || 'apps'}`)
+
+  const baseUrl = 'https://zapier.com/api/v4/'
+
+  switch (collection) {
+    case 'apps': {
+      // Fetch apps from Zapier API
+      const apps: any[] = []
+      let url = `${baseUrl}apps/?limit=250`
+      let page = 0
+      const maxPages = maxPagesLimit || 30 // default ~7,500 apps, or limit for testing
+
+      while (url && page < maxPages) {
+        console.log(`    Fetching page ${page + 1}...`)
+        const response = await fetch(url)
+        if (!response.ok) {
+          console.error(`    ❌ Failed to fetch: ${response.statusText}`)
+          break
+        }
+        const data = await response.json()
+        apps.push(...data.results)
+        url = data.next || ''
+        page++
+      }
+
+      console.log(`  ✓ Loaded ${apps.length} Zapier apps`)
+      return apps
+    }
+
+    default:
+      console.warn(`  ⚠️  Zapier collection not implemented: ${collection}`)
+      return []
+  }
+}
+
+/**
+ * Load GS1 Core Business Vocabulary data
+ */
+export async function loadGS1Data(collection?: string): Promise<any[]> {
+  console.log(`  Loading GS1 data for collection: ${collection || 'verbs'}`)
+
+  // GS1 CBV vocabulary (hardcoded from official spec)
+  const businessSteps = [
+    { id: 'Accepting', description: 'Denotes the receiving of goods from external parties' },
+    { id: 'Arriving', description: 'Denotes the receiving of goods after transportation' },
+    { id: 'Assembling', description: 'Denotes the assembly of objects into aggregations or transformations' },
+    { id: 'Collecting', description: 'Denotes the assembly of objects for the purpose of transportation' },
+    { id: 'Commissioning', description: 'Denotes the creation of new trade items or instances' },
+    { id: 'Consigning', description: 'Denotes the transfer of physical possession of objects for transportation' },
+    { id: 'Creating Class Instance', description: 'Denotes the creation of a specific class of trade item' },
+    { id: 'Cycle Counting', description: 'Denotes a physical count of inventory' },
+    { id: 'Decommissioning', description: 'Denotes the removal of objects from the supply chain' },
+    { id: 'Departing', description: 'Denotes the departure of objects for transportation' },
+    { id: 'Destroying', description: 'Denotes the permanent destruction of objects' },
+    { id: 'Dispensing', description: 'Denotes the dispensing of objects to end users' },
+    { id: 'Encoding', description: 'Denotes the writing of data to RFID tags' },
+    { id: 'Entering Exiting', description: 'Denotes objects entering or exiting a location' },
+    { id: 'Holding', description: 'Denotes objects being held in inventory' },
+    { id: 'Inspecting', description: 'Denotes the inspection of objects for quality or compliance' },
+    { id: 'Installing', description: 'Denotes the installation of objects at a location' },
+    { id: 'Killing', description: 'Denotes the permanent deactivation of RFID tags' },
+    { id: 'Loading', description: 'Denotes the loading of objects onto transportation equipment' },
+    { id: 'Packing', description: 'Denotes the packing of objects into shipping containers' },
+    { id: 'Picking', description: 'Denotes the selection of objects from inventory for fulfillment' },
+    { id: 'Receiving', description: 'Denotes the receiving of objects from suppliers' },
+    { id: 'Removing', description: 'Denotes the removal of objects from aggregations' },
+    { id: 'Repackaging', description: 'Denotes the repackaging of objects' },
+    { id: 'Repairing', description: 'Denotes the repair of damaged objects' },
+    { id: 'Replacing', description: 'Denotes the replacement of defective objects' },
+    { id: 'Reserving', description: 'Denotes the reservation of objects for future use' },
+    { id: 'Retail Selling', description: 'Denotes the sale of objects to end consumers' },
+    { id: 'Shipping', description: 'Denotes the shipment of objects to destinations' },
+    { id: 'Staging Outbound', description: 'Denotes the staging of objects for outbound shipment' },
+    { id: 'Stock Taking', description: 'Denotes a comprehensive inventory count' },
+    { id: 'Storing', description: 'Denotes the storage of objects in inventory' },
+    { id: 'Transforming', description: 'Denotes the transformation of objects into new products' },
+    { id: 'Transporting', description: 'Denotes the transportation of objects between locations' },
+    { id: 'Unloading', description: 'Denotes the unloading of objects from transportation equipment' },
+    { id: 'Unpacking', description: 'Denotes the unpacking of objects from containers' },
+    { id: 'Void Shipping', description: 'Denotes the cancellation of a shipment' },
+  ]
+
+  const dispositions = [
+    { id: 'Active', description: 'Objects are active and available for business transactions' },
+    { id: 'Available', description: 'Objects are available for use or sale' },
+    { id: 'Completeness Inferred', description: 'Completeness is inferred from partial observations' },
+    { id: 'Completeness Verified', description: 'Completeness has been verified' },
+    { id: 'Conformant', description: 'Objects conform to specifications' },
+    { id: 'Container Closed', description: 'Container has been closed' },
+    { id: 'Container Open', description: 'Container has been opened' },
+    { id: 'Damaged', description: 'Objects have been damaged' },
+    { id: 'Destroyed', description: 'Objects have been destroyed' },
+    { id: 'Dispensed', description: 'Objects have been dispensed' },
+    { id: 'Disposed', description: 'Objects have been disposed of' },
+    { id: 'Encoded', description: 'Data has been encoded' },
+    { id: 'Expired', description: 'Objects have expired' },
+    { id: 'In Progress', description: 'Business process is in progress' },
+    { id: 'In Transit', description: 'Objects are in transit' },
+    { id: 'Inactive', description: 'Objects are inactive' },
+    { id: 'Mismatch Instance', description: 'Instance data does not match expectations' },
+    { id: 'Mismatch Class', description: 'Class data does not match expectations' },
+    { id: 'Mismatch Quantity', description: 'Quantity does not match expectations' },
+    { id: 'No Pedigree Match', description: 'Pedigree does not match expectations' },
+    { id: 'Non Conformant', description: 'Objects do not conform to specifications' },
+    { id: 'Non Sellable Other', description: 'Objects are not sellable for other reasons' },
+    { id: 'Partially Dispensed', description: 'Objects have been partially dispensed' },
+    { id: 'Recalled', description: 'Objects have been recalled' },
+    { id: 'Reserved', description: 'Objects have been reserved' },
+    { id: 'Retail Sold', description: 'Objects have been sold at retail' },
+    { id: 'Returned', description: 'Objects have been returned' },
+    { id: 'Sellable Accessible', description: 'Objects are sellable and accessible' },
+    { id: 'Sellable Not Accessible', description: 'Objects are sellable but not accessible' },
+    { id: 'Stolen', description: 'Objects have been stolen' },
+    { id: 'Unknown', description: 'Disposition is unknown' },
+  ]
+
+  const eventTypes = [
+    {
+      id: 'Object Event',
+      description: 'Records an event that happened to one or more objects',
+      dimensions: 'What (objects), When (eventTime), Where (location), Why (bizStep, disposition)',
+    },
+    {
+      id: 'Aggregation Event',
+      description: 'Records the assembly or disassembly of objects into or from an aggregation',
+      dimensions: 'What (parent, children), When (eventTime), Where (location), Why (bizStep), How (action: ADD/DELETE/OBSERVE)',
+    },
+    {
+      id: 'Transaction Event',
+      description: 'Records the association of objects with a business transaction',
+      dimensions: 'What (objects), When (eventTime), Where (location), Why (bizStep, bizTransactionList), Who (source, destination)',
+    },
+    {
+      id: 'Transformation Event',
+      description: 'Records the transformation of input objects into output objects',
+      dimensions: 'What (inputEPCList, outputEPCList), When (eventTime), Where (location), Why (bizStep, transformationID), How (quantity, ilmd)',
+    },
+    {
+      id: 'Association Event',
+      description: 'Records the association between an object and an entity (person, location, etc.)',
+      dimensions: 'What (parentID, childEPCs/childQuantityList), When (eventTime), Where (location), Why (bizStep), How (action: ADD/DELETE/OBSERVE)',
+    },
+  ]
+
+  switch (collection) {
+    case 'verbs':
+      console.log(`  ✓ Loaded ${businessSteps.length} GS1 business steps (verbs)`)
+      return businessSteps
+
+    case 'dispositions':
+      console.log(`  ✓ Loaded ${dispositions.length} GS1 dispositions`)
+      return dispositions
+
+    case 'eventtypes':
+      console.log(`  ✓ Loaded ${eventTypes.length} GS1 event types`)
+      return eventTypes
+
+    default:
+      console.warn(`  ⚠️  GS1 collection not implemented: ${collection}`)
       return []
   }
 }
