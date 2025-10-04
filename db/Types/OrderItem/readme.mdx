@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/OrderItem'
+label: OrderItem
+description: >-
+  An order item is a line of an order. It includes the quantity and shipping
+  details of a bought offer.
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# OrderItem
+
+**Schema.org Type:** [`OrderItem`](https://schema.org/OrderItem)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+An order item is a line of an order. It includes the quantity and shipping details of a bought offer.
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "OrderItem",
+  "name": "Example OrderItem",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { OrderItem } from 'schema.org.ai'
+
+const item: OrderItem = {
+  '@type': 'OrderItem',
+  name: 'Example OrderItem',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/OrderItem)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

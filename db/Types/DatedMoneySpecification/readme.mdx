@@ -1,0 +1,66 @@
+---
+schemaId: 'https://schema.org/DatedMoneySpecification'
+label: DatedMoneySpecification
+description: >-
+  A DatedMoneySpecification represents monetary values with optional start and
+  end dates. For example, this could represent an employee's salary over a
+  specific period of time. __Note:__ This type has been superseded by
+  [[MonetaryAmount]], use of that type is recommended.
+parentType: StructuredValue
+parentUrl: 'https://schema.org/StructuredValue'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# DatedMoneySpecification
+
+**Schema.org Type:** [`DatedMoneySpecification`](https://schema.org/DatedMoneySpecification)
+**Parent Type:** [[../StructuredValue|StructuredValue]]
+
+## Description
+
+A DatedMoneySpecification represents monetary values with optional start and end dates. For example, this could represent an employee's salary over a specific period of time. __Note:__ This type has been superseded by [[MonetaryAmount]], use of that type is recommended.
+
+## Properties
+
+*Properties inherited from [[../StructuredValue|StructuredValue]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "DatedMoneySpecification",
+  "name": "Example DatedMoneySpecification",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { DatedMoneySpecification } from 'schema.org.ai'
+
+const item: DatedMoneySpecification = {
+  '@type': 'DatedMoneySpecification',
+  name: 'Example DatedMoneySpecification',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/DatedMoneySpecification)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/City'
+label: City
+description: A city or town.
+parentType: AdministrativeArea
+parentUrl: 'https://schema.org/AdministrativeArea'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# City
+
+**Schema.org Type:** [`City`](https://schema.org/City)
+**Parent Type:** [[../AdministrativeArea|AdministrativeArea]]
+
+## Description
+
+A city or town.
+
+## Properties
+
+*Properties inherited from [[../AdministrativeArea|AdministrativeArea]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "City",
+  "name": "Example City",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { City } from 'schema.org.ai'
+
+const item: City = {
+  '@type': 'City',
+  name: 'Example City',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/City)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

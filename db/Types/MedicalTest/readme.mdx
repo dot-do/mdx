@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/MedicalTest'
+label: MedicalTest
+description: 'Any medical test, typically performed for diagnostic purposes.'
+parentType: MedicalEntity
+parentUrl: 'https://schema.org/MedicalEntity'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# MedicalTest
+
+**Schema.org Type:** [`MedicalTest`](https://schema.org/MedicalTest)
+**Parent Type:** [[../MedicalEntity|MedicalEntity]]
+
+## Description
+
+Any medical test, typically performed for diagnostic purposes.
+
+## Properties
+
+*Properties inherited from [[../MedicalEntity|MedicalEntity]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalTest",
+  "name": "Example MedicalTest",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { MedicalTest } from 'schema.org.ai'
+
+const item: MedicalTest = {
+  '@type': 'MedicalTest',
+  name: 'Example MedicalTest',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/MedicalTest)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/PodcastEpisode'
+label: PodcastEpisode
+description: A single episode of a podcast series.
+parentType: Episode
+parentUrl: 'https://schema.org/Episode'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# PodcastEpisode
+
+**Schema.org Type:** [`PodcastEpisode`](https://schema.org/PodcastEpisode)
+**Parent Type:** [[../Episode|Episode]]
+
+## Description
+
+A single episode of a podcast series.
+
+## Properties
+
+*Properties inherited from [[../Episode|Episode]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "PodcastEpisode",
+  "name": "Example PodcastEpisode",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { PodcastEpisode } from 'schema.org.ai'
+
+const item: PodcastEpisode = {
+  '@type': 'PodcastEpisode',
+  name: 'Example PodcastEpisode',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/PodcastEpisode)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

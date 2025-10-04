@@ -1,0 +1,65 @@
+---
+schemaId: 'https://schema.org/DrugClass'
+label: DrugClass
+description: >-
+  A class of medical drugs, e.g., statins. Classes can represent general
+  pharmacological class, common mechanisms of action, common physiological
+  effects, etc.
+parentType: MedicalEntity
+parentUrl: 'https://schema.org/MedicalEntity'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# DrugClass
+
+**Schema.org Type:** [`DrugClass`](https://schema.org/DrugClass)
+**Parent Type:** [[../MedicalEntity|MedicalEntity]]
+
+## Description
+
+A class of medical drugs, e.g., statins. Classes can represent general pharmacological class, common mechanisms of action, common physiological effects, etc.
+
+## Properties
+
+*Properties inherited from [[../MedicalEntity|MedicalEntity]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "DrugClass",
+  "name": "Example DrugClass",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { DrugClass } from 'schema.org.ai'
+
+const item: DrugClass = {
+  '@type': 'DrugClass',
+  name: 'Example DrugClass',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/DrugClass)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

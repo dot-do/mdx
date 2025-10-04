@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/SomeProducts'
+label: SomeProducts
+description: A placeholder for multiple similar products of the same kind.
+parentType: Product
+parentUrl: 'https://schema.org/Product'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# SomeProducts
+
+**Schema.org Type:** [`SomeProducts`](https://schema.org/SomeProducts)
+**Parent Type:** [[../Product|Product]]
+
+## Description
+
+A placeholder for multiple similar products of the same kind.
+
+## Properties
+
+*Properties inherited from [[../Product|Product]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "SomeProducts",
+  "name": "Example SomeProducts",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { SomeProducts } from 'schema.org.ai'
+
+const item: SomeProducts = {
+  '@type': 'SomeProducts',
+  name: 'Example SomeProducts',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/SomeProducts)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,71 @@
+---
+schemaId: 'https://schema.org/Periodical'
+label: Periodical
+description: >-
+  A publication in any medium issued in successive parts bearing numerical or
+  chronological designations and intended to continue indefinitely, such as a
+  magazine, scholarly journal, or newspaper.
+
+
+  See also [blog
+  post](http://blog.schema.org/2014/09/schemaorg-support-for-bibliographic_2.html).
+parentType: CreativeWorkSeries
+parentUrl: 'https://schema.org/CreativeWorkSeries'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Periodical
+
+**Schema.org Type:** [`Periodical`](https://schema.org/Periodical)
+**Parent Type:** [[../CreativeWorkSeries|CreativeWorkSeries]]
+
+## Description
+
+A publication in any medium issued in successive parts bearing numerical or chronological designations and intended to continue indefinitely, such as a magazine, scholarly journal, or newspaper.
+
+See also [blog post](http://blog.schema.org/2014/09/schemaorg-support-for-bibliographic_2.html).
+
+## Properties
+
+*Properties inherited from [[../CreativeWorkSeries|CreativeWorkSeries]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Periodical",
+  "name": "Example Periodical",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Periodical } from 'schema.org.ai'
+
+const item: Periodical = {
+  '@type': 'Periodical',
+  name: 'Example Periodical',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Periodical)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

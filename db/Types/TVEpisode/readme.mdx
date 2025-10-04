@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/TVEpisode'
+label: TVEpisode
+description: A TV episode which can be part of a series or season.
+parentType: Episode
+parentUrl: 'https://schema.org/Episode'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# TVEpisode
+
+**Schema.org Type:** [`TVEpisode`](https://schema.org/TVEpisode)
+**Parent Type:** [[../Episode|Episode]]
+
+## Description
+
+A TV episode which can be part of a series or season.
+
+## Properties
+
+*Properties inherited from [[../Episode|Episode]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "TVEpisode",
+  "name": "Example TVEpisode",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { TVEpisode } from 'schema.org.ai'
+
+const item: TVEpisode = {
+  '@type': 'TVEpisode',
+  name: 'Example TVEpisode',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/TVEpisode)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

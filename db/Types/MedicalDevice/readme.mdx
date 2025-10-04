@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/MedicalDevice'
+label: MedicalDevice
+description: 'Any object used in a medical capacity, such as to diagnose or treat a patient.'
+parentType: MedicalEntity
+parentUrl: 'https://schema.org/MedicalEntity'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# MedicalDevice
+
+**Schema.org Type:** [`MedicalDevice`](https://schema.org/MedicalDevice)
+**Parent Type:** [[../MedicalEntity|MedicalEntity]]
+
+## Description
+
+Any object used in a medical capacity, such as to diagnose or treat a patient.
+
+## Properties
+
+*Properties inherited from [[../MedicalEntity|MedicalEntity]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalDevice",
+  "name": "Example MedicalDevice",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { MedicalDevice } from 'schema.org.ai'
+
+const item: MedicalDevice = {
+  '@type': 'MedicalDevice',
+  name: 'Example MedicalDevice',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/MedicalDevice)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

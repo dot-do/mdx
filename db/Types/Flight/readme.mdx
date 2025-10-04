@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/Flight'
+label: Flight
+description: An airline flight.
+parentType: Trip
+parentUrl: 'https://schema.org/Trip'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Flight
+
+**Schema.org Type:** [`Flight`](https://schema.org/Flight)
+**Parent Type:** [[../Trip|Trip]]
+
+## Description
+
+An airline flight.
+
+## Properties
+
+*Properties inherited from [[../Trip|Trip]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Flight",
+  "name": "Example Flight",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Flight } from 'schema.org.ai'
+
+const item: Flight = {
+  '@type': 'Flight',
+  name: 'Example Flight',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Flight)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

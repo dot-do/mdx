@@ -1,0 +1,66 @@
+---
+schemaId: 'https://schema.org/BedDetails'
+label: BedDetails
+description: >-
+  An entity holding detailed information about the available bed types, e.g. the
+  quantity of twin beds for a hotel room. For the single case of just one bed of
+  a certain type, you can use bed directly with a text. See also [[BedType]]
+  (under development).
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# BedDetails
+
+**Schema.org Type:** [`BedDetails`](https://schema.org/BedDetails)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+An entity holding detailed information about the available bed types, e.g. the quantity of twin beds for a hotel room. For the single case of just one bed of a certain type, you can use bed directly with a text. See also [[BedType]] (under development).
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "BedDetails",
+  "name": "Example BedDetails",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { BedDetails } from 'schema.org.ai'
+
+const item: BedDetails = {
+  '@type': 'BedDetails',
+  name: 'Example BedDetails',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/BedDetails)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

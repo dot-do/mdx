@@ -1,0 +1,78 @@
+---
+schemaId: 'https://schema.org/LearningResource'
+label: LearningResource
+description: >-
+  The LearningResource type can be used to indicate [[CreativeWork]]s (whether
+  physical or digital) that have a particular and explicit orientation towards
+  learning, education, skill acquisition, and other educational purposes.
+
+
+  [[LearningResource]] is expected to be used as an addition to a primary type
+  such as [[Book]], [[VideoObject]], [[Product]] etc.
+
+
+  [[EducationEvent]] serves a similar purpose for event-like things (e.g. a
+  [[Trip]]). A [[LearningResource]] may be created as a result of an
+  [[EducationEvent]], for example by recording one.
+parentType: CreativeWork
+parentUrl: 'https://schema.org/CreativeWork'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# LearningResource
+
+**Schema.org Type:** [`LearningResource`](https://schema.org/LearningResource)
+**Parent Type:** [[../CreativeWork|CreativeWork]]
+
+## Description
+
+The LearningResource type can be used to indicate [[CreativeWork]]s (whether physical or digital) that have a particular and explicit orientation towards learning, education, skill acquisition, and other educational purposes.
+
+[[LearningResource]] is expected to be used as an addition to a primary type such as [[Book]], [[VideoObject]], [[Product]] etc.
+
+[[EducationEvent]] serves a similar purpose for event-like things (e.g. a [[Trip]]). A [[LearningResource]] may be created as a result of an [[EducationEvent]], for example by recording one.
+
+## Properties
+
+*Properties inherited from [[../CreativeWork|CreativeWork]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Example LearningResource",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { LearningResource } from 'schema.org.ai'
+
+const item: LearningResource = {
+  '@type': 'LearningResource',
+  name: 'Example LearningResource',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/LearningResource)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

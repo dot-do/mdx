@@ -1,0 +1,67 @@
+---
+schemaId: 'https://schema.org/Gene'
+label: Gene
+description: >-
+  A discrete unit of inheritance which affects one or more biological traits
+  (Source:
+  [https://en.wikipedia.org/wiki/Gene](https://en.wikipedia.org/wiki/Gene)).
+  Examples include FOXP2 (Forkhead box protein P2), SCARNA21 (small Cajal
+  body-specific RNA 21), A- (agouti genotype).
+parentType: BioChemEntity
+parentUrl: 'https://schema.org/BioChemEntity'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Gene
+
+**Schema.org Type:** [`Gene`](https://schema.org/Gene)
+**Parent Type:** [[../BioChemEntity|BioChemEntity]]
+
+## Description
+
+A discrete unit of inheritance which affects one or more biological traits (Source: [https://en.wikipedia.org/wiki/Gene](https://en.wikipedia.org/wiki/Gene)). Examples include FOXP2 (Forkhead box protein P2), SCARNA21 (small Cajal body-specific RNA 21), A- (agouti genotype).
+
+## Properties
+
+*Properties inherited from [[../BioChemEntity|BioChemEntity]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Gene",
+  "name": "Example Gene",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Gene } from 'schema.org.ai'
+
+const item: Gene = {
+  '@type': 'Gene',
+  name: 'Example Gene',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Gene)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

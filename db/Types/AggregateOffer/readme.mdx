@@ -1,0 +1,73 @@
+---
+schemaId: 'https://schema.org/AggregateOffer'
+label: AggregateOffer
+description: >-
+  When a single product is associated with multiple offers (for example, the
+  same pair of shoes is offered by different merchants), then AggregateOffer can
+  be used.
+
+
+  Note: AggregateOffers are normally expected to associate multiple offers that
+  all share the same defined [[businessFunction]] value, or default to
+  http://purl.org/goodrelations/v1#Sell if businessFunction is not explicitly
+  defined.
+parentType: Offer
+parentUrl: 'https://schema.org/Offer'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# AggregateOffer
+
+**Schema.org Type:** [`AggregateOffer`](https://schema.org/AggregateOffer)
+**Parent Type:** [[../Offer|Offer]]
+
+## Description
+
+When a single product is associated with multiple offers (for example, the same pair of shoes is offered by different merchants), then AggregateOffer can be used.
+
+Note: AggregateOffers are normally expected to associate multiple offers that all share the same defined [[businessFunction]] value, or default to http://purl.org/goodrelations/v1#Sell if businessFunction is not explicitly defined.
+
+## Properties
+
+*Properties inherited from [[../Offer|Offer]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "AggregateOffer",
+  "name": "Example AggregateOffer",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { AggregateOffer } from 'schema.org.ai'
+
+const item: AggregateOffer = {
+  '@type': 'AggregateOffer',
+  name: 'Example AggregateOffer',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/AggregateOffer)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

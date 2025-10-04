@@ -250,6 +250,9 @@ export async function loadSchemaOrgData(mdxDir: string): Promise<any[]> {
   return await loadMDX({ id: 'schema-org' } as SourceDefinition, mdxDir)
 }
 
+// Cache for O*NET data to avoid reloading for each collection
+let onetDataCache: Record<string, any[]> | null = null
+
 /**
  * Generic source loader that dispatches to appropriate loader
  */
@@ -258,6 +261,7 @@ export async function loadSourceData(
   options?: {
     dataDir?: string
     filePath?: string
+    collection?: string
   }
 ): Promise<any[]> {
   console.log(`\n📥 Loading data for source: ${source.name}`)
@@ -265,10 +269,27 @@ export async function loadSourceData(
   switch (source.id) {
     case 'onet': {
       const dataDir = options?.dataDir || './data/onet'
-      const onetData = await loadONetData(dataDir)
-      // For now, return occupations data
-      // Other collections will be loaded separately
-      return onetData.occupations || []
+
+      // Load O*NET data once and cache it
+      if (!onetDataCache) {
+        onetDataCache = await loadONetData(dataDir)
+      }
+
+      // Return the appropriate collection based on mapping
+      const collection = options?.collection?.toLowerCase()
+
+      if (collection === 'tasks') {
+        return onetDataCache.tasks || []
+      } else if (collection === 'skills') {
+        return onetDataCache.skills || []
+      } else if (collection === 'abilities') {
+        return onetDataCache.abilities || []
+      } else if (collection === 'knowledge') {
+        return onetDataCache.knowledge || []
+      } else {
+        // Default to occupations
+        return onetDataCache.occupations || []
+      }
     }
 
     case 'naics': {

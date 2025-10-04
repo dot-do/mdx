@@ -1,0 +1,78 @@
+---
+schemaId: 'https://schema.org/Number'
+label: Number
+description: >-
+  Data type: Number.
+
+
+  Usage guidelines:
+
+
+  * Use values from 0123456789 (Unicode 'DIGIT ZERO' (U+0030) to 'DIGIT NINE'
+  (U+0039)) rather than superficially similar Unicode symbols.
+
+  * Use '.' (Unicode 'FULL STOP' (U+002E)) rather than ',' to indicate a decimal
+  point. Avoid using these symbols as a readability separator.
+parentType: Thing
+parentUrl: 'https://schema.org/Thing'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Number
+
+**Schema.org Type:** [`Number`](https://schema.org/Number)
+**Parent Type:** [[../Thing|Thing]]
+
+## Description
+
+Data type: Number.
+
+Usage guidelines:
+
+* Use values from 0123456789 (Unicode 'DIGIT ZERO' (U+0030) to 'DIGIT NINE' (U+0039)) rather than superficially similar Unicode symbols.
+* Use '.' (Unicode 'FULL STOP' (U+002E)) rather than ',' to indicate a decimal point. Avoid using these symbols as a readability separator.
+
+## Properties
+
+*Properties inherited from [[../Thing|Thing]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Number",
+  "name": "Example Number",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Number } from 'schema.org.ai'
+
+const item: Number = {
+  '@type': 'Number',
+  name: 'Example Number',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Number)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

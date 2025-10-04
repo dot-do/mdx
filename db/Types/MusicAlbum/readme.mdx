@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/MusicAlbum'
+label: MusicAlbum
+description: A collection of music tracks.
+parentType: MusicPlaylist
+parentUrl: 'https://schema.org/MusicPlaylist'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# MusicAlbum
+
+**Schema.org Type:** [`MusicAlbum`](https://schema.org/MusicAlbum)
+**Parent Type:** [[../MusicPlaylist|MusicPlaylist]]
+
+## Description
+
+A collection of music tracks.
+
+## Properties
+
+*Properties inherited from [[../MusicPlaylist|MusicPlaylist]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "MusicAlbum",
+  "name": "Example MusicAlbum",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { MusicAlbum } from 'schema.org.ai'
+
+const item: MusicAlbum = {
+  '@type': 'MusicAlbum',
+  name: 'Example MusicAlbum',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/MusicAlbum)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

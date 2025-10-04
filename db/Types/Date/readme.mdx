@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/Date'
+label: Date
+description: 'A date value in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601).'
+parentType: Thing
+parentUrl: 'https://schema.org/Thing'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Date
+
+**Schema.org Type:** [`Date`](https://schema.org/Date)
+**Parent Type:** [[../Thing|Thing]]
+
+## Description
+
+A date value in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601).
+
+## Properties
+
+*Properties inherited from [[../Thing|Thing]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Date",
+  "name": "Example Date",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Date } from 'schema.org.ai'
+
+const item: Date = {
+  '@type': 'Date',
+  name: 'Example Date',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Date)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,84 @@
+---
+schemaId: 'https://schema.org/Observation'
+label: Observation
+description: >-
+  Instances of the class [[Observation]] are used to specify observations about
+  an entity at a particular time. The principal properties of an [[Observation]]
+  are [[observationAbout]], [[measuredProperty]], [[statType]], [[value] and
+  [[observationDate]]  and [[measuredProperty]]. Some but not all Observations
+  represent a [[QuantitativeValue]]. Quantitative observations can be about a
+  [[StatisticalVariable]], which is an abstract specification about which we can
+  make observations that are grounded at a particular location and time.
+
+
+  Observations can also encode a subset of simple RDF-like statements (its
+  observationAbout, a StatisticalVariable, defining the measuredPoperty; its
+  observationAbout property indicating the entity the statement is about, and
+  [[value]] )
+
+
+  In the context of a quantitative knowledge graph, typical properties could
+  include [[measuredProperty]], [[observationAbout]], [[observationDate]],
+  [[value]], [[unitCode]], [[unitText]], [[measurementMethod]].
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Observation
+
+**Schema.org Type:** [`Observation`](https://schema.org/Observation)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+Instances of the class [[Observation]] are used to specify observations about an entity at a particular time. The principal properties of an [[Observation]] are [[observationAbout]], [[measuredProperty]], [[statType]], [[value] and [[observationDate]]  and [[measuredProperty]]. Some but not all Observations represent a [[QuantitativeValue]]. Quantitative observations can be about a [[StatisticalVariable]], which is an abstract specification about which we can make observations that are grounded at a particular location and time.
+
+Observations can also encode a subset of simple RDF-like statements (its observationAbout, a StatisticalVariable, defining the measuredPoperty; its observationAbout property indicating the entity the statement is about, and [[value]] )
+
+In the context of a quantitative knowledge graph, typical properties could include [[measuredProperty]], [[observationAbout]], [[observationDate]], [[value]], [[unitCode]], [[unitText]], [[measurementMethod]].
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Observation",
+  "name": "Example Observation",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Observation } from 'schema.org.ai'
+
+const item: Observation = {
+  '@type': 'Observation',
+  name: 'Example Observation',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Observation)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

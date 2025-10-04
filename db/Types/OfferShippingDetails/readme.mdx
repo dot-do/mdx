@@ -1,0 +1,94 @@
+---
+schemaId: 'https://schema.org/OfferShippingDetails'
+label: OfferShippingDetails
+description: >-
+  OfferShippingDetails represents information about shipping destinations.
+
+
+  Multiple of these entities can be used to represent different shipping rates
+  for different destinations:
+
+
+  One entity for Alaska/Hawaii. A different one for continental US. A different
+  one for all France.
+
+
+  Multiple of these entities can be used to represent different shipping costs
+  and delivery times.
+
+
+  Two entities that are identical but differ in rate and time:
+
+
+  E.g. Cheaper and slower: $5 in 5-7 days
+
+  or Fast and expensive: $15 in 1-2 days.
+parentType: StructuredValue
+parentUrl: 'https://schema.org/StructuredValue'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# OfferShippingDetails
+
+**Schema.org Type:** [`OfferShippingDetails`](https://schema.org/OfferShippingDetails)
+**Parent Type:** [[../StructuredValue|StructuredValue]]
+
+## Description
+
+OfferShippingDetails represents information about shipping destinations.
+
+Multiple of these entities can be used to represent different shipping rates for different destinations:
+
+One entity for Alaska/Hawaii. A different one for continental US. A different one for all France.
+
+Multiple of these entities can be used to represent different shipping costs and delivery times.
+
+Two entities that are identical but differ in rate and time:
+
+E.g. Cheaper and slower: $5 in 5-7 days
+or Fast and expensive: $15 in 1-2 days.
+
+## Properties
+
+*Properties inherited from [[../StructuredValue|StructuredValue]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "OfferShippingDetails",
+  "name": "Example OfferShippingDetails",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { OfferShippingDetails } from 'schema.org.ai'
+
+const item: OfferShippingDetails = {
+  '@type': 'OfferShippingDetails',
+  name: 'Example OfferShippingDetails',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/OfferShippingDetails)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,65 @@
+---
+schemaId: 'https://schema.org/Comment'
+label: Comment
+description: >-
+  A comment on an item - for example, a comment on a blog post. The comment's
+  content is expressed via the [[text]] property, and its topic via [[about]],
+  properties shared with all CreativeWorks.
+parentType: CreativeWork
+parentUrl: 'https://schema.org/CreativeWork'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Comment
+
+**Schema.org Type:** [`Comment`](https://schema.org/Comment)
+**Parent Type:** [[../CreativeWork|CreativeWork]]
+
+## Description
+
+A comment on an item - for example, a comment on a blog post. The comment's content is expressed via the [[text]] property, and its topic via [[about]], properties shared with all CreativeWorks.
+
+## Properties
+
+*Properties inherited from [[../CreativeWork|CreativeWork]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Comment",
+  "name": "Example Comment",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Comment } from 'schema.org.ai'
+
+const item: Comment = {
+  '@type': 'Comment',
+  name: 'Example Comment',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Comment)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

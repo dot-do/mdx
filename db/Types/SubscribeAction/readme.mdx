@@ -1,0 +1,84 @@
+---
+schemaId: 'https://schema.org/SubscribeAction'
+label: SubscribeAction
+description: >-
+  The act of forming a personal connection with someone/something (object)
+  unidirectionally/asymmetrically to get updates pushed to.
+
+
+  Related actions:
+
+
+  * [[FollowAction]]: Unlike FollowAction, SubscribeAction implies that the
+  subscriber acts as a passive agent being constantly/actively pushed for
+  updates.
+
+  * [[RegisterAction]]: Unlike RegisterAction, SubscribeAction implies that the
+  agent is interested in continuing receiving updates from the object.
+
+  * [[JoinAction]]: Unlike JoinAction, SubscribeAction implies that the agent is
+  interested in continuing receiving updates from the object.
+parentType: InteractAction
+parentUrl: 'https://schema.org/InteractAction'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# SubscribeAction
+
+**Schema.org Type:** [`SubscribeAction`](https://schema.org/SubscribeAction)
+**Parent Type:** [[../InteractAction|InteractAction]]
+
+## Description
+
+The act of forming a personal connection with someone/something (object) unidirectionally/asymmetrically to get updates pushed to.
+
+Related actions:
+
+* [[FollowAction]]: Unlike FollowAction, SubscribeAction implies that the subscriber acts as a passive agent being constantly/actively pushed for updates.
+* [[RegisterAction]]: Unlike RegisterAction, SubscribeAction implies that the agent is interested in continuing receiving updates from the object.
+* [[JoinAction]]: Unlike JoinAction, SubscribeAction implies that the agent is interested in continuing receiving updates from the object.
+
+## Properties
+
+*Properties inherited from [[../InteractAction|InteractAction]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "SubscribeAction",
+  "name": "Example SubscribeAction",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { SubscribeAction } from 'schema.org.ai'
+
+const item: SubscribeAction = {
+  '@type': 'SubscribeAction',
+  name: 'Example SubscribeAction',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/SubscribeAction)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

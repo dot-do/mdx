@@ -1,0 +1,65 @@
+---
+schemaId: 'https://schema.org/MedicalCondition'
+label: MedicalCondition
+description: >-
+  Any condition of the human body that affects the normal functioning of a
+  person, whether physically or mentally. Includes diseases, injuries,
+  disabilities, disorders, syndromes, etc.
+parentType: MedicalEntity
+parentUrl: 'https://schema.org/MedicalEntity'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# MedicalCondition
+
+**Schema.org Type:** [`MedicalCondition`](https://schema.org/MedicalCondition)
+**Parent Type:** [[../MedicalEntity|MedicalEntity]]
+
+## Description
+
+Any condition of the human body that affects the normal functioning of a person, whether physically or mentally. Includes diseases, injuries, disabilities, disorders, syndromes, etc.
+
+## Properties
+
+*Properties inherited from [[../MedicalEntity|MedicalEntity]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalCondition",
+  "name": "Example MedicalCondition",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { MedicalCondition } from 'schema.org.ai'
+
+const item: MedicalCondition = {
+  '@type': 'MedicalCondition',
+  name: 'Example MedicalCondition',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/MedicalCondition)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,90 @@
+---
+schemaId: 'https://schema.org/CreditCard'
+label: CreditCard
+description: >-
+  A card payment method of a particular brand or name.  Used to mark up a
+  particular payment method and/or the financial product/service that supplies
+  the card account.
+
+
+  Commonly used values:
+
+
+  * http://purl.org/goodrelations/v1#AmericanExpress
+
+  * http://purl.org/goodrelations/v1#DinersClub
+
+  * http://purl.org/goodrelations/v1#Discover
+
+  * http://purl.org/goodrelations/v1#JCB
+
+  * http://purl.org/goodrelations/v1#MasterCard
+
+  * http://purl.org/goodrelations/v1#VISA
+parentType: PaymentCard
+parentUrl: 'https://schema.org/PaymentCard'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# CreditCard
+
+**Schema.org Type:** [`CreditCard`](https://schema.org/CreditCard)
+**Parent Type:** [[../PaymentCard|PaymentCard]]
+
+## Description
+
+A card payment method of a particular brand or name.  Used to mark up a particular payment method and/or the financial product/service that supplies the card account.
+
+Commonly used values:
+
+* http://purl.org/goodrelations/v1#AmericanExpress
+* http://purl.org/goodrelations/v1#DinersClub
+* http://purl.org/goodrelations/v1#Discover
+* http://purl.org/goodrelations/v1#JCB
+* http://purl.org/goodrelations/v1#MasterCard
+* http://purl.org/goodrelations/v1#VISA
+
+## Properties
+
+*Properties inherited from [[../PaymentCard|PaymentCard]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "CreditCard",
+  "name": "Example CreditCard",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { CreditCard } from 'schema.org.ai'
+
+const item: CreditCard = {
+  '@type': 'CreditCard',
+  name: 'Example CreditCard',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/CreditCard)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

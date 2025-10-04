@@ -1,0 +1,73 @@
+---
+schemaId: 'https://schema.org/3DModel'
+label: 3DModel
+description: >-
+  A 3D model represents some kind of 3D content, which may have [[encoding]]s in
+  one or more [[MediaObject]]s. Many 3D formats are available (e.g. see
+  [Wikipedia](https://en.wikipedia.org/wiki/Category:3D_graphics_file_formats));
+  specific encoding formats can be represented using the [[encodingFormat]]
+  property applied to the relevant [[MediaObject]]. For the
+
+  case of a single file published after Zip compression, the convention of
+  appending '+zip' to the [[encodingFormat]] can be used. Geospatial, AR/VR,
+  artistic/animation, gaming, engineering and scientific content can all be
+  represented using [[3DModel]].
+parentType: MediaObject
+parentUrl: 'https://schema.org/MediaObject'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# 3DModel
+
+**Schema.org Type:** [`3DModel`](https://schema.org/3DModel)
+**Parent Type:** [[../MediaObject|MediaObject]]
+
+## Description
+
+A 3D model represents some kind of 3D content, which may have [[encoding]]s in one or more [[MediaObject]]s. Many 3D formats are available (e.g. see [Wikipedia](https://en.wikipedia.org/wiki/Category:3D_graphics_file_formats)); specific encoding formats can be represented using the [[encodingFormat]] property applied to the relevant [[MediaObject]]. For the
+case of a single file published after Zip compression, the convention of appending '+zip' to the [[encodingFormat]] can be used. Geospatial, AR/VR, artistic/animation, gaming, engineering and scientific content can all be represented using [[3DModel]].
+
+## Properties
+
+*Properties inherited from [[../MediaObject|MediaObject]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "3DModel",
+  "name": "Example 3DModel",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { 3DModel } from 'schema.org.ai'
+
+const item: 3DModel = {
+  '@type': '3DModel',
+  name: 'Example 3DModel',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/3DModel)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

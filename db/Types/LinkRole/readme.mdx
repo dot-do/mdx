@@ -1,0 +1,67 @@
+---
+schemaId: 'https://schema.org/LinkRole'
+label: LinkRole
+description: >-
+  A Role that represents a Web link, e.g. as expressed via the 'url' property.
+  Its linkRelationship property can indicate URL-based and plain textual link
+  types, e.g. those in IANA link registry or others such as 'amphtml'. This
+  structure provides a placeholder where details from HTML's link element can be
+  represented outside of HTML, e.g. in JSON-LD feeds.
+parentType: Role
+parentUrl: 'https://schema.org/Role'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# LinkRole
+
+**Schema.org Type:** [`LinkRole`](https://schema.org/LinkRole)
+**Parent Type:** [[../Role|Role]]
+
+## Description
+
+A Role that represents a Web link, e.g. as expressed via the 'url' property. Its linkRelationship property can indicate URL-based and plain textual link types, e.g. those in IANA link registry or others such as 'amphtml'. This structure provides a placeholder where details from HTML's link element can be represented outside of HTML, e.g. in JSON-LD feeds.
+
+## Properties
+
+*Properties inherited from [[../Role|Role]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "LinkRole",
+  "name": "Example LinkRole",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { LinkRole } from 'schema.org.ai'
+
+const item: LinkRole = {
+  '@type': 'LinkRole',
+  name: 'Example LinkRole',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/LinkRole)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

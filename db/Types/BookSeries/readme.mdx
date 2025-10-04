@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/BookSeries'
+label: BookSeries
+description: A series of books. Included books can be indicated with the hasPart property.
+parentType: CreativeWorkSeries
+parentUrl: 'https://schema.org/CreativeWorkSeries'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# BookSeries
+
+**Schema.org Type:** [`BookSeries`](https://schema.org/BookSeries)
+**Parent Type:** [[../CreativeWorkSeries|CreativeWorkSeries]]
+
+## Description
+
+A series of books. Included books can be indicated with the hasPart property.
+
+## Properties
+
+*Properties inherited from [[../CreativeWorkSeries|CreativeWorkSeries]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "BookSeries",
+  "name": "Example BookSeries",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { BookSeries } from 'schema.org.ai'
+
+const item: BookSeries = {
+  '@type': 'BookSeries',
+  name: 'Example BookSeries',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/BookSeries)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

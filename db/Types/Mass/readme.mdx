@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/Mass'
+label: Mass
+description: >-
+  Properties that take Mass as values are of the form '&lt;Number&gt; &lt;Mass
+  unit of measure&gt;'. E.g., '7 kg'.
+parentType: Quantity
+parentUrl: 'https://schema.org/Quantity'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Mass
+
+**Schema.org Type:** [`Mass`](https://schema.org/Mass)
+**Parent Type:** [[../Quantity|Quantity]]
+
+## Description
+
+Properties that take Mass as values are of the form '&lt;Number&gt; &lt;Mass unit of measure&gt;'. E.g., '7 kg'.
+
+## Properties
+
+*Properties inherited from [[../Quantity|Quantity]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Mass",
+  "name": "Example Mass",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Mass } from 'schema.org.ai'
+
+const item: Mass = {
+  '@type': 'Mass',
+  name: 'Example Mass',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Mass)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

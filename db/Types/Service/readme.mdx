@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/Service'
+label: Service
+description: >-
+  A service provided by an organization, e.g. delivery service, print services,
+  etc.
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Service
+
+**Schema.org Type:** [`Service`](https://schema.org/Service)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+A service provided by an organization, e.g. delivery service, print services, etc.
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Example Service",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Service } from 'schema.org.ai'
+
+const item: Service = {
+  '@type': 'Service',
+  name: 'Example Service',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Service)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

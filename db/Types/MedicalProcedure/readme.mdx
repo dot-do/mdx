@@ -1,0 +1,65 @@
+---
+schemaId: 'https://schema.org/MedicalProcedure'
+label: MedicalProcedure
+description: >-
+  A process of care used in either a diagnostic, therapeutic, preventive or
+  palliative capacity that relies on invasive (surgical), non-invasive, or other
+  techniques.
+parentType: MedicalEntity
+parentUrl: 'https://schema.org/MedicalEntity'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# MedicalProcedure
+
+**Schema.org Type:** [`MedicalProcedure`](https://schema.org/MedicalProcedure)
+**Parent Type:** [[../MedicalEntity|MedicalEntity]]
+
+## Description
+
+A process of care used in either a diagnostic, therapeutic, preventive or palliative capacity that relies on invasive (surgical), non-invasive, or other techniques.
+
+## Properties
+
+*Properties inherited from [[../MedicalEntity|MedicalEntity]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalProcedure",
+  "name": "Example MedicalProcedure",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { MedicalProcedure } from 'schema.org.ai'
+
+const item: MedicalProcedure = {
+  '@type': 'MedicalProcedure',
+  name: 'Example MedicalProcedure',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/MedicalProcedure)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

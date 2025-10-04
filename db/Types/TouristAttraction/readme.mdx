@@ -1,0 +1,67 @@
+---
+schemaId: 'https://schema.org/TouristAttraction'
+label: TouristAttraction
+description: >-
+  A tourist attraction.  In principle any Thing can be a [[TouristAttraction]],
+  from a [[Mountain]] and [[LandmarksOrHistoricalBuildings]] to a
+  [[LocalBusiness]].  This Type can be used on its own to describe a general
+  [[TouristAttraction]], or be used as an [[additionalType]] to add tourist
+  attraction properties to any other type.  (See examples below)
+parentType: Place
+parentUrl: 'https://schema.org/Place'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# TouristAttraction
+
+**Schema.org Type:** [`TouristAttraction`](https://schema.org/TouristAttraction)
+**Parent Type:** [[../Place|Place]]
+
+## Description
+
+A tourist attraction.  In principle any Thing can be a [[TouristAttraction]], from a [[Mountain]] and [[LandmarksOrHistoricalBuildings]] to a [[LocalBusiness]].  This Type can be used on its own to describe a general [[TouristAttraction]], or be used as an [[additionalType]] to add tourist attraction properties to any other type.  (See examples below)
+
+## Properties
+
+*Properties inherited from [[../Place|Place]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "TouristAttraction",
+  "name": "Example TouristAttraction",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { TouristAttraction } from 'schema.org.ai'
+
+const item: TouristAttraction = {
+  '@type': 'TouristAttraction',
+  name: 'Example TouristAttraction',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/TouristAttraction)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

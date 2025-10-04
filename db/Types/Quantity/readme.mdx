@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/Quantity'
+label: Quantity
+description: >-
+  Quantities such as distance, time, mass, weight, etc. Particular instances of
+  say Mass are entities like '3 kg' or '4 milligrams'.
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Quantity
+
+**Schema.org Type:** [`Quantity`](https://schema.org/Quantity)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+Quantities such as distance, time, mass, weight, etc. Particular instances of say Mass are entities like '3 kg' or '4 milligrams'.
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Quantity",
+  "name": "Example Quantity",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Quantity } from 'schema.org.ai'
+
+const item: Quantity = {
+  '@type': 'Quantity',
+  name: 'Example Quantity',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Quantity)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

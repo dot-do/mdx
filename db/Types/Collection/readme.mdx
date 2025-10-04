@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/Collection'
+label: Collection
+description: 'A collection of items, e.g. creative works or products.'
+parentType: CreativeWork
+parentUrl: 'https://schema.org/CreativeWork'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Collection
+
+**Schema.org Type:** [`Collection`](https://schema.org/Collection)
+**Parent Type:** [[../CreativeWork|CreativeWork]]
+
+## Description
+
+A collection of items, e.g. creative works or products.
+
+## Properties
+
+*Properties inherited from [[../CreativeWork|CreativeWork]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Collection",
+  "name": "Example Collection",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Collection } from 'schema.org.ai'
+
+const item: Collection = {
+  '@type': 'Collection',
+  name: 'Example Collection',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Collection)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/Hospital'
+label: Hospital
+description: A hospital.
+parentType: EmergencyService
+parentUrl: 'https://schema.org/EmergencyService'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Hospital
+
+**Schema.org Type:** [`Hospital`](https://schema.org/Hospital)
+**Parent Type:** [[../EmergencyService|EmergencyService]]
+
+## Description
+
+A hospital.
+
+## Properties
+
+*Properties inherited from [[../EmergencyService|EmergencyService]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Hospital",
+  "name": "Example Hospital",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Hospital } from 'schema.org.ai'
+
+const item: Hospital = {
+  '@type': 'Hospital',
+  name: 'Example Hospital',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Hospital)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

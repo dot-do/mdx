@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/MedicalSignOrSymptom'
+label: MedicalSignOrSymptom
+description: >-
+  Any feature associated or not with a medical condition. In medicine a symptom
+  is generally subjective while a sign is objective.
+parentType: MedicalCondition
+parentUrl: 'https://schema.org/MedicalCondition'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# MedicalSignOrSymptom
+
+**Schema.org Type:** [`MedicalSignOrSymptom`](https://schema.org/MedicalSignOrSymptom)
+**Parent Type:** [[../MedicalCondition|MedicalCondition]]
+
+## Description
+
+Any feature associated or not with a medical condition. In medicine a symptom is generally subjective while a sign is objective.
+
+## Properties
+
+*Properties inherited from [[../MedicalCondition|MedicalCondition]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalSignOrSymptom",
+  "name": "Example MedicalSignOrSymptom",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { MedicalSignOrSymptom } from 'schema.org.ai'
+
+const item: MedicalSignOrSymptom = {
+  '@type': 'MedicalSignOrSymptom',
+  name: 'Example MedicalSignOrSymptom',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/MedicalSignOrSymptom)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

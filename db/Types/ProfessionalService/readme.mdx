@@ -1,0 +1,79 @@
+---
+schemaId: 'https://schema.org/ProfessionalService'
+label: ProfessionalService
+description: >-
+  Original definition: "provider of professional services."
+
+
+  The general [[ProfessionalService]] type for local businesses was deprecated
+  due to confusion with [[Service]]. For reference, the types that it included
+  were: [[Dentist]],
+
+  [[AccountingService]], [[Attorney]], [[Notary]], as well as types for several
+  kinds of [[HomeAndConstructionBusiness]]: [[Electrician]],
+  [[GeneralContractor]],
+
+  [[HousePainter]], [[Locksmith]], [[Plumber]], [[RoofingContractor]].
+  [[LegalService]] was introduced as a more inclusive supertype of [[Attorney]].
+parentType: LocalBusiness
+parentUrl: 'https://schema.org/LocalBusiness'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# ProfessionalService
+
+**Schema.org Type:** [`ProfessionalService`](https://schema.org/ProfessionalService)
+**Parent Type:** [[../LocalBusiness|LocalBusiness]]
+
+## Description
+
+Original definition: "provider of professional services."
+
+The general [[ProfessionalService]] type for local businesses was deprecated due to confusion with [[Service]]. For reference, the types that it included were: [[Dentist]],
+[[AccountingService]], [[Attorney]], [[Notary]], as well as types for several kinds of [[HomeAndConstructionBusiness]]: [[Electrician]], [[GeneralContractor]],
+[[HousePainter]], [[Locksmith]], [[Plumber]], [[RoofingContractor]]. [[LegalService]] was introduced as a more inclusive supertype of [[Attorney]].
+
+## Properties
+
+*Properties inherited from [[../LocalBusiness|LocalBusiness]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Example ProfessionalService",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { ProfessionalService } from 'schema.org.ai'
+
+const item: ProfessionalService = {
+  '@type': 'ProfessionalService',
+  name: 'Example ProfessionalService',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/ProfessionalService)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

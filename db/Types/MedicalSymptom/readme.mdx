@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/MedicalSymptom'
+label: MedicalSymptom
+description: >-
+  Any complaint sensed and expressed by the patient (therefore defined as
+  subjective)  like stomachache, lower-back pain, or fatigue.
+parentType: MedicalSignOrSymptom
+parentUrl: 'https://schema.org/MedicalSignOrSymptom'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# MedicalSymptom
+
+**Schema.org Type:** [`MedicalSymptom`](https://schema.org/MedicalSymptom)
+**Parent Type:** [[../MedicalSignOrSymptom|MedicalSignOrSymptom]]
+
+## Description
+
+Any complaint sensed and expressed by the patient (therefore defined as subjective)  like stomachache, lower-back pain, or fatigue.
+
+## Properties
+
+*Properties inherited from [[../MedicalSignOrSymptom|MedicalSignOrSymptom]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalSymptom",
+  "name": "Example MedicalSymptom",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { MedicalSymptom } from 'schema.org.ai'
+
+const item: MedicalSymptom = {
+  '@type': 'MedicalSymptom',
+  name: 'Example MedicalSymptom',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/MedicalSymptom)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,72 @@
+---
+schemaId: 'https://schema.org/GeoCircle'
+label: GeoCircle
+description: >-
+  A GeoCircle is a GeoShape representing a circular geographic area. As it is a
+  GeoShape
+
+  it provides the simple textual property 'circle', but also allows the
+  combination of postalCode alongside geoRadius.
+
+  The center of the circle can be indicated via the 'geoMidpoint' property, or
+  more approximately using 'address', 'postalCode'.
+parentType: GeoShape
+parentUrl: 'https://schema.org/GeoShape'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# GeoCircle
+
+**Schema.org Type:** [`GeoCircle`](https://schema.org/GeoCircle)
+**Parent Type:** [[../GeoShape|GeoShape]]
+
+## Description
+
+A GeoCircle is a GeoShape representing a circular geographic area. As it is a GeoShape
+it provides the simple textual property 'circle', but also allows the combination of postalCode alongside geoRadius.
+The center of the circle can be indicated via the 'geoMidpoint' property, or more approximately using 'address', 'postalCode'.
+
+## Properties
+
+*Properties inherited from [[../GeoShape|GeoShape]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "GeoCircle",
+  "name": "Example GeoCircle",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { GeoCircle } from 'schema.org.ai'
+
+const item: GeoCircle = {
+  '@type': 'GeoCircle',
+  name: 'Example GeoCircle',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/GeoCircle)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

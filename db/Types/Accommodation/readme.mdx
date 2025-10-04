@@ -1,0 +1,76 @@
+---
+schemaId: 'https://schema.org/Accommodation'
+label: Accommodation
+description: >-
+  An accommodation is a place that can accommodate human beings, e.g. a hotel
+  room, a camping pitch, or a meeting room. Many accommodations are for
+  overnight stays, but this is not a mandatory requirement.
+
+  For more specific types of accommodations not defined in schema.org, one can
+  use [[additionalType]] with external vocabularies.
+
+  <br /><br />
+
+  See also the <a href="/docs/hotels.html">dedicated document on the use of
+  schema.org for marking up hotels and other forms of accommodations</a>.
+parentType: Place
+parentUrl: 'https://schema.org/Place'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Accommodation
+
+**Schema.org Type:** [`Accommodation`](https://schema.org/Accommodation)
+**Parent Type:** [[../Place|Place]]
+
+## Description
+
+An accommodation is a place that can accommodate human beings, e.g. a hotel room, a camping pitch, or a meeting room. Many accommodations are for overnight stays, but this is not a mandatory requirement.
+For more specific types of accommodations not defined in schema.org, one can use [[additionalType]] with external vocabularies.
+<br /><br />
+See also the <a href="/docs/hotels.html">dedicated document on the use of schema.org for marking up hotels and other forms of accommodations</a>.
+
+## Properties
+
+*Properties inherited from [[../Place|Place]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Accommodation",
+  "name": "Example Accommodation",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Accommodation } from 'schema.org.ai'
+
+const item: Accommodation = {
+  '@type': 'Accommodation',
+  name: 'Example Accommodation',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Accommodation)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

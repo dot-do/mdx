@@ -1,0 +1,66 @@
+---
+schemaId: 'https://schema.org/Play'
+label: Play
+description: >-
+  A play is a form of literature, usually consisting of dialogue between
+  characters, intended for theatrical performance rather than just reading.
+  Note: A performance of a Play would be a [[TheaterEvent]] or
+  [[BroadcastEvent]] - the *Play* being the [[workPerformed]].
+parentType: CreativeWork
+parentUrl: 'https://schema.org/CreativeWork'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Play
+
+**Schema.org Type:** [`Play`](https://schema.org/Play)
+**Parent Type:** [[../CreativeWork|CreativeWork]]
+
+## Description
+
+A play is a form of literature, usually consisting of dialogue between characters, intended for theatrical performance rather than just reading. Note: A performance of a Play would be a [[TheaterEvent]] or [[BroadcastEvent]] - the *Play* being the [[workPerformed]].
+
+## Properties
+
+*Properties inherited from [[../CreativeWork|CreativeWork]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Play",
+  "name": "Example Play",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Play } from 'schema.org.ai'
+
+const item: Play = {
+  '@type': 'Play',
+  name: 'Example Play',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Play)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

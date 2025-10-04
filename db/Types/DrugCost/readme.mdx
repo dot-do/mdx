@@ -1,0 +1,69 @@
+---
+schemaId: 'https://schema.org/DrugCost'
+label: DrugCost
+description: >-
+  The cost per unit of a medical drug. Note that this type is not meant to
+  represent the price in an offer of a drug for sale; see the Offer type for
+  that. This type will typically be used to tag wholesale or average retail cost
+  of a drug, or maximum reimbursable cost. Costs of medical drugs vary widely
+  depending on how and where they are paid for, so while this type captures some
+  of the variables, costs should be used with caution by consumers of this
+  schema's markup.
+parentType: MedicalEntity
+parentUrl: 'https://schema.org/MedicalEntity'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# DrugCost
+
+**Schema.org Type:** [`DrugCost`](https://schema.org/DrugCost)
+**Parent Type:** [[../MedicalEntity|MedicalEntity]]
+
+## Description
+
+The cost per unit of a medical drug. Note that this type is not meant to represent the price in an offer of a drug for sale; see the Offer type for that. This type will typically be used to tag wholesale or average retail cost of a drug, or maximum reimbursable cost. Costs of medical drugs vary widely depending on how and where they are paid for, so while this type captures some of the variables, costs should be used with caution by consumers of this schema's markup.
+
+## Properties
+
+*Properties inherited from [[../MedicalEntity|MedicalEntity]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "DrugCost",
+  "name": "Example DrugCost",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { DrugCost } from 'schema.org.ai'
+
+const item: DrugCost = {
+  '@type': 'DrugCost',
+  name: 'Example DrugCost',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/DrugCost)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,71 @@
+---
+schemaId: 'https://schema.org/OfferForPurchase'
+label: OfferForPurchase
+description: >-
+  An [[OfferForPurchase]] in Schema.org represents an [[Offer]] to sell
+  something, i.e. an [[Offer]] whose
+
+  [[businessFunction]] is [sell](http://purl.org/goodrelations/v1#Sell.). See
+  [Good Relations](https://en.wikipedia.org/wiki/GoodRelations) for
+
+  background on the underlying concepts.
+parentType: Offer
+parentUrl: 'https://schema.org/Offer'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# OfferForPurchase
+
+**Schema.org Type:** [`OfferForPurchase`](https://schema.org/OfferForPurchase)
+**Parent Type:** [[../Offer|Offer]]
+
+## Description
+
+An [[OfferForPurchase]] in Schema.org represents an [[Offer]] to sell something, i.e. an [[Offer]] whose
+[[businessFunction]] is [sell](http://purl.org/goodrelations/v1#Sell.). See [Good Relations](https://en.wikipedia.org/wiki/GoodRelations) for
+background on the underlying concepts.
+
+## Properties
+
+*Properties inherited from [[../Offer|Offer]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "OfferForPurchase",
+  "name": "Example OfferForPurchase",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { OfferForPurchase } from 'schema.org.ai'
+
+const item: OfferForPurchase = {
+  '@type': 'OfferForPurchase',
+  name: 'Example OfferForPurchase',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/OfferForPurchase)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

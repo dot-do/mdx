@@ -1,0 +1,67 @@
+---
+schemaId: 'https://schema.org/SizeSpecification'
+label: SizeSpecification
+description: >-
+  Size related properties of a product, typically a size code ([[name]]) and
+  optionally a [[sizeSystem]], [[sizeGroup]], and product measurements
+  ([[hasMeasurement]]). In addition, the intended audience can be defined
+  through [[suggestedAge]], [[suggestedGender]], and suggested body measurements
+  ([[suggestedMeasurement]]).
+parentType: QualitativeValue
+parentUrl: 'https://schema.org/QualitativeValue'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# SizeSpecification
+
+**Schema.org Type:** [`SizeSpecification`](https://schema.org/SizeSpecification)
+**Parent Type:** [[../QualitativeValue|QualitativeValue]]
+
+## Description
+
+Size related properties of a product, typically a size code ([[name]]) and optionally a [[sizeSystem]], [[sizeGroup]], and product measurements ([[hasMeasurement]]). In addition, the intended audience can be defined through [[suggestedAge]], [[suggestedGender]], and suggested body measurements ([[suggestedMeasurement]]).
+
+## Properties
+
+*Properties inherited from [[../QualitativeValue|QualitativeValue]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "SizeSpecification",
+  "name": "Example SizeSpecification",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { SizeSpecification } from 'schema.org.ai'
+
+const item: SizeSpecification = {
+  '@type': 'SizeSpecification',
+  name: 'Example SizeSpecification',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/SizeSpecification)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,65 @@
+---
+schemaId: 'https://schema.org/ServicePeriod'
+label: ServicePeriod
+description: >-
+  ServicePeriod represents a duration with some constraints about cutoff time
+  and business days. This is used e.g. in shipping for handling times or transit
+  time.
+parentType: StructuredValue
+parentUrl: 'https://schema.org/StructuredValue'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# ServicePeriod
+
+**Schema.org Type:** [`ServicePeriod`](https://schema.org/ServicePeriod)
+**Parent Type:** [[../StructuredValue|StructuredValue]]
+
+## Description
+
+ServicePeriod represents a duration with some constraints about cutoff time and business days. This is used e.g. in shipping for handling times or transit time.
+
+## Properties
+
+*Properties inherited from [[../StructuredValue|StructuredValue]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ServicePeriod",
+  "name": "Example ServicePeriod",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { ServicePeriod } from 'schema.org.ai'
+
+const item: ServicePeriod = {
+  '@type': 'ServicePeriod',
+  name: 'Example ServicePeriod',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/ServicePeriod)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

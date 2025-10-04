@@ -1,0 +1,67 @@
+---
+schemaId: 'https://schema.org/MonetaryAmount'
+label: MonetaryAmount
+description: >-
+  A monetary value or range. This type can be used to describe an amount of
+  money such as $50 USD, or a range as in describing a bank account being
+  suitable for a balance between £1,000 and £1,000,000 GBP, or the value of a
+  salary, etc. It is recommended to use [[PriceSpecification]] Types to describe
+  the price of an Offer, Invoice, etc.
+parentType: StructuredValue
+parentUrl: 'https://schema.org/StructuredValue'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# MonetaryAmount
+
+**Schema.org Type:** [`MonetaryAmount`](https://schema.org/MonetaryAmount)
+**Parent Type:** [[../StructuredValue|StructuredValue]]
+
+## Description
+
+A monetary value or range. This type can be used to describe an amount of money such as $50 USD, or a range as in describing a bank account being suitable for a balance between £1,000 and £1,000,000 GBP, or the value of a salary, etc. It is recommended to use [[PriceSpecification]] Types to describe the price of an Offer, Invoice, etc.
+
+## Properties
+
+*Properties inherited from [[../StructuredValue|StructuredValue]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "MonetaryAmount",
+  "name": "Example MonetaryAmount",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { MonetaryAmount } from 'schema.org.ai'
+
+const item: MonetaryAmount = {
+  '@type': 'MonetaryAmount',
+  name: 'Example MonetaryAmount',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/MonetaryAmount)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

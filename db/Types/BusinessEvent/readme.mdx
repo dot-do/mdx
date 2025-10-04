@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/BusinessEvent'
+label: BusinessEvent
+description: 'Event type: Business event.'
+parentType: Event
+parentUrl: 'https://schema.org/Event'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# BusinessEvent
+
+**Schema.org Type:** [`BusinessEvent`](https://schema.org/BusinessEvent)
+**Parent Type:** [[../Event|Event]]
+
+## Description
+
+Event type: Business event.
+
+## Properties
+
+*Properties inherited from [[../Event|Event]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "BusinessEvent",
+  "name": "Example BusinessEvent",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { BusinessEvent } from 'schema.org.ai'
+
+const item: BusinessEvent = {
+  '@type': 'BusinessEvent',
+  name: 'Example BusinessEvent',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/BusinessEvent)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

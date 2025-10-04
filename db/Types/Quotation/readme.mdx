@@ -1,0 +1,67 @@
+---
+schemaId: 'https://schema.org/Quotation'
+label: Quotation
+description: >-
+  A quotation. Often but not necessarily from some written work, attributable to
+  a real world author and - if associated with a fictional character - to any
+  fictional Person. Use [[isBasedOn]] to link to source/origin. The
+  [[recordedIn]] property can be used to reference a Quotation from an
+  [[Event]].
+parentType: CreativeWork
+parentUrl: 'https://schema.org/CreativeWork'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Quotation
+
+**Schema.org Type:** [`Quotation`](https://schema.org/Quotation)
+**Parent Type:** [[../CreativeWork|CreativeWork]]
+
+## Description
+
+A quotation. Often but not necessarily from some written work, attributable to a real world author and - if associated with a fictional character - to any fictional Person. Use [[isBasedOn]] to link to source/origin. The [[recordedIn]] property can be used to reference a Quotation from an [[Event]].
+
+## Properties
+
+*Properties inherited from [[../CreativeWork|CreativeWork]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Quotation",
+  "name": "Example Quotation",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Quotation } from 'schema.org.ai'
+
+const item: Quotation = {
+  '@type': 'Quotation',
+  name: 'Example Quotation',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Quotation)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

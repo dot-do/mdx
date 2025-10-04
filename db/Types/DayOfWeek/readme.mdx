@@ -1,0 +1,72 @@
+---
+schemaId: 'https://schema.org/DayOfWeek'
+label: DayOfWeek
+description: >-
+  The day of the week, e.g. used to specify to which day the opening hours of an
+  OpeningHoursSpecification refer.
+
+
+  Originally, URLs from [GoodRelations](http://purl.org/goodrelations/v1) were
+  used (for [[Monday]], [[Tuesday]], [[Wednesday]], [[Thursday]], [[Friday]],
+  [[Saturday]], [[Sunday]] plus a special entry for [[PublicHolidays]]); these
+  have now been integrated directly into schema.org.
+parentType: Enumeration
+parentUrl: 'https://schema.org/Enumeration'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# DayOfWeek
+
+**Schema.org Type:** [`DayOfWeek`](https://schema.org/DayOfWeek)
+**Parent Type:** [[../Enumeration|Enumeration]]
+
+## Description
+
+The day of the week, e.g. used to specify to which day the opening hours of an OpeningHoursSpecification refer.
+
+Originally, URLs from [GoodRelations](http://purl.org/goodrelations/v1) were used (for [[Monday]], [[Tuesday]], [[Wednesday]], [[Thursday]], [[Friday]], [[Saturday]], [[Sunday]] plus a special entry for [[PublicHolidays]]); these have now been integrated directly into schema.org.
+
+## Properties
+
+*Properties inherited from [[../Enumeration|Enumeration]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "DayOfWeek",
+  "name": "Example DayOfWeek",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { DayOfWeek } from 'schema.org.ai'
+
+const item: DayOfWeek = {
+  '@type': 'DayOfWeek',
+  name: 'Example DayOfWeek',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/DayOfWeek)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

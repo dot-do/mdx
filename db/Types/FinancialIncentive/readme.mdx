@@ -1,0 +1,78 @@
+---
+schemaId: 'https://schema.org/FinancialIncentive'
+label: FinancialIncentive
+description: >-
+  <p>Represents financial incentives for goods/services offered by an
+  organization (or individual).</p>
+
+
+  <p>Typically contains the [[name]] of the incentive, the [[incentivizedItem]],
+  the [[incentiveAmount]], the [[incentiveStatus]], [[incentiveType]], the
+  [[provider]] of the incentive, and [[eligibleWithSupplier]].</p>
+
+
+  <p>Optionally contains criteria on whether the incentive is limited based on
+  [[purchaseType]], [[purchasePriceLimit]], [[incomeLimit]], and the
+  [[qualifiedExpense]].
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# FinancialIncentive
+
+**Schema.org Type:** [`FinancialIncentive`](https://schema.org/FinancialIncentive)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+<p>Represents financial incentives for goods/services offered by an organization (or individual).</p>
+
+<p>Typically contains the [[name]] of the incentive, the [[incentivizedItem]], the [[incentiveAmount]], the [[incentiveStatus]], [[incentiveType]], the [[provider]] of the incentive, and [[eligibleWithSupplier]].</p>
+
+<p>Optionally contains criteria on whether the incentive is limited based on [[purchaseType]], [[purchasePriceLimit]], [[incomeLimit]], and the [[qualifiedExpense]].
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "FinancialIncentive",
+  "name": "Example FinancialIncentive",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { FinancialIncentive } from 'schema.org.ai'
+
+const item: FinancialIncentive = {
+  '@type': 'FinancialIncentive',
+  name: 'Example FinancialIncentive',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/FinancialIncentive)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

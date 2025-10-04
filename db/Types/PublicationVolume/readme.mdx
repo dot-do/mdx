@@ -1,0 +1,71 @@
+---
+schemaId: 'https://schema.org/PublicationVolume'
+label: PublicationVolume
+description: >-
+  A part of a successively published publication such as a periodical or
+  multi-volume work, often numbered. It may represent a time span, such as a
+  year.
+
+
+  See also [blog
+  post](https://blog-schema.org/2014/09/02/schema-org-support-for-bibliographic-relationships-and-periodicals/).
+parentType: CreativeWork
+parentUrl: 'https://schema.org/CreativeWork'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# PublicationVolume
+
+**Schema.org Type:** [`PublicationVolume`](https://schema.org/PublicationVolume)
+**Parent Type:** [[../CreativeWork|CreativeWork]]
+
+## Description
+
+A part of a successively published publication such as a periodical or multi-volume work, often numbered. It may represent a time span, such as a year.
+
+See also [blog post](https://blog-schema.org/2014/09/02/schema-org-support-for-bibliographic-relationships-and-periodicals/).
+
+## Properties
+
+*Properties inherited from [[../CreativeWork|CreativeWork]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "PublicationVolume",
+  "name": "Example PublicationVolume",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { PublicationVolume } from 'schema.org.ai'
+
+const item: PublicationVolume = {
+  '@type': 'PublicationVolume',
+  name: 'Example PublicationVolume',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/PublicationVolume)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

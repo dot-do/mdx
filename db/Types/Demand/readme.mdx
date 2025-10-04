@@ -1,0 +1,66 @@
+---
+schemaId: 'https://schema.org/Demand'
+label: Demand
+description: >-
+  A demand entity represents the public, not necessarily binding, not
+  necessarily exclusive, announcement by an organization or person to seek a
+  certain type of goods or services. For describing demand using this type, the
+  very same properties used for Offer apply.
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Demand
+
+**Schema.org Type:** [`Demand`](https://schema.org/Demand)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+A demand entity represents the public, not necessarily binding, not necessarily exclusive, announcement by an organization or person to seek a certain type of goods or services. For describing demand using this type, the very same properties used for Offer apply.
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Demand",
+  "name": "Example Demand",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Demand } from 'schema.org.ai'
+
+const item: Demand = {
+  '@type': 'Demand',
+  name: 'Example Demand',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Demand)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

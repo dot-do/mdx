@@ -1,0 +1,73 @@
+---
+schemaId: 'https://schema.org/Role'
+label: Role
+description: >-
+  Represents additional information about a relationship or property. For
+  example a Role can be used to say that a 'member' role linking some SportsTeam
+  to a player occurred during a particular time period. Or that a Person's
+  'actor' role in a Movie was for some particular characterName. Such properties
+  can be attached to a Role entity, which is then associated with the main
+  entities using ordinary properties like 'member' or 'actor'.
+
+
+  See also [blog post](http://blog.schema.org/2014/06/introducing-role.html).
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Role
+
+**Schema.org Type:** [`Role`](https://schema.org/Role)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+Represents additional information about a relationship or property. For example a Role can be used to say that a 'member' role linking some SportsTeam to a player occurred during a particular time period. Or that a Person's 'actor' role in a Movie was for some particular characterName. Such properties can be attached to a Role entity, which is then associated with the main entities using ordinary properties like 'member' or 'actor'.
+
+See also [blog post](http://blog.schema.org/2014/06/introducing-role.html).
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Role",
+  "name": "Example Role",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Role } from 'schema.org.ai'
+
+const item: Role = {
+  '@type': 'Role',
+  name: 'Example Role',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Role)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

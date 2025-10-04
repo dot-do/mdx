@@ -1,0 +1,77 @@
+---
+schemaId: 'https://schema.org/FundingAgency'
+label: FundingAgency
+description: >-
+  A FundingAgency is an organization that implements one or more
+  [[FundingScheme]]s and manages
+
+  the granting process (via [[Grant]]s, typically [[MonetaryGrant]]s).
+
+  A funding agency is not always required for grant funding, e.g. philanthropic
+  giving, corporate sponsorship etc.
+
+
+  Examples of funding agencies include ERC, REA, NIH, Bill and Melinda Gates
+  Foundation, ...
+parentType: Project
+parentUrl: 'https://schema.org/Project'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# FundingAgency
+
+**Schema.org Type:** [`FundingAgency`](https://schema.org/FundingAgency)
+**Parent Type:** [[../Project|Project]]
+
+## Description
+
+A FundingAgency is an organization that implements one or more [[FundingScheme]]s and manages
+the granting process (via [[Grant]]s, typically [[MonetaryGrant]]s).
+A funding agency is not always required for grant funding, e.g. philanthropic giving, corporate sponsorship etc.
+
+Examples of funding agencies include ERC, REA, NIH, Bill and Melinda Gates Foundation, ...
+
+## Properties
+
+*Properties inherited from [[../Project|Project]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "FundingAgency",
+  "name": "Example FundingAgency",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { FundingAgency } from 'schema.org.ai'
+
+const item: FundingAgency = {
+  '@type': 'FundingAgency',
+  name: 'Example FundingAgency',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/FundingAgency)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

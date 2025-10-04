@@ -1,0 +1,102 @@
+---
+schemaId: 'https://schema.org/PaymentMethod'
+label: PaymentMethod
+description: >-
+  A payment method is a standardized procedure for transferring the monetary
+  amount for a purchase. Payment methods are characterized by the legal and
+  technical structures used, and by the organization or group carrying out the
+  transaction. The following legacy values should be accepted:
+
+
+
+  * http://purl.org/goodrelations/v1#ByBankTransferInAdvance
+
+  * http://purl.org/goodrelations/v1#ByInvoice
+
+  * http://purl.org/goodrelations/v1#Cash
+
+  * http://purl.org/goodrelations/v1#CheckInAdvance
+
+  * http://purl.org/goodrelations/v1#COD
+
+  * http://purl.org/goodrelations/v1#DirectDebit
+
+  * http://purl.org/goodrelations/v1#GoogleCheckout
+
+  * http://purl.org/goodrelations/v1#PayPal
+
+  * http://purl.org/goodrelations/v1#PaySwarm
+
+
+  Structured values are recommended for newer payment methods.
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# PaymentMethod
+
+**Schema.org Type:** [`PaymentMethod`](https://schema.org/PaymentMethod)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+A payment method is a standardized procedure for transferring the monetary amount for a purchase. Payment methods are characterized by the legal and technical structures used, and by the organization or group carrying out the transaction. The following legacy values should be accepted:
+
+
+* http://purl.org/goodrelations/v1#ByBankTransferInAdvance
+* http://purl.org/goodrelations/v1#ByInvoice
+* http://purl.org/goodrelations/v1#Cash
+* http://purl.org/goodrelations/v1#CheckInAdvance
+* http://purl.org/goodrelations/v1#COD
+* http://purl.org/goodrelations/v1#DirectDebit
+* http://purl.org/goodrelations/v1#GoogleCheckout
+* http://purl.org/goodrelations/v1#PayPal
+* http://purl.org/goodrelations/v1#PaySwarm
+
+Structured values are recommended for newer payment methods.
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "PaymentMethod",
+  "name": "Example PaymentMethod",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { PaymentMethod } from 'schema.org.ai'
+
+const item: PaymentMethod = {
+  '@type': 'PaymentMethod',
+  name: 'Example PaymentMethod',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/PaymentMethod)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,98 @@
+---
+schemaId: 'https://schema.org/BusinessFunction'
+label: BusinessFunction
+description: >-
+  The business function specifies the type of activity or access (i.e., the
+  bundle of rights) offered by the organization or business person through the
+  offer. Typical are sell, rental or lease, maintenance or repair, manufacture /
+  produce, recycle / dispose, engineering / construction, or installation.
+  Proprietary specifications of access rights are also instances of this class.
+
+
+  Commonly used values:
+
+
+  * http://purl.org/goodrelations/v1#ConstructionInstallation
+
+  * http://purl.org/goodrelations/v1#Dispose
+
+  * http://purl.org/goodrelations/v1#LeaseOut
+
+  * http://purl.org/goodrelations/v1#Maintain
+
+  * http://purl.org/goodrelations/v1#ProvideService
+
+  * http://purl.org/goodrelations/v1#Repair
+
+  * http://purl.org/goodrelations/v1#Sell
+
+  * http://purl.org/goodrelations/v1#Buy
+parentType: Enumeration
+parentUrl: 'https://schema.org/Enumeration'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# BusinessFunction
+
+**Schema.org Type:** [`BusinessFunction`](https://schema.org/BusinessFunction)
+**Parent Type:** [[../Enumeration|Enumeration]]
+
+## Description
+
+The business function specifies the type of activity or access (i.e., the bundle of rights) offered by the organization or business person through the offer. Typical are sell, rental or lease, maintenance or repair, manufacture / produce, recycle / dispose, engineering / construction, or installation. Proprietary specifications of access rights are also instances of this class.
+
+Commonly used values:
+
+* http://purl.org/goodrelations/v1#ConstructionInstallation
+* http://purl.org/goodrelations/v1#Dispose
+* http://purl.org/goodrelations/v1#LeaseOut
+* http://purl.org/goodrelations/v1#Maintain
+* http://purl.org/goodrelations/v1#ProvideService
+* http://purl.org/goodrelations/v1#Repair
+* http://purl.org/goodrelations/v1#Sell
+* http://purl.org/goodrelations/v1#Buy
+
+## Properties
+
+*Properties inherited from [[../Enumeration|Enumeration]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "BusinessFunction",
+  "name": "Example BusinessFunction",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { BusinessFunction } from 'schema.org.ai'
+
+const item: BusinessFunction = {
+  '@type': 'BusinessFunction',
+  name: 'Example BusinessFunction',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/BusinessFunction)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

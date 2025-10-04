@@ -1,0 +1,68 @@
+---
+schemaId: 'https://schema.org/Language'
+label: Language
+description: >-
+  Natural languages such as Spanish, Tamil, Hindi, English, etc. Formal language
+  code tags expressed in [BCP
+  47](https://en.wikipedia.org/wiki/IETF_language_tag) can be used via the
+  [[alternateName]] property. The Language type previously also covered
+  programming languages such as Scheme and Lisp, which are now best represented
+  using [[ComputerLanguage]].
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Language
+
+**Schema.org Type:** [`Language`](https://schema.org/Language)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+Natural languages such as Spanish, Tamil, Hindi, English, etc. Formal language code tags expressed in [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) can be used via the [[alternateName]] property. The Language type previously also covered programming languages such as Scheme and Lisp, which are now best represented using [[ComputerLanguage]].
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Language",
+  "name": "Example Language",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Language } from 'schema.org.ai'
+
+const item: Language = {
+  '@type': 'Language',
+  name: 'Example Language',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Language)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,79 @@
+---
+schemaId: 'https://schema.org/ReceiveAction'
+label: ReceiveAction
+description: >-
+  The act of physically/electronically taking delivery of an object that has
+  been transferred from an origin to a destination. Reciprocal of SendAction.
+
+
+  Related actions:
+
+
+  * [[SendAction]]: The reciprocal of ReceiveAction.
+
+  * [[TakeAction]]: Unlike TakeAction, ReceiveAction does not imply that the
+  ownership has been transferred (e.g. I can receive a package, but it does not
+  mean the package is now mine).
+parentType: TransferAction
+parentUrl: 'https://schema.org/TransferAction'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# ReceiveAction
+
+**Schema.org Type:** [`ReceiveAction`](https://schema.org/ReceiveAction)
+**Parent Type:** [[../TransferAction|TransferAction]]
+
+## Description
+
+The act of physically/electronically taking delivery of an object that has been transferred from an origin to a destination. Reciprocal of SendAction.
+
+Related actions:
+
+* [[SendAction]]: The reciprocal of ReceiveAction.
+* [[TakeAction]]: Unlike TakeAction, ReceiveAction does not imply that the ownership has been transferred (e.g. I can receive a package, but it does not mean the package is now mine).
+
+## Properties
+
+*Properties inherited from [[../TransferAction|TransferAction]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ReceiveAction",
+  "name": "Example ReceiveAction",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { ReceiveAction } from 'schema.org.ai'
+
+const item: ReceiveAction = {
+  '@type': 'ReceiveAction',
+  name: 'Example ReceiveAction',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/ReceiveAction)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

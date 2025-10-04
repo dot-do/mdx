@@ -1,0 +1,66 @@
+---
+schemaId: 'https://schema.org/GeoShape'
+label: GeoShape
+description: >-
+  The geographic shape of a place. A GeoShape can be described using several
+  properties whose values are based on latitude/longitude pairs. Either
+  whitespace or commas can be used to separate latitude and longitude;
+  whitespace should be used when writing a list of several such points.
+parentType: StructuredValue
+parentUrl: 'https://schema.org/StructuredValue'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# GeoShape
+
+**Schema.org Type:** [`GeoShape`](https://schema.org/GeoShape)
+**Parent Type:** [[../StructuredValue|StructuredValue]]
+
+## Description
+
+The geographic shape of a place. A GeoShape can be described using several properties whose values are based on latitude/longitude pairs. Either whitespace or commas can be used to separate latitude and longitude; whitespace should be used when writing a list of several such points.
+
+## Properties
+
+*Properties inherited from [[../StructuredValue|StructuredValue]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "GeoShape",
+  "name": "Example GeoShape",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { GeoShape } from 'schema.org.ai'
+
+const item: GeoShape = {
+  '@type': 'GeoShape',
+  name: 'Example GeoShape',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/GeoShape)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

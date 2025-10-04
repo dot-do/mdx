@@ -1,0 +1,78 @@
+---
+schemaId: 'https://schema.org/TrackAction'
+label: TrackAction
+description: >-
+  An agent tracks an object for updates.
+
+
+  Related actions:
+
+
+  * [[FollowAction]]: Unlike FollowAction, TrackAction refers to the interest on
+  the location of innanimates objects.
+
+  * [[SubscribeAction]]: Unlike SubscribeAction, TrackAction refers to  the
+  interest on the location of innanimate objects.
+parentType: FindAction
+parentUrl: 'https://schema.org/FindAction'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# TrackAction
+
+**Schema.org Type:** [`TrackAction`](https://schema.org/TrackAction)
+**Parent Type:** [[../FindAction|FindAction]]
+
+## Description
+
+An agent tracks an object for updates.
+
+Related actions:
+
+* [[FollowAction]]: Unlike FollowAction, TrackAction refers to the interest on the location of innanimates objects.
+* [[SubscribeAction]]: Unlike SubscribeAction, TrackAction refers to  the interest on the location of innanimate objects.
+
+## Properties
+
+*Properties inherited from [[../FindAction|FindAction]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "TrackAction",
+  "name": "Example TrackAction",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { TrackAction } from 'schema.org.ai'
+
+const item: TrackAction = {
+  '@type': 'TrackAction',
+  name: 'Example TrackAction',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/TrackAction)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

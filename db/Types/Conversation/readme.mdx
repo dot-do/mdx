@@ -1,0 +1,65 @@
+---
+schemaId: 'https://schema.org/Conversation'
+label: Conversation
+description: >-
+  One or more messages between organizations or people on a particular topic.
+  Individual messages can be linked to the conversation with isPartOf or hasPart
+  properties.
+parentType: CreativeWork
+parentUrl: 'https://schema.org/CreativeWork'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Conversation
+
+**Schema.org Type:** [`Conversation`](https://schema.org/Conversation)
+**Parent Type:** [[../CreativeWork|CreativeWork]]
+
+## Description
+
+One or more messages between organizations or people on a particular topic. Individual messages can be linked to the conversation with isPartOf or hasPart properties.
+
+## Properties
+
+*Properties inherited from [[../CreativeWork|CreativeWork]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Conversation",
+  "name": "Example Conversation",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Conversation } from 'schema.org.ai'
+
+const item: Conversation = {
+  '@type': 'Conversation',
+  name: 'Example Conversation',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Conversation)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

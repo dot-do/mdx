@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/Dataset'
+label: Dataset
+description: A body of structured information describing some topic(s) of interest.
+parentType: CreativeWork
+parentUrl: 'https://schema.org/CreativeWork'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Dataset
+
+**Schema.org Type:** [`Dataset`](https://schema.org/Dataset)
+**Parent Type:** [[../CreativeWork|CreativeWork]]
+
+## Description
+
+A body of structured information describing some topic(s) of interest.
+
+## Properties
+
+*Properties inherited from [[../CreativeWork|CreativeWork]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Example Dataset",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Dataset } from 'schema.org.ai'
+
+const item: Dataset = {
+  '@type': 'Dataset',
+  name: 'Example Dataset',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Dataset)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

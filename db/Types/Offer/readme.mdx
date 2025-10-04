@@ -1,0 +1,83 @@
+---
+schemaId: 'https://schema.org/Offer'
+label: Offer
+description: >-
+  An offer to transfer some rights to an item or to provide a service — for
+  example, an offer to sell tickets to an event, to rent the DVD of a movie, to
+  stream a TV show over the internet, to repair a motorcycle, or to loan a book.
+
+
+  Note: As the [[businessFunction]] property, which identifies the form of offer
+  (e.g. sell, lease, repair, dispose), defaults to
+  http://purl.org/goodrelations/v1#Sell; an Offer without a defined
+  businessFunction value can be assumed to be an offer to sell.
+
+
+  For [GTIN](http://www.gs1.org/barcodes/technical/idkeys/gtin)-related fields,
+  see [Check Digit
+  calculator](http://www.gs1.org/barcodes/support/check_digit_calculator) and
+  [validation
+  guide](http://www.gs1us.org/resources/standards/gtin-validation-guide) from
+  [GS1](http://www.gs1.org/).
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Offer
+
+**Schema.org Type:** [`Offer`](https://schema.org/Offer)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+An offer to transfer some rights to an item or to provide a service — for example, an offer to sell tickets to an event, to rent the DVD of a movie, to stream a TV show over the internet, to repair a motorcycle, or to loan a book.
+
+Note: As the [[businessFunction]] property, which identifies the form of offer (e.g. sell, lease, repair, dispose), defaults to http://purl.org/goodrelations/v1#Sell; an Offer without a defined businessFunction value can be assumed to be an offer to sell.
+
+For [GTIN](http://www.gs1.org/barcodes/technical/idkeys/gtin)-related fields, see [Check Digit calculator](http://www.gs1.org/barcodes/support/check_digit_calculator) and [validation guide](http://www.gs1us.org/resources/standards/gtin-validation-guide) from [GS1](http://www.gs1.org/).
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Offer",
+  "name": "Example Offer",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Offer } from 'schema.org.ai'
+
+const item: Offer = {
+  '@type': 'Offer',
+  name: 'Example Offer',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Offer)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

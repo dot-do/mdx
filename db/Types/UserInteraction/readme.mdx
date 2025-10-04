@@ -1,0 +1,65 @@
+---
+schemaId: 'https://schema.org/UserInteraction'
+label: UserInteraction
+description: >-
+  UserInteraction and its subtypes is an old way of talking about users
+  interacting with pages. It is generally better to use [[Action]]-based
+  vocabulary, alongside types such as [[Comment]].
+parentType: Event
+parentUrl: 'https://schema.org/Event'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# UserInteraction
+
+**Schema.org Type:** [`UserInteraction`](https://schema.org/UserInteraction)
+**Parent Type:** [[../Event|Event]]
+
+## Description
+
+UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use [[Action]]-based vocabulary, alongside types such as [[Comment]].
+
+## Properties
+
+*Properties inherited from [[../Event|Event]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "UserInteraction",
+  "name": "Example UserInteraction",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { UserInteraction } from 'schema.org.ai'
+
+const item: UserInteraction = {
+  '@type': 'UserInteraction',
+  name: 'Example UserInteraction',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/UserInteraction)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

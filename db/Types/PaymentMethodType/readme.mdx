@@ -1,0 +1,65 @@
+---
+schemaId: 'https://schema.org/PaymentMethodType'
+label: PaymentMethodType
+description: >-
+  The type of payment method, only for generic payment types, specific forms of
+  payments, like card payment should be expressed using subclasses of
+  PaymentMethod.
+parentType: Enumeration
+parentUrl: 'https://schema.org/Enumeration'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# PaymentMethodType
+
+**Schema.org Type:** [`PaymentMethodType`](https://schema.org/PaymentMethodType)
+**Parent Type:** [[../Enumeration|Enumeration]]
+
+## Description
+
+The type of payment method, only for generic payment types, specific forms of payments, like card payment should be expressed using subclasses of PaymentMethod.
+
+## Properties
+
+*Properties inherited from [[../Enumeration|Enumeration]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "PaymentMethodType",
+  "name": "Example PaymentMethodType",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { PaymentMethodType } from 'schema.org.ai'
+
+const item: PaymentMethodType = {
+  '@type': 'PaymentMethodType',
+  name: 'Example PaymentMethodType',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/PaymentMethodType)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

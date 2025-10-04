@@ -1,0 +1,69 @@
+---
+schemaId: 'https://schema.org/Protein'
+label: Protein
+description: >-
+  Protein is here used in its widest possible definition, as classes of amino
+  acid based molecules. Amyloid-beta Protein in human (UniProt P05067),
+  eukaryota (e.g. an OrthoDB group) or even a single molecule that one can point
+  to are all of type :Protein. A protein can thus be a subclass of another
+  protein, e.g. :Protein as a UniProt record can have multiple isoforms inside
+  it which would also be :Protein. They can be imagined, synthetic, hypothetical
+  or naturally occurring.
+parentType: BioChemEntity
+parentUrl: 'https://schema.org/BioChemEntity'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Protein
+
+**Schema.org Type:** [`Protein`](https://schema.org/Protein)
+**Parent Type:** [[../BioChemEntity|BioChemEntity]]
+
+## Description
+
+Protein is here used in its widest possible definition, as classes of amino acid based molecules. Amyloid-beta Protein in human (UniProt P05067), eukaryota (e.g. an OrthoDB group) or even a single molecule that one can point to are all of type :Protein. A protein can thus be a subclass of another protein, e.g. :Protein as a UniProt record can have multiple isoforms inside it which would also be :Protein. They can be imagined, synthetic, hypothetical or naturally occurring.
+
+## Properties
+
+*Properties inherited from [[../BioChemEntity|BioChemEntity]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Protein",
+  "name": "Example Protein",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Protein } from 'schema.org.ai'
+
+const item: Protein = {
+  '@type': 'Protein',
+  name: 'Example Protein',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Protein)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,78 @@
+---
+schemaId: 'https://schema.org/TakeAction'
+label: TakeAction
+description: >-
+  The act of gaining ownership of an object from an origin. Reciprocal of
+  GiveAction.
+
+
+  Related actions:
+
+
+  * [[GiveAction]]: The reciprocal of TakeAction.
+
+  * [[ReceiveAction]]: Unlike ReceiveAction, TakeAction implies that ownership
+  has been transferred.
+parentType: TransferAction
+parentUrl: 'https://schema.org/TransferAction'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# TakeAction
+
+**Schema.org Type:** [`TakeAction`](https://schema.org/TakeAction)
+**Parent Type:** [[../TransferAction|TransferAction]]
+
+## Description
+
+The act of gaining ownership of an object from an origin. Reciprocal of GiveAction.
+
+Related actions:
+
+* [[GiveAction]]: The reciprocal of TakeAction.
+* [[ReceiveAction]]: Unlike ReceiveAction, TakeAction implies that ownership has been transferred.
+
+## Properties
+
+*Properties inherited from [[../TransferAction|TransferAction]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "TakeAction",
+  "name": "Example TakeAction",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { TakeAction } from 'schema.org.ai'
+
+const item: TakeAction = {
+  '@type': 'TakeAction',
+  name: 'Example TakeAction',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/TakeAction)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

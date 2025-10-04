@@ -1,0 +1,72 @@
+---
+schemaId: 'https://schema.org/Reservation'
+label: Reservation
+description: >-
+  Describes a reservation for travel, dining or an event. Some reservations
+  require tickets.
+
+
+  Note: This type is for information about actual reservations, e.g. in
+  confirmation emails or HTML pages with individual confirmations of
+  reservations. For offers of tickets, restaurant reservations, flights, or
+  rental cars, use [[Offer]].
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Reservation
+
+**Schema.org Type:** [`Reservation`](https://schema.org/Reservation)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+Describes a reservation for travel, dining or an event. Some reservations require tickets.
+
+Note: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations. For offers of tickets, restaurant reservations, flights, or rental cars, use [[Offer]].
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Reservation",
+  "name": "Example Reservation",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Reservation } from 'schema.org.ai'
+
+const item: Reservation = {
+  '@type': 'Reservation',
+  name: 'Example Reservation',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Reservation)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,71 @@
+---
+schemaId: 'https://schema.org/Article'
+label: Article
+description: >-
+  An article, such as a news article or piece of investigative report.
+  Newspapers and magazines have articles of many different types and this is
+  intended to cover them all.
+
+
+  See also [blog
+  post](http://blog.schema.org/2014/09/schemaorg-support-for-bibliographic_2.html).
+parentType: CreativeWork
+parentUrl: 'https://schema.org/CreativeWork'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Article
+
+**Schema.org Type:** [`Article`](https://schema.org/Article)
+**Parent Type:** [[../CreativeWork|CreativeWork]]
+
+## Description
+
+An article, such as a news article or piece of investigative report. Newspapers and magazines have articles of many different types and this is intended to cover them all.
+
+See also [blog post](http://blog.schema.org/2014/09/schemaorg-support-for-bibliographic_2.html).
+
+## Properties
+
+*Properties inherited from [[../CreativeWork|CreativeWork]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "name": "Example Article",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Article } from 'schema.org.ai'
+
+const item: Article = {
+  '@type': 'Article',
+  name: 'Example Article',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Article)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

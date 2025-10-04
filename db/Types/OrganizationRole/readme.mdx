@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/OrganizationRole'
+label: OrganizationRole
+description: A subclass of Role used to describe roles within organizations.
+parentType: Role
+parentUrl: 'https://schema.org/Role'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# OrganizationRole
+
+**Schema.org Type:** [`OrganizationRole`](https://schema.org/OrganizationRole)
+**Parent Type:** [[../Role|Role]]
+
+## Description
+
+A subclass of Role used to describe roles within organizations.
+
+## Properties
+
+*Properties inherited from [[../Role|Role]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "OrganizationRole",
+  "name": "Example OrganizationRole",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { OrganizationRole } from 'schema.org.ai'
+
+const item: OrganizationRole = {
+  '@type': 'OrganizationRole',
+  name: 'Example OrganizationRole',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/OrganizationRole)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

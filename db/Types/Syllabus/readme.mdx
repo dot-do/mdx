@@ -1,0 +1,65 @@
+---
+schemaId: 'https://schema.org/Syllabus'
+label: Syllabus
+description: >-
+  A syllabus that describes the material covered in a course, often with several
+  such sections per [[Course]] so that a distinct [[timeRequired]] can be
+  provided for that section of the [[Course]].
+parentType: LearningResource
+parentUrl: 'https://schema.org/LearningResource'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Syllabus
+
+**Schema.org Type:** [`Syllabus`](https://schema.org/Syllabus)
+**Parent Type:** [[../LearningResource|LearningResource]]
+
+## Description
+
+A syllabus that describes the material covered in a course, often with several such sections per [[Course]] so that a distinct [[timeRequired]] can be provided for that section of the [[Course]].
+
+## Properties
+
+*Properties inherited from [[../LearningResource|LearningResource]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Syllabus",
+  "name": "Example Syllabus",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Syllabus } from 'schema.org.ai'
+
+const item: Syllabus = {
+  '@type': 'Syllabus',
+  name: 'Example Syllabus',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Syllabus)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

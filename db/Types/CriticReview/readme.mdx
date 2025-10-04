@@ -1,0 +1,71 @@
+---
+schemaId: 'https://schema.org/CriticReview'
+label: CriticReview
+description: >-
+  A [[CriticReview]] is a more specialized form of Review written or published
+  by a source that is recognized for its reviewing activities. These can include
+  online columns, travel and food guides, TV and radio shows, blogs and other
+  independent Web sites. [[CriticReview]]s are typically more in-depth and
+  professionally written. For simpler, casually written
+  user/visitor/viewer/customer reviews, it is more appropriate to use the
+  [[UserReview]] type. Review aggregator sites such as Metacritic already
+  separate out the site's user reviews from selected critic reviews that
+  originate from third-party sources.
+parentType: Review
+parentUrl: 'https://schema.org/Review'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# CriticReview
+
+**Schema.org Type:** [`CriticReview`](https://schema.org/CriticReview)
+**Parent Type:** [[../Review|Review]]
+
+## Description
+
+A [[CriticReview]] is a more specialized form of Review written or published by a source that is recognized for its reviewing activities. These can include online columns, travel and food guides, TV and radio shows, blogs and other independent Web sites. [[CriticReview]]s are typically more in-depth and professionally written. For simpler, casually written user/visitor/viewer/customer reviews, it is more appropriate to use the [[UserReview]] type. Review aggregator sites such as Metacritic already separate out the site's user reviews from selected critic reviews that originate from third-party sources.
+
+## Properties
+
+*Properties inherited from [[../Review|Review]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "CriticReview",
+  "name": "Example CriticReview",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { CriticReview } from 'schema.org.ai'
+
+const item: CriticReview = {
+  '@type': 'CriticReview',
+  name: 'Example CriticReview',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/CriticReview)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

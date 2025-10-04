@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/Review'
+label: Review
+description: 'A review of an item - for example, of a restaurant, movie, or store.'
+parentType: CreativeWork
+parentUrl: 'https://schema.org/CreativeWork'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Review
+
+**Schema.org Type:** [`Review`](https://schema.org/Review)
+**Parent Type:** [[../CreativeWork|CreativeWork]]
+
+## Description
+
+A review of an item - for example, of a restaurant, movie, or store.
+
+## Properties
+
+*Properties inherited from [[../CreativeWork|CreativeWork]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Review",
+  "name": "Example Review",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Review } from 'schema.org.ai'
+
+const item: Review = {
+  '@type': 'Review',
+  name: 'Example Review',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Review)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,65 @@
+---
+schemaId: 'https://schema.org/UserPlays'
+label: UserPlays
+description: >-
+  UserInteraction and its subtypes is an old way of talking about users
+  interacting with pages. It is generally better to use [[Action]]-based
+  vocabulary, alongside types such as [[Comment]].
+parentType: UserInteraction
+parentUrl: 'https://schema.org/UserInteraction'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# UserPlays
+
+**Schema.org Type:** [`UserPlays`](https://schema.org/UserPlays)
+**Parent Type:** [[../UserInteraction|UserInteraction]]
+
+## Description
+
+UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use [[Action]]-based vocabulary, alongside types such as [[Comment]].
+
+## Properties
+
+*Properties inherited from [[../UserInteraction|UserInteraction]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "UserPlays",
+  "name": "Example UserPlays",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { UserPlays } from 'schema.org.ai'
+
+const item: UserPlays = {
+  '@type': 'UserPlays',
+  name: 'Example UserPlays',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/UserPlays)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

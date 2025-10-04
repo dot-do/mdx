@@ -1,0 +1,66 @@
+---
+schemaId: 'https://schema.org/Statement'
+label: Statement
+description: >-
+  A statement about something, for example a fun or interesting fact. If known,
+  the main entity this statement is about can be indicated using mainEntity. For
+  more formal claims (e.g. in Fact Checking), consider using [[Claim]] instead.
+  Use the [[text]] property to capture the text of the statement.
+parentType: CreativeWork
+parentUrl: 'https://schema.org/CreativeWork'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Statement
+
+**Schema.org Type:** [`Statement`](https://schema.org/Statement)
+**Parent Type:** [[../CreativeWork|CreativeWork]]
+
+## Description
+
+A statement about something, for example a fun or interesting fact. If known, the main entity this statement is about can be indicated using mainEntity. For more formal claims (e.g. in Fact Checking), consider using [[Claim]] instead. Use the [[text]] property to capture the text of the statement.
+
+## Properties
+
+*Properties inherited from [[../CreativeWork|CreativeWork]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Statement",
+  "name": "Example Statement",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Statement } from 'schema.org.ai'
+
+const item: Statement = {
+  '@type': 'Statement',
+  name: 'Example Statement',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Statement)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

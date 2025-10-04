@@ -1,0 +1,74 @@
+---
+schemaId: 'https://schema.org/SearchAction'
+label: SearchAction
+description: >-
+  The act of searching for an object.
+
+
+  Related actions:
+
+
+  * [[FindAction]]: SearchAction generally leads to a FindAction, but not
+  necessarily.
+parentType: Action
+parentUrl: 'https://schema.org/Action'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# SearchAction
+
+**Schema.org Type:** [`SearchAction`](https://schema.org/SearchAction)
+**Parent Type:** [[../Action|Action]]
+
+## Description
+
+The act of searching for an object.
+
+Related actions:
+
+* [[FindAction]]: SearchAction generally leads to a FindAction, but not necessarily.
+
+## Properties
+
+*Properties inherited from [[../Action|Action]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "SearchAction",
+  "name": "Example SearchAction",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { SearchAction } from 'schema.org.ai'
+
+const item: SearchAction = {
+  '@type': 'SearchAction',
+  name: 'Example SearchAction',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/SearchAction)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

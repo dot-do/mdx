@@ -1,0 +1,67 @@
+---
+schemaId: 'https://schema.org/ShippingConditions'
+label: ShippingConditions
+description: >-
+  ShippingConditions represent a set of constraints and information about the
+  conditions of shipping a product. Such conditions may apply to only a subset
+  of the products being shipped, depending on aspects of the product like
+  weight, size, price, destination, and others. All the specified conditions
+  must be met for this ShippingConditions to apply.
+parentType: StructuredValue
+parentUrl: 'https://schema.org/StructuredValue'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# ShippingConditions
+
+**Schema.org Type:** [`ShippingConditions`](https://schema.org/ShippingConditions)
+**Parent Type:** [[../StructuredValue|StructuredValue]]
+
+## Description
+
+ShippingConditions represent a set of constraints and information about the conditions of shipping a product. Such conditions may apply to only a subset of the products being shipped, depending on aspects of the product like weight, size, price, destination, and others. All the specified conditions must be met for this ShippingConditions to apply.
+
+## Properties
+
+*Properties inherited from [[../StructuredValue|StructuredValue]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ShippingConditions",
+  "name": "Example ShippingConditions",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { ShippingConditions } from 'schema.org.ai'
+
+const item: ShippingConditions = {
+  '@type': 'ShippingConditions',
+  name: 'Example ShippingConditions',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/ShippingConditions)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

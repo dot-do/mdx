@@ -1,0 +1,99 @@
+---
+schemaId: 'https://schema.org/DefinedRegion'
+label: DefinedRegion
+description: >-
+  A DefinedRegion is a geographic area defined by potentially arbitrary (rather
+  than political, administrative or natural geographical) criteria. Properties
+  are provided for defining a region by reference to sets of postal codes.
+
+
+  Examples: a delivery destination when shopping. Region where regional pricing
+  is configured.
+
+
+  Requirement 1:
+
+  Country: US
+
+  States: "NY", "CA"
+
+
+  Requirement 2:
+
+  Country: US
+
+  PostalCode Set: { [94000-94585], [97000, 97999], [13000, 13599]}
+
+  { [12345, 12345], [78945, 78945], }
+
+  Region = state, canton, prefecture, autonomous community...
+parentType: StructuredValue
+parentUrl: 'https://schema.org/StructuredValue'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# DefinedRegion
+
+**Schema.org Type:** [`DefinedRegion`](https://schema.org/DefinedRegion)
+**Parent Type:** [[../StructuredValue|StructuredValue]]
+
+## Description
+
+A DefinedRegion is a geographic area defined by potentially arbitrary (rather than political, administrative or natural geographical) criteria. Properties are provided for defining a region by reference to sets of postal codes.
+
+Examples: a delivery destination when shopping. Region where regional pricing is configured.
+
+Requirement 1:
+Country: US
+States: "NY", "CA"
+
+Requirement 2:
+Country: US
+PostalCode Set: { [94000-94585], [97000, 97999], [13000, 13599]}
+{ [12345, 12345], [78945, 78945], }
+Region = state, canton, prefecture, autonomous community...
+
+## Properties
+
+*Properties inherited from [[../StructuredValue|StructuredValue]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedRegion",
+  "name": "Example DefinedRegion",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { DefinedRegion } from 'schema.org.ai'
+
+const item: DefinedRegion = {
+  '@type': 'DefinedRegion',
+  name: 'Example DefinedRegion',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/DefinedRegion)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

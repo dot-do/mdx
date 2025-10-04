@@ -1,0 +1,70 @@
+---
+schemaId: 'https://schema.org/BusReservation'
+label: BusReservation
+description: >-
+  A reservation for bus travel.
+
+
+  Note: This type is for information about actual reservations, e.g. in
+  confirmation emails or HTML pages with individual confirmations of
+  reservations. For offers of tickets, use [[Offer]].
+parentType: Reservation
+parentUrl: 'https://schema.org/Reservation'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# BusReservation
+
+**Schema.org Type:** [`BusReservation`](https://schema.org/BusReservation)
+**Parent Type:** [[../Reservation|Reservation]]
+
+## Description
+
+A reservation for bus travel.
+
+Note: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations. For offers of tickets, use [[Offer]].
+
+## Properties
+
+*Properties inherited from [[../Reservation|Reservation]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "BusReservation",
+  "name": "Example BusReservation",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { BusReservation } from 'schema.org.ai'
+
+const item: BusReservation = {
+  '@type': 'BusReservation',
+  name: 'Example BusReservation',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/BusReservation)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

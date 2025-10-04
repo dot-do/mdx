@@ -1,0 +1,70 @@
+---
+schemaId: 'https://schema.org/NewsArticle'
+label: NewsArticle
+description: >-
+  A NewsArticle is an article whose content reports news, or provides background
+  context and supporting materials for understanding the news.
+
+
+  A more detailed overview of [schema.org News markup](/docs/news.html) is also
+  available.
+parentType: Article
+parentUrl: 'https://schema.org/Article'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# NewsArticle
+
+**Schema.org Type:** [`NewsArticle`](https://schema.org/NewsArticle)
+**Parent Type:** [[../Article|Article]]
+
+## Description
+
+A NewsArticle is an article whose content reports news, or provides background context and supporting materials for understanding the news.
+
+A more detailed overview of [schema.org News markup](/docs/news.html) is also available.
+
+## Properties
+
+*Properties inherited from [[../Article|Article]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "name": "Example NewsArticle",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { NewsArticle } from 'schema.org.ai'
+
+const item: NewsArticle = {
+  '@type': 'NewsArticle',
+  name: 'Example NewsArticle',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/NewsArticle)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

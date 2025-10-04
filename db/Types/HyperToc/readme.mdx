@@ -1,0 +1,67 @@
+---
+schemaId: 'https://schema.org/HyperToc'
+label: HyperToc
+description: >-
+  A HyperToc represents a hypertext table of contents for complex media objects,
+  such as [[VideoObject]], [[AudioObject]]. Items in the table of contents are
+  indicated using the [[tocEntry]] property, and typed [[HyperTocEntry]]. For
+  cases where the same larger work is split into multiple files,
+  [[associatedMedia]] can be used on individual [[HyperTocEntry]] items.
+parentType: CreativeWork
+parentUrl: 'https://schema.org/CreativeWork'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# HyperToc
+
+**Schema.org Type:** [`HyperToc`](https://schema.org/HyperToc)
+**Parent Type:** [[../CreativeWork|CreativeWork]]
+
+## Description
+
+A HyperToc represents a hypertext table of contents for complex media objects, such as [[VideoObject]], [[AudioObject]]. Items in the table of contents are indicated using the [[tocEntry]] property, and typed [[HyperTocEntry]]. For cases where the same larger work is split into multiple files, [[associatedMedia]] can be used on individual [[HyperTocEntry]] items.
+
+## Properties
+
+*Properties inherited from [[../CreativeWork|CreativeWork]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "HyperToc",
+  "name": "Example HyperToc",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { HyperToc } from 'schema.org.ai'
+
+const item: HyperToc = {
+  '@type': 'HyperToc',
+  name: 'Example HyperToc',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/HyperToc)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

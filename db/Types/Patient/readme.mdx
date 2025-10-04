@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/Patient'
+label: Patient
+description: A patient is any person recipient of health care services.
+parentType: MedicalAudience
+parentUrl: 'https://schema.org/MedicalAudience'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Patient
+
+**Schema.org Type:** [`Patient`](https://schema.org/Patient)
+**Parent Type:** [[../MedicalAudience|MedicalAudience]]
+
+## Description
+
+A patient is any person recipient of health care services.
+
+## Properties
+
+*Properties inherited from [[../MedicalAudience|MedicalAudience]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Patient",
+  "name": "Example Patient",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Patient } from 'schema.org.ai'
+
+const item: Patient = {
+  '@type': 'Patient',
+  name: 'Example Patient',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Patient)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

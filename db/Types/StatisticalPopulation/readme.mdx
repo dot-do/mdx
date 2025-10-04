@@ -1,0 +1,83 @@
+---
+schemaId: 'https://schema.org/StatisticalPopulation'
+label: StatisticalPopulation
+description: >-
+  A StatisticalPopulation is a set of instances of a certain given type that
+  satisfy some set of constraints. The property [[populationType]] is used to
+  specify the type. Any property that can be used on instances of that type can
+  appear on the statistical population. For example, a [[StatisticalPopulation]]
+  representing all [[Person]]s with a [[homeLocation]] of East Podunk California
+  would be described by applying the appropriate [[homeLocation]] and
+  [[populationType]] properties to a [[StatisticalPopulation]] item that stands
+  for that set of people.
+
+  The properties [[numConstraints]] and [[constraintProperty]] are used to
+  specify which of the populations properties are used to specify the
+  population. Note that the sense of "population" used here is the general sense
+  of a statistical
+
+  population, and does not imply that the population consists of people. For
+  example, a [[populationType]] of [[Event]] or [[NewsArticle]] could be used.
+  See also [[Observation]], where a [[populationType]] such as [[Person]] or
+  [[Event]] can be indicated directly. In most cases it may be better to use
+  [[StatisticalVariable]] instead of [[StatisticalPopulation]].
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# StatisticalPopulation
+
+**Schema.org Type:** [`StatisticalPopulation`](https://schema.org/StatisticalPopulation)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+A StatisticalPopulation is a set of instances of a certain given type that satisfy some set of constraints. The property [[populationType]] is used to specify the type. Any property that can be used on instances of that type can appear on the statistical population. For example, a [[StatisticalPopulation]] representing all [[Person]]s with a [[homeLocation]] of East Podunk California would be described by applying the appropriate [[homeLocation]] and [[populationType]] properties to a [[StatisticalPopulation]] item that stands for that set of people.
+The properties [[numConstraints]] and [[constraintProperty]] are used to specify which of the populations properties are used to specify the population. Note that the sense of "population" used here is the general sense of a statistical
+population, and does not imply that the population consists of people. For example, a [[populationType]] of [[Event]] or [[NewsArticle]] could be used. See also [[Observation]], where a [[populationType]] such as [[Person]] or [[Event]] can be indicated directly. In most cases it may be better to use [[StatisticalVariable]] instead of [[StatisticalPopulation]].
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "StatisticalPopulation",
+  "name": "Example StatisticalPopulation",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { StatisticalPopulation } from 'schema.org.ai'
+
+const item: StatisticalPopulation = {
+  '@type': 'StatisticalPopulation',
+  name: 'Example StatisticalPopulation',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/StatisticalPopulation)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

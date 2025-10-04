@@ -1,0 +1,68 @@
+---
+schemaId: 'https://schema.org/Recommendation'
+label: Recommendation
+description: >-
+  [[Recommendation]] is a type of [[Review]] that suggests or proposes something
+  as the best option or best course of action. Recommendations may be for
+  products or services, or other concrete things, as in the case of a ranked
+  list or product guide. A [[Guide]] may list multiple recommendations for
+  different categories. For example, in a [[Guide]] about which TVs to buy, the
+  author may have several [[Recommendation]]s.
+parentType: Review
+parentUrl: 'https://schema.org/Review'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Recommendation
+
+**Schema.org Type:** [`Recommendation`](https://schema.org/Recommendation)
+**Parent Type:** [[../Review|Review]]
+
+## Description
+
+[[Recommendation]] is a type of [[Review]] that suggests or proposes something as the best option or best course of action. Recommendations may be for products or services, or other concrete things, as in the case of a ranked list or product guide. A [[Guide]] may list multiple recommendations for different categories. For example, in a [[Guide]] about which TVs to buy, the author may have several [[Recommendation]]s.
+
+## Properties
+
+*Properties inherited from [[../Review|Review]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Recommendation",
+  "name": "Example Recommendation",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Recommendation } from 'schema.org.ai'
+
+const item: Recommendation = {
+  '@type': 'Recommendation',
+  name: 'Example Recommendation',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Recommendation)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/URL'
+label: URL
+description: 'Data type: URL.'
+parentType: Text
+parentUrl: 'https://schema.org/Text'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# URL
+
+**Schema.org Type:** [`URL`](https://schema.org/URL)
+**Parent Type:** [[../Text|Text]]
+
+## Description
+
+Data type: URL.
+
+## Properties
+
+*Properties inherited from [[../Text|Text]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "URL",
+  "name": "Example URL",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { URL } from 'schema.org.ai'
+
+const item: URL = {
+  '@type': 'URL',
+  name: 'Example URL',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/URL)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

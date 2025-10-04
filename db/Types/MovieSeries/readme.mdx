@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/MovieSeries'
+label: MovieSeries
+description: >-
+  A series of movies. Included movies can be indicated with the hasPart
+  property.
+parentType: CreativeWorkSeries
+parentUrl: 'https://schema.org/CreativeWorkSeries'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# MovieSeries
+
+**Schema.org Type:** [`MovieSeries`](https://schema.org/MovieSeries)
+**Parent Type:** [[../CreativeWorkSeries|CreativeWorkSeries]]
+
+## Description
+
+A series of movies. Included movies can be indicated with the hasPart property.
+
+## Properties
+
+*Properties inherited from [[../CreativeWorkSeries|CreativeWorkSeries]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "MovieSeries",
+  "name": "Example MovieSeries",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { MovieSeries } from 'schema.org.ai'
+
+const item: MovieSeries = {
+  '@type': 'MovieSeries',
+  name: 'Example MovieSeries',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/MovieSeries)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

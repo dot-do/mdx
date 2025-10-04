@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/PodcastSeason'
+label: PodcastSeason
+description: >-
+  A single season of a podcast. Many podcasts do not break down into separate
+  seasons. In that case, PodcastSeries should be used.
+parentType: CreativeWorkSeason
+parentUrl: 'https://schema.org/CreativeWorkSeason'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# PodcastSeason
+
+**Schema.org Type:** [`PodcastSeason`](https://schema.org/PodcastSeason)
+**Parent Type:** [[../CreativeWorkSeason|CreativeWorkSeason]]
+
+## Description
+
+A single season of a podcast. Many podcasts do not break down into separate seasons. In that case, PodcastSeries should be used.
+
+## Properties
+
+*Properties inherited from [[../CreativeWorkSeason|CreativeWorkSeason]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "PodcastSeason",
+  "name": "Example PodcastSeason",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { PodcastSeason } from 'schema.org.ai'
+
+const item: PodcastSeason = {
+  '@type': 'PodcastSeason',
+  name: 'Example PodcastSeason',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/PodcastSeason)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

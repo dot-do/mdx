@@ -1,0 +1,68 @@
+---
+schemaId: 'https://schema.org/AudioObjectSnapshot'
+label: AudioObjectSnapshot
+description: >-
+  A specific and exact (byte-for-byte) version of an [[AudioObject]]. Two
+  byte-for-byte identical files, for the purposes of this type, considered
+  identical. If they have different embedded metadata the files will differ.
+  Different external facts about the files, e.g. creator or dateCreated that
+  aren't represented in their actual content, do not affect this notion of
+  identity.
+parentType: AudioObject
+parentUrl: 'https://schema.org/AudioObject'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# AudioObjectSnapshot
+
+**Schema.org Type:** [`AudioObjectSnapshot`](https://schema.org/AudioObjectSnapshot)
+**Parent Type:** [[../AudioObject|AudioObject]]
+
+## Description
+
+A specific and exact (byte-for-byte) version of an [[AudioObject]]. Two byte-for-byte identical files, for the purposes of this type, considered identical. If they have different embedded metadata the files will differ. Different external facts about the files, e.g. creator or dateCreated that aren't represented in their actual content, do not affect this notion of identity.
+
+## Properties
+
+*Properties inherited from [[../AudioObject|AudioObject]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "AudioObjectSnapshot",
+  "name": "Example AudioObjectSnapshot",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { AudioObjectSnapshot } from 'schema.org.ai'
+
+const item: AudioObjectSnapshot = {
+  '@type': 'AudioObjectSnapshot',
+  name: 'Example AudioObjectSnapshot',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/AudioObjectSnapshot)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/Time'
+label: Time
+description: >-
+  A point in time recurring on multiple days in the form hh:mm:ss[Z|(+|-)hh:mm]
+  (see [XML schema for details](http://www.w3.org/TR/xmlschema-2/#time)).
+parentType: Thing
+parentUrl: 'https://schema.org/Thing'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Time
+
+**Schema.org Type:** [`Time`](https://schema.org/Time)
+**Parent Type:** [[../Thing|Thing]]
+
+## Description
+
+A point in time recurring on multiple days in the form hh:mm:ss[Z|(+|-)hh:mm] (see [XML schema for details](http://www.w3.org/TR/xmlschema-2/#time)).
+
+## Properties
+
+*Properties inherited from [[../Thing|Thing]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Time",
+  "name": "Example Time",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Time } from 'schema.org.ai'
+
+const item: Time = {
+  '@type': 'Time',
+  name: 'Example Time',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Time)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

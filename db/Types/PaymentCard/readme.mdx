@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/PaymentCard'
+label: PaymentCard
+description: >-
+  A payment method using a credit, debit, store or other card to associate the
+  payment with an account.
+parentType: PaymentMethod
+parentUrl: 'https://schema.org/PaymentMethod'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# PaymentCard
+
+**Schema.org Type:** [`PaymentCard`](https://schema.org/PaymentCard)
+**Parent Type:** [[../PaymentMethod|PaymentMethod]]
+
+## Description
+
+A payment method using a credit, debit, store or other card to associate the payment with an account.
+
+## Properties
+
+*Properties inherited from [[../PaymentMethod|PaymentMethod]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "PaymentCard",
+  "name": "Example PaymentCard",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { PaymentCard } from 'schema.org.ai'
+
+const item: PaymentCard = {
+  '@type': 'PaymentCard',
+  name: 'Example PaymentCard',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/PaymentCard)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

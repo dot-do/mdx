@@ -1,0 +1,72 @@
+---
+schemaId: 'https://schema.org/PropertyValue'
+label: PropertyValue
+description: >-
+  A property-value pair, e.g. representing a feature of a product or place. Use
+  the 'name' property for the name of the property. If there is an additional
+  human-readable version of the value, put that into the 'description' property.
+
+
+  Always use specific schema.org properties when a) they exist and b) you can
+  populate them. Using PropertyValue as a substitute will typically not trigger
+  the same effect as using the original, specific property.
+parentType: StructuredValue
+parentUrl: 'https://schema.org/StructuredValue'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# PropertyValue
+
+**Schema.org Type:** [`PropertyValue`](https://schema.org/PropertyValue)
+**Parent Type:** [[../StructuredValue|StructuredValue]]
+
+## Description
+
+A property-value pair, e.g. representing a feature of a product or place. Use the 'name' property for the name of the property. If there is an additional human-readable version of the value, put that into the 'description' property.
+
+Always use specific schema.org properties when a) they exist and b) you can populate them. Using PropertyValue as a substitute will typically not trigger the same effect as using the original, specific property.
+
+## Properties
+
+*Properties inherited from [[../StructuredValue|StructuredValue]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "PropertyValue",
+  "name": "Example PropertyValue",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { PropertyValue } from 'schema.org.ai'
+
+const item: PropertyValue = {
+  '@type': 'PropertyValue',
+  name: 'Example PropertyValue',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/PropertyValue)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,92 @@
+---
+schemaId: 'https://schema.org/FollowAction'
+label: FollowAction
+description: >-
+  The act of forming a personal connection with someone/something (object)
+  unidirectionally/asymmetrically to get updates polled from.
+
+
+  Related actions:
+
+
+  * [[BefriendAction]]: Unlike BefriendAction, FollowAction implies that the
+  connection is *not* necessarily reciprocal.
+
+  * [[SubscribeAction]]: Unlike SubscribeAction, FollowAction implies that the
+  follower acts as an active agent constantly/actively polling for updates.
+
+  * [[RegisterAction]]: Unlike RegisterAction, FollowAction implies that the
+  agent is interested in continuing receiving updates from the object.
+
+  * [[JoinAction]]: Unlike JoinAction, FollowAction implies that the agent is
+  interested in getting updates from the object.
+
+  * [[TrackAction]]: Unlike TrackAction, FollowAction refers to the polling of
+  updates of all aspects of animate objects rather than the location of
+  inanimate objects (e.g. you track a package, but you don't follow it).
+parentType: InteractAction
+parentUrl: 'https://schema.org/InteractAction'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# FollowAction
+
+**Schema.org Type:** [`FollowAction`](https://schema.org/FollowAction)
+**Parent Type:** [[../InteractAction|InteractAction]]
+
+## Description
+
+The act of forming a personal connection with someone/something (object) unidirectionally/asymmetrically to get updates polled from.
+
+Related actions:
+
+* [[BefriendAction]]: Unlike BefriendAction, FollowAction implies that the connection is *not* necessarily reciprocal.
+* [[SubscribeAction]]: Unlike SubscribeAction, FollowAction implies that the follower acts as an active agent constantly/actively polling for updates.
+* [[RegisterAction]]: Unlike RegisterAction, FollowAction implies that the agent is interested in continuing receiving updates from the object.
+* [[JoinAction]]: Unlike JoinAction, FollowAction implies that the agent is interested in getting updates from the object.
+* [[TrackAction]]: Unlike TrackAction, FollowAction refers to the polling of updates of all aspects of animate objects rather than the location of inanimate objects (e.g. you track a package, but you don't follow it).
+
+## Properties
+
+*Properties inherited from [[../InteractAction|InteractAction]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "FollowAction",
+  "name": "Example FollowAction",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { FollowAction } from 'schema.org.ai'
+
+const item: FollowAction = {
+  '@type': 'FollowAction',
+  name: 'Example FollowAction',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/FollowAction)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/ReservationPackage'
+label: ReservationPackage
+description: A group of multiple reservations with common values for all sub-reservations.
+parentType: Reservation
+parentUrl: 'https://schema.org/Reservation'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# ReservationPackage
+
+**Schema.org Type:** [`ReservationPackage`](https://schema.org/ReservationPackage)
+**Parent Type:** [[../Reservation|Reservation]]
+
+## Description
+
+A group of multiple reservations with common values for all sub-reservations.
+
+## Properties
+
+*Properties inherited from [[../Reservation|Reservation]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ReservationPackage",
+  "name": "Example ReservationPackage",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { ReservationPackage } from 'schema.org.ai'
+
+const item: ReservationPackage = {
+  '@type': 'ReservationPackage',
+  name: 'Example ReservationPackage',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/ReservationPackage)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

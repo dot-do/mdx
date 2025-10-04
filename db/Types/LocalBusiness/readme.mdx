@@ -1,0 +1,65 @@
+---
+schemaId: 'https://schema.org/LocalBusiness'
+label: LocalBusiness
+description: >-
+  A particular physical business or branch of an organization. Examples of
+  LocalBusiness include a restaurant, a particular branch of a restaurant chain,
+  a branch of a bank, a medical practice, a club, a bowling alley, etc.
+parentType: Organization
+parentUrl: 'https://schema.org/Organization'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# LocalBusiness
+
+**Schema.org Type:** [`LocalBusiness`](https://schema.org/LocalBusiness)
+**Parent Type:** [[../Organization|Organization]]
+
+## Description
+
+A particular physical business or branch of an organization. Examples of LocalBusiness include a restaurant, a particular branch of a restaurant chain, a branch of a bank, a medical practice, a club, a bowling alley, etc.
+
+## Properties
+
+*Properties inherited from [[../Organization|Organization]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Example LocalBusiness",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { LocalBusiness } from 'schema.org.ai'
+
+const item: LocalBusiness = {
+  '@type': 'LocalBusiness',
+  name: 'Example LocalBusiness',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/LocalBusiness)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

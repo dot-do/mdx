@@ -1,0 +1,78 @@
+---
+schemaId: 'https://schema.org/OpeningHoursSpecification'
+label: OpeningHoursSpecification
+description: >-
+  A structured value providing information about the opening hours of a place or
+  a certain service inside a place.
+
+
+
+  The place is __open__ if the [[opens]] property is specified, and __closed__
+  otherwise.
+
+
+  If the value for the [[closes]] property is less than the value for the
+  [[opens]] property then the hour range is assumed to span over the next day.
+parentType: StructuredValue
+parentUrl: 'https://schema.org/StructuredValue'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# OpeningHoursSpecification
+
+**Schema.org Type:** [`OpeningHoursSpecification`](https://schema.org/OpeningHoursSpecification)
+**Parent Type:** [[../StructuredValue|StructuredValue]]
+
+## Description
+
+A structured value providing information about the opening hours of a place or a certain service inside a place.
+
+
+The place is __open__ if the [[opens]] property is specified, and __closed__ otherwise.
+
+If the value for the [[closes]] property is less than the value for the [[opens]] property then the hour range is assumed to span over the next day.
+
+## Properties
+
+*Properties inherited from [[../StructuredValue|StructuredValue]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "OpeningHoursSpecification",
+  "name": "Example OpeningHoursSpecification",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { OpeningHoursSpecification } from 'schema.org.ai'
+
+const item: OpeningHoursSpecification = {
+  '@type': 'OpeningHoursSpecification',
+  name: 'Example OpeningHoursSpecification',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/OpeningHoursSpecification)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

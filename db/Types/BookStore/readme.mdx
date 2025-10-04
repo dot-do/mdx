@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/BookStore'
+label: BookStore
+description: A bookstore.
+parentType: Store
+parentUrl: 'https://schema.org/Store'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# BookStore
+
+**Schema.org Type:** [`BookStore`](https://schema.org/BookStore)
+**Parent Type:** [[../Store|Store]]
+
+## Description
+
+A bookstore.
+
+## Properties
+
+*Properties inherited from [[../Store|Store]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "BookStore",
+  "name": "Example BookStore",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { BookStore } from 'schema.org.ai'
+
+const item: BookStore = {
+  '@type': 'BookStore',
+  name: 'Example BookStore',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/BookStore)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,71 @@
+---
+schemaId: 'https://schema.org/FloorPlan'
+label: FloorPlan
+description: >-
+  A FloorPlan is an explicit representation of a collection of similar
+  accommodations, allowing the provision of common information (room counts,
+  sizes, layout diagrams) and offers for rental or sale. In typical use, some
+  [[ApartmentComplex]] has an [[accommodationFloorPlan]] which is a
+  [[FloorPlan]].  A FloorPlan is always in the context of a particular place,
+  either a larger [[ApartmentComplex]] or a single [[Apartment]]. The
+  visual/spatial aspects of a floor plan (i.e. room layout, [see
+  wikipedia](https://en.wikipedia.org/wiki/Floor_plan)) can be indicated using
+  [[image]].
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# FloorPlan
+
+**Schema.org Type:** [`FloorPlan`](https://schema.org/FloorPlan)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+A FloorPlan is an explicit representation of a collection of similar accommodations, allowing the provision of common information (room counts, sizes, layout diagrams) and offers for rental or sale. In typical use, some [[ApartmentComplex]] has an [[accommodationFloorPlan]] which is a [[FloorPlan]].  A FloorPlan is always in the context of a particular place, either a larger [[ApartmentComplex]] or a single [[Apartment]]. The visual/spatial aspects of a floor plan (i.e. room layout, [see wikipedia](https://en.wikipedia.org/wiki/Floor_plan)) can be indicated using [[image]].
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "FloorPlan",
+  "name": "Example FloorPlan",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { FloorPlan } from 'schema.org.ai'
+
+const item: FloorPlan = {
+  '@type': 'FloorPlan',
+  name: 'Example FloorPlan',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/FloorPlan)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

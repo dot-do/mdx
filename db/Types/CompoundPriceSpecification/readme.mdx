@@ -1,0 +1,66 @@
+---
+schemaId: 'https://schema.org/CompoundPriceSpecification'
+label: CompoundPriceSpecification
+description: >-
+  A compound price specification is one that bundles multiple prices that all
+  apply in combination for different dimensions of consumption. Use the name
+  property of the attached unit price specification for indicating the dimension
+  of a price component (e.g. "electricity" or "final cleaning").
+parentType: PriceSpecification
+parentUrl: 'https://schema.org/PriceSpecification'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# CompoundPriceSpecification
+
+**Schema.org Type:** [`CompoundPriceSpecification`](https://schema.org/CompoundPriceSpecification)
+**Parent Type:** [[../PriceSpecification|PriceSpecification]]
+
+## Description
+
+A compound price specification is one that bundles multiple prices that all apply in combination for different dimensions of consumption. Use the name property of the attached unit price specification for indicating the dimension of a price component (e.g. "electricity" or "final cleaning").
+
+## Properties
+
+*Properties inherited from [[../PriceSpecification|PriceSpecification]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "CompoundPriceSpecification",
+  "name": "Example CompoundPriceSpecification",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { CompoundPriceSpecification } from 'schema.org.ai'
+
+const item: CompoundPriceSpecification = {
+  '@type': 'CompoundPriceSpecification',
+  name: 'Example CompoundPriceSpecification',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/CompoundPriceSpecification)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

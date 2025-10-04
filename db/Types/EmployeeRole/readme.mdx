@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/EmployeeRole'
+label: EmployeeRole
+description: A subclass of OrganizationRole used to describe employee relationships.
+parentType: OrganizationRole
+parentUrl: 'https://schema.org/OrganizationRole'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# EmployeeRole
+
+**Schema.org Type:** [`EmployeeRole`](https://schema.org/EmployeeRole)
+**Parent Type:** [[../OrganizationRole|OrganizationRole]]
+
+## Description
+
+A subclass of OrganizationRole used to describe employee relationships.
+
+## Properties
+
+*Properties inherited from [[../OrganizationRole|OrganizationRole]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "EmployeeRole",
+  "name": "Example EmployeeRole",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { EmployeeRole } from 'schema.org.ai'
+
+const item: EmployeeRole = {
+  '@type': 'EmployeeRole',
+  name: 'Example EmployeeRole',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/EmployeeRole)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

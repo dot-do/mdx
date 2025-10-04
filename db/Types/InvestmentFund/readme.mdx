@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/InvestmentFund'
+label: InvestmentFund
+description: >-
+  A company or fund that gathers capital from a number of investors to create a
+  pool of money that is then re-invested into stocks, bonds and other assets.
+parentType: InvestmentOrDeposit
+parentUrl: 'https://schema.org/InvestmentOrDeposit'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# InvestmentFund
+
+**Schema.org Type:** [`InvestmentFund`](https://schema.org/InvestmentFund)
+**Parent Type:** [[../InvestmentOrDeposit|InvestmentOrDeposit]]
+
+## Description
+
+A company or fund that gathers capital from a number of investors to create a pool of money that is then re-invested into stocks, bonds and other assets.
+
+## Properties
+
+*Properties inherited from [[../InvestmentOrDeposit|InvestmentOrDeposit]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "InvestmentFund",
+  "name": "Example InvestmentFund",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { InvestmentFund } from 'schema.org.ai'
+
+const item: InvestmentFund = {
+  '@type': 'InvestmentFund',
+  name: 'Example InvestmentFund',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/InvestmentFund)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,71 @@
+---
+schemaId: 'https://schema.org/CDCPMDRecord'
+label: CDCPMDRecord
+description: >-
+  A CDCPMDRecord is a data structure representing a record in a CDC tabular data
+  format
+
+  used for hospital data reporting. See [documentation](/docs/cdc-covid.html)
+  for details, and the linked CDC materials for authoritative
+
+  definitions used as the source here.
+parentType: StructuredValue
+parentUrl: 'https://schema.org/StructuredValue'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# CDCPMDRecord
+
+**Schema.org Type:** [`CDCPMDRecord`](https://schema.org/CDCPMDRecord)
+**Parent Type:** [[../StructuredValue|StructuredValue]]
+
+## Description
+
+A CDCPMDRecord is a data structure representing a record in a CDC tabular data format
+used for hospital data reporting. See [documentation](/docs/cdc-covid.html) for details, and the linked CDC materials for authoritative
+definitions used as the source here.
+
+## Properties
+
+*Properties inherited from [[../StructuredValue|StructuredValue]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "CDCPMDRecord",
+  "name": "Example CDCPMDRecord",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { CDCPMDRecord } from 'schema.org.ai'
+
+const item: CDCPMDRecord = {
+  '@type': 'CDCPMDRecord',
+  name: 'Example CDCPMDRecord',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/CDCPMDRecord)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

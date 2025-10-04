@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/OfferCatalog'
+label: OfferCatalog
+description: >-
+  An OfferCatalog is an ItemList that contains related Offers and/or further
+  OfferCatalogs that are offeredBy the same provider.
+parentType: ItemList
+parentUrl: 'https://schema.org/ItemList'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# OfferCatalog
+
+**Schema.org Type:** [`OfferCatalog`](https://schema.org/OfferCatalog)
+**Parent Type:** [[../ItemList|ItemList]]
+
+## Description
+
+An OfferCatalog is an ItemList that contains related Offers and/or further OfferCatalogs that are offeredBy the same provider.
+
+## Properties
+
+*Properties inherited from [[../ItemList|ItemList]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "OfferCatalog",
+  "name": "Example OfferCatalog",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { OfferCatalog } from 'schema.org.ai'
+
+const item: OfferCatalog = {
+  '@type': 'OfferCatalog',
+  name: 'Example OfferCatalog',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/OfferCatalog)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

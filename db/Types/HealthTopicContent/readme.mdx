@@ -1,0 +1,69 @@
+---
+schemaId: 'https://schema.org/HealthTopicContent'
+label: HealthTopicContent
+description: >-
+  [[HealthTopicContent]] is [[WebContent]] that is about some aspect of a health
+  topic, e.g. a condition, its symptoms or treatments. Such content may be
+  comprised of several parts or sections and use different types of media.
+  Multiple instances of [[WebContent]] (and hence [[HealthTopicContent]]) can be
+  related using [[hasPart]] / [[isPartOf]] where there is some kind of content
+  hierarchy, and their content described with [[about]] and [[mentions]] e.g.
+  building upon the existing [[MedicalCondition]] vocabulary.
+parentType: WebContent
+parentUrl: 'https://schema.org/WebContent'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# HealthTopicContent
+
+**Schema.org Type:** [`HealthTopicContent`](https://schema.org/HealthTopicContent)
+**Parent Type:** [[../WebContent|WebContent]]
+
+## Description
+
+[[HealthTopicContent]] is [[WebContent]] that is about some aspect of a health topic, e.g. a condition, its symptoms or treatments. Such content may be comprised of several parts or sections and use different types of media. Multiple instances of [[WebContent]] (and hence [[HealthTopicContent]]) can be related using [[hasPart]] / [[isPartOf]] where there is some kind of content hierarchy, and their content described with [[about]] and [[mentions]] e.g. building upon the existing [[MedicalCondition]] vocabulary.
+
+## Properties
+
+*Properties inherited from [[../WebContent|WebContent]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "HealthTopicContent",
+  "name": "Example HealthTopicContent",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { HealthTopicContent } from 'schema.org.ai'
+
+const item: HealthTopicContent = {
+  '@type': 'HealthTopicContent',
+  name: 'Example HealthTopicContent',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/HealthTopicContent)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

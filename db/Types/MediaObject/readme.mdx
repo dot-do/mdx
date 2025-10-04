@@ -1,0 +1,67 @@
+---
+schemaId: 'https://schema.org/MediaObject'
+label: MediaObject
+description: >-
+  A media object, such as an image, video, audio, or text object embedded in a
+  web page or a downloadable dataset i.e. DataDownload. Note that a creative
+  work may have many media objects associated with it on the same web page. For
+  example, a page about a single song (MusicRecording) may have a music video
+  (VideoObject), and a high and low bandwidth audio stream (2 AudioObject's).
+parentType: CreativeWork
+parentUrl: 'https://schema.org/CreativeWork'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# MediaObject
+
+**Schema.org Type:** [`MediaObject`](https://schema.org/MediaObject)
+**Parent Type:** [[../CreativeWork|CreativeWork]]
+
+## Description
+
+A media object, such as an image, video, audio, or text object embedded in a web page or a downloadable dataset i.e. DataDownload. Note that a creative work may have many media objects associated with it on the same web page. For example, a page about a single song (MusicRecording) may have a music video (VideoObject), and a high and low bandwidth audio stream (2 AudioObject's).
+
+## Properties
+
+*Properties inherited from [[../CreativeWork|CreativeWork]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "MediaObject",
+  "name": "Example MediaObject",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { MediaObject } from 'schema.org.ai'
+
+const item: MediaObject = {
+  '@type': 'MediaObject',
+  name: 'Example MediaObject',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/MediaObject)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

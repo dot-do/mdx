@@ -1,0 +1,65 @@
+---
+schemaId: 'https://schema.org/Recipe'
+label: Recipe
+description: >-
+  A recipe. For dietary restrictions covered by the recipe, a few common
+  restrictions are enumerated via [[suitableForDiet]]. The [[keywords]] property
+  can also be used to add more detail.
+parentType: HowTo
+parentUrl: 'https://schema.org/HowTo'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Recipe
+
+**Schema.org Type:** [`Recipe`](https://schema.org/Recipe)
+**Parent Type:** [[../HowTo|HowTo]]
+
+## Description
+
+A recipe. For dietary restrictions covered by the recipe, a few common restrictions are enumerated via [[suitableForDiet]]. The [[keywords]] property can also be used to add more detail.
+
+## Properties
+
+*Properties inherited from [[../HowTo|HowTo]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Recipe",
+  "name": "Example Recipe",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Recipe } from 'schema.org.ai'
+
+const item: Recipe = {
+  '@type': 'Recipe',
+  name: 'Example Recipe',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Recipe)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

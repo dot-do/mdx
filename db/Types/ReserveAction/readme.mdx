@@ -1,0 +1,74 @@
+---
+schemaId: 'https://schema.org/ReserveAction'
+label: ReserveAction
+description: >-
+  Reserving a concrete object.
+
+
+  Related actions:
+
+
+  * [[ScheduleAction]]: Unlike ScheduleAction, ReserveAction reserves concrete
+  objects (e.g. a table, a hotel) towards a time slot / spatial allocation.
+parentType: PlanAction
+parentUrl: 'https://schema.org/PlanAction'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# ReserveAction
+
+**Schema.org Type:** [`ReserveAction`](https://schema.org/ReserveAction)
+**Parent Type:** [[../PlanAction|PlanAction]]
+
+## Description
+
+Reserving a concrete object.
+
+Related actions:
+
+* [[ScheduleAction]]: Unlike ScheduleAction, ReserveAction reserves concrete objects (e.g. a table, a hotel) towards a time slot / spatial allocation.
+
+## Properties
+
+*Properties inherited from [[../PlanAction|PlanAction]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ReserveAction",
+  "name": "Example ReserveAction",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { ReserveAction } from 'schema.org.ai'
+
+const item: ReserveAction = {
+  '@type': 'ReserveAction',
+  name: 'Example ReserveAction',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/ReserveAction)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

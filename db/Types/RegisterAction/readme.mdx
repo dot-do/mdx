@@ -1,0 +1,82 @@
+---
+schemaId: 'https://schema.org/RegisterAction'
+label: RegisterAction
+description: >-
+  The act of registering to be a user of a service, product or web page.
+
+
+  Related actions:
+
+
+  * [[JoinAction]]: Unlike JoinAction, RegisterAction implies you are
+  registering to be a user of a service, *not* a group/team of people.
+
+  * [[FollowAction]]: Unlike FollowAction, RegisterAction doesn't imply that the
+  agent is expecting to poll for updates from the object.
+
+  * [[SubscribeAction]]: Unlike SubscribeAction, RegisterAction doesn't imply
+  that the agent is expecting updates from the object.
+parentType: InteractAction
+parentUrl: 'https://schema.org/InteractAction'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# RegisterAction
+
+**Schema.org Type:** [`RegisterAction`](https://schema.org/RegisterAction)
+**Parent Type:** [[../InteractAction|InteractAction]]
+
+## Description
+
+The act of registering to be a user of a service, product or web page.
+
+Related actions:
+
+* [[JoinAction]]: Unlike JoinAction, RegisterAction implies you are registering to be a user of a service, *not* a group/team of people.
+* [[FollowAction]]: Unlike FollowAction, RegisterAction doesn't imply that the agent is expecting to poll for updates from the object.
+* [[SubscribeAction]]: Unlike SubscribeAction, RegisterAction doesn't imply that the agent is expecting updates from the object.
+
+## Properties
+
+*Properties inherited from [[../InteractAction|InteractAction]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "RegisterAction",
+  "name": "Example RegisterAction",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { RegisterAction } from 'schema.org.ai'
+
+const item: RegisterAction = {
+  '@type': 'RegisterAction',
+  name: 'Example RegisterAction',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/RegisterAction)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

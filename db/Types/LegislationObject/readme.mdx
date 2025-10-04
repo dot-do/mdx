@@ -1,0 +1,65 @@
+---
+schemaId: 'https://schema.org/LegislationObject'
+label: LegislationObject
+description: >-
+  A specific object or file containing a Legislation. Note that the same
+  Legislation can be published in multiple files. For example, a digitally
+  signed PDF, a plain PDF and an HTML version.
+parentType: Legislation
+parentUrl: 'https://schema.org/Legislation'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# LegislationObject
+
+**Schema.org Type:** [`LegislationObject`](https://schema.org/LegislationObject)
+**Parent Type:** [[../Legislation|Legislation]]
+
+## Description
+
+A specific object or file containing a Legislation. Note that the same Legislation can be published in multiple files. For example, a digitally signed PDF, a plain PDF and an HTML version.
+
+## Properties
+
+*Properties inherited from [[../Legislation|Legislation]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "LegislationObject",
+  "name": "Example LegislationObject",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { LegislationObject } from 'schema.org.ai'
+
+const item: LegislationObject = {
+  '@type': 'LegislationObject',
+  name: 'Example LegislationObject',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/LegislationObject)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

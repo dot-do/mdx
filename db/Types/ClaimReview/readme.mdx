@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/ClaimReview'
+label: ClaimReview
+description: >-
+  A fact-checking review of claims made (or reported) in some creative work
+  (referenced via itemReviewed).
+parentType: Review
+parentUrl: 'https://schema.org/Review'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# ClaimReview
+
+**Schema.org Type:** [`ClaimReview`](https://schema.org/ClaimReview)
+**Parent Type:** [[../Review|Review]]
+
+## Description
+
+A fact-checking review of claims made (or reported) in some creative work (referenced via itemReviewed).
+
+## Properties
+
+*Properties inherited from [[../Review|Review]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ClaimReview",
+  "name": "Example ClaimReview",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { ClaimReview } from 'schema.org.ai'
+
+const item: ClaimReview = {
+  '@type': 'ClaimReview',
+  name: 'Example ClaimReview',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/ClaimReview)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

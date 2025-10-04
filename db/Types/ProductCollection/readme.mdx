@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/ProductCollection'
+label: ProductCollection
+description: >-
+  A set of products (either [[ProductGroup]]s or specific variants) that are
+  listed together e.g. in an [[Offer]].
+parentType: Product
+parentUrl: 'https://schema.org/Product'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# ProductCollection
+
+**Schema.org Type:** [`ProductCollection`](https://schema.org/ProductCollection)
+**Parent Type:** [[../Product|Product]]
+
+## Description
+
+A set of products (either [[ProductGroup]]s or specific variants) that are listed together e.g. in an [[Offer]].
+
+## Properties
+
+*Properties inherited from [[../Product|Product]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ProductCollection",
+  "name": "Example ProductCollection",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { ProductCollection } from 'schema.org.ai'
+
+const item: ProductCollection = {
+  '@type': 'ProductCollection',
+  name: 'Example ProductCollection',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/ProductCollection)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,68 @@
+---
+schemaId: 'https://schema.org/IndividualPhysician'
+label: IndividualPhysician
+description: >-
+  An individual medical practitioner. For their official address use
+  [[address]], for affiliations to hospitals use [[hospitalAffiliation]].
+
+  The [[practicesAt]] property can be used to indicate [[MedicalOrganization]]
+  hospitals, clinics, pharmacies etc. where this physician practices.
+parentType: Physician
+parentUrl: 'https://schema.org/Physician'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# IndividualPhysician
+
+**Schema.org Type:** [`IndividualPhysician`](https://schema.org/IndividualPhysician)
+**Parent Type:** [[../Physician|Physician]]
+
+## Description
+
+An individual medical practitioner. For their official address use [[address]], for affiliations to hospitals use [[hospitalAffiliation]].
+The [[practicesAt]] property can be used to indicate [[MedicalOrganization]] hospitals, clinics, pharmacies etc. where this physician practices.
+
+## Properties
+
+*Properties inherited from [[../Physician|Physician]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "IndividualPhysician",
+  "name": "Example IndividualPhysician",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { IndividualPhysician } from 'schema.org.ai'
+
+const item: IndividualPhysician = {
+  '@type': 'IndividualPhysician',
+  name: 'Example IndividualPhysician',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/IndividualPhysician)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

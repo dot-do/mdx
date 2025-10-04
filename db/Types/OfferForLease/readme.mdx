@@ -1,0 +1,72 @@
+---
+schemaId: 'https://schema.org/OfferForLease'
+label: OfferForLease
+description: >-
+  An [[OfferForLease]] in Schema.org represents an [[Offer]] to lease out
+  something, i.e. an [[Offer]] whose
+
+  [[businessFunction]] is [lease
+  out](http://purl.org/goodrelations/v1#LeaseOut.). See [Good
+  Relations](https://en.wikipedia.org/wiki/GoodRelations) for
+
+  background on the underlying concepts.
+parentType: Offer
+parentUrl: 'https://schema.org/Offer'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# OfferForLease
+
+**Schema.org Type:** [`OfferForLease`](https://schema.org/OfferForLease)
+**Parent Type:** [[../Offer|Offer]]
+
+## Description
+
+An [[OfferForLease]] in Schema.org represents an [[Offer]] to lease out something, i.e. an [[Offer]] whose
+[[businessFunction]] is [lease out](http://purl.org/goodrelations/v1#LeaseOut.). See [Good Relations](https://en.wikipedia.org/wiki/GoodRelations) for
+background on the underlying concepts.
+
+## Properties
+
+*Properties inherited from [[../Offer|Offer]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "OfferForLease",
+  "name": "Example OfferForLease",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { OfferForLease } from 'schema.org.ai'
+
+const item: OfferForLease = {
+  '@type': 'OfferForLease',
+  name: 'Example OfferForLease',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/OfferForLease)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

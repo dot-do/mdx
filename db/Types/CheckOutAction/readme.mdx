@@ -1,0 +1,83 @@
+---
+schemaId: 'https://schema.org/CheckOutAction'
+label: CheckOutAction
+description: >-
+  The act of an agent communicating (service provider, social media, etc) their
+  departure of a previously reserved service (e.g. flight check-in) or place
+  (e.g. hotel).
+
+
+  Related actions:
+
+
+  * [[CheckInAction]]: The antonym of CheckOutAction.
+
+  * [[DepartAction]]: Unlike DepartAction, CheckOutAction implies that the agent
+  is informing/confirming the end of a previously reserved service.
+
+  * [[CancelAction]]: Unlike CancelAction, CheckOutAction implies that the agent
+  is informing/confirming the end of a previously reserved service.
+parentType: CommunicateAction
+parentUrl: 'https://schema.org/CommunicateAction'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# CheckOutAction
+
+**Schema.org Type:** [`CheckOutAction`](https://schema.org/CheckOutAction)
+**Parent Type:** [[../CommunicateAction|CommunicateAction]]
+
+## Description
+
+The act of an agent communicating (service provider, social media, etc) their departure of a previously reserved service (e.g. flight check-in) or place (e.g. hotel).
+
+Related actions:
+
+* [[CheckInAction]]: The antonym of CheckOutAction.
+* [[DepartAction]]: Unlike DepartAction, CheckOutAction implies that the agent is informing/confirming the end of a previously reserved service.
+* [[CancelAction]]: Unlike CancelAction, CheckOutAction implies that the agent is informing/confirming the end of a previously reserved service.
+
+## Properties
+
+*Properties inherited from [[../CommunicateAction|CommunicateAction]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "CheckOutAction",
+  "name": "Example CheckOutAction",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { CheckOutAction } from 'schema.org.ai'
+
+const item: CheckOutAction = {
+  '@type': 'CheckOutAction',
+  name: 'Example CheckOutAction',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/CheckOutAction)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

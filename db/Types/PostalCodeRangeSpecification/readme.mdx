@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/PostalCodeRangeSpecification'
+label: PostalCodeRangeSpecification
+description: >-
+  Indicates a range of postal codes, usually defined as the set of valid codes
+  between [[postalCodeBegin]] and [[postalCodeEnd]], inclusively.
+parentType: StructuredValue
+parentUrl: 'https://schema.org/StructuredValue'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# PostalCodeRangeSpecification
+
+**Schema.org Type:** [`PostalCodeRangeSpecification`](https://schema.org/PostalCodeRangeSpecification)
+**Parent Type:** [[../StructuredValue|StructuredValue]]
+
+## Description
+
+Indicates a range of postal codes, usually defined as the set of valid codes between [[postalCodeBegin]] and [[postalCodeEnd]], inclusively.
+
+## Properties
+
+*Properties inherited from [[../StructuredValue|StructuredValue]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "PostalCodeRangeSpecification",
+  "name": "Example PostalCodeRangeSpecification",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { PostalCodeRangeSpecification } from 'schema.org.ai'
+
+const item: PostalCodeRangeSpecification = {
+  '@type': 'PostalCodeRangeSpecification',
+  name: 'Example PostalCodeRangeSpecification',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/PostalCodeRangeSpecification)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

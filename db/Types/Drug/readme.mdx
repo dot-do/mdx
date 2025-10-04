@@ -1,0 +1,66 @@
+---
+schemaId: 'https://schema.org/Drug'
+label: Drug
+description: >-
+  A chemical or biologic substance, used as a medical therapy, that has a
+  physiological effect on an organism. Here the term drug is used
+  interchangeably with the term medicine although clinical knowledge makes a
+  clear difference between them.
+parentType: Product
+parentUrl: 'https://schema.org/Product'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Drug
+
+**Schema.org Type:** [`Drug`](https://schema.org/Drug)
+**Parent Type:** [[../Product|Product]]
+
+## Description
+
+A chemical or biologic substance, used as a medical therapy, that has a physiological effect on an organism. Here the term drug is used interchangeably with the term medicine although clinical knowledge makes a clear difference between them.
+
+## Properties
+
+*Properties inherited from [[../Product|Product]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Drug",
+  "name": "Example Drug",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Drug } from 'schema.org.ai'
+
+const item: Drug = {
+  '@type': 'Drug',
+  name: 'Example Drug',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Drug)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

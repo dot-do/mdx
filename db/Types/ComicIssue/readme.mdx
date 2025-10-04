@@ -1,0 +1,73 @@
+---
+schemaId: 'https://schema.org/ComicIssue'
+label: ComicIssue
+description: |-
+  Individual comic issues are serially published as
+  part of a larger series. For the sake of consistency, even one-shot issues
+  belong to a series comprised of a single issue. All comic issues can be
+  uniquely identified by: the combination of the name and volume number of the
+  series to which the issue belongs; the issue number; and the variant
+  description of the issue (if any).
+parentType: PublicationIssue
+parentUrl: 'https://schema.org/PublicationIssue'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# ComicIssue
+
+**Schema.org Type:** [`ComicIssue`](https://schema.org/ComicIssue)
+**Parent Type:** [[../PublicationIssue|PublicationIssue]]
+
+## Description
+
+Individual comic issues are serially published as
+part of a larger series. For the sake of consistency, even one-shot issues
+belong to a series comprised of a single issue. All comic issues can be
+uniquely identified by: the combination of the name and volume number of the
+series to which the issue belongs; the issue number; and the variant
+description of the issue (if any).
+
+## Properties
+
+*Properties inherited from [[../PublicationIssue|PublicationIssue]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ComicIssue",
+  "name": "Example ComicIssue",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { ComicIssue } from 'schema.org.ai'
+
+const item: ComicIssue = {
+  '@type': 'ComicIssue',
+  name: 'Example ComicIssue',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/ComicIssue)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,71 @@
+---
+schemaId: 'https://schema.org/MedicalStudy'
+label: MedicalStudy
+description: >-
+  A medical study is an umbrella type covering all kinds of research studies
+  relating to human medicine or health, including observational studies and
+  interventional trials and registries, randomized, controlled or not. When the
+  specific type of study is known, use one of the extensions of this type, such
+  as MedicalTrial or MedicalObservationalStudy. Also, note that this type should
+  be used to mark up data that describes the study itself; to tag an article
+  that publishes the results of a study, use MedicalScholarlyArticle. Note: use
+  the code property of MedicalEntity to store study IDs, e.g. clinicaltrials.gov
+  ID.
+parentType: MedicalEntity
+parentUrl: 'https://schema.org/MedicalEntity'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# MedicalStudy
+
+**Schema.org Type:** [`MedicalStudy`](https://schema.org/MedicalStudy)
+**Parent Type:** [[../MedicalEntity|MedicalEntity]]
+
+## Description
+
+A medical study is an umbrella type covering all kinds of research studies relating to human medicine or health, including observational studies and interventional trials and registries, randomized, controlled or not. When the specific type of study is known, use one of the extensions of this type, such as MedicalTrial or MedicalObservationalStudy. Also, note that this type should be used to mark up data that describes the study itself; to tag an article that publishes the results of a study, use MedicalScholarlyArticle. Note: use the code property of MedicalEntity to store study IDs, e.g. clinicaltrials.gov ID.
+
+## Properties
+
+*Properties inherited from [[../MedicalEntity|MedicalEntity]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalStudy",
+  "name": "Example MedicalStudy",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { MedicalStudy } from 'schema.org.ai'
+
+const item: MedicalStudy = {
+  '@type': 'MedicalStudy',
+  name: 'Example MedicalStudy',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/MedicalStudy)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

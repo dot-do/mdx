@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/Residence'
+label: Residence
+description: The place where a person lives.
+parentType: Place
+parentUrl: 'https://schema.org/Place'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Residence
+
+**Schema.org Type:** [`Residence`](https://schema.org/Residence)
+**Parent Type:** [[../Place|Place]]
+
+## Description
+
+The place where a person lives.
+
+## Properties
+
+*Properties inherited from [[../Place|Place]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Residence",
+  "name": "Example Residence",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Residence } from 'schema.org.ai'
+
+const item: Residence = {
+  '@type': 'Residence',
+  name: 'Example Residence',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Residence)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

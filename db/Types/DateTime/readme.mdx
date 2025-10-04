@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/DateTime'
+label: DateTime
+description: >-
+  A combination of date and time of day in the form
+  [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm] (see Chapter 5.4 of ISO 8601).
+parentType: Thing
+parentUrl: 'https://schema.org/Thing'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# DateTime
+
+**Schema.org Type:** [`DateTime`](https://schema.org/DateTime)
+**Parent Type:** [[../Thing|Thing]]
+
+## Description
+
+A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm] (see Chapter 5.4 of ISO 8601).
+
+## Properties
+
+*Properties inherited from [[../Thing|Thing]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "DateTime",
+  "name": "Example DateTime",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { DateTime } from 'schema.org.ai'
+
+const item: DateTime = {
+  '@type': 'DateTime',
+  name: 'Example DateTime',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/DateTime)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,73 @@
+---
+schemaId: 'https://schema.org/Action'
+label: Action
+description: >-
+  An action performed by a direct agent and indirect participants upon a direct
+  object. Optionally happens at a location with the help of an inanimate
+  instrument. The execution of the action may produce a result. Specific action
+  sub-type documentation specifies the exact expectation of each argument/role.
+
+
+  See also [blog
+  post](http://blog.schema.org/2014/04/announcing-schemaorg-actions.html) and
+  [Actions overview document](https://schema.org/docs/actions.html).
+parentType: Thing
+parentUrl: 'https://schema.org/Thing'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Action
+
+**Schema.org Type:** [`Action`](https://schema.org/Action)
+**Parent Type:** [[../Thing|Thing]]
+
+## Description
+
+An action performed by a direct agent and indirect participants upon a direct object. Optionally happens at a location with the help of an inanimate instrument. The execution of the action may produce a result. Specific action sub-type documentation specifies the exact expectation of each argument/role.
+
+See also [blog post](http://blog.schema.org/2014/04/announcing-schemaorg-actions.html) and [Actions overview document](https://schema.org/docs/actions.html).
+
+## Properties
+
+*Properties inherited from [[../Thing|Thing]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Action",
+  "name": "Example Action",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Action } from 'schema.org.ai'
+
+const item: Action = {
+  '@type': 'Action',
+  name: 'Example Action',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Action)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

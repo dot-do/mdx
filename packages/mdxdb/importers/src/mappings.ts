@@ -336,8 +336,26 @@ export const schemaOrgTypesMapping: ThingMapping = {
   transform: async (data: any) => {
     const schemaId = data.$id
     const label = data.label
-    const description = data.comment || ''
-    const parentUrl = data['rdfs:subClassOf'] || 'https://schema.org/Thing'
+
+    // Handle description - might not be a string
+    let description = ''
+    if (typeof data.comment === 'string') {
+      description = data.comment.trim()
+    } else if (data.comment) {
+      description = String(data.comment)
+    }
+
+    // Handle parent URL - might be array or non-string
+    let parentUrl = 'https://schema.org/Thing'
+    if (typeof data['rdfs:subClassOf'] === 'string') {
+      parentUrl = data['rdfs:subClassOf']
+    } else if (Array.isArray(data['rdfs:subClassOf']) && data['rdfs:subClassOf'].length > 0) {
+      // If array, take the first URL
+      parentUrl = typeof data['rdfs:subClassOf'][0] === 'string'
+        ? data['rdfs:subClassOf'][0]
+        : 'https://schema.org/Thing'
+    }
+
     const parentType = parentUrl.split('/').pop() || 'Thing'
 
     return {
@@ -345,7 +363,7 @@ export const schemaOrgTypesMapping: ThingMapping = {
       frontmatter: {
         schemaId,
         label,
-        description: description.trim(),
+        description,
         parentType,
         parentUrl,
         collection: 'Types',
@@ -364,7 +382,7 @@ export const schemaOrgTypesMapping: ThingMapping = {
 
 ## Description
 
-${description.trim()}
+${description}
 
 ## Properties
 

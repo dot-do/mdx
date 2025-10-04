@@ -1,0 +1,76 @@
+---
+schemaId: 'https://schema.org/IPTCDigitalSourceEnumeration'
+label: IPTCDigitalSourceEnumeration
+description: >-
+  <a href="https://www.iptc.org/">IPTC</a> "Digital Source" codes for use with
+  the [[digitalSourceType]] property, providing information about the source for
+  a digital media object.
+
+  In general these codes are not declared here to be mutually exclusive,
+  although some combinations would be contradictory if applied simultaneously,
+  or might be considered mutually incompatible by upstream maintainers of the
+  definitions. See the IPTC <a
+  href="https://www.iptc.org/std/photometadata/documentation/userguide/">documentation</a>
+
+  for <a href="https://cv.iptc.org/newscodes/digitalsourcetype/">detailed
+  definitions</a> of all terms.
+parentType: MediaEnumeration
+parentUrl: 'https://schema.org/MediaEnumeration'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# IPTCDigitalSourceEnumeration
+
+**Schema.org Type:** [`IPTCDigitalSourceEnumeration`](https://schema.org/IPTCDigitalSourceEnumeration)
+**Parent Type:** [[../MediaEnumeration|MediaEnumeration]]
+
+## Description
+
+<a href="https://www.iptc.org/">IPTC</a> "Digital Source" codes for use with the [[digitalSourceType]] property, providing information about the source for a digital media object.
+In general these codes are not declared here to be mutually exclusive, although some combinations would be contradictory if applied simultaneously, or might be considered mutually incompatible by upstream maintainers of the definitions. See the IPTC <a href="https://www.iptc.org/std/photometadata/documentation/userguide/">documentation</a>
+for <a href="https://cv.iptc.org/newscodes/digitalsourcetype/">detailed definitions</a> of all terms.
+
+## Properties
+
+*Properties inherited from [[../MediaEnumeration|MediaEnumeration]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "IPTCDigitalSourceEnumeration",
+  "name": "Example IPTCDigitalSourceEnumeration",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { IPTCDigitalSourceEnumeration } from 'schema.org.ai'
+
+const item: IPTCDigitalSourceEnumeration = {
+  '@type': 'IPTCDigitalSourceEnumeration',
+  name: 'Example IPTCDigitalSourceEnumeration',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/IPTCDigitalSourceEnumeration)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

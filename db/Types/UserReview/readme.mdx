@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/UserReview'
+label: UserReview
+description: >-
+  A review created by an end-user (e.g. consumer, purchaser, attendee etc.), in
+  contrast with [[CriticReview]].
+parentType: Review
+parentUrl: 'https://schema.org/Review'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# UserReview
+
+**Schema.org Type:** [`UserReview`](https://schema.org/UserReview)
+**Parent Type:** [[../Review|Review]]
+
+## Description
+
+A review created by an end-user (e.g. consumer, purchaser, attendee etc.), in contrast with [[CriticReview]].
+
+## Properties
+
+*Properties inherited from [[../Review|Review]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "UserReview",
+  "name": "Example UserReview",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { UserReview } from 'schema.org.ai'
+
+const item: UserReview = {
+  '@type': 'UserReview',
+  name: 'Example UserReview',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/UserReview)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

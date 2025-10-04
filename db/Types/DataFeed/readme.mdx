@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/DataFeed'
+label: DataFeed
+description: >-
+  A single feed providing structured information about one or more entities or
+  topics.
+parentType: Dataset
+parentUrl: 'https://schema.org/Dataset'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# DataFeed
+
+**Schema.org Type:** [`DataFeed`](https://schema.org/DataFeed)
+**Parent Type:** [[../Dataset|Dataset]]
+
+## Description
+
+A single feed providing structured information about one or more entities or topics.
+
+## Properties
+
+*Properties inherited from [[../Dataset|Dataset]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "DataFeed",
+  "name": "Example DataFeed",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { DataFeed } from 'schema.org.ai'
+
+const item: DataFeed = {
+  '@type': 'DataFeed',
+  name: 'Example DataFeed',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/DataFeed)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

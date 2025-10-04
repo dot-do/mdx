@@ -1,0 +1,65 @@
+---
+schemaId: 'https://schema.org/Blog'
+label: Blog
+description: >-
+  A [blog](https://en.wikipedia.org/wiki/Blog), sometimes known as a "weblog".
+  Note that the individual posts ([[BlogPosting]]s) in a [[Blog]] are often
+  colloquially referred to by the same term.
+parentType: CreativeWork
+parentUrl: 'https://schema.org/CreativeWork'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Blog
+
+**Schema.org Type:** [`Blog`](https://schema.org/Blog)
+**Parent Type:** [[../CreativeWork|CreativeWork]]
+
+## Description
+
+A [blog](https://en.wikipedia.org/wiki/Blog), sometimes known as a "weblog". Note that the individual posts ([[BlogPosting]]s) in a [[Blog]] are often colloquially referred to by the same term.
+
+## Properties
+
+*Properties inherited from [[../CreativeWork|CreativeWork]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "Example Blog",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Blog } from 'schema.org.ai'
+
+const item: Blog = {
+  '@type': 'Blog',
+  name: 'Example Blog',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Blog)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

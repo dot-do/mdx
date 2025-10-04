@@ -1,0 +1,76 @@
+---
+schemaId: 'https://schema.org/BreadcrumbList'
+label: BreadcrumbList
+description: >-
+  A BreadcrumbList is an ItemList consisting of a chain of linked Web pages,
+  typically described using at least their URL and their name, and typically
+  ending with the current page.
+
+
+  The [[position]] property is used to reconstruct the order of the items in a
+  BreadcrumbList. The convention is that a breadcrumb list has an
+  [[itemListOrder]] of [[ItemListOrderAscending]] (lower values listed first),
+  and that the first items in this list correspond to the "top" or beginning of
+  the breadcrumb trail, e.g. with a site or section homepage. The specific
+  values of 'position' are not assigned meaning for a BreadcrumbList, but they
+  should be integers, e.g. beginning with '1' for the first item in the list.
+parentType: ItemList
+parentUrl: 'https://schema.org/ItemList'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# BreadcrumbList
+
+**Schema.org Type:** [`BreadcrumbList`](https://schema.org/BreadcrumbList)
+**Parent Type:** [[../ItemList|ItemList]]
+
+## Description
+
+A BreadcrumbList is an ItemList consisting of a chain of linked Web pages, typically described using at least their URL and their name, and typically ending with the current page.
+
+The [[position]] property is used to reconstruct the order of the items in a BreadcrumbList. The convention is that a breadcrumb list has an [[itemListOrder]] of [[ItemListOrderAscending]] (lower values listed first), and that the first items in this list correspond to the "top" or beginning of the breadcrumb trail, e.g. with a site or section homepage. The specific values of 'position' are not assigned meaning for a BreadcrumbList, but they should be integers, e.g. beginning with '1' for the first item in the list.
+
+## Properties
+
+*Properties inherited from [[../ItemList|ItemList]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "name": "Example BreadcrumbList",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { BreadcrumbList } from 'schema.org.ai'
+
+const item: BreadcrumbList = {
+  '@type': 'BreadcrumbList',
+  name: 'Example BreadcrumbList',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/BreadcrumbList)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,75 @@
+---
+schemaId: 'https://schema.org/Schedule'
+label: Schedule
+description: >-
+  A schedule defines a repeating time period used to describe a regularly
+  occurring [[Event]]. At a minimum a schedule will specify [[repeatFrequency]]
+  which describes the interval between occurrences of the event. Additional
+  information can be provided to specify the schedule more precisely.
+
+  This includes identifying the day(s) of the week or month when the recurring
+  event will take place, in addition to its start and end time. Schedules may
+  also
+
+  have start and end dates to indicate when they are active, e.g. to define a
+  limited calendar of events.
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Schedule
+
+**Schema.org Type:** [`Schedule`](https://schema.org/Schedule)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+A schedule defines a repeating time period used to describe a regularly occurring [[Event]]. At a minimum a schedule will specify [[repeatFrequency]] which describes the interval between occurrences of the event. Additional information can be provided to specify the schedule more precisely.
+This includes identifying the day(s) of the week or month when the recurring event will take place, in addition to its start and end time. Schedules may also
+have start and end dates to indicate when they are active, e.g. to define a limited calendar of events.
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Schedule",
+  "name": "Example Schedule",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Schedule } from 'schema.org.ai'
+
+const item: Schedule = {
+  '@type': 'Schedule',
+  name: 'Example Schedule',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Schedule)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

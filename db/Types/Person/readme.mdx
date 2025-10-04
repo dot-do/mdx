@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/Person'
+label: Person
+description: 'A person (alive, dead, undead, or fictional).'
+parentType: Thing
+parentUrl: 'https://schema.org/Thing'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Person
+
+**Schema.org Type:** [`Person`](https://schema.org/Person)
+**Parent Type:** [[../Thing|Thing]]
+
+## Description
+
+A person (alive, dead, undead, or fictional).
+
+## Properties
+
+*Properties inherited from [[../Thing|Thing]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Example Person",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Person } from 'schema.org.ai'
+
+const item: Person = {
+  '@type': 'Person',
+  name: 'Example Person',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Person)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,69 @@
+---
+schemaId: 'https://schema.org/MedicalGuideline'
+label: MedicalGuideline
+description: >-
+  Any recommendation made by a standard society (e.g. ACC/AHA) or consensus
+  statement that denotes how to diagnose and treat a particular condition. Note:
+  this type should be used to tag the actual guideline recommendation; if the
+  guideline recommendation occurs in a larger scholarly article, use
+  MedicalScholarlyArticle to tag the overall article, not this type. Note also:
+  the organization making the recommendation should be captured in the
+  recognizingAuthority base property of MedicalEntity.
+parentType: MedicalEntity
+parentUrl: 'https://schema.org/MedicalEntity'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# MedicalGuideline
+
+**Schema.org Type:** [`MedicalGuideline`](https://schema.org/MedicalGuideline)
+**Parent Type:** [[../MedicalEntity|MedicalEntity]]
+
+## Description
+
+Any recommendation made by a standard society (e.g. ACC/AHA) or consensus statement that denotes how to diagnose and treat a particular condition. Note: this type should be used to tag the actual guideline recommendation; if the guideline recommendation occurs in a larger scholarly article, use MedicalScholarlyArticle to tag the overall article, not this type. Note also: the organization making the recommendation should be captured in the recognizingAuthority base property of MedicalEntity.
+
+## Properties
+
+*Properties inherited from [[../MedicalEntity|MedicalEntity]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalGuideline",
+  "name": "Example MedicalGuideline",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { MedicalGuideline } from 'schema.org.ai'
+
+const item: MedicalGuideline = {
+  '@type': 'MedicalGuideline',
+  name: 'Example MedicalGuideline',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/MedicalGuideline)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

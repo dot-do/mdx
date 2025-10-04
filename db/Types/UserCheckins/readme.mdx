@@ -1,0 +1,65 @@
+---
+schemaId: 'https://schema.org/UserCheckins'
+label: UserCheckins
+description: >-
+  UserInteraction and its subtypes is an old way of talking about users
+  interacting with pages. It is generally better to use [[Action]]-based
+  vocabulary, alongside types such as [[Comment]].
+parentType: UserInteraction
+parentUrl: 'https://schema.org/UserInteraction'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# UserCheckins
+
+**Schema.org Type:** [`UserCheckins`](https://schema.org/UserCheckins)
+**Parent Type:** [[../UserInteraction|UserInteraction]]
+
+## Description
+
+UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use [[Action]]-based vocabulary, alongside types such as [[Comment]].
+
+## Properties
+
+*Properties inherited from [[../UserInteraction|UserInteraction]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "UserCheckins",
+  "name": "Example UserCheckins",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { UserCheckins } from 'schema.org.ai'
+
+const item: UserCheckins = {
+  '@type': 'UserCheckins',
+  name: 'Example UserCheckins',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/UserCheckins)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

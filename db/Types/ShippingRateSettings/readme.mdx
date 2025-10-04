@@ -1,0 +1,67 @@
+---
+schemaId: 'https://schema.org/ShippingRateSettings'
+label: ShippingRateSettings
+description: >-
+  A ShippingRateSettings represents re-usable pieces of shipping information. It
+  is designed for publication on an URL that may be referenced via the
+  [[shippingSettingsLink]] property of an [[OfferShippingDetails]]. Several
+  occurrences can be published, distinguished and matched (i.e.
+  identified/referenced) by their different values for [[shippingLabel]].
+parentType: StructuredValue
+parentUrl: 'https://schema.org/StructuredValue'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# ShippingRateSettings
+
+**Schema.org Type:** [`ShippingRateSettings`](https://schema.org/ShippingRateSettings)
+**Parent Type:** [[../StructuredValue|StructuredValue]]
+
+## Description
+
+A ShippingRateSettings represents re-usable pieces of shipping information. It is designed for publication on an URL that may be referenced via the [[shippingSettingsLink]] property of an [[OfferShippingDetails]]. Several occurrences can be published, distinguished and matched (i.e. identified/referenced) by their different values for [[shippingLabel]].
+
+## Properties
+
+*Properties inherited from [[../StructuredValue|StructuredValue]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ShippingRateSettings",
+  "name": "Example ShippingRateSettings",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { ShippingRateSettings } from 'schema.org.ai'
+
+const item: ShippingRateSettings = {
+  '@type': 'ShippingRateSettings',
+  name: 'Example ShippingRateSettings',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/ShippingRateSettings)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

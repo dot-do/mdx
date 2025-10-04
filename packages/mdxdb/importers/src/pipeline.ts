@@ -102,8 +102,8 @@ export class ImportPipeline {
         throw new Error(`Collection not found: ${mapping.collection}`)
       }
 
-      // Load source data
-      const sourceData = await this.loadSourceData(source)
+      // Load source data (pass collection name for O*NET to select correct dataset)
+      const sourceData = await this.loadSourceData(source, mapping.collection)
 
       // Filter data if filter function provided
       const filteredData = mapping.filter ? sourceData.filter(mapping.filter) : sourceData
@@ -186,7 +186,7 @@ export class ImportPipeline {
   /**
    * Load data from a source
    */
-  private async loadSourceData(source: SourceDefinition): Promise<any[]> {
+  private async loadSourceData(source: SourceDefinition, collection?: string): Promise<any[]> {
     // Import loaders dynamically
     const { loadSourceData } = await import('./loaders.js')
 
@@ -196,6 +196,7 @@ export class ImportPipeline {
                source.id === 'schema-org' ? '/Users/nathanclevenger/Projects/.do/mdx/schema.org' :
                undefined,
       filePath: source.id === 'naics' ? '/Users/nathanclevenger/Projects/.do/mdx/config/datasets/naics.tsv' : undefined,
+      collection,
     })
   }
 

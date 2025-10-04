@@ -1,0 +1,98 @@
+---
+schemaId: 'https://schema.org/DeliveryMethod'
+label: DeliveryMethod
+description: >-
+  A delivery method is a standardized procedure for transferring the product or
+  service to the destination of fulfillment chosen by the customer. Delivery
+  methods are characterized by the means of transportation used, and by the
+  organization or group that is the contracting party for the sending
+  organization or person.
+
+
+  Commonly used values:
+
+
+  * http://purl.org/goodrelations/v1#DeliveryModeDirectDownload
+
+  * http://purl.org/goodrelations/v1#DeliveryModeFreight
+
+  * http://purl.org/goodrelations/v1#DeliveryModeMail
+
+  * http://purl.org/goodrelations/v1#DeliveryModeOwnFleet
+
+  * http://purl.org/goodrelations/v1#DeliveryModePickUp
+
+  * http://purl.org/goodrelations/v1#DHL
+
+  * http://purl.org/goodrelations/v1#FederalExpress
+
+  * http://purl.org/goodrelations/v1#UPS
+parentType: Enumeration
+parentUrl: 'https://schema.org/Enumeration'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# DeliveryMethod
+
+**Schema.org Type:** [`DeliveryMethod`](https://schema.org/DeliveryMethod)
+**Parent Type:** [[../Enumeration|Enumeration]]
+
+## Description
+
+A delivery method is a standardized procedure for transferring the product or service to the destination of fulfillment chosen by the customer. Delivery methods are characterized by the means of transportation used, and by the organization or group that is the contracting party for the sending organization or person.
+
+Commonly used values:
+
+* http://purl.org/goodrelations/v1#DeliveryModeDirectDownload
+* http://purl.org/goodrelations/v1#DeliveryModeFreight
+* http://purl.org/goodrelations/v1#DeliveryModeMail
+* http://purl.org/goodrelations/v1#DeliveryModeOwnFleet
+* http://purl.org/goodrelations/v1#DeliveryModePickUp
+* http://purl.org/goodrelations/v1#DHL
+* http://purl.org/goodrelations/v1#FederalExpress
+* http://purl.org/goodrelations/v1#UPS
+
+## Properties
+
+*Properties inherited from [[../Enumeration|Enumeration]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "DeliveryMethod",
+  "name": "Example DeliveryMethod",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { DeliveryMethod } from 'schema.org.ai'
+
+const item: DeliveryMethod = {
+  '@type': 'DeliveryMethod',
+  name: 'Example DeliveryMethod',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/DeliveryMethod)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/Duration'
+label: Duration
+description: >-
+  Quantity: Duration (use [ISO 8601 duration
+  format](http://en.wikipedia.org/wiki/ISO_8601)).
+parentType: Quantity
+parentUrl: 'https://schema.org/Quantity'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Duration
+
+**Schema.org Type:** [`Duration`](https://schema.org/Duration)
+**Parent Type:** [[../Quantity|Quantity]]
+
+## Description
+
+Quantity: Duration (use [ISO 8601 duration format](http://en.wikipedia.org/wiki/ISO_8601)).
+
+## Properties
+
+*Properties inherited from [[../Quantity|Quantity]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Duration",
+  "name": "Example Duration",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Duration } from 'schema.org.ai'
+
+const item: Duration = {
+  '@type': 'Duration',
+  name: 'Example Duration',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Duration)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

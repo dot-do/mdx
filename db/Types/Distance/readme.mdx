@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/Distance'
+label: Distance
+description: >-
+  Properties that take Distances as values are of the form '&lt;Number&gt;
+  &lt;Length unit of measure&gt;'. E.g., '7 ft'.
+parentType: Quantity
+parentUrl: 'https://schema.org/Quantity'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Distance
+
+**Schema.org Type:** [`Distance`](https://schema.org/Distance)
+**Parent Type:** [[../Quantity|Quantity]]
+
+## Description
+
+Properties that take Distances as values are of the form '&lt;Number&gt; &lt;Length unit of measure&gt;'. E.g., '7 ft'.
+
+## Properties
+
+*Properties inherited from [[../Quantity|Quantity]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Distance",
+  "name": "Example Distance",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Distance } from 'schema.org.ai'
+
+const item: Distance = {
+  '@type': 'Distance',
+  name: 'Example Distance',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Distance)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

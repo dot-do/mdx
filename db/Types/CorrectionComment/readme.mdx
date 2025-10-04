@@ -1,0 +1,62 @@
+---
+schemaId: 'https://schema.org/CorrectionComment'
+label: CorrectionComment
+description: 'A [[comment]] that corrects [[CreativeWork]].'
+parentType: Comment
+parentUrl: 'https://schema.org/Comment'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# CorrectionComment
+
+**Schema.org Type:** [`CorrectionComment`](https://schema.org/CorrectionComment)
+**Parent Type:** [[../Comment|Comment]]
+
+## Description
+
+A [[comment]] that corrects [[CreativeWork]].
+
+## Properties
+
+*Properties inherited from [[../Comment|Comment]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "CorrectionComment",
+  "name": "Example CorrectionComment",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { CorrectionComment } from 'schema.org.ai'
+
+const item: CorrectionComment = {
+  '@type': 'CorrectionComment',
+  name: 'Example CorrectionComment',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/CorrectionComment)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

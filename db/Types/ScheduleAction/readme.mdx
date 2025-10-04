@@ -1,0 +1,74 @@
+---
+schemaId: 'https://schema.org/ScheduleAction'
+label: ScheduleAction
+description: >-
+  Scheduling future actions, events, or tasks.
+
+
+  Related actions:
+
+
+  * [[ReserveAction]]: Unlike ReserveAction, ScheduleAction allocates future
+  actions (e.g. an event, a task, etc) towards a time slot / spatial allocation.
+parentType: PlanAction
+parentUrl: 'https://schema.org/PlanAction'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# ScheduleAction
+
+**Schema.org Type:** [`ScheduleAction`](https://schema.org/ScheduleAction)
+**Parent Type:** [[../PlanAction|PlanAction]]
+
+## Description
+
+Scheduling future actions, events, or tasks.
+
+Related actions:
+
+* [[ReserveAction]]: Unlike ReserveAction, ScheduleAction allocates future actions (e.g. an event, a task, etc) towards a time slot / spatial allocation.
+
+## Properties
+
+*Properties inherited from [[../PlanAction|PlanAction]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ScheduleAction",
+  "name": "Example ScheduleAction",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { ScheduleAction } from 'schema.org.ai'
+
+const item: ScheduleAction = {
+  '@type': 'ScheduleAction',
+  name: 'Example ScheduleAction',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/ScheduleAction)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

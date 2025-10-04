@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/PaymentService'
+label: PaymentService
+description: >-
+  A Service to transfer funds from a person or organization to a beneficiary
+  person or organization.
+parentType: PaymentMethod
+parentUrl: 'https://schema.org/PaymentMethod'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# PaymentService
+
+**Schema.org Type:** [`PaymentService`](https://schema.org/PaymentService)
+**Parent Type:** [[../PaymentMethod|PaymentMethod]]
+
+## Description
+
+A Service to transfer funds from a person or organization to a beneficiary person or organization.
+
+## Properties
+
+*Properties inherited from [[../PaymentMethod|PaymentMethod]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "PaymentService",
+  "name": "Example PaymentService",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { PaymentService } from 'schema.org.ai'
+
+const item: PaymentService = {
+  '@type': 'PaymentService',
+  name: 'Example PaymentService',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/PaymentService)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

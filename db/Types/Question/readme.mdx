@@ -1,0 +1,64 @@
+---
+schemaId: 'https://schema.org/Question'
+label: Question
+description: >-
+  A specific question - e.g. from a user seeking answers online, or collected in
+  a Frequently Asked Questions (FAQ) document.
+parentType: Comment
+parentUrl: 'https://schema.org/Comment'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Question
+
+**Schema.org Type:** [`Question`](https://schema.org/Question)
+**Parent Type:** [[../Comment|Comment]]
+
+## Description
+
+A specific question - e.g. from a user seeking answers online, or collected in a Frequently Asked Questions (FAQ) document.
+
+## Properties
+
+*Properties inherited from [[../Comment|Comment]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Question",
+  "name": "Example Question",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Question } from 'schema.org.ai'
+
+const item: Question = {
+  '@type': 'Question',
+  name: 'Example Question',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Question)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

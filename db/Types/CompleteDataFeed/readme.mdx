@@ -1,0 +1,76 @@
+---
+schemaId: 'https://schema.org/CompleteDataFeed'
+label: CompleteDataFeed
+description: >-
+  A [[CompleteDataFeed]] is a [[DataFeed]] whose standard representation
+  includes content for every item currently in the feed.
+
+
+  This is the equivalent of Atom's element as defined in Feed Paging and
+  Archiving [RFC 5005](https://tools.ietf.org/html/rfc5005), for example (and as
+  defined for Atom), when using data from a feed that represents a collection of
+  items that varies over time (e.g. "Top Twenty Records") there is no need to
+  have newer entries mixed in alongside older, obsolete entries. By marking this
+  feed as a CompleteDataFeed, old entries can be safely discarded when the feed
+  is refreshed, since we can assume the feed has provided descriptions for all
+  current items.
+parentType: DataFeed
+parentUrl: 'https://schema.org/DataFeed'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# CompleteDataFeed
+
+**Schema.org Type:** [`CompleteDataFeed`](https://schema.org/CompleteDataFeed)
+**Parent Type:** [[../DataFeed|DataFeed]]
+
+## Description
+
+A [[CompleteDataFeed]] is a [[DataFeed]] whose standard representation includes content for every item currently in the feed.
+
+This is the equivalent of Atom's element as defined in Feed Paging and Archiving [RFC 5005](https://tools.ietf.org/html/rfc5005), for example (and as defined for Atom), when using data from a feed that represents a collection of items that varies over time (e.g. "Top Twenty Records") there is no need to have newer entries mixed in alongside older, obsolete entries. By marking this feed as a CompleteDataFeed, old entries can be safely discarded when the feed is refreshed, since we can assume the feed has provided descriptions for all current items.
+
+## Properties
+
+*Properties inherited from [[../DataFeed|DataFeed]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "CompleteDataFeed",
+  "name": "Example CompleteDataFeed",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { CompleteDataFeed } from 'schema.org.ai'
+
+const item: CompleteDataFeed = {
+  '@type': 'CompleteDataFeed',
+  name: 'Example CompleteDataFeed',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/CompleteDataFeed)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

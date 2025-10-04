@@ -1,0 +1,66 @@
+---
+schemaId: 'https://schema.org/PriceSpecification'
+label: PriceSpecification
+description: >-
+  A structured value representing a price or price range. Typically, only the
+  subclasses of this type are used for markup. It is recommended to use
+  [[MonetaryAmount]] to describe independent amounts of money such as a salary,
+  credit card limits, etc.
+parentType: StructuredValue
+parentUrl: 'https://schema.org/StructuredValue'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# PriceSpecification
+
+**Schema.org Type:** [`PriceSpecification`](https://schema.org/PriceSpecification)
+**Parent Type:** [[../StructuredValue|StructuredValue]]
+
+## Description
+
+A structured value representing a price or price range. Typically, only the subclasses of this type are used for markup. It is recommended to use [[MonetaryAmount]] to describe independent amounts of money such as a salary, credit card limits, etc.
+
+## Properties
+
+*Properties inherited from [[../StructuredValue|StructuredValue]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "PriceSpecification",
+  "name": "Example PriceSpecification",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { PriceSpecification } from 'schema.org.ai'
+
+const item: PriceSpecification = {
+  '@type': 'PriceSpecification',
+  name: 'Example PriceSpecification',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/PriceSpecification)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

@@ -1,0 +1,72 @@
+---
+schemaId: 'https://schema.org/ConstraintNode'
+label: ConstraintNode
+description: >-
+  The ConstraintNode type is provided to support usecases in which a node in a
+  structured data graph is described with properties which appear to describe a
+  single entity, but are being used in a situation where they serve a more
+  abstract purpose. A [[ConstraintNode]] can be described using
+  [[constraintProperty]] and [[numConstraints]]. These constraint properties can
+  serve a
+
+  variety of purposes, and their values may sometimes be understood to indicate
+  sets of possible values rather than single, exact and specific values.
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# ConstraintNode
+
+**Schema.org Type:** [`ConstraintNode`](https://schema.org/ConstraintNode)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+The ConstraintNode type is provided to support usecases in which a node in a structured data graph is described with properties which appear to describe a single entity, but are being used in a situation where they serve a more abstract purpose. A [[ConstraintNode]] can be described using [[constraintProperty]] and [[numConstraints]]. These constraint properties can serve a
+variety of purposes, and their values may sometimes be understood to indicate sets of possible values rather than single, exact and specific values.
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ConstraintNode",
+  "name": "Example ConstraintNode",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { ConstraintNode } from 'schema.org.ai'
+
+const item: ConstraintNode = {
+  '@type': 'ConstraintNode',
+  name: 'Example ConstraintNode',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/ConstraintNode)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

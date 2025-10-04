@@ -1,0 +1,74 @@
+---
+schemaId: 'https://schema.org/SendAction'
+label: SendAction
+description: >-
+  The act of physically/electronically dispatching an object for transfer from
+  an origin to a destination. Related actions:
+
+
+  * [[ReceiveAction]]: The reciprocal of SendAction.
+
+  * [[GiveAction]]: Unlike GiveAction, SendAction does not imply the transfer of
+  ownership (e.g. I can send you my laptop, but I'm not necessarily giving it to
+  you).
+parentType: TransferAction
+parentUrl: 'https://schema.org/TransferAction'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# SendAction
+
+**Schema.org Type:** [`SendAction`](https://schema.org/SendAction)
+**Parent Type:** [[../TransferAction|TransferAction]]
+
+## Description
+
+The act of physically/electronically dispatching an object for transfer from an origin to a destination. Related actions:
+
+* [[ReceiveAction]]: The reciprocal of SendAction.
+* [[GiveAction]]: Unlike GiveAction, SendAction does not imply the transfer of ownership (e.g. I can send you my laptop, but I'm not necessarily giving it to you).
+
+## Properties
+
+*Properties inherited from [[../TransferAction|TransferAction]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "SendAction",
+  "name": "Example SendAction",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { SendAction } from 'schema.org.ai'
+
+const item: SendAction = {
+  '@type': 'SendAction',
+  name: 'Example SendAction',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/SendAction)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)

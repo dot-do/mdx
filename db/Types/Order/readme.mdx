@@ -1,0 +1,65 @@
+---
+schemaId: 'https://schema.org/Order'
+label: Order
+description: >-
+  An order is a confirmation of a transaction (a receipt), which can contain
+  multiple line items, each represented by an Offer that has been accepted by
+  the customer.
+parentType: Intangible
+parentUrl: 'https://schema.org/Intangible'
+collection: Types
+source: schema.org
+version: '27.01'
+properties: []
+subTypes: []
+relatedOccupations: []
+relatedIndustries: []
+---
+# Order
+
+**Schema.org Type:** [`Order`](https://schema.org/Order)
+**Parent Type:** [[../Intangible|Intangible]]
+
+## Description
+
+An order is a confirmation of a transaction (a receipt), which can contain multiple line items, each represented by an Offer that has been accepted by the customer.
+
+## Properties
+
+*Properties inherited from [[../Intangible|Intangible]] and specific to this type*
+
+See [[../Properties|Properties]] collection for detailed property definitions.
+
+## Sub-Types
+
+*Types that extend this type*
+
+## Usage Examples
+
+### JSON-LD
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Order",
+  "name": "Example Order",
+  "description": "Description here"
+}
+```
+
+### TypeScript
+
+```typescript
+import { Order } from 'schema.org.ai'
+
+const item: Order = {
+  '@type': 'Order',
+  name: 'Example Order',
+  description: 'Description here',
+}
+```
+
+## References
+
+- [Schema.org Documentation](https://schema.org/Order)
+- [Schema.org Full Hierarchy](https://schema.org/docs/full.html)
