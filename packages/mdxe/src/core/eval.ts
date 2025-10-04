@@ -169,7 +169,7 @@ export class MdxEvaluator {
       // Transpile TypeScript to JavaScript
       const result = await esbuild.transform(code, {
         loader: 'ts',
-        target: 'es2020',
+        target: 'es2022', // Support top-level await
         format: 'esm',
       })
 

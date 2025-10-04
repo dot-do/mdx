@@ -2,7 +2,7 @@ import { MdxDbFs } from './mdxdb-fs.js'
 import { list, get, createProxyDb, CollectionInterface } from '@mdxdb/core'
 
 export type { VeliteData, DocumentContent, CollectionInterface } from '@mdxdb/core'
-export { list, get }
+export { list, get, MdxDbFs }
 
 /**
  * MdxDb with collection-based API support
