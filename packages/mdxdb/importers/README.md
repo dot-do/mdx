@@ -232,3 +232,113 @@ program
 ## License
 
 MIT
+
+---
+
+## New Import Pipeline (v2)
+
+The package now includes a comprehensive import pipeline that generates complete MDX collections from multiple sources with cross-references and relationships.
+
+### Quick Start
+
+```bash
+# Import all collections
+pnpm --filter @mdxdb/importers import
+
+# Dry run (no files written)
+pnpm --filter @mdxdb/importers import:dry
+
+# Verbose output
+pnpm --filter @mdxdb/importers import:verbose
+```
+
+### Features
+
+- ✅ Three-layer architecture (Sources → Mappings → Collections)
+- ✅ Type-safe with full TypeScript + Zod validation
+- ✅ Multiple source formats (TSV, CSV, JSON, MDX)
+- ✅ Automatic wiki-link cross-references
+- ✅ Progress tracking and error handling
+- ✅ Dry run and skip existing modes
+
+### Available Collections
+
+**O*NET (5 collections):**
+- Occupations (~900 files)
+- Tasks (~20,000 files)
+- Skills (~35 files)
+- Abilities (~52 files)
+- Knowledge (~33 files)
+
+**NAICS (1 collection):**
+- Industries (~1,000 files)
+
+**Schema.org (2 collections):**
+- Types (~800 files)
+- Properties (~1,400 files)
+
+### CLI Options
+
+```bash
+tsx scripts/import-all.ts [options]
+
+Options:
+  --dry-run           Don't write files, just simulate
+  --skip-existing     Skip files that already exist
+  --verbose, -v       Verbose logging
+  --mapping=<id>      Import only specific mapping
+
+Environment Variables:
+  OUTPUT_DIR          Custom output directory (default: ../../../db)
+```
+
+### Import Specific Mapping
+
+```bash
+# Only O*NET occupations
+tsx scripts/import-all.ts --mapping=onet-occupations
+
+# Only NAICS industries
+tsx scripts/import-all.ts --mapping=naics-industries
+
+# Only Schema.org types
+tsx scripts/import-all.ts --mapping=schema-org-types
+```
+
+### Output Structure
+
+```
+db/collections/
+├── Occupations/
+│   ├── readme.mdx (collection index)
+│   ├── software-developers/
+│   │   └── readme.mdx
+│   └── ... (899 more)
+├── Tasks/
+│   ├── readme.mdx
+│   ├── analyze-user-needs/
+│   │   └── readme.mdx
+│   └── ... (19,999 more)
+└── ... (more collections)
+```
+
+### Programmatic Usage
+
+```typescript
+import { createPipelineConfig, runImportPipeline } from '@mdxdb/importers'
+
+const config = createPipelineConfig('./output')
+config.options = {
+  dryRun: false,
+  skipExisting: true,
+  verbose: true,
+}
+
+const result = await runImportPipeline(config)
+console.log(`Created ${result.totalCreated} files`)
+```
+
+### Documentation
+
+See `notes/2025-10-04-mdxdb-migration-architecture.md` for complete architecture documentation.
+

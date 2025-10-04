@@ -7,6 +7,7 @@ import * as esbuild from 'esbuild'
 import { createExecutionContext, ExecutionContextType } from './execution-context'
 import type { CodeBlock } from './mdx-parser'
 import { extractExecutionContext } from './mdx-parser'
+import { $, ai, db, on, send, list, research, extract } from './globals'
 
 const sharedBlockState = new Map<string, Map<string, any>>()
 
@@ -99,11 +100,21 @@ export async function executeCodeBlock(codeBlock: CodeBlock, options: ExecutionO
     const { EXECUTION_CONTEXTS } = await import('./execution-context.js')
     const contextEnv = EXECUTION_CONTEXTS[contextType]?.env || {}
 
-    // Create full context with environment variables and shared state
+    // Create full context with environment variables, shared state, and SDK globals
     // Don't modify global process.env, instead provide context env in the execution context
     const fullContext = {
       ...executionContext,
       ...customContext,
+      // SDK.do globals
+      $,
+      ai,
+      db,
+      on,
+      send,
+      list,
+      research,
+      extract,
+      // Environment and state
       env: contextEnv,
       process: {
         env: {

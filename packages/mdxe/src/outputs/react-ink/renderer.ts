@@ -5,6 +5,7 @@ import { VFile } from 'vfile'
 import remarkGfm from 'remark-gfm'
 import remarkFrontmatter from 'remark-frontmatter'
 import * as runtime from 'react/jsx-runtime'
+import { $, ai, db, on, send, list, research, extract } from '../../cli/utils/globals'
 
 export interface InkRendererOptions {
   /**
@@ -14,6 +15,7 @@ export interface InkRendererOptions {
 
   /**
    * Data/functions to make available in MDX scope
+   * Automatically includes globals: $, ai, db, on, send, list, research, extract
    */
   scope?: Record<string, any>
 
@@ -88,11 +90,24 @@ export async function compileMdxForInk(
   // Create the component function
   const componentCode = String(compiled)
 
+  // Merge globals with user-provided scope
+  const fullScope = {
+    $,
+    ai,
+    db,
+    on,
+    send,
+    list,
+    research,
+    extract,
+    ...options.scope,
+  }
+
   // eslint-disable-next-line no-new-func
   const fn = new Function(
     'React',
     'runtime',
-    ...Object.keys(options.scope || {}),
+    ...Object.keys(fullScope),
     ...Object.keys(options.components || {}),
     componentCode
   )
@@ -101,7 +116,7 @@ export async function compileMdxForInk(
   const { default: Component } = fn(
     React,
     runtime,
-    ...Object.values(options.scope || {}),
+    ...Object.values(fullScope),
     ...Object.values(options.components || {})
   )
 

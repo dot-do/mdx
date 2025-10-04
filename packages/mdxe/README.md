@@ -16,6 +16,7 @@
 - 🔧 **Code Block Execution**: Run TypeScript/JavaScript directly from MDX files
 - 🧪 **Test Runner**: Execute tests embedded in your documentation
 - 🏗️ **Build Pipeline**: Production-ready builds with esbuild optimization
+- ✨ **SDK.do Integration**: Business-as-Code runtime with AI, database, and API capabilities
 
 ## Installation
 
@@ -169,6 +170,69 @@ The database adapter is automatically chosen based on the `DATABASE_URL`.
 ```
 
 ## Advanced Features
+
+### SDK.do Integration (Business-as-Code Runtime)
+
+mdxe automatically integrates with [sdk.do](https://sdk.do) when available, providing a powerful Business-as-Code runtime with AI, database, and API capabilities.
+
+**Setup:**
+1. Add `sdk.do` to your dependencies
+2. Create `.env` with your API keys
+3. Use `$` and other globals in your MDX files
+
+**Example:**
+```mdx
+# AI-Powered Content
+
+```typescript
+// Use the $ runtime for AI operations
+const haiku = await $.ai.generate('Write a haiku about TypeScript')
+console.log(haiku)
+
+// Database operations
+const records = await $.db.find({ type: 'post' })
+
+// API calls
+const data = await $.api.get('https://api.example.com/data')
+```
+
+// Test with mocked AI
+```typescript test
+describe('AI integration', () => {
+  it('generates text', async () => {
+    const result = await $.ai.generate('test prompt')
+    expect(result).toBeDefined()
+  })
+})
+```
+```
+
+**Available Globals:**
+- `$` - Full Business-as-Code runtime
+  - `$.ai.generate(prompt)` - AI text generation
+  - `$.ai.embed(text)` - Generate embeddings
+  - `$.ai.models` - Model registry and pricing
+  - `$.db.find(query)` - Database queries
+  - `$.db.create(data)` - Create records
+  - `$.api.get(url)` - HTTP requests
+  - `$.send.email(...)` - Send emails
+  - `$.send.webhook(...)` - Trigger webhooks
+- `ai` - AI operations (legacy, use `$.ai`)
+- `db` - Database operations (legacy, use `$.db`)
+- `on`, `send` - Event system
+- `list`, `research`, `extract` - Utility functions
+
+**Environment Variables:**
+```env
+# .env file
+API_BASE_URL=https://api.do
+API_KEY=your_api_key_here
+OPENAI_API_KEY=your_openai_key_here
+ANTHROPIC_API_KEY=your_anthropic_key_here
+```
+
+**Fallback Behavior:**
+If sdk.do is not available, mdxe provides stub implementations for development and testing. No errors will occur.
 
 ### Code Block Execution
 
