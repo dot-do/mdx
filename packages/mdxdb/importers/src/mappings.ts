@@ -10,7 +10,6 @@ import type {
   ThingMapping,
   ImportPipelineConfig,
 } from './types.js'
-import GithubSlugger from 'github-slugger'
 
 /**
  * Source Definitions
@@ -119,13 +118,23 @@ export const collections: CollectionConfig[] = [
 ]
 
 /**
- * Slug Generator
+ * Slug Generator (Wikipedia-style)
+ *
+ * Preserves Title Case and replaces spaces with underscores
+ * Example: "Software Developers, Applications" -> "Software_Developers_Applications"
  */
-const slugger = new GithubSlugger()
-
 export function generateSlug(text: string): string {
-  slugger.reset()
-  return slugger.slug(text)
+  // Replace spaces with underscores
+  let slug = text.replace(/\s+/g, '_')
+
+  // Remove or replace other URL-unsafe characters
+  slug = slug.replace(/[,\/\\]/g, '') // Remove commas, slashes
+  slug = slug.replace(/[()]/g, '') // Remove parentheses
+  slug = slug.replace(/&/g, 'and') // Replace ampersand
+  slug = slug.replace(/_+/g, '_') // Collapse multiple underscores
+  slug = slug.replace(/^_|_$/g, '') // Remove leading/trailing underscores
+
+  return slug
 }
 
 /**

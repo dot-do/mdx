@@ -7,7 +7,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import matter from 'gray-matter'
-import GithubSlugger from 'github-slugger'
 import type {
   ImportPipelineConfig,
   ThingMapping,
@@ -265,11 +264,21 @@ export class ImportPipeline {
   }
 
   /**
-   * Generate URL-friendly slug
+   * Generate URL-friendly slug (Wikipedia-style)
+   *
+   * Preserves Title Case and replaces spaces with underscores
+   * Example: "Software Developers, Applications" -> "Software_Developers_Applications"
    */
   private generateSlug(text: string, options?: SlugOptions): string {
-    const slugger = new GithubSlugger()
-    let slug = slugger.slug(text)
+    // Replace spaces with underscores
+    let slug = text.replace(/\s+/g, '_')
+
+    // Remove or replace other URL-unsafe characters
+    slug = slug.replace(/[,\/\\]/g, '') // Remove commas, slashes
+    slug = slug.replace(/[()]/g, '') // Remove parentheses
+    slug = slug.replace(/&/g, 'and') // Replace ampersand
+    slug = slug.replace(/_+/g, '_') // Collapse multiple underscores
+    slug = slug.replace(/^_|_$/g, '') // Remove leading/trailing underscores
 
     if (options?.maxLength) {
       slug = slug.substring(0, options.maxLength)

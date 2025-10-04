@@ -17,6 +17,7 @@ import { runPublishCommand } from './commands/publish'
 import { runSnippetCommand } from './commands/snippet'
 import { runAssetsCommand } from './commands/assets'
 import { ExecutionContextType } from './utils/execution-context'
+import { ensureAuthenticated } from './utils/auth'
 
 export { executeCodeBlock, executeCodeBlocks, executeMdxCodeBlocks } from './utils/execution-engine'
 export type { ExecutionResult, ExecutionOptions } from './utils/execution-engine'
@@ -28,6 +29,20 @@ export async function run() {
   const args = process.argv.slice(2)
   const command = args[0]
   const cwd = process.cwd()
+
+  // Check for --skip-auth flag
+  const skipAuth = args.includes('--skip-auth')
+
+  // Commands that don't require authentication
+  const noAuthCommands = ['help', '--help', '-h', '--version', '-v']
+
+  // Check authentication (unless skipped or help command)
+  if (!noAuthCommands.includes(command) && !skipAuth) {
+    const authenticated = await ensureAuthenticated(skipAuth)
+    if (!authenticated) {
+      process.exit(1)
+    }
+  }
 
   if (command && /^([a-zA-Z_$][a-zA-Z0-9_$]*)\((.*)\)$/.test(command)) {
     return await executeFunctionFromCommandLine(command, cwd)
