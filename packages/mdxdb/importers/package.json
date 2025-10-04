@@ -27,6 +27,7 @@
     "gray-matter": "^4.0.3",
     "node-fetch": "^3.3.2",
     "github-slugger": "^2.0.0",
+    "openai": "^4.77.3",
     "yaml": "^2.8.0",
     "zod": "^3.21.4"
   },
