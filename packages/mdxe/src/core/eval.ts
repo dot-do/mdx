@@ -7,6 +7,9 @@
 
 import { compile } from '@mdx-js/mdx'
 import * as esbuild from 'esbuild'
+import { promises as fs } from 'fs'
+import * as path from 'path'
+import * as os from 'os'
 import type { DbContext } from './db.js'
 import { WorkerLoader, createCodeWorker, createSecureWorkerConfig, type WorkerLoaderBinding, type SecurityOptions } from './loader.js'
 
@@ -156,6 +159,51 @@ export class MdxEvaluator {
   }
 
   /**
+   * Bundle TypeScript code with esbuild
+   *
+   * @param code TypeScript source code
+   * @returns Bundled JavaScript code
+   */
+  private async bundleTypeScript(code: string): Promise<string> {
+    // Create temporary directory
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'mdxe-'))
+    const entryFile = path.join(tmpDir, 'entry.ts')
+    const outFile = path.join(tmpDir, 'bundle.js')
+
+    try {
+      // Write code to temporary file
+      await fs.writeFile(entryFile, code, 'utf-8')
+
+      // Bundle with esbuild
+      // Mark all external packages as external so they're imported at runtime
+      await esbuild.build({
+        entryPoints: [entryFile],
+        bundle: true,
+        format: 'esm',
+        platform: 'node',
+        target: 'es2022',
+        outfile: outFile,
+        write: true,
+        // Mark all npm packages as external
+        packages: 'external',
+        absWorkingDir: process.cwd(), // Set working directory for resolution
+      })
+
+      // Read bundled output
+      const bundled = await fs.readFile(outFile, 'utf-8')
+
+      return bundled
+    } finally {
+      // Clean up temporary files
+      try {
+        await fs.rm(tmpDir, { recursive: true, force: true })
+      } catch (error) {
+        // Ignore cleanup errors
+      }
+    }
+  }
+
+  /**
    * Evaluate TypeScript code
    *
    * @param code TypeScript source code
@@ -166,14 +214,8 @@ export class MdxEvaluator {
     const startTime = Date.now()
 
     try {
-      // Transpile TypeScript to JavaScript
-      const result = await esbuild.transform(code, {
-        loader: 'ts',
-        target: 'es2022', // Support top-level await
-        format: 'esm',
-      })
-
-      const jsCode = result.code
+      // Bundle TypeScript code (resolves imports)
+      const jsCode = await this.bundleTypeScript(code)
 
       // If Worker Loader available, use it for secure execution
       if (this.workerLoader && this.workerLoader.isAvailable()) {
@@ -329,6 +371,11 @@ export class MdxEvaluator {
    * Evaluate code locally (fallback, less secure)
    */
   private async evaluateLocally(code: string, options: MdxEvalOptions, startTime: number): Promise<EvalResult> {
+    // Create temporary file for ESM imports in current working directory
+    // This ensures npm packages can be resolved from node_modules
+    const tmpDir = await fs.mkdtemp(path.join(process.cwd(), '.mdxe-eval-'))
+    const tmpFile = path.join(tmpDir, 'eval.mjs')
+
     try {
       const outputs: any[] = []
 
@@ -363,22 +410,50 @@ export class MdxEvaluator {
         db: options.db,
       }
 
-      // Execute code
-      const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
-      const contextKeys = Object.keys(context)
-      const contextValues = Object.values(context)
+      // Inject context into global scope for the module
+      const globalContext = globalThis as any
+      const originalValues: Record<string, any> = {}
 
-      const fn = new AsyncFunction(...contextKeys, code)
-      const result = await fn(...contextValues)
+      for (const [key, value] of Object.entries(context)) {
+        originalValues[key] = globalContext[key]
+        globalContext[key] = value
+      }
 
-      // Restore console
-      Object.assign(console, originalConsole)
+      try {
+        // Write code to temporary file
+        await fs.writeFile(tmpFile, code, 'utf-8')
 
-      return {
-        success: true,
-        result,
-        duration: Date.now() - startTime,
-        outputs,
+        // Dynamically import the module
+        const module = await import(`file://${tmpFile}`)
+
+        // Get the default export or the module itself
+        const result = module.default || module
+
+        // Restore console
+        Object.assign(console, originalConsole)
+
+        // Restore global context
+        for (const [key, value] of Object.entries(originalValues)) {
+          if (value === undefined) {
+            delete globalContext[key]
+          } else {
+            globalContext[key] = value
+          }
+        }
+
+        return {
+          success: true,
+          result,
+          duration: Date.now() - startTime,
+          outputs,
+        }
+      } finally {
+        // Clean up temporary files
+        try {
+          await fs.rm(tmpDir, { recursive: true, force: true })
+        } catch (error) {
+          // Ignore cleanup errors
+        }
       }
     } catch (error) {
       return {
