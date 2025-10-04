@@ -18,7 +18,7 @@ export default defineConfig([
   },
   // API builds with DTS (excluding test module due to TypeScript dependencies)
   {
-    entry: ['src/index.ts', 'src/esbuild/index.ts'],
+    entry: ['src/index.ts', 'src/esbuild/index.ts', 'src/core/index.ts'],
     format: ['esm'],
     dts: true,
     splitting: false,
