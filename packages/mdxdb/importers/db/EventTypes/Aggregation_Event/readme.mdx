@@ -1,15 +1,37 @@
 ---
-id: Aggregation Event
+id: Aggregation_Event
 name: Aggregation Event
+title: Aggregation Event
 description: Records the assembly or disassembly of objects into or from an aggregation
+collection: EventTypes
+source: gs1
+type: EventType
+'@context': 'https://schema.org'
+'@type': Event
+category: epcis
 dimensions: >-
   What (parent, children), When (eventTime), Where (location), Why (bizStep),
   How (action: ADD/DELETE/OBSERVE)
-collection: EventTypes
-source: gs1
-category: epcis
-epcisVersion: '2.0'
 url: 'https://ref.gs1.org/epcis/AggregationEvent'
+aiEnriched: false
+enrichmentVersion: '1.0'
+requiredFields: []
+optionalFields: []
+usedInIndustries: []
+usedInProcesses: []
+examples: []
+relatedEvents: []
+tags: []
+format: JSON
+standards:
+  - name: EPCIS 2.0
+    url: 'https://ref.gs1.org/standards/epcis/'
+    version: '2.0'
+  - name: GS1 CBV 2.0
+    url: 'https://ref.gs1.org/standards/cbv/'
+    version: '2.0'
+createdAt: '2025-10-04T18:27:45.258Z'
+updatedAt: '2025-10-04T18:27:45.258Z'
 ---
 # Aggregation Event
 

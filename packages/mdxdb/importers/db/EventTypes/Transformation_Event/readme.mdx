@@ -1,15 +1,37 @@
 ---
-id: Transformation Event
+id: Transformation_Event
 name: Transformation Event
+title: Transformation Event
 description: Records the transformation of input objects into output objects
+collection: EventTypes
+source: gs1
+type: EventType
+'@context': 'https://schema.org'
+'@type': Event
+category: epcis
 dimensions: >-
   What (inputEPCList, outputEPCList), When (eventTime), Where (location), Why
   (bizStep, transformationID), How (quantity, ilmd)
-collection: EventTypes
-source: gs1
-category: epcis
-epcisVersion: '2.0'
 url: 'https://ref.gs1.org/epcis/TransformationEvent'
+aiEnriched: false
+enrichmentVersion: '1.0'
+requiredFields: []
+optionalFields: []
+usedInIndustries: []
+usedInProcesses: []
+examples: []
+relatedEvents: []
+tags: []
+format: JSON
+standards:
+  - name: EPCIS 2.0
+    url: 'https://ref.gs1.org/standards/epcis/'
+    version: '2.0'
+  - name: GS1 CBV 2.0
+    url: 'https://ref.gs1.org/standards/cbv/'
+    version: '2.0'
+createdAt: '2025-10-04T18:27:45.262Z'
+updatedAt: '2025-10-04T18:27:45.262Z'
 ---
 # Transformation Event
 

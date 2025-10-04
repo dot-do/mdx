@@ -201,12 +201,36 @@ export class ImportPipeline {
   }
 
   /**
+   * Clean undefined values from object (YAML doesn't support undefined)
+   */
+  private cleanUndefined(obj: any): any {
+    if (obj === undefined) return null
+    if (obj === null) return null
+    if (Array.isArray(obj)) {
+      return obj.map(item => this.cleanUndefined(item))
+    }
+    if (typeof obj === 'object' && obj !== null) {
+      const cleaned: any = {}
+      for (const [key, value] of Object.entries(obj)) {
+        if (value !== undefined) {
+          cleaned[key] = this.cleanUndefined(value)
+        }
+      }
+      return cleaned
+    }
+    return obj
+  }
+
+  /**
    * Convert transformed data to CollectionItem
    */
   private toCollectionItem(data: any, mapping: ThingMapping): CollectionItem {
+    // Clean undefined values from frontmatter (YAML doesn't support undefined)
+    const cleanedFrontmatter = this.cleanUndefined(data.frontmatter || data)
+
     return {
       slug: data.slug || this.generateSlug(data.title || data.name),
-      frontmatter: data.frontmatter || data,
+      frontmatter: cleanedFrontmatter,
       content: data.content || '',
       collection: mapping.collection,
       source: mapping.sourceId,

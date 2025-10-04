@@ -635,18 +635,72 @@ export const gs1DispositionsMapping: ThingMapping = {
   transform: async (data: any) => {
     const dispId = data.id
     const description = data.description
+    const slug = generateSlug(dispId)
+    const now = new Date().toISOString()
 
     return {
-      slug: generateSlug(dispId),
+      slug,
       frontmatter: {
-        id: dispId,
+        // Core identification
+        id: slug,
         name: dispId,
+        title: dispId,
         description,
+
+        // Collection metadata
         collection: 'Dispositions',
         source: 'gs1',
+        type: 'ObjectState',
+
+        // JSON-LD / Schema.org
+        '@context': 'https://schema.org',
+        '@type': 'State',
+
+        // Disposition-specific fields
         category: 'object-state',
         cbvType: 'disposition',
+
+        // URLs and references
         url: `https://ref.gs1.org/cbv/Disp-${dispId.replace(/\s+/g, '')}`,
+
+        // AI enrichment metadata
+        aiEnriched: false,
+        enrichmentVersion: '1.0',
+
+        // AI-enrichable state transitions
+        transitionsFrom: [],
+        transitionsTo: [],
+
+        // AI-enrichable context
+        usedInIndustries: [],
+        appliesTo: [],
+        examples: [],
+
+        // AI-enrichable classification
+        tags: [],
+        isTerminal: undefined,
+        isInitial: undefined,
+
+        // AI-enrichable business implications
+        implications: [],
+
+        // Standards
+        standards: [
+          {
+            name: 'GS1 CBV 2.0',
+            url: 'https://ref.gs1.org/standards/cbv/',
+            version: '2.0',
+          },
+          {
+            name: 'EPCIS 2.0',
+            url: 'https://ref.gs1.org/standards/epcis/',
+            version: '2.0',
+          },
+        ],
+
+        // Timestamps
+        createdAt: now,
+        updatedAt: now,
       },
       content: `
 # ${dispId}
@@ -823,19 +877,76 @@ export const gs1EventTypesMapping: ThingMapping = {
     const eventId = data.id
     const description = data.description
     const dimensions = data.dimensions || ''
+    const slug = generateSlug(eventId)
+    const now = new Date().toISOString()
 
     return {
-      slug: generateSlug(eventId),
+      slug,
       frontmatter: {
-        id: eventId,
+        // Core identification
+        id: slug,
         name: eventId,
+        title: eventId,
         description,
-        dimensions,
+
+        // Collection metadata
         collection: 'EventTypes',
         source: 'gs1',
+        type: 'EventType',
+
+        // JSON-LD / Schema.org
+        '@context': 'https://schema.org',
+        '@type': 'Event',
+
+        // EventType-specific fields
         category: 'epcis',
-        epcisVersion: '2.0',
+        dimensions,
+
+        // URLs and references
         url: `https://ref.gs1.org/epcis/${eventId.replace(/\s+/g, '')}`,
+
+        // AI enrichment metadata
+        aiEnriched: false,
+        enrichmentVersion: '1.0',
+
+        // AI-enrichable event structure
+        requiredFields: [],
+        optionalFields: [],
+
+        // AI-enrichable context
+        usedInIndustries: [],
+        usedInProcesses: [],
+        examples: [],
+
+        // AI-enrichable relationships
+        relatedEvents: [],
+
+        // AI-enrichable classification
+        tags: [],
+        frequency: undefined,
+        importance: undefined,
+
+        // AI-enrichable technical details
+        format: 'JSON',
+        schema: undefined,
+
+        // Standards
+        standards: [
+          {
+            name: 'EPCIS 2.0',
+            url: 'https://ref.gs1.org/standards/epcis/',
+            version: '2.0',
+          },
+          {
+            name: 'GS1 CBV 2.0',
+            url: 'https://ref.gs1.org/standards/cbv/',
+            version: '2.0',
+          },
+        ],
+
+        // Timestamps
+        createdAt: now,
+        updatedAt: now,
       },
       content: `
 # ${eventId}
