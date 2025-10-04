@@ -524,18 +524,77 @@ export const gs1VerbsMapping: ThingMapping = {
   transform: async (data: any) => {
     const verbId = data.id
     const description = data.description
+    const slug = generateSlug(verbId)
+    const now = new Date().toISOString()
 
     return {
-      slug: generateSlug(verbId),
+      slug,
       frontmatter: {
-        id: verbId,
+        // Core identification
+        id: slug,
         name: verbId,
+        title: verbId,
         description,
+
+        // Collection metadata
         collection: 'Verbs',
         source: 'gs1',
+        type: 'BusinessStep',
+
+        // JSON-LD / Schema.org
+        '@context': 'https://schema.org',
+        '@type': 'Action',
+
+        // Verb-specific fields
         category: 'supply-chain',
         cbvType: 'bizStep',
+
+        // URLs and references
         url: `https://ref.gs1.org/cbv/BizStep-${verbId.replace(/\s+/g, '')}`,
+
+        // AI enrichment metadata
+        aiEnriched: false,
+        enrichmentVersion: '1.0',
+
+        // AI-enrichable semantic relationships
+        synonyms: [],
+        antonyms: [],
+        relatedVerbs: [],
+
+        // AI-enrichable context
+        usedInIndustries: [],
+        usedInProcesses: [],
+        examples: [],
+
+        // AI-enrichable process flow
+        prerequisites: [],
+        outcomes: [],
+
+        // AI-enrichable classification
+        tags: [],
+        complexity: undefined,
+        frequency: undefined,
+
+        // AI-enrichable technical details
+        implementations: [],
+
+        // Standards
+        standards: [
+          {
+            name: 'GS1 CBV 2.0',
+            url: 'https://ref.gs1.org/standards/cbv/',
+            version: '2.0',
+          },
+          {
+            name: 'EPCIS 2.0',
+            url: 'https://ref.gs1.org/standards/epcis/',
+            version: '2.0',
+          },
+        ],
+
+        // Timestamps
+        createdAt: now,
+        updatedAt: now,
       },
       content: `
 # ${verbId}
@@ -633,21 +692,73 @@ export const zapierAppsMapping: ThingMapping = {
     const hexColor = data.hex_color || data.hexColor || '#000000'
     const categories = Array.isArray(data.categories) ? data.categories.map((c: any) => c.title || c).join(', ') : ''
     const apiUrl = data.api || ''
+    const slug = generateSlug(title)
+    const now = new Date().toISOString()
 
     return {
-      slug: generateSlug(title),
+      slug,
       frontmatter: {
-        key: appKey,
+        // Core identification
+        id: slug,
+        name: title,
         title,
         description,
-        image,
-        hexColor,
-        categories,
-        apiUrl,
+
+        // Collection metadata
         collection: 'Apps',
         source: 'zapier',
         type: 'Integration',
+
+        // JSON-LD / Schema.org
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+
+        // App-specific fields
+        key: appKey,
+        hexColor,
+        categories,
+
+        // URLs and references
+        url: `https://zapier.com/apps/${appKey}`,
         zapierUrl: `https://zapier.com/apps/${appKey}`,
+        apiUrl: apiUrl || undefined,
+        image,
+        logo: image,
+
+        // AI enrichment metadata (to be populated later)
+        aiEnriched: false,
+        enrichmentVersion: '1.0',
+
+        // AI-enrichable fields (placeholder arrays/objects)
+        tags: [],
+        industries: [],
+        useCases: [],
+        features: [],
+        relatedApps: [],
+
+        // Popularity metrics (to be enriched)
+        popularity: {
+          zapierRank: undefined,
+          userCount: undefined,
+          rating: undefined,
+          reviewCount: undefined,
+        },
+
+        // Pricing (to be enriched)
+        pricing: {
+          model: undefined,
+          startingPrice: undefined,
+          currency: undefined,
+        },
+
+        // Technical details (to be enriched)
+        authentication: [],
+        webhookSupport: undefined,
+        realtimeSupport: undefined,
+
+        // Timestamps
+        createdAt: now,
+        updatedAt: now,
       },
       content: `
 # ${title}
