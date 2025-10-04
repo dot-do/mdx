@@ -15,6 +15,7 @@ import path from 'node:path'
 import matter from 'gray-matter'
 import { semanticEnricher, createAIEnricher, type EnrichmentOptions } from './src/enrichment/index.js'
 import type { CollectionEntity } from './src/schemas.js'
+import { ensureAuthenticated } from './src/utils/auth.js'
 
 /**
  * Parse command line arguments
@@ -29,6 +30,7 @@ function parseArgs() {
     dryRun: false,
     verbose: false,
     skipEnriched: true,
+    skipAuth: false,
   }
 
   for (let i = 0; i < args.length; i++) {
@@ -66,6 +68,10 @@ function parseArgs() {
         options.verbose = true
         break
 
+      case '--skip-auth':
+        options.skipAuth = true
+        break
+
       case '--help':
       case '-h':
         printHelp()
@@ -95,13 +101,14 @@ Options:
   -f, --force               Force re-enrichment of already enriched entities
   -d, --dry-run             Don't save changes, just show what would be done
   -v, --verbose             Verbose logging
+      --skip-auth           Skip OAuth authentication (uses API key fallback)
   -h, --help                Show this help message
 
 Examples:
   # Semantic enrichment of first 10 Apps
   pnpm tsx enrich.ts -c Apps -t semantic -l 10 -v
 
-  # AI enrichment of all Verbs (requires OPENAI_API_KEY)
+  # AI enrichment of all Verbs (uses OAuth via cli.do)
   pnpm tsx enrich.ts -c Verbs -t ai -v
 
   # Force re-enrichment of Apps with AI
@@ -110,8 +117,17 @@ Examples:
   # Dry run to see what would be changed
   pnpm tsx enrich.ts -c Apps -t semantic -d -v
 
-Environment Variables:
-  OPENAI_API_KEY    Required for AI enrichment (GPT-5 with flex tier)
+  # AI enrichment with API key fallback
+  OPENAI_API_KEY=sk-... pnpm tsx enrich.ts -c Apps -t ai --skip-auth
+
+Authentication:
+  AI enrichment uses OAuth via cli.do for secure authentication.
+  Run 'cli.do login' before using AI enrichment.
+  Use --skip-auth to bypass OAuth and use OPENAI_API_KEY instead.
+
+AI Service:
+  AI enrichment uses GPT-5 (o1 model) via https://ai.do
+  Background mode enabled by default for 50% discount (flex tier)
   `)
 }
 
@@ -196,12 +212,16 @@ async function main() {
     enricher = semanticEnricher
     console.log('📝 Using Semantic Enrichment (automated, no API calls)')
   } else if (options.type === 'ai') {
-    if (!process.env.OPENAI_API_KEY) {
-      console.error('❌ OPENAI_API_KEY environment variable required for AI enrichment')
+    // Check authentication for AI enrichment
+    const authenticated = await ensureAuthenticated(options.skipAuth)
+    if (!authenticated) {
+      console.error('❌ Authentication failed')
       process.exit(1)
     }
+
     enricher = createAIEnricher()
-    console.log('🤖 Using AI Enrichment (GPT-5 with flex tier - 50% discount)')
+    console.log('🤖 Using AI Enrichment (o1 model via https://ai.do)')
+    console.log('   Background mode enabled for 50% discount (flex tier)')
   } else {
     console.error(`❌ Unknown enrichment type: ${options.type}`)
     process.exit(1)

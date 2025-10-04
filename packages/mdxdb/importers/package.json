@@ -19,6 +19,10 @@
     "import:dry": "tsx scripts/import-all.ts --dry-run",
     "import:verbose": "tsx scripts/import-all.ts --verbose"
   },
+  "optionalDependencies": {
+    "cli.do": "workspace:*",
+    "sdk.do": "workspace:*"
+  },
   "dependencies": {
     "@mdxdb/core": "workspace:*",
     "@mdxdb/fs": "workspace:*",
@@ -27,7 +31,6 @@
     "gray-matter": "^4.0.3",
     "node-fetch": "^3.3.2",
     "github-slugger": "^2.0.0",
-    "openai": "^4.77.3",
     "yaml": "^2.8.0",
     "zod": "^3.21.4"
   },

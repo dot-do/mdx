@@ -7,7 +7,7 @@
  * - Validates against Zod schemas
  */
 
-import OpenAI from 'openai'
+import { AIServiceClient, createAIClient } from '../utils/ai-client.js'
 import type { App, Verb, Disposition, EventType, CollectionEntity } from '../schemas.js'
 import { validateFrontmatter } from '../schemas.js'
 import { EnrichmentService, type EnrichmentResult, type EnrichmentOptions } from './base.js'
@@ -17,12 +17,12 @@ import { EnrichmentService, type EnrichmentResult, type EnrichmentOptions } from
  */
 export interface AIEnrichmentConfig {
   /**
-   * OpenAI API key
+   * API key for fallback when OAuth not available
    */
-  apiKey: string
+  apiKey?: string
 
   /**
-   * Model to use (default: gpt-4o - the latest GPT-5 model)
+   * Model to use (default: o1 - GPT-5)
    */
   model?: string
 
@@ -40,6 +40,11 @@ export interface AIEnrichmentConfig {
    * Batch size for processing
    */
   batchSize?: number
+
+  /**
+   * Use background mode with flex tier for 50% discount (default: true)
+   */
+  useBackground?: boolean
 }
 
 /**
@@ -49,24 +54,30 @@ export class AIEnrichmentService extends EnrichmentService {
   name = 'AIEnrichment'
   version = '2.0'
 
-  private openai: OpenAI
-  private config: Required<AIEnrichmentConfig>
+  private aiClient: AIServiceClient
+  private config: {
+    apiKey?: string
+    model: string
+    temperature: number
+    maxTokens: number
+    batchSize: number
+    useBackground: boolean
+  }
 
-  constructor(config: AIEnrichmentConfig) {
+  constructor(config: AIEnrichmentConfig = {}) {
     super()
 
-    // Initialize OpenAI client
-    this.openai = new OpenAI({
-      apiKey: config.apiKey,
-    })
+    // Initialize AI service client
+    this.aiClient = createAIClient(config.apiKey)
 
     // Default configuration
     this.config = {
       apiKey: config.apiKey,
-      model: config.model || 'gpt-4o', // Latest GPT-5 model
-      temperature: config.temperature || 0.3,
-      maxTokens: config.maxTokens || 2000,
-      batchSize: config.batchSize || 10,
+      model: config.model || 'o1', // GPT-5 (o1 model)
+      temperature: config.temperature ?? 0.3,
+      maxTokens: config.maxTokens ?? 2000,
+      batchSize: config.batchSize ?? 10,
+      useBackground: config.useBackground ?? true, // Use background mode by default for 50% discount
     }
   }
 
@@ -440,43 +451,56 @@ Provide 3-5 required fields, 3-5 optional fields, 3 examples, and 2-3 related ev
   }
 
   /**
-   * Call OpenAI API with background mode and flex tier
+   * Call AI service with background mode and flex tier
    */
   private async callOpenAI(prompt: string, options?: EnrichmentOptions): Promise<string | null> {
     try {
-      this.log('Calling OpenAI API...', options?.verbose)
+      const systemPrompt = 'You are an expert data enrichment assistant. Provide accurate, well-structured JSON responses. Be specific and detailed.'
+      const fullPrompt = `${systemPrompt}\n\n${prompt}\n\nProvide a JSON response only.`
 
-      const response = await this.openai.chat.completions.create({
-        model: this.config.model,
-        messages: [
-          {
-            role: 'system',
-            content:
-              'You are an expert data enrichment assistant. Provide accurate, well-structured JSON responses. Be specific and detailed.',
-          },
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
-        temperature: this.config.temperature,
-        max_tokens: this.config.maxTokens,
-        response_format: { type: 'json_object' },
-        // @ts-ignore - service_tier is not in types yet but is supported
-        service_tier: 'flex', // 50% discount for background processing
-      })
+      if (this.config.useBackground) {
+        // Use background mode for 50% discount (flex tier)
+        this.log('Submitting background job to AI service...', options?.verbose)
 
-      const content = response.choices[0]?.message?.content
+        const jobResponse = await this.aiClient.generateBackground(fullPrompt, {
+          model: this.config.model,
+          systemPrompt,
+          temperature: this.config.temperature,
+          maxTokens: this.config.maxTokens,
+        })
 
-      if (content) {
-        this.log(`Received ${content.length} characters`, options?.verbose)
-        return content
+        this.log(`Job queued: ${jobResponse.jobId}`, options?.verbose)
+
+        // Wait for job to complete
+        const result = await this.aiClient.waitForJob(jobResponse.jobId)
+
+        if (result.text) {
+          this.log(`Received ${result.text.length} characters`, options?.verbose)
+          return result.text
+        }
+
+        return null
+      } else {
+        // Use sync generation
+        this.log('Calling AI service (sync)...', options?.verbose)
+
+        const result = await this.aiClient.generate(fullPrompt, {
+          model: this.config.model,
+          systemPrompt,
+          temperature: this.config.temperature,
+          maxTokens: this.config.maxTokens,
+        })
+
+        if (result.text) {
+          this.log(`Received ${result.text.length} characters`, options?.verbose)
+          return result.text
+        }
+
+        return null
       }
-
-      return null
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error)
-      this.log(`OpenAI API error: ${errorMessage}`, options?.verbose)
+      this.log(`AI service error: ${errorMessage}`, options?.verbose)
       throw error
     }
   }
@@ -491,13 +515,13 @@ Provide 3-5 required fields, 3-5 optional fields, 3 examples, and 2-3 related ev
 
 /**
  * Create AI enrichment service from environment
+ * Uses OAuth via cli.do when available, falls back to API key
  */
 export function createAIEnricher(config?: Partial<AIEnrichmentConfig>): AIEnrichmentService {
   const apiKey = config?.apiKey || process.env.OPENAI_API_KEY
 
-  if (!apiKey) {
-    throw new Error('OpenAI API key is required. Set OPENAI_API_KEY environment variable or pass apiKey in config.')
-  }
+  // API key is optional when using OAuth via cli.do
+  // If neither is available, authentication will fail at request time
 
   return new AIEnrichmentService({
     apiKey,
