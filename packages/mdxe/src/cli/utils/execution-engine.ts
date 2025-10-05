@@ -127,65 +127,50 @@ export async function executeCodeBlock(codeBlock: CodeBlock, options: ExecutionO
       importVar: (key: string) => fileState.get(key),
     }
 
-    // No special case handling - let the normal execution path handle all code blocks
+    // ALWAYS transpile TypeScript code with esbuild, regardless of await
+    // This ensures type annotations and TypeScript syntax are properly handled
+    const isTypeScript = ['typescript', 'ts'].includes(codeBlock.lang)
 
-    // Check if code contains await statements
-    const hasAwait = codeBlock.value.includes('await ')
+    try {
+      let codeToExecute: string
 
-    // For TypeScript code without await, we can use esbuild
-    if (!hasAwait && (codeBlock.lang === 'typescript' || codeBlock.lang === 'ts')) {
-      try {
+      if (isTypeScript) {
         // Use esbuild to transpile TypeScript to JavaScript
         const result = await esbuild.transform(codeBlock.value, {
           loader: 'ts',
-          target: 'es2020',
+          target: 'es2022', // ES2022 supports top-level await
+          format: 'esm',
         })
-
-        // Execute the transpiled code with console capture
-        const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
-        const contextKeys = Object.keys(fullContext)
-        const contextValues = Object.values(fullContext)
-
-        const execFunction = new AsyncFunction(...contextKeys, result.code)
-
-        // Capture console outputs during execution
-        const { result: execResult, outputs } = await captureConsoleOutputs(async () => {
-          return await execFunction(...contextValues)
-        })
-
-        return {
-          success: true,
-          result: execResult,
-          duration: Date.now() - startTime,
-          outputs,
-        }
-      } catch (error) {
-        return {
-          success: false,
-          error: error instanceof Error ? error.message : String(error),
-          duration: Date.now() - startTime,
-          outputs: [],
-        }
+        codeToExecute = result.code
+      } else {
+        // JavaScript code can be executed directly
+        codeToExecute = codeBlock.value
       }
-    } else {
-      // For code with await or JavaScript, execute directly
+
+      // Execute the transpiled/raw code with console capture
       const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
       const contextKeys = Object.keys(fullContext)
       const contextValues = Object.values(fullContext)
 
-      // Execute the code directly with console capture
-      const execFunction = new AsyncFunction(...contextKeys, codeBlock.value)
+      const execFunction = new AsyncFunction(...contextKeys, codeToExecute)
 
       // Capture console outputs during execution
-      const { result, outputs } = await captureConsoleOutputs(async () => {
+      const { result: execResult, outputs } = await captureConsoleOutputs(async () => {
         return await execFunction(...contextValues)
       })
 
       return {
         success: true,
-        result,
+        result: execResult,
         duration: Date.now() - startTime,
         outputs,
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : String(error),
+        duration: Date.now() - startTime,
+        outputs: [],
       }
     }
   } catch (error) {

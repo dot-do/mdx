@@ -166,7 +166,12 @@ function createFallbackRuntime() {
             headers: { 'Content-Type': 'application/json' },
           })
           if (!response.ok) throw new Error(`DB list failed: ${response.statusText}`)
-          return await response.json()
+          const result = await response.json()
+          // DB worker returns {latency, colo, data} format
+          // Extract items from data field or return empty array
+          const items = result.data?.items || result.items || []
+          const total = result.data?.total || result.total || items.length
+          return { items, total, ...result }
         } catch (error) {
           console.warn('[mdxe] DB list failed:', error)
           return { items: [], total: 0 }
@@ -207,7 +212,11 @@ function createFallbackRuntime() {
             body: JSON.stringify({ query, embedding, ...options }),
           })
           if (!response.ok) throw new Error(`DB search failed: ${response.statusText}`)
-          return await response.json()
+          const result = await response.json()
+          // DB worker returns {latency, colo, data} format
+          const items = result.data?.items || result.items || []
+          const total = result.data?.total || result.total || items.length
+          return { items, total, ...result }
         } catch (error) {
           console.warn('[mdxe] DB search failed:', error)
           return { items: [], total: 0 }
@@ -221,7 +230,11 @@ function createFallbackRuntime() {
             body: JSON.stringify({ embedding, ...options }),
           })
           if (!response.ok) throw new Error(`DB vector search failed: ${response.statusText}`)
-          return await response.json()
+          const result = await response.json()
+          // DB worker returns {latency, colo, data} format
+          const items = result.data?.items || result.items || []
+          const total = result.data?.total || result.total || items.length
+          return { items, total, ...result }
         } catch (error) {
           console.warn('[mdxe] DB vector search failed:', error)
           return { items: [], total: 0 }
@@ -264,7 +277,11 @@ function createFallbackRuntime() {
             headers: { 'Content-Type': 'application/json' },
           })
           if (!response.ok) throw new Error(`DB get relationships failed: ${response.statusText}`)
-          return await response.json()
+          const result = await response.json()
+          // DB worker returns {latency, colo, data} format
+          const items = result.data?.items || result.items || []
+          const total = result.data?.total || result.total || items.length
+          return { items, total, ...result }
         } catch (error) {
           console.warn('[mdxe] DB get relationships failed:', error)
           return { items: [], total: 0 }
