@@ -1,0 +1,97 @@
+---
+title: API Service Tests
+description: Test HTTP requests with the API service
+executionContext: business-as-code
+---
+
+# API Service Tests
+
+Simple tests for the API service using the `$.api` object.
+
+## Test 1: Simple GET Request
+
+Make a GET request to a public API:
+
+```typescript
+const response = await $.api.get('https://api.github.com/zen')
+console.log('GitHub Zen:', response)
+```
+
+## Test 2: GET Request with JSON Response
+
+Fetch JSON data from an API:
+
+```typescript
+const repos = await $.api.get('https://api.github.com/users/github/repos', {
+  params: {
+    per_page: 3
+  }
+})
+console.log('GitHub repositories:')
+repos.slice(0, 3).forEach((repo: any) => {
+  console.log('  -', repo.name, ':', repo.description)
+})
+```
+
+## Test 3: GET with Query Parameters
+
+Test query parameter handling:
+
+```typescript
+const response = await $.api.get('https://jsonplaceholder.typicode.com/posts', {
+  params: {
+    userId: 1,
+    _limit: 3
+  }
+})
+console.log('Posts found:', response.length)
+response.forEach((post: any) => {
+  console.log('  -', post.title)
+})
+```
+
+## Test 4: POST Request
+
+Make a POST request to test API:
+
+```typescript
+const newPost = await $.api.post('https://jsonplaceholder.typicode.com/posts', {
+  body: {
+    title: 'Test Post from mdxe',
+    body: 'This is a test post created by mdxe runtime',
+    userId: 1
+  }
+})
+console.log('Created post:', newPost.id)
+console.log('Title:', newPost.title)
+```
+
+## Test 5: Error Handling
+
+Test API error handling:
+
+```typescript
+try {
+  await $.api.get('https://api.github.com/repos/nonexistent/repo')
+} catch (error) {
+  console.log('✓ Error caught successfully:', error.message)
+}
+```
+
+## Test 6: Custom Headers
+
+Test request with custom headers:
+
+```typescript
+const response = await $.api.get('https://api.github.com/rate_limit', {
+  headers: {
+    'User-Agent': 'mdxe-test-suite'
+  }
+})
+console.log('Rate limit remaining:', response.rate.remaining)
+console.log('Rate limit reset:', new Date(response.rate.reset * 1000).toLocaleString())
+```
+
+## Summary
+
+All API service tests completed successfully!

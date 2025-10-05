@@ -1,0 +1,133 @@
+---
+title: Database Service Tests
+description: Test database CRUD operations, search, and relationships
+executionContext: business-as-code
+---
+
+# Database Service Tests
+
+Simple tests for the database service using the `$.db` object.
+
+## Test 1: Create Entity
+
+Create a test entity in the database:
+
+```typescript
+const testEntity = {
+  ns: 'test',
+  id: 'example-1',
+  type: 'TestEntity',
+  data: {
+    name: 'Example Entity',
+    description: 'A test entity for mdxe',
+    tags: ['test', 'example', 'mdxe']
+  },
+  content: 'This is a test entity created by mdxe runtime tests.'
+}
+
+await $.db.upsert(testEntity)
+console.log('✓ Entity created:', testEntity.id)
+```
+
+## Test 2: Get Entity
+
+Retrieve the entity we just created:
+
+```typescript
+const retrieved = await $.db.get('test', 'example-1')
+console.log('Retrieved entity:', retrieved.id)
+console.log('Entity data:', retrieved.data)
+```
+
+## Test 3: List Entities
+
+List all entities in the test namespace:
+
+```typescript
+const result = await $.db.list('test', {
+  page: 1,
+  limit: 10
+})
+console.log('Total entities:', result.total)
+console.log('Entities found:', result.items.length)
+result.items.forEach(item => {
+  console.log('  -', item.id, ':', item.data?.name)
+})
+```
+
+## Test 4: Count Entities
+
+Count entities in namespace:
+
+```typescript
+const count = await $.db.count('test', {
+  type: 'TestEntity'
+})
+console.log('Entity count:', count)
+```
+
+## Test 5: Text Search
+
+Search for entities:
+
+```typescript
+const searchResults = await $.db.search('test entity', undefined, {
+  ns: 'test',
+  limit: 5
+})
+console.log('Search results:', searchResults.items.length)
+searchResults.items.forEach(item => {
+  console.log('  -', item.id, '(score:', item.score, ')')
+})
+```
+
+## Test 6: Create Relationship
+
+Create a relationship between entities:
+
+```typescript
+// First create a second entity
+await $.db.upsert({
+  ns: 'test',
+  id: 'example-2',
+  type: 'TestEntity',
+  data: { name: 'Related Entity' },
+  content: 'Another test entity'
+})
+
+// Create relationship
+await $.db.upsertRelationship({
+  fromNs: 'test',
+  fromId: 'example-1',
+  fromType: 'TestEntity',
+  predicate: 'relatesTo',
+  toNs: 'test',
+  toId: 'example-2',
+  toType: 'TestEntity',
+  data: { relationshipType: 'test' }
+})
+console.log('✓ Relationship created')
+```
+
+## Test 7: Get Relationships
+
+Retrieve relationships for an entity:
+
+```typescript
+const relationships = await $.db.getRelationships('test', 'example-1')
+console.log('Relationships:', JSON.stringify(relationships, null, 2))
+```
+
+## Test 8: Delete Entity
+
+Clean up test entities:
+
+```typescript
+await $.db.delete('test', 'example-1')
+await $.db.delete('test', 'example-2')
+console.log('✓ Test entities deleted')
+```
+
+## Summary
+
+All database service tests completed successfully!

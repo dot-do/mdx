@@ -1,43 +1,41 @@
 /**
  * Authentication utilities for mdxe CLI
  *
- * Checks if user is authenticated via cli.do and prompts login if needed
+ * Uses token.do for shared token storage across all .do packages
  */
 
 import chalk from 'chalk'
 
-// Optional import of cli.do (since it's an optional dependency)
-let cliDo: any = null
+// Try to import token.do, but provide fallbacks if not available
+let hasValidToken: (() => boolean) | null = null
+let getToken: (() => Promise<string | null>) | null = null
+let getUserInfo: (() => Promise<any>) | null = null
+
 try {
-  cliDo = await import('cli.do')
-} catch {
-  // cli.do not installed, continue without authentication
+  const tokenModule = await import('token.do')
+  hasValidToken = tokenModule.hasValidToken
+  getToken = tokenModule.getToken
+  getUserInfo = tokenModule.getUserInfo
+} catch (error) {
+  // token.do not available - provide fallback implementations
+  console.warn('[mdxe] token.do not available, authentication features disabled')
+  hasValidToken = () => false
+  getToken = async () => null
+  getUserInfo = async () => null
 }
 
 /**
  * Check if user is authenticated
  */
 export function isAuthenticated(): boolean {
-  if (!cliDo) return true // If cli.do not available, skip auth check
-
-  try {
-    return cliDo.isAuthenticated()
-  } catch {
-    return false
-  }
+  return hasValidToken ? hasValidToken() : false
 }
 
 /**
  * Get current user information
  */
 export async function getCurrentUser() {
-  if (!cliDo) return null
-
-  try {
-    return await cliDo.whoami()
-  } catch {
-    return null
-  }
+  return getUserInfo ? await getUserInfo() : null
 }
 
 /**
@@ -47,14 +45,14 @@ export async function getCurrentUser() {
  * @returns true if authenticated or skipped, false if not authenticated
  */
 export async function ensureAuthenticated(skipAuth: boolean = false): Promise<boolean> {
-  // Skip auth check if not available or explicitly skipped
-  if (!cliDo || skipAuth) return true
+  // Skip auth check if explicitly skipped
+  if (skipAuth) return true
 
   // Check if already authenticated
   if (isAuthenticated()) {
     try {
       const user = await getCurrentUser()
-      if (user) {
+      if (user?.email) {
         console.log(chalk.dim(`\n✓ Authenticated as ${user.email}`))
         return true
       }
@@ -65,7 +63,7 @@ export async function ensureAuthenticated(skipAuth: boolean = false): Promise<bo
 
   // Not authenticated - prompt user
   console.log(chalk.yellow('\n⚠️  Authentication required'))
-  console.log(chalk.dim('Please run: ') + chalk.cyan('cli.do login'))
+  console.log(chalk.dim('Please run: ') + chalk.cyan('do login'))
   console.log(chalk.dim('\nTo continue without authentication, use: ') + chalk.cyan('--skip-auth'))
   console.log()
 
@@ -76,12 +74,5 @@ export async function ensureAuthenticated(skipAuth: boolean = false): Promise<bo
  * Get access token for API requests
  */
 export async function getAccessToken(): Promise<string | null> {
-  if (!cliDo) return null
-
-  try {
-    const tokenManager = new cliDo.TokenManager()
-    return await tokenManager.getAccessToken()
-  } catch {
-    return null
-  }
+  return getToken ? await getToken() : null
 }

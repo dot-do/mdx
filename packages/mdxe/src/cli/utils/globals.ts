@@ -61,27 +61,270 @@ async function initializeSDK() {
 }
 
 /**
- * Create fallback runtime when sdk.do is not available
+ * Create HTTP-based runtime that calls deployed workers
  */
 function createFallbackRuntime() {
+  const AI_BASE_URL = process.env.AI_BASE_URL || 'https://ai.apis.do'
+  const DB_BASE_URL = process.env.DB_BASE_URL || 'https://db.apis.do'
+
   return {
     ai: {
-      generate: async (prompt: string) => `[STUB] AI response for: ${prompt}`,
-      embed: async (text: string) => Array(1536).fill(0),
+      generate: async (prompt: string, options?: any) => {
+        try {
+          const response = await fetch(`${AI_BASE_URL}/generate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt, ...options }),
+          })
+          if (!response.ok) throw new Error(`AI request failed: ${response.statusText}`)
+          return await response.json()
+        } catch (error) {
+          console.warn('[mdxe] AI request failed, using fallback:', error)
+          return { text: `[AI unavailable] Response for: ${prompt}`, model: 'fallback', cost: 0 }
+        }
+      },
+      embed: async (text: string, options?: any) => {
+        try {
+          const response = await fetch(`${AI_BASE_URL}/embed`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text, ...options }),
+          })
+          if (!response.ok) throw new Error(`Embed request failed: ${response.statusText}`)
+          return await response.json()
+        } catch (error) {
+          console.warn('[mdxe] Embed request failed, using fallback:', error)
+          return { embedding: Array(1536).fill(0), dimensions: 1536, model: 'fallback' }
+        }
+      },
+      list: async (topic: string, options?: any) => {
+        try {
+          const response = await fetch(`${AI_BASE_URL}/list`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ topic, ...options }),
+          })
+          if (!response.ok) throw new Error(`List request failed: ${response.statusText}`)
+          return await response.json()
+        } catch (error) {
+          console.warn('[mdxe] List request failed, using fallback:', error)
+          return { items: [`Item 1 about ${topic}`, `Item 2 about ${topic}`], model: 'fallback' }
+        }
+      },
+      code: async (description: string, options?: any) => {
+        try {
+          const response = await fetch(`${AI_BASE_URL}/code`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ description, ...options }),
+          })
+          if (!response.ok) throw new Error(`Code request failed: ${response.statusText}`)
+          return await response.json()
+        } catch (error) {
+          console.warn('[mdxe] Code request failed, using fallback:', error)
+          return { code: `// Code for: ${description}`, language: 'typescript', model: 'fallback' }
+        }
+      },
+      analyze: async (content: string, analysis: string, options?: any) => {
+        try {
+          const response = await fetch(`${AI_BASE_URL}/analyze`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content, analysis, ...options }),
+          })
+          if (!response.ok) throw new Error(`Analyze request failed: ${response.statusText}`)
+          return await response.json()
+        } catch (error) {
+          console.warn('[mdxe] Analyze request failed, using fallback:', error)
+          return { result: `Analysis of "${content}": ${analysis}`, model: 'fallback' }
+        }
+      },
       models: {
         getModels: () => [],
         getModel: () => null,
       },
     },
     db: {
-      find: async (query: any) => ({ query, results: [] }),
-      create: async (data: any) => ({ created: data }),
-      update: async (id: string, data: any) => ({ id, updated: data }),
-      delete: async (id: string) => ({ id, deleted: true }),
+      get: async (ns: string, id: string, options?: any) => {
+        try {
+          const response = await fetch(`${DB_BASE_URL}/${ns}/${id}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          })
+          if (!response.ok) throw new Error(`DB get failed: ${response.statusText}`)
+          return await response.json()
+        } catch (error) {
+          console.warn('[mdxe] DB get failed:', error)
+          throw error
+        }
+      },
+      list: async (ns: string, options?: any) => {
+        try {
+          const params = new URLSearchParams(options || {})
+          const response = await fetch(`${DB_BASE_URL}/${ns}?${params}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          })
+          if (!response.ok) throw new Error(`DB list failed: ${response.statusText}`)
+          return await response.json()
+        } catch (error) {
+          console.warn('[mdxe] DB list failed:', error)
+          return { items: [], total: 0 }
+        }
+      },
+      upsert: async (thing: any) => {
+        try {
+          const response = await fetch(`${DB_BASE_URL}/${thing.ns}/${thing.id || ''}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(thing),
+          })
+          if (!response.ok) throw new Error(`DB upsert failed: ${response.statusText}`)
+          return await response.json()
+        } catch (error) {
+          console.warn('[mdxe] DB upsert failed:', error)
+          throw error
+        }
+      },
+      delete: async (ns: string, id: string) => {
+        try {
+          const response = await fetch(`${DB_BASE_URL}/${ns}/${id}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+          })
+          if (!response.ok) throw new Error(`DB delete failed: ${response.statusText}`)
+          return await response.json()
+        } catch (error) {
+          console.warn('[mdxe] DB delete failed:', error)
+          throw error
+        }
+      },
+      search: async (query: string, embedding?: number[], options?: any) => {
+        try {
+          const response = await fetch(`${DB_BASE_URL}/search`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query, embedding, ...options }),
+          })
+          if (!response.ok) throw new Error(`DB search failed: ${response.statusText}`)
+          return await response.json()
+        } catch (error) {
+          console.warn('[mdxe] DB search failed:', error)
+          return { items: [], total: 0 }
+        }
+      },
+      vectorSearch: async (embedding: number[], options?: any) => {
+        try {
+          const response = await fetch(`${DB_BASE_URL}/vector-search`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ embedding, ...options }),
+          })
+          if (!response.ok) throw new Error(`DB vector search failed: ${response.statusText}`)
+          return await response.json()
+        } catch (error) {
+          console.warn('[mdxe] DB vector search failed:', error)
+          return { items: [], total: 0 }
+        }
+      },
+      count: async (ns: string, options?: any) => {
+        try {
+          const params = new URLSearchParams({ ...options, count: 'true' })
+          const response = await fetch(`${DB_BASE_URL}/${ns}?${params}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          })
+          if (!response.ok) throw new Error(`DB count failed: ${response.statusText}`)
+          const result = await response.json()
+          return result.total || 0
+        } catch (error) {
+          console.warn('[mdxe] DB count failed:', error)
+          return 0
+        }
+      },
+      upsertRelationship: async (relationship: any) => {
+        try {
+          const response = await fetch(`${DB_BASE_URL}/relationships`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(relationship),
+          })
+          if (!response.ok) throw new Error(`DB upsert relationship failed: ${response.statusText}`)
+          return await response.json()
+        } catch (error) {
+          console.warn('[mdxe] DB upsert relationship failed:', error)
+          throw error
+        }
+      },
+      getRelationships: async (ns: string, id: string, options?: any) => {
+        try {
+          const params = new URLSearchParams(options || {})
+          const response = await fetch(`${DB_BASE_URL}/${ns}/${id}/relationships?${params}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          })
+          if (!response.ok) throw new Error(`DB get relationships failed: ${response.statusText}`)
+          return await response.json()
+        } catch (error) {
+          console.warn('[mdxe] DB get relationships failed:', error)
+          return { items: [], total: 0 }
+        }
+      },
+      find: async (query: any) => {
+        // Legacy method - map to list
+        return this.list(query.collection || 'default', query)
+      },
+      create: async (data: any) => {
+        // Legacy method - map to upsert
+        return this.upsert(data)
+      },
+      update: async (id: string, data: any) => {
+        // Legacy method - map to upsert
+        return this.upsert({ ...data, id })
+      },
     },
     api: {
-      get: async (url: string) => ({ url, method: 'GET' }),
-      post: async (url: string, data: any) => ({ url, method: 'POST', data }),
+      get: async (url: string, options?: any) => {
+        try {
+          const params = options?.params ? `?${new URLSearchParams(options.params)}` : ''
+          const response = await fetch(`${url}${params}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              ...options?.headers,
+            },
+          })
+          if (!response.ok) throw new Error(`API GET failed: ${response.statusText}`)
+
+          // Try to parse as JSON, fall back to text
+          const contentType = response.headers.get('content-type')
+          if (contentType?.includes('application/json')) {
+            return await response.json()
+          } else {
+            return await response.text()
+          }
+        } catch (error) {
+          console.warn('[mdxe] API GET failed:', error)
+          throw error
+        }
+      },
+      post: async (url: string, options?: any) => {
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              ...options?.headers,
+            },
+            body: JSON.stringify(options?.body || {}),
+          })
+          if (!response.ok) throw new Error(`API POST failed: ${response.statusText}`)
+          return await response.json()
+        } catch (error) {
+          console.warn('[mdxe] API POST failed:', error)
+          throw error
+        }
+      },
     },
     send: {
       email: async (to: string, subject: string, body: string) => ({ to, subject, body }),

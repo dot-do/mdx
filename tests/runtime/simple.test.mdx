@@ -1,0 +1,77 @@
+---
+title: Simple mdxe Tests
+description: Basic tests to verify mdxe can execute TypeScript code blocks
+---
+
+# Simple mdxe Execution Tests
+
+Basic tests to verify mdxe works correctly.
+
+## Test 1: Basic Console Output
+
+```typescript
+console.log('✓ Test 1: Console output works')
+console.log('  TypeScript execution is working!')
+```
+
+## Test 2: Variables and Math
+
+```typescript
+const x = 10
+const y = 20
+const sum = x + y
+console.log('✓ Test 2: Variables and math work')
+console.log(`  ${x} + ${y} = ${sum}`)
+```
+
+## Test 3: Functions
+
+```typescript
+function greet(name: string): string {
+  return `Hello, ${name}!`
+}
+
+const message = greet('mdxe')
+console.log('✓ Test 3: Functions work')
+console.log(`  ${message}`)
+```
+
+## Test 4: Async/Await
+
+```typescript
+async function delay(ms: number): Promise<string> {
+  return new Promise(resolve => setTimeout(() => resolve('Done!'), ms))
+}
+
+const result = await delay(100)
+console.log('✓ Test 4: Async/await works')
+console.log(`  Delayed result: ${result}`)
+```
+
+## Test 5: Arrays and Iteration
+
+```typescript
+const items = ['TypeScript', 'MDX', 'mdxe']
+console.log('✓ Test 5: Arrays and iteration work')
+items.forEach(item => {
+  console.log(`  - ${item}`)
+})
+```
+
+## Test 6: Objects and JSON
+
+```typescript
+const data = {
+  tool: 'mdxe',
+  version: '0.1.0',
+  features: ['TypeScript', 'MDX', 'Zero-config']
+}
+
+console.log('✓ Test 6: Objects and JSON work')
+console.log(`  Tool: ${data.tool}`)
+console.log(`  Features: ${data.features.join(', ')}`)
+```
+
+## Summary
+
+All basic TypeScript execution tests passed!

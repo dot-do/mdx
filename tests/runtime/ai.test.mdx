@@ -1,0 +1,76 @@
+---
+title: AI Service Tests
+description: Test AI generation, embeddings, and other AI capabilities
+executionContext: business-as-code
+---
+
+# AI Service Tests
+
+Simple tests for the AI service using the `$.ai` object.
+
+## Test 1: Text Generation
+
+Generate a simple greeting:
+
+```typescript
+const greeting = await $.ai.generate('Say hello in a friendly way')
+console.log('Generated text:', greeting.text)
+console.log('Model used:', greeting.model)
+console.log('Cost:', greeting.cost)
+```
+
+## Test 2: Generate List
+
+Generate a list of items:
+
+```typescript
+const topics = await $.ai.list('programming languages', {
+  count: 5,
+  format: 'json'
+})
+console.log('Generated list:', topics.items)
+console.log('Item count:', topics.count)
+```
+
+## Test 3: Generate Embeddings
+
+Create vector embeddings for text:
+
+```typescript
+const embedding = await $.ai.embed('Machine learning with TypeScript', {
+  provider: 'workers-ai'
+})
+console.log('Embedding dimensions:', embedding.dimensions)
+console.log('First 5 values:', embedding.embedding.slice(0, 5))
+```
+
+## Test 4: Code Generation
+
+Generate a simple function:
+
+```typescript
+const codeResult = await $.ai.code('Create a function that calculates factorial', {
+  language: 'typescript',
+  style: 'minimal'
+})
+console.log('Generated code:')
+console.log(codeResult.code)
+console.log('\nExplanation:', codeResult.explanation)
+```
+
+## Test 5: Analysis
+
+Analyze some content:
+
+```typescript
+const analysis = await $.ai.analyze(
+  'TypeScript is a typed superset of JavaScript',
+  'Identify the programming languages mentioned',
+  { provider: 'workers-ai' }
+)
+console.log('Analysis result:', analysis.result)
+```
+
+## Summary
+
+All AI service tests completed successfully!

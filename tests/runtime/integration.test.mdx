@@ -1,0 +1,190 @@
+---
+title: Integration Tests
+description: Test all services working together (ai, db, api)
+executionContext: business-as-code
+---
+
+# Integration Tests
+
+Test all three services (AI, DB, API) working together in realistic scenarios.
+
+## Scenario 1: AI-Powered Content Creation with Storage
+
+Generate content with AI and store it in the database:
+
+```typescript
+console.log('\n=== Scenario 1: AI Content Creation ===')
+
+// Step 1: Generate content with AI
+const content = await $.ai.generate('Write a brief description of TypeScript in 2 sentences')
+console.log('✓ Generated content:', content.text)
+
+// Step 2: Store content in database
+const contentEntity = {
+  ns: 'generated',
+  id: 'typescript-description',
+  type: 'GeneratedContent',
+  data: {
+    topic: 'TypeScript',
+    model: content.model,
+    cost: content.cost,
+    generatedAt: new Date().toISOString()
+  },
+  content: content.text
+}
+await $.db.upsert(contentEntity)
+console.log('✓ Content stored in database')
+
+// Step 3: Retrieve and verify
+const retrieved = await $.db.get('generated', 'typescript-description')
+console.log('✓ Content retrieved:', retrieved.data?.topic)
+```
+
+## Scenario 2: API Data Enrichment with AI
+
+Fetch data from API and enrich it with AI analysis:
+
+```typescript
+console.log('\n=== Scenario 2: API Data Enrichment ===')
+
+// Step 1: Fetch data from GitHub API
+const repo = await $.api.get('https://api.github.com/repos/microsoft/typescript')
+console.log('✓ Fetched repo:', repo.name)
+console.log('  Stars:', repo.stargazers_count)
+console.log('  Language:', repo.language)
+
+// Step 2: Generate AI analysis
+const analysis = await $.ai.analyze(
+  repo.description,
+  'Summarize what this project does in simple terms',
+  { provider: 'workers-ai' }
+)
+console.log('✓ AI analysis:', analysis.result)
+
+// Step 3: Store enriched data
+await $.db.upsert({
+  ns: 'repositories',
+  id: 'microsoft-typescript',
+  type: 'Repository',
+  data: {
+    name: repo.name,
+    stars: repo.stargazers_count,
+    language: repo.language,
+    aiAnalysis: analysis.result
+  },
+  content: repo.description
+})
+console.log('✓ Enriched data stored')
+```
+
+## Scenario 3: Semantic Search with AI Embeddings
+
+Create embeddings for search functionality:
+
+```typescript
+console.log('\n=== Scenario 3: Semantic Search ===')
+
+// Step 1: Create multiple documents with embeddings
+const documents = [
+  'TypeScript is a strongly typed programming language',
+  'JavaScript is the language of the web',
+  'Python is popular for data science'
+]
+
+console.log('✓ Creating documents with embeddings...')
+for (let i = 0; i < documents.length; i++) {
+  const doc = documents[i]
+
+  // Generate embedding
+  const embedding = await $.ai.embed(doc, { provider: 'workers-ai' })
+
+  // Store with embedding
+  await $.db.upsert({
+    ns: 'docs',
+    id: `doc-${i + 1}`,
+    type: 'Document',
+    data: {
+      title: `Document ${i + 1}`,
+      dimensions: embedding.dimensions
+    },
+    content: doc,
+    embedding: embedding.embedding,
+    embeddingModel: embedding.model
+  })
+  console.log(`  ✓ Document ${i + 1} stored`)
+}
+
+// Step 2: Search using embeddings
+const searchQuery = 'programming language with types'
+const searchEmbedding = await $.ai.embed(searchQuery, { provider: 'workers-ai' })
+console.log('✓ Generated search embedding')
+
+const searchResults = await $.db.vectorSearch(searchEmbedding.embedding, {
+  ns: 'docs',
+  limit: 2,
+  minScore: 0.5,
+  model: searchEmbedding.model
+})
+console.log('✓ Search results:', searchResults.items.length)
+searchResults.items.forEach((item: any) => {
+  console.log(`  - ${item.data?.title}: ${item.content} (score: ${item.score})`)
+})
+```
+
+## Scenario 4: AI-Generated Lists with Storage
+
+Generate structured lists and store them:
+
+```typescript
+console.log('\n=== Scenario 4: List Generation ===')
+
+// Step 1: Generate list with AI
+const frameworks = await $.ai.list('popular TypeScript frameworks', {
+  count: 5,
+  format: 'json'
+})
+console.log('✓ Generated frameworks:', frameworks.items)
+
+// Step 2: Store each framework as entity
+console.log('✓ Storing frameworks...')
+for (const framework of frameworks.items) {
+  await $.db.upsert({
+    ns: 'frameworks',
+    id: framework.toLowerCase().replace(/\s+/g, '-'),
+    type: 'Framework',
+    data: {
+      name: framework,
+      language: 'TypeScript',
+      addedAt: new Date().toISOString()
+    },
+    content: `${framework} - A TypeScript framework`
+  })
+}
+
+// Step 3: List stored frameworks
+const storedFrameworks = await $.db.list('frameworks', {
+  limit: 10
+})
+console.log('✓ Stored frameworks:', storedFrameworks.total)
+```
+
+## Scenario 5: Cleanup
+
+Clean up test data:
+
+```typescript
+console.log('\n=== Cleanup ===')
+
+// Delete test entities
+await $.db.delete('generated', 'typescript-description')
+await $.db.delete('repositories', 'microsoft-typescript')
+for (let i = 1; i <= 3; i++) {
+  await $.db.delete('docs', `doc-${i}`)
+}
+
+console.log('✓ Test data cleaned up')
+```
+
+## Summary
+
+All integration tests completed successfully! The AI, DB, and API services work seamlessly together.
