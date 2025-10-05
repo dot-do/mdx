@@ -1,0 +1,419 @@
+---
+$type: Type
+$id: Snippet
+'@context': https://schema.org
+'@type': DefinedTerm
+name: Snippet
+description: Ultra-lightweight JavaScript code (< 32KB) that runs on Cloudflare's edge before or after cache
+inDefinedTermSet: https://mdx.org.ai/types
+termCode: Snippet
+sameAs:
+  - https://developers.cloudflare.com/snippets/
+  - https://mdx.org.ai/types/Snippet
+subClassOf: SoftwareSourceCode
+---
+
+# Snippet
+
+A **Snippet** is ultra-lightweight JavaScript code that runs on Cloudflare's edge network before or after the cache. Snippets are limited to 32KB and have no access to bindings, making them ideal for simple edge logic like redirects, header modification, and security rules.
+
+## Purpose
+
+Snippets enable minimal-overhead edge processing without the complexity of full Workers. They are perfect for:
+- URL redirects and rewrites
+- Header injection or modification
+- Security headers (CSP, HSTS, etc.)
+- Simple authentication checks
+- Cookie manipulation
+- Bot detection
+- Request/response transformation
+
+## Structure
+
+A Snippet MDX file consists of three parts:
+
+### 1. YAML-LD Frontmatter (Configuration)
+
+```yaml
+---
+$type: Snippet
+$id: my-snippet
+name: my-snippet
+placement: before_cache  # or after_cache
+triggers:
+  - pattern: /*
+    zones: [example.com]
+
+# Size must be < 32KB
+maxSize: 32768  # bytes
+---
+```
+
+### 2. Markdown Documentation
+
+Documentation describing:
+- What the snippet does
+- When it runs (before/after cache)
+- Which URLs it affects
+- Expected behavior
+
+### 3. JavaScript Implementation
+
+````mdx
+```javascript
+// Ultra-lightweight code (< 32KB)
+addEventListener('fetch', event => {
+  event.respondWith(handleRequest(event.request))
+})
+
+async function handleRequest(request) {
+  const url = new URL(request.url)
+
+  // Simple redirect example
+  if (url.pathname === '/old-page') {
+    return Response.redirect('/new-page', 301)
+  }
+
+  // Pass through to origin
+  return fetch(request)
+}
+```
+````
+
+## Properties
+
+### Required Properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `$type` | string | Must be "Snippet" |
+| `$id` | string | Unique identifier (kebab-case) |
+| `name` | string | Snippet name for deployment |
+| `placement` | string | "before_cache" or "after_cache" |
+
+### Optional Configuration
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `triggers` | array | URL patterns and zones |
+| `triggers[].pattern` | string | URL pattern (e.g., /*, /api/*) |
+| `triggers[].zones` | string[] | Domain names to apply to |
+| `maxSize` | number | Size limit in bytes (default: 32768) |
+| `enabled` | boolean | Whether snippet is active (default: true) |
+
+## Placement Options
+
+### Before Cache
+Snippet runs **before** checking the cache:
+- Modify request before cache lookup
+- Redirect before hitting cache
+- Add authentication
+- Transform URLs
+
+```yaml
+placement: before_cache
+```
+
+### After Cache
+Snippet runs **after** cache, before origin:
+- Modify cached responses
+- Add security headers
+- Transform response bodies
+- Inject tracking code
+
+```yaml
+placement: after_cache
+```
+
+## Size Limit
+
+**Maximum Size: 32KB (32,768 bytes)**
+
+This includes:
+- All code
+- Comments
+- Whitespace
+- String literals
+
+**Tips for staying under limit:**
+- Minify code
+- Remove comments
+- Use short variable names
+- Avoid large string literals
+- Keep logic simple
+
+## Deployment
+
+### Manual Deployment
+1. Go to Cloudflare Dashboard → Workers & Pages → Snippets
+2. Click "Create Snippet"
+3. Name: `my-snippet`
+4. Code: Paste generated code
+5. Configure triggers (URL patterns, zones)
+6. Set placement (before/after cache)
+7. Save and Deploy
+
+### API Deployment
+```bash
+curl -X POST "https://api.cloudflare.com/client/v4/accounts/{account_id}/snippets" \
+  -H "Authorization: Bearer {api_token}" \
+  -H "Content-Type: application/json" \
+  --data '{
+    "name": "my-snippet",
+    "code": "...",
+    "enabled": true
+  }'
+```
+
+### Via mdxe
+```bash
+mdxe publish --target snippet
+```
+
+## Examples
+
+### Simple Redirect Snippet
+
+```mdx
+---
+$type: Snippet
+$id: redirect-old-urls
+name: redirect-old-urls
+placement: before_cache
+triggers:
+  - pattern: /old/*
+    zones: [example.com]
+---
+
+# Old URL Redirects
+
+Redirects old URLs to new structure.
+
+\`\`\`javascript
+addEventListener('fetch', event => {
+  event.respondWith(handleRequest(event.request))
+})
+
+async function handleRequest(request) {
+  const url = new URL(request.url)
+
+  // Redirect old blog URLs
+  if (url.pathname.startsWith('/old/blog/')) {
+    const newPath = url.pathname.replace('/old/blog/', '/blog/')
+    return Response.redirect(newPath, 301)
+  }
+
+  return fetch(request)
+}
+\`\`\`
+```
+
+### Security Headers Snippet
+
+```mdx
+---
+$type: Snippet
+$id: security-headers
+name: security-headers
+placement: after_cache
+triggers:
+  - pattern: /*
+    zones: [example.com]
+---
+
+# Security Headers
+
+Adds security headers to all responses.
+
+\`\`\`javascript
+addEventListener('fetch', event => {
+  event.respondWith(handleRequest(event.request))
+})
+
+async function handleRequest(request) {
+  const response = await fetch(request)
+
+  // Clone response to modify headers
+  const newResponse = new Response(response.body, response)
+
+  // Add security headers
+  newResponse.headers.set('X-Frame-Options', 'DENY')
+  newResponse.headers.set('X-Content-Type-Options', 'nosniff')
+  newResponse.headers.set('X-XSS-Protection', '1; mode=block')
+  newResponse.headers.set('Strict-Transport-Security', 'max-age=31536000')
+
+  // CSP header
+  newResponse.headers.set(
+    'Content-Security-Policy',
+    "default-src 'self'; script-src 'self' 'unsafe-inline'"
+  )
+
+  return newResponse
+}
+\`\`\`
+```
+
+### Bot Detection Snippet
+
+```mdx
+---
+$type: Snippet
+$id: bot-detection
+name: bot-detection
+placement: before_cache
+triggers:
+  - pattern: /api/*
+    zones: [example.com]
+---
+
+# Bot Detection
+
+Blocks known bad bots.
+
+\`\`\`javascript
+addEventListener('fetch', event => {
+  event.respondWith(handleRequest(event.request))
+})
+
+async function handleRequest(request) {
+  const userAgent = request.headers.get('User-Agent') || ''
+
+  // Block known bad bots
+  const badBots = ['badbot', 'scraper', 'crawler']
+  const isBot = badBots.some(bot => userAgent.toLowerCase().includes(bot))
+
+  if (isBot) {
+    return new Response('Forbidden', {
+      status: 403,
+      headers: { 'Content-Type': 'text/plain' }
+    })
+  }
+
+  return fetch(request)
+}
+\`\`\`
+```
+
+## Limitations
+
+| Feature | Snippet | Worker |
+|---------|---------|---------|
+| **Size Limit** | 32KB | ~1MB |
+| **Bindings** | ❌ None | ✅ KV, R2, D1, Queues, etc. |
+| **Service Bindings** | ❌ No RPC | ✅ Yes |
+| **Durable Objects** | ❌ No | ✅ Yes |
+| **Async Operations** | ⚠️ Limited | ✅ Full support |
+| **Placement** | Before/after cache | Full runtime |
+| **Pricing** | Included | Per-request billing |
+| **Deployment** | Manual/API | Wrangler CLI |
+
+## When to Use Snippets
+
+**✅ Good Use Cases:**
+- Simple URL redirects
+- Header injection/modification
+- Basic auth checks (no database)
+- Cookie manipulation
+- Bot blocking (pattern matching)
+- Response transformation (small)
+- Security headers
+
+**❌ Better Use Workers:**
+- Database queries
+- External API calls
+- Complex business logic
+- Multi-service orchestration
+- Queue processing
+- Durable Object state
+- Large data transformations
+
+## Code Block Conventions
+
+- **`javascript`** blocks → Extracted to snippet code
+- **`js`** blocks → Documentation only (examples)
+- **No TypeScript** - Snippets must be plain JavaScript
+
+## Best Practices
+
+1. **Keep It Tiny** - Stay well under 32KB limit
+2. **No External Dependencies** - Can't use npm packages
+3. **Minimize Logic** - Simple, focused transformations
+4. **Test Thoroughly** - No hot reload, manual testing
+5. **Document Edge Cases** - Explain when snippet runs
+6. **Cache-Aware** - Understand before/after cache implications
+7. **Performance** - Every byte counts on the edge
+8. **Error Handling** - Fail gracefully
+
+## Migration to Worker
+
+If snippet outgrows 32KB or needs bindings:
+
+1. Convert JavaScript to TypeScript
+2. Add Worker frontmatter
+3. Add bindings as needed
+4. Deploy as full Worker
+
+```yaml
+---
+$type: Worker  # Changed from Snippet
+$id: my-worker
+name: my-worker
+main: src/index.ts
+compatibility_date: "2025-07-08"
+
+# Now can add bindings
+kv_namespaces:
+  - binding: CACHE
+    id: your-kv-id
+---
+```
+
+## Differences from Worker
+
+| Aspect | Snippet | Worker |
+|--------|---------|---------|
+| **Complexity** | Simple | Complex |
+| **Size** | < 32KB | ~1MB |
+| **Language** | JavaScript only | TypeScript/JavaScript |
+| **Bindings** | None | Full access |
+| **State** | Stateless | Stateful (Durable Objects) |
+| **Cost** | Included in plan | Per-request |
+| **Deployment** | Manual/Dashboard | Wrangler CLI |
+| **Versioning** | No versions | Version support |
+| **Testing** | Manual only | Automated tests |
+
+## Use Case Decision Matrix
+
+| Requirement | Use Snippet | Use Worker |
+|-------------|-------------|------------|
+| Need bindings (KV, R2, etc.) | ❌ | ✅ |
+| Code > 32KB | ❌ | ✅ |
+| Complex logic | ❌ | ✅ |
+| TypeScript | ❌ | ✅ |
+| RPC calls | ❌ | ✅ |
+| Just redirects | ✅ | ✅ |
+| Just headers | ✅ | ✅ |
+| Bot detection | ✅ | ✅ |
+
+## Related Types
+
+- [Worker](./Worker.mdx) - Full Cloudflare Worker
+- [Function](./Function.mdx) - Reusable function definitions
+- [SoftwareSourceCode](https://schema.org/SoftwareSourceCode) - Schema.org parent type
+
+## References
+
+- [Cloudflare Snippets Docs](https://developers.cloudflare.com/snippets/)
+- [Snippet API Reference](https://developers.cloudflare.com/api/operations/snippets-create-snippet)
+- [MDX.org.ai Specification](https://mdx.org.ai)
+
+## Changelog
+
+- **2025-10-05** - Added Snippet type definition
+- **2025-10-05** - Added deployment modes for mdxe
+
+---
+
+**Last Updated:** 2025-10-05
+**Status:** Stable
+**Version:** 1.0.0

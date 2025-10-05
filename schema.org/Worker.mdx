@@ -1,0 +1,383 @@
+---
+$type: Type
+$id: Worker
+'@context': https://schema.org
+'@type': DefinedTerm
+name: Worker
+description: A Cloudflare Worker definition that combines configuration, implementation, and documentation in a single MDX file
+inDefinedTermSet: https://mdx.org.ai/types
+termCode: Worker
+sameAs:
+  - https://developers.cloudflare.com/workers/
+  - https://mdx.org.ai/types/Worker
+subClassOf: SoftwareSourceCode
+---
+
+# Worker
+
+A **Worker** is a type definition for Cloudflare Workers written in MDX format. It combines configuration (wrangler.toml), implementation (TypeScript), and documentation (Markdown) in a single `.mdx` file.
+
+## Purpose
+
+Workers enable serverless JavaScript/TypeScript execution on Cloudflare's edge network. The Worker type in MDX allows defining these workers as self-documenting, executable code that can be:
+- Built into traditional worker structure
+- Deployed to Workers for Platforms namespaces
+- Versioned with multiple compatibility dates
+- Tested and validated in isolation
+
+## Structure
+
+A Worker MDX file consists of three parts:
+
+### 1. YAML-LD Frontmatter (Configuration)
+
+```yaml
+---
+$type: Worker
+$id: my-worker
+name: my-worker
+main: src/index.ts
+compatibility_date: "2025-07-08"
+version: v1  # Optional: for versioned deployments
+
+# Deployment configuration
+deployment:
+  modes: [worker, namespace, snippet]  # Deployment targets
+  namespace: dotdo-production          # Workers for Platforms namespace
+  versions: [v1, v2]                   # Supported versions
+
+# Wrangler configuration (all fields supported)
+services:
+  - binding: DB
+    service: db
+  - binding: AUTH
+    service: auth
+
+kv_namespaces:
+  - binding: CACHE
+    id: your-kv-id
+
+r2_buckets:
+  - binding: STORAGE
+    bucket_name: your-bucket
+
+# ... any other wrangler fields
+---
+```
+
+### 2. Markdown Documentation
+
+Rich documentation with:
+- Architecture diagrams
+- Usage examples
+- API reference
+- Deployment instructions
+
+### 3. TypeScript Implementation
+
+````mdx
+```typescript
+import { WorkerEntrypoint } from 'cloudflare:workers'
+import { Hono } from 'hono'
+
+// RPC Interface
+export class MyService extends WorkerEntrypoint<Env> {
+  async myMethod(param: string): Promise<Result> {
+    // Implementation
+  }
+}
+
+// HTTP API
+const app = new Hono<{ Bindings: Env }>()
+
+app.get('/endpoint', async (c) => {
+  const service = new MyService(c.env.ctx, c.env)
+  const result = await service.myMethod('value')
+  return c.json(result)
+})
+
+export default { fetch: app.fetch }
+```
+````
+
+## Properties
+
+### Required Properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `$type` | string | Must be "Worker" |
+| `$id` | string | Unique identifier (kebab-case) |
+| `name` | string | Worker name for deployment |
+| `main` | string | Entry point file (default: src/index.ts) |
+| `compatibility_date` | string | Cloudflare compatibility date (YYYY-MM-DD) |
+
+### Optional Configuration
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `version` | string | Version identifier (e.g., "v1", "v2") |
+| `deployment` | object | Deployment configuration |
+| `deployment.modes` | string[] | Deployment targets: worker, namespace, snippet |
+| `deployment.namespace` | string | Workers for Platforms namespace |
+| `deployment.versions` | string[] | Supported version tags |
+| `services` | array | Service bindings for RPC |
+| `kv_namespaces` | array | KV namespace bindings |
+| `r2_buckets` | array | R2 bucket bindings |
+| `d1_databases` | array | D1 database bindings |
+| `queues` | object | Queue configuration |
+| `dispatch_namespaces` | array | Dispatch namespace bindings |
+| `observability` | object | Observability configuration |
+| `vars` | object | Environment variables |
+| `routes` | array | Domain routes |
+
+All [wrangler.toml fields](https://developers.cloudflare.com/workers/wrangler/configuration/) are supported.
+
+## Deployment Modes
+
+### 1. Regular Worker
+Deploy as a standard Cloudflare Worker:
+```bash
+mdxe build my-worker.mdx
+cd my-worker && wrangler deploy
+```
+
+### 2. Workers for Platforms (Namespace)
+Deploy to a dispatch namespace:
+```bash
+mdxe publish --target namespace --namespace dotdo-production
+```
+
+### 3. Snippet
+Deploy as ultra-lightweight edge code:
+```bash
+mdxe publish --target snippet
+```
+
+## Versioned Deployments
+
+Support multiple versions simultaneously:
+
+```yaml
+version: v1
+versions:
+  v1:
+    compatibility_date: "2025-01-01"
+  v2:
+    compatibility_date: "2025-07-08"
+```
+
+Access via versioned URLs:
+- `v1.myworker.do` → Version 1
+- `v2.myworker.do` → Version 2
+- `myworker.do` → Latest version
+
+## Code Block Conventions
+
+- **`typescript`** blocks → Extracted to `src/index.ts`
+- **`ts`** blocks → Documentation only (examples)
+- **`bash`**, **`json`**, etc. → Documentation only
+
+## Interface Patterns
+
+Workers typically expose 4 interfaces:
+
+### 1. RPC (Service-to-Service)
+```typescript
+export class MyService extends WorkerEntrypoint<Env> {
+  async myMethod(): Promise<Result> { }
+}
+```
+
+### 2. HTTP API (External Requests)
+```typescript
+const app = new Hono()
+app.get('/api/items', handler)
+```
+
+### 3. MCP Tools (AI Agents)
+```typescript
+const tools = [
+  { name: 'my_tool', handler: async (input) => { } }
+]
+```
+
+### 4. Queue Consumer (Async Processing)
+```typescript
+export default {
+  async queue(batch: MessageBatch, env: Env) { }
+}
+```
+
+## Examples
+
+### Simple Worker
+
+```mdx
+---
+$type: Worker
+$id: hello
+name: hello
+main: src/index.ts
+compatibility_date: "2025-07-08"
+---
+
+# Hello Worker
+
+Simple greeting service.
+
+\`\`\`typescript
+export default {
+  async fetch(request: Request): Promise<Response> {
+    return new Response('Hello World!')
+  }
+}
+\`\`\`
+```
+
+### Complex Multi-Service Worker
+
+```mdx
+---
+$type: Worker
+$id: api-gateway
+name: api-gateway
+main: src/index.ts
+compatibility_date: "2025-07-08"
+version: v1
+
+deployment:
+  modes: [worker, namespace]
+  namespace: dotdo-production
+  versions: [v1, v2]
+
+services:
+  - binding: DB
+    service: db
+  - binding: AUTH
+    service: auth
+  - binding: AI
+    service: ai
+
+kv_namespaces:
+  - binding: CACHE
+    id: cache-namespace-id
+---
+
+# API Gateway
+
+Multi-layer routing with 20+ microservice bindings.
+
+\`\`\`typescript
+import { WorkerEntrypoint } from 'cloudflare:workers'
+import { Hono } from 'hono'
+
+export class GatewayService extends WorkerEntrypoint<Env> {
+  async route(request: Request): Promise<Response> {
+    const url = new URL(request.url)
+
+    // Route to appropriate service
+    if (url.pathname.startsWith('/db/')) {
+      return this.env.DB.fetch(request)
+    }
+
+    return new Response('Not found', { status: 404 })
+  }
+}
+
+const app = new Hono()
+app.all('*', (c) => {
+  const service = new GatewayService(c.env.ctx, c.env)
+  return service.route(c.req.raw)
+})
+
+export default { fetch: app.fetch }
+\`\`\`
+```
+
+## Use Cases
+
+1. **API Services** - RESTful APIs with multiple endpoints
+2. **Gateway/Router** - Request routing to microservices
+3. **Data Processing** - Transform and enrich data streams
+4. **Integration Layer** - Connect external services
+5. **Business Logic** - Complex workflows and rules
+6. **AI Services** - LLM inference and embeddings
+7. **Auth/Security** - Authentication and authorization
+8. **Queue Processing** - Async message handling
+
+## Building and Deployment
+
+### Build from MDX
+```bash
+tsx scripts/build-mdx-worker.ts my-worker.mdx
+```
+
+Generates:
+```
+my-worker/
+├── wrangler.jsonc    # Extracted from YAML frontmatter
+├── src/
+│   └── index.ts      # Extracted from typescript blocks
+├── README.md         # Extracted from markdown
+└── package.json      # Auto-generated
+```
+
+### Deploy
+```bash
+cd my-worker
+wrangler deploy
+
+# Or deploy to namespace
+wrangler deploy --dispatch-namespace dotdo-production
+```
+
+## Differences from Snippet
+
+| Feature | Worker | Snippet |
+|---------|---------|---------|
+| Size Limit | ~1MB | 32KB |
+| Bindings | ✅ Yes (KV, R2, D1, etc.) | ❌ No |
+| RPC | ✅ Yes | ❌ No |
+| Durable Objects | ✅ Yes | ❌ No |
+| Placement | Full worker runtime | Before/after cache |
+| Use Case | Complex services | Simple edge logic |
+
+## Best Practices
+
+1. **Single Responsibility** - Each worker should do one thing well
+2. **Documentation** - Keep markdown docs in sync with code
+3. **Type Safety** - Use TypeScript strict mode, no `any`
+4. **Testing** - 80%+ test coverage
+5. **Error Handling** - Comprehensive error responses
+6. **Observability** - Enable logging and tracing
+7. **Versioning** - Use semantic versions for breaking changes
+8. **Security** - Validate inputs, sanitize outputs
+
+## Related Types
+
+- [Snippet](./Snippet.mdx) - Ultra-lightweight edge code
+- [SoftwareSourceCode](https://schema.org/SoftwareSourceCode) - Schema.org parent type
+- [Function](./Function.mdx) - Reusable function definitions
+- [Workflow](./Workflow.mdx) - Multi-step processes
+
+## References
+
+- [Cloudflare Workers Docs](https://developers.cloudflare.com/workers/)
+- [Wrangler Configuration](https://developers.cloudflare.com/workers/wrangler/configuration/)
+- [Workers for Platforms](https://developers.cloudflare.com/cloudflare-for-platforms/workers-for-platforms/)
+- [MDX.org.ai Specification](https://mdx.org.ai)
+- [Build Script Documentation](../../workers/scripts/build-mdx-worker.ts)
+
+## Changelog
+
+- **2025-10-05** - Added versioned deployment support
+- **2025-10-05** - Added deployment modes (worker/namespace/snippet)
+- **2025-10-05** - Added timestamp-encoded squid IDs
+- **2025-10-04** - Initial Worker type definition
+
+---
+
+**Last Updated:** 2025-10-05
+**Status:** Stable
+**Version:** 1.0.0
