@@ -17,6 +17,7 @@ import { runPublishCommand } from './commands/publish'
 import { runSnippetCommand } from './commands/snippet'
 import { runAssetsCommand } from './commands/assets'
 import { runCodeCommand, type CodeOptions } from './commands/code'
+import { runDeployCommand } from './commands/deploy'
 import { ExecutionContextType } from './utils/execution-context'
 import { ensureAuthenticated } from './utils/auth'
 
@@ -113,6 +114,22 @@ export async function run() {
     const isPublic = !args.includes('--private')
 
     return runAssetsCommand({ name, env, bucket, public: isPublic })
+  } else if (command === 'deploy') {
+    const modeFlag = args.find((arg) => ['--worker', '--namespace', '--snippet'].includes(arg))
+    const mode = modeFlag?.replace('--', '') as 'worker' | 'namespace' | 'snippet' | undefined
+    const tierFlag = args.find((arg) => ['--internal', '--public', '--tenant'].includes(arg))
+    const tier = tierFlag?.replace('--', '') as 'internal' | 'public' | 'tenant' | undefined
+    const nameFlag = args.indexOf('--name')
+    const name = nameFlag !== -1 ? args[nameFlag + 1] : undefined
+    const envFlag = args.indexOf('--env')
+    const environment = envFlag !== -1 ? args[envFlag + 1] : undefined
+    const versionFlag = args.indexOf('--version')
+    const version = versionFlag !== -1 ? args[versionFlag + 1] : undefined
+    const minify = !args.includes('--no-minify')
+    const sourcemap = args.includes('--sourcemap')
+    const deployApiKey = process.env.DEPLOY_API_KEY
+
+    return runDeployCommand({ mode, tier, name, environment, version, minify, sourcemap, deployApiKey })
   } else if (command === 'code') {
     // Parse code command options
     const options: CodeOptions = {}

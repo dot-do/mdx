@@ -5,6 +5,7 @@ export { runStartCommand } from './commands/start.js'
 export { runTestCommand } from './commands/test.js'
 export { runExecCommand } from './commands/exec.js'
 export { runCodeCommand } from './commands/code.js'
+export { runDeployCommand } from './commands/deploy.js'
 
 // Export main CLI runner
 export { run } from './cli.js'
