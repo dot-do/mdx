@@ -29,13 +29,13 @@
     "@mdxui/core": "workspace:*"
   },
   "peerDependencies": {
-    "react": "^19"
+    "react": "^19.1.0"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/tsup-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/react": "^19.1.5",
+    "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",

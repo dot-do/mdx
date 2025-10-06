@@ -35,15 +35,15 @@
   "devDependencies": {
     "@repo/tsup-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/react": "^19.1.5",
-    "@types/react-dom": "^19.1.5",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
     "tsup": "^8.0.2",
     "typescript": "^5.8.3",
     "vitest": "^3.1.4"
   },
   "peerDependencies": {
-    "react": "^19",
-    "react-dom": "^19"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "license": "MIT"
 }

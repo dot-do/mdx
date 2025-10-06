@@ -43,8 +43,8 @@
     "zustand": "^5.0.6"
   },
   "peerDependencies": {
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.16",
@@ -53,20 +53,20 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/bun": "latest",
     "@types/jsdom": "^21.1.7",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
     "@vitejs/plugin-react": "^4.6.0",
     "@vitest/coverage-v8": "^3.2.4",
     "@vitest/ui": "^3.2.4",
     "bun-plugin-tailwind": "^0.0.15",
     "eslint": "^9.0.0",
     "jsdom": "^26.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "tailwindcss": "4",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0",
-    "vitest": "^3.2.4"
+    "vitest": "^3.1.4"
   },
   "keywords": [
     "mdx",

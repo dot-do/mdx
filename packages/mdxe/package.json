@@ -44,10 +44,13 @@
   "author": "MDX Team",
   "license": "MIT",
   "optionalDependencies": {
-    "cli.do": "workspace:*",
-    "sdk.do": "workspace:*"
+    "cli.do": "workspace:*"
   },
   "dependencies": {
+    "sdk.do": "workspace:*",
+    "oauth.do": "workspace:*",
+    "token.do": "workspace:*",
+    "open": "^10.1.0",
     "@cloudflare/kv-asset-handler": "^0.3.4",
     "@mdx-js/esbuild": "^3.0.0",
     "@mdx-js/mdx": "^3.1.0",
@@ -96,16 +99,16 @@
     "@types/fs-extra": "^11.0.4",
     "@types/mdx": "^2.0.13",
     "@types/node": "^24.0.10",
-    "@types/react": "^19.1.5",
-    "@types/react-dom": "^19.1.5",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
     "@types/tmp": "^0.2.6",
     "tsup": "^8.3.5",
     "typescript": "^5.8.3",
     "vite": "^6.0.7",
-    "vitest": "^2.1.8"
+    "vitest": "^3.1.4"
   },
   "peerDependencies": {
-    "react": "^19",
-    "react-dom": "^19"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   }
 }

@@ -16,7 +16,10 @@
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.1",
     "rehype-slug": "^6.0.0",
-    "reveal.js": "^5.0.0"
+    "reveal.js": "^5.0.0",
+    "oauth.do": "^1.0.0",
+    "token.do": "^1.0.0",
+    "sdk.do": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",

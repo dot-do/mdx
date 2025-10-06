@@ -184,7 +184,7 @@ function generateCSS(config: TweakcnConfig): string {
     // Generate Google Fonts import (example)
     if (uniqueFonts.length > 0 && uniqueFonts.some(f => f !== 'system-ui' && f !== 'monospace')) {
       const fontFamilies = uniqueFonts
-        .filter(f => f && f !== 'system-ui' && f !== 'monospace')
+        .filter((f): f is string => typeof f === 'string' && f !== 'system-ui' && f !== 'monospace')
         .map(f => f.replace(/\s+/g, '+'))
         .join('&family=')
 
@@ -312,7 +312,9 @@ function parseAttributes(attrString: string): Record<string, string> {
   let match
 
   while ((match = regex.exec(attrString)) !== null) {
-    attrs[match[1]] = match[2]
+    if (match[1] && match[2] !== undefined) {
+      attrs[match[1]] = match[2]
+    }
   }
 
   return attrs

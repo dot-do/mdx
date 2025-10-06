@@ -33,7 +33,7 @@
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
     "velite": "^0.1.1",
-    "vitest": "^2.1.8"
+    "vitest": "^3.1.4"
   },
   "peerDependencies": {
     "velite": "^0.1.1"

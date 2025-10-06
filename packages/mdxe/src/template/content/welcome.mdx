@@ -1,0 +1,192 @@
+---
+title: "Welcome to mdxe + .do Platform"
+description: "Your MDX development environment with built-in .do platform integration"
+---
+
+# Welcome to mdxe + .do Platform! 🚀
+
+You're now running **mdxe** with full **.do platform** integration. This means you have access to:
+
+- ✅ **Authentication** - WorkOS OAuth (sign in with Google, Microsoft, etc.)
+- ✅ **AI Capabilities** - LLM, embeddings, and model management
+- ✅ **Business Runtime** - Data operations and workflows
+- ✅ **API Infrastructure** - REST and RPC clients
+- ✅ **Real-time Features** - Events, scheduling, and messaging
+
+## Using the .do SDK
+
+The SDK is available in all your MDX files through React hooks:
+
+```tsx
+import { useSDK, use$, useAI } from '../components/sdk-provider'
+
+export function MyComponent() {
+  // Option 1: Get full SDK
+  const { ai, $ } = useSDK()
+
+  // Option 2: Use convenience hooks
+  const ai = useAI()
+  const $ = use$()
+
+  const handleGenerate = async () => {
+    // Generate text with AI
+    const result = await ai.llm.post('/generate', {
+      prompt: 'Write a haiku about TypeScript'
+    })
+
+    // Business-as-Code operations
+    const processed = await $.ai.generate(result.text)
+  }
+
+  return <button onClick={handleGenerate}>Generate</button>
+}
+```
+
+**Available hooks:**
+- `useSDK()` - Get full SDK `{ ai, $ }`
+- `use$()` - Get business runtime
+- `useAI()` - Get AI capabilities
+
+## SDK Structure
+
+The `.do` platform SDK has two main objects:
+
+### 🤖 AI Capabilities (`sdk.ai`)
+
+```typescript
+// Text generation
+await ai.llm.post('/generate', {
+  prompt: 'Your prompt here'
+})
+
+// Embeddings
+await ai.embeddings.post('/embed', {
+  text: 'Text to embed'
+})
+
+// Model registry
+const models = ai.models.getModels()
+const gpt4 = ai.models.getModel('gpt-4o')
+```
+
+### 💼 Business Runtime (`sdk.$`)
+
+The business runtime uses **CapnWeb** - operations queue automatically, only await when you need results!
+
+```typescript
+// Queue operations (no await needed)
+$.api.post('/endpoint', { data })
+$.db.insert('table', { data })
+$.every('1h').do(() => console.log('hourly task'))
+$.on('event-name', (data) => console.log(data))
+$.send('channel', { message: 'hello' })
+
+// Only await when you need results
+const data = await $.api.get('/endpoint')
+const records = await $.db.query('SELECT * FROM table')
+
+// Chain multiple operations efficiently
+$.db.insert('users', user)
+$.db.insert('logs', log)
+$.send('notifications', notification)
+// All queued as single RPC batch - super fast!
+```
+
+## 🚀 Understanding CapnWeb
+
+**This is important!** The `$` business runtime uses **CapnWeb** which makes your code blazingly fast.
+
+### How It Works
+
+```tsx
+const $ = use$()
+
+// ❌ SLOW: Each await waits for a network round-trip
+await $.db.insert('users', user)     // ~100ms
+await $.db.insert('logs', log)       // ~100ms
+await $.send('email', notification)  // ~100ms
+// Total: ~300ms
+
+// ✅ FAST: Operations queue and batch automatically
+$.db.insert('users', user)           // Queued instantly
+$.db.insert('logs', log)             // Queued instantly
+$.send('email', notification)        // Queued instantly
+// All sent as one RPC call: ~100ms total!
+
+// Only await when you need the result
+const user = await $.db.query('SELECT * FROM users WHERE id = ?', [userId])
+```
+
+### Key Principle
+
+**Don't await unless you need the result!**
+
+Think of `$` operations like a shopping list:
+- Add items to the list (no await)
+- Add more items (no await)
+- Add even more items (no await)
+- Submit the whole list at once (await when you need results)
+
+This makes your app feel instant because operations return immediately - they're just queued locally and sent as a batch over the network!
+
+## Authentication
+
+Authentication is automatically handled via WorkOS. Users can sign in with:
+
+- 🔵 Google
+- 🔷 Microsoft
+- 🟢 Okta
+- And more...
+
+No configuration needed - it just works!
+
+## Getting Started
+
+1. **Create MDX files** - Add content in the `content/` directory
+2. **Use components** - Import and use React components
+3. **Access SDK** - Use `useSDK()` hook in any component
+4. **Build apps** - Combine MDX + React + .do platform
+
+## Example: AI-Powered Content
+
+Here's a simple example of using AI in your MDX:
+
+```tsx
+'use client'
+
+import { useSDK } from '../components/sdk-provider'
+import { useState } from 'react'
+
+export function AIExample() {
+  const { ai } = useSDK()
+  const [result, setResult] = useState('')
+
+  async function generate() {
+    const response = await ai.llm.post('/generate', {
+      prompt: 'Explain quantum computing in one sentence'
+    })
+    setResult(response.text)
+  }
+
+  return (
+    <div className="p-4 border rounded">
+      <button
+        onClick={generate}
+        className="px-4 py-2 bg-black text-white rounded"
+      >
+        Generate
+      </button>
+      {result && <p className="mt-4">{result}</p>}
+    </div>
+  )
+}
+```
+
+## Next Steps
+
+- **Read the docs** - Visit [sdk.do](https://sdk.do) for full documentation
+- **Explore examples** - Check out example MDX files in `content/`
+- **Join the community** - Get help and share your projects
+- **Deploy** - Deploy your mdxe project to production
+
+Happy building! 🎉

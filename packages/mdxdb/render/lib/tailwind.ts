@@ -154,7 +154,9 @@ export function createTailwindPlugin(config: TweakcnConfig): any {
     if (config.theme?.colors) {
       addBase({
         ':root': Object.entries(config.theme.colors).reduce((acc, [key, value]) => {
-          acc[`--color-${key}`] = value
+          if (value) {
+            acc[`--color-${key}`] = value
+          }
           return acc
         }, {} as Record<string, string>),
       })

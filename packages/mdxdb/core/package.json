@@ -13,6 +13,9 @@
     "test:coverage": "vitest run --coverage",
     "check-types": "tsc --noEmit"
   },
+  "optionalDependencies": {
+    "cli.do": "workspace:*"
+  },
   "devDependencies": {
     "@types/micromatch": "^4.0.6",
     "@types/node": "^22.15.20",
@@ -21,6 +24,7 @@
     "vitest": "^3.1.4"
   },
   "dependencies": {
+    "token.do": "workspace:*",
     "mdxld": "workspace:*",
     "micromatch": "^4.0.5",
     "remark-mdx": "^3.0.0",

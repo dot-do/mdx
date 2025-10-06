@@ -30,13 +30,13 @@
     "reveal.js": "^5.0.0"
   },
   "peerDependencies": {
-    "react": "^19"
+    "react": "^19.1.0"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/tsup-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/react": "^19.1.5",
+    "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.5",
     "@types/reveal.js": "latest",
     "class-variance-authority": "^0.7.0",

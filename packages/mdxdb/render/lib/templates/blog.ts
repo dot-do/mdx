@@ -224,7 +224,7 @@ export function renderBlogTemplate(
       pageTags.length > 0
         ? `
       <div class="tags">
-        ${pageTags.map(tag => `<a href="/tags/${encodeURIComponent(tag)}" class="tag">${escapeHtml(tag)}</a>`).join('\n')}
+        ${pageTags.map((tag: string) => `<a href="/tags/${encodeURIComponent(tag)}" class="tag">${escapeHtml(tag)}</a>`).join('\n')}
       </div>
     `
         : ''
@@ -298,5 +298,5 @@ function escapeHtml(text: string): string {
     '"': '&quot;',
     "'": '&#039;',
   }
-  return text.replace(/[&<>"']/g, m => map[m])
+  return text.replace(/[&<>"']/g, m => map[m] || m)
 }

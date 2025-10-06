@@ -1,0 +1,108 @@
+# Literate Testing Demo
+
+This document demonstrates **literate testing** - where documentation becomes tests, and tests generate documentation.
+
+## Basic Output Capture
+
+When you add the `doc` meta tag to code blocks, outputs are automatically captured and displayed as inline comments:
+
+```ts doc
+// Simple calculations
+const x = 10
+const y = 20
+const sum = x + y
+
+console.log('Sum:', sum)
+
+// Object creation
+const user = {
+  name: 'Alice',
+  age: 30,
+  active: true
+}
+
+console.log('User:', user)
+```
+
+## Assertions with expect()
+
+Add the `assert` meta tag to enable assertions. The `expect()` function provides vitest-compatible matchers:
+
+```ts assert
+// Test string operations
+const greeting = 'Hello, World!'
+expect(greeting).toContain('World')
+
+// Test numbers
+const count = 42
+expect(count).toBeGreaterThan(40)
+expect(count).toBeLessThan(50)
+
+// Test booleans
+const isActive = true
+expect(isActive).toBeTruthy()
+```
+
+## Testing AI Operations
+
+Let's test the AI service with assertions:
+
+```ts assert
+// Generate text with AI
+const result = await $.ai.generate('Say hello in a friendly way', {
+  provider: 'workers-ai'
+})
+
+// Verify response structure
+expect(result.text).toBeDefined()
+expect(result.model).toBeDefined()
+
+console.log('AI Response:', result.text)
+console.log('Model:', result.model)
+```
+
+## Testing Database Operations
+
+Test database CRUD operations with assertions:
+
+```ts assert
+// Create a test entity
+const entity = {
+  ns: 'test',
+  id: 'literate-test-1',
+  type: 'TestEntity',
+  data: { name: 'Literate Testing Demo', version: 1 },
+  content: 'This entity was created by literate testing'
+}
+
+const created = await $.db.upsert(entity)
+expect(created.id).toBe('literate-test-1')
+
+// Read it back
+const retrieved = await $.db.get('test', 'literate-test-1')
+expect(retrieved.id).toBe('literate-test-1')
+expect(retrieved.data.name).toContain('Literate')
+
+console.log('Entity created and retrieved:', retrieved.id)
+
+// Clean up
+await $.db.delete('test', 'literate-test-1')
+```
+
+## Benefits of Literate Testing
+
+1. **Documentation = Tests** - Your docs are automatically verified
+2. **Always Accurate** - Docs fail if code behavior changes
+3. **Real Outputs** - Users see actual results, not hypothetical examples
+4. **Copy-Paste Confidence** - Examples are guaranteed to work
+5. **No Documentation Debt** - Tests and docs stay in sync automatically
+
+## Running Literate Tests
+
+```bash
+# Execute with output capture
+./packages/mdxe/bin/mdxe.js exec tests/runtime/literate.test.mdx
+
+# Update MDX with captured outputs (Phase 4)
+./packages/mdxe/bin/mdxe.js test:doc tests/runtime/literate.test.mdx --update
+```

@@ -1,0 +1,89 @@
+# MDXUI Integration Test
+
+This file tests that all major MDXUI components work correctly with mdxe.
+
+## Basic Components
+
+### Button Component
+
+import { Button } from '@mdxui/core'
+
+<Button variant="primary">Primary Button</Button>
+<Button variant="secondary">Secondary Button</Button>
+<Button variant="text">Text Button</Button>
+
+### Card Component
+
+import { Card } from '@mdxui/core'
+
+<Card title="Documentation" href="/docs">
+  Comprehensive guides and API references
+</Card>
+
+### Gradient Component
+
+import { Gradient } from '@mdxui/core'
+
+<div style={{ position: 'relative', width: '200px', height: '200px' }}>
+  <Gradient conic />
+</div>
+
+## Tremor Charts
+
+import { Tremor } from '@mdxui/core'
+
+export const chartdata = [
+  { name: 'Jan', sales: 2400 },
+  { name: 'Feb', sales: 1398 },
+  { name: 'Mar', sales: 9800 },
+  { name: 'Apr', sales: 3908 },
+  { name: 'May', sales: 4800 },
+  { name: 'Jun', sales: 3800 },
+]
+
+<Tremor.Card>
+  <Tremor.Title>Sales Data</Tremor.Title>
+  <Tremor.Metric>$12,699</Tremor.Metric>
+  <Tremor.BarChart
+    data={chartdata}
+    index="name"
+    categories={['sales']}
+    colors={['blue']}
+  />
+</Tremor.Card>
+
+## Test Status
+
+If you can see all the components above rendered correctly, the integration is working! ✅
+
+### Expected Results:
+
+1. ✅ Three styled buttons with different variants
+2. ✅ A clickable card with title and description
+3. ✅ A colorful gradient effect
+4. ✅ A bar chart with sales data in a Tremor card
+
+## TypeScript Support Test
+
+The following code should have full type checking:
+
+```typescript
+import type { ButtonProps } from '@mdxui/core'
+
+const props: ButtonProps = {
+  variant: 'primary',
+  children: 'Typed Button',
+  onClick: () => console.log('clicked')
+}
+```
+
+## Auto-Import Test
+
+These imports should work without explicit import statements in an mdxe environment:
+
+- Button, Card, Gradient from @mdxui/core
+- All Tremor components via Tremor namespace
+
+---
+
+**Test Complete:** If all components render correctly, mdxui integration with mdxe is functioning as expected.

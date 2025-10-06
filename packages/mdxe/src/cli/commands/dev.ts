@@ -5,6 +5,11 @@ import fs from 'node:fs/promises'
 import tmp from 'tmp'
 import fse from 'fs-extra'
 import chokidar from 'chokidar'
+import open from 'open'
+
+export interface DevOptions {
+  open?: boolean
+}
 
 /**
  * Gets the path to the embedded Next.js app template.
@@ -263,8 +268,9 @@ function setupFileWatcher(tmpAppPath: string) {
 /**
  * Installs dependencies and starts the Next.js development server in the temp directory.
  * @param tmpAppPath The path to the temporary Next.js project.
+ * @param options Development server options.
  */
-async function startNextDevServer(tmpAppPath: string) {
+async function startNextDevServer(tmpAppPath: string, options: DevOptions = {}) {
   // 1. Install dependencies in the temporary directory
   console.log('📦 Installing dependencies in temporary environment...')
   await new Promise<void>((resolve, reject) => {
@@ -299,9 +305,25 @@ async function startNextDevServer(tmpAppPath: string) {
       stdio: ['inherit', 'pipe', 'pipe'], // Don't inherit stdout/stderr so we can see our logs
     })
 
+    let browserOpened = false
+
     // Forward Next.js output but allow our logs to show
     devProcess.stdout?.on('data', (data) => {
+      const output = data.toString()
       process.stdout.write(data)
+
+      // Open browser when Next.js is ready
+      if (!browserOpened && options.open && (output.includes('Ready in') || output.includes('Local:') || output.includes('http://localhost:3000'))) {
+        browserOpened = true
+        setTimeout(async () => {
+          try {
+            await open('http://localhost:3000')
+            console.log('\n🌐 Opened browser at http://localhost:3000\n')
+          } catch (error) {
+            console.error('\n❌ Failed to open browser:', error)
+          }
+        }, 500) // Small delay to ensure server is fully ready
+      }
     })
 
     devProcess.stderr?.on('data', (data) => {
@@ -328,7 +350,7 @@ async function startNextDevServer(tmpAppPath: string) {
 /**
  * Start a development server for the MDXE project.
  */
-export async function runDevCommand(cwd: string = process.cwd()) {
+export async function runDevCommand(cwd: string = process.cwd(), options: DevOptions = {}) {
   try {
     const appTemplatePath = await getAppPath()
     const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -337,7 +359,7 @@ export async function runDevCommand(cwd: string = process.cwd()) {
 
     const tmpAppPath = await createTempAppDir(appTemplatePath, cliPackagePath)
 
-    await startNextDevServer(tmpAppPath)
+    await startNextDevServer(tmpAppPath, options)
   } catch (error) {
     console.error('Error starting development server:', error)
     process.exit(1)
