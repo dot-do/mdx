@@ -1,689 +1,732 @@
-# mdxe - Zero-Config CLI for MDX Development with Embedded CMS
+# mdxe + .do Platform
 
-`mdxe` is a batteries-included CLI that provides a complete MDX development environment with an embedded CMS. Build documentation sites, blogs, and content-driven applications with zero configuration.
+Zero-config CLI for MDX development with **built-in .do platform integration**.
 
-## Features
+## ✨ What You Get
 
-- 🚀 **Zero Configuration**: Get started instantly with no setup
-- 📝 **MDX Support**: Write content in Markdown with React components
-- 🎨 **Built-in Components**: Alert, YouTube, Callout, and more
-- 🔧 **Extensible**: Add custom components with `mdx-components.js`
-- 📊 **Embedded CMS**: Payload CMS with SQLite by default
-- 🎯 **Next.js 14+**: Built on the latest Next.js with App Router
-- 🎨 **Tailwind CSS**: Beautiful styling out of the box
-- 🔄 **Content Management**: File-based and CMS-based content
-- 🗃️ **Multiple Databases**: SQLite, PostgreSQL, MongoDB support
-- 🔧 **Code Block Execution**: Run TypeScript/JavaScript directly from MDX files
-- 🧪 **Test Runner**: Execute tests embedded in your documentation
-- 🏗️ **Build Pipeline**: Production-ready builds with esbuild optimization
-- ✨ **SDK.do Integration**: Business-as-Code runtime with AI, database, and API capabilities
+- 🔐 **Authentication** - WorkOS OAuth (Google, Microsoft, Okta)
+- 🤖 **AI Capabilities** - LLM, embeddings, models via `sdk.ai`
+- 💼 **Business Runtime** - Data operations via `sdk.$`
+- 🌐 **API Infrastructure** - REST and RPC clients
+- ⚡ **Real-time Features** - Events, scheduling, messaging
+- 🎨 **Next.js + React** - Modern web development
+- 📝 **MDX First** - Content as code with components
+
+## 🚀 Quick Start
+
+```bash
+# Install mdxe
+npm install mdxe
+
+# Start dev server (browser auto-opens with login)
+npx mdxe dev
+
+# That's it! No configuration needed.
+```
 
 ## Installation
 
 ```bash
 npm install mdxe
+# or
+pnpm add mdxe
+# or
+yarn add mdxe
 ```
 
 ## Quick Start
 
 ```bash
-# Start development server
+# Authenticate (comes with mdxe)
+npx do login
+
+# Run development server
 npx mdxe dev
 
 # Build for production
 npx mdxe build
 
-# Start production server
-npx mdxe start
-
-# Execute TypeScript code
-npx mdxe code repl
-npx mdxe code exec "return 2 + 2"
-npx mdxe code script.ts
+# Run tests
+npx mdxe test
 ```
 
-## Project Structure
+## Features
 
-When you run `mdxe dev`, it creates a temporary project with:
+### 🔐 Built-in .do Platform Authentication
 
-```
-project/
-├── content/              # Your MDX content files
-│   └── index.mdx        # Sample content
-├── mdx-components.js    # Custom MDX components (optional)
-├── .env.example         # Environment variables template
-└── .next/               # Next.js build output (after build)
-```
+Authentication works automatically via WorkOS OAuth:
+- Sign in with Google, Microsoft, Okta, etc.
+- No WorkOS account setup needed (uses .do platform credentials)
+- Browser-based OAuth flow
+- Tokens shared across all .do packages
 
-## Writing Content
+### 🤖 .do Platform SDK
 
-### MDX Files
+Access AI and business capabilities directly in your MDX:
 
-Create `.mdx` files in the `content/` directory:
+```tsx
+'use client'
 
-```mdx
----
-title: 'My First Post'
-description: 'This is my first MDX post'
-date: '2024-01-01'
----
+import { useAI, use$ } from '../components/sdk-provider'
 
-# My First Post
+export function MyComponent() {
+  const ai = useAI()  // Get AI capabilities
+  const $ = use$()    // Get Business runtime
 
-This is **bold** text and this is _italic_ text.
+  async function generate() {
+    // AI text generation
+    const result = await ai.llm.post('/generate', {
+      prompt: 'Write a haiku'
+    })
 
-## Built-in Components
+    // Business operations (uses CapnWeb - queues until awaited)
+    $.db.insert('haikus', { text: result.text })
+    $.send('notifications', { message: 'New haiku!' })
 
-<Alert type='info'>This is an info alert!</Alert>
+    // Only await when you need the result
+    const saved = await $.db.query('SELECT * FROM haikus ORDER BY id DESC LIMIT 1')
 
-<YouTube id='dQw4w9WgXcQ' />
-
-<Callout emoji='💡'>This is a callout with an emoji!</Callout>
-
-## Executable Code
-
-\`\`\`typescript
-console.log('This code runs automatically!')
-\`\`\`
-
-\`\`\`typescript test
-// This runs only during testing
-expect(2 + 2).toBe(4)
-\`\`\`
-```
-
-### Custom Components
-
-Create an `mdx-components.js` file to add your own components:
-
-```javascript
-// mdx-components.js
-export function useMDXComponents(components) {
-  return {
-    ...components,
-    MyCustomComponent: ({ children }) => <div className='bg-blue-100 p-4 rounded'>{children}</div>,
+    return saved
   }
+
+  return <button onClick={generate}>Generate</button>
 }
 ```
 
-## Content Management
+**SDK Structure:**
+- `sdk.ai` - AI capabilities (LLM, embeddings, models)
+- `sdk.$` - Business runtime containing:
+  - `$.api` - API client infrastructure
+  - `$.db` - Database operations
+  - `$.every` - Event scheduling
+  - `$.on` - Event handlers
+  - `$.send` - Messaging
 
-### File-based Content
+**Convenience hooks:**
+- `useSDK()` - Returns `{ ai, $ }`
+- `use$()` - Returns `$` (business runtime)
+- `useAI()` - Returns `ai` (AI capabilities)
 
-- Write MDX files in the `content/` directory
-- Files are automatically processed by Contentlayer
-- Supports frontmatter for metadata
-- Live reloading in development
+### ⚡ CapnWeb: Zero-Latency RPC
 
-### CMS-based Content
+**IMPORTANT:** The business runtime (`$`) uses **CapnWeb** which queues operations automatically:
 
-- Access the admin panel at `/admin`
-- Create and edit posts and pages
-- Rich text editor with Lexical
+```tsx
+// ❌ Don't do this (unnecessary awaits)
+await $.db.insert('users', user)
+await $.db.insert('logs', log)
+await $.send('notifications', notification)
+
+// ✅ Do this (queues as single RPC batch)
+$.db.insert('users', user)
+$.db.insert('logs', log)
+$.send('notifications', notification)
+
+// Only await when you need the result
+const user = await $.db.query('SELECT * FROM users WHERE id = ?', [id])
+```
+
+**Key Benefits:**
+- 🚀 **Zero latency** - Operations queue automatically
+- 📦 **Automatic batching** - Multiple calls = single RPC
+- 🔄 **Streaming results** - Get data as soon as available
+- ⚡ **Pipeline efficiency** - No round-trip overhead
+
+This is why `$` operations feel instant - they're queued locally and batched over the network!
+
+### ⚡ Zero Configuration
+
+Just create `.mdx` files and run `mdxe dev`. That's it!
+
+```bash
+# Create your first MDX file
+echo "# Hello World" > index.mdx
+
+# Start development
+npx mdxe dev
+```
+
+### 📝 Embedded CMS
+
+mdxe includes Payload CMS for content management:
+- Visual editor for MDX files
 - Media management
-- User authentication
+- User permissions
+- Custom collections
+
+### 🎨 Multiple Output Formats
+
+- **Next.js** - Full-featured web applications
+- **Hono** - Lightweight serverless workers
+- **Static** - Pre-rendered HTML
+- **React** - Component libraries
+
+### 🧪 Literate Testing - Documentation that Tests Itself
+
+**Make your documentation self-verifying** with executable code blocks and automatic assertions.
+
+#### Quick Start
+
+Add `assert` or `doc` meta to TypeScript code blocks:
+
+```mdx
+# My Document
+
+\`\`\`ts assert
+const sum = 10 + 20
+expect(sum).toBe(30)
+\`\`\`
+```
+
+Run tests:
+```bash
+pnpm test:doc path/to/file.mdx --verbose
+```
+
+#### What is Literate Testing?
+
+Literate testing turns documentation into living tests:
+- **Code blocks execute** and verify behavior
+- **Assertions inject** results as inline comments
+- **Documentation stays** accurate automatically
+- **Examples become** test cases
+
+#### Meta Tags
+
+**`ts assert`** - Enable assertions and output capture:
+```mdx
+\`\`\`ts assert
+const user = { name: 'Alice', age: 30 }
+expect(user.name).toBe('Alice')
+expect(user.age).toBeGreaterThan(18)
+\`\`\`
+```
+
+**`ts doc`** - Output capture only (no assertions):
+```mdx
+\`\`\`ts doc
+const sum = 5 + 10
+console.log('Sum:', sum)
+\`\`\`
+```
+
+#### Assertion API
+
+Full Vitest-compatible expect() API:
+
+```typescript
+// Equality
+expect(value).toBe(expected)           // Strict equality (===)
+expect(value).toEqual(expected)        // Deep equality
+expect(value).toBeDefined()            // Not undefined
+expect(value).toBeNull()               // Exactly null
+expect(value).toBeTruthy()             // Truthy value
+expect(value).toBeFalsy()              // Falsy value
+
+// Comparisons
+expect(value).toBeGreaterThan(n)       // value > n
+expect(value).toBeLessThan(n)          // value < n
+expect(value).toBeGreaterThanOrEqual(n) // value >= n
+expect(value).toBeLessThanOrEqual(n)   // value <= n
+
+// Strings
+expect(str).toContain(substring)       // String includes
+expect(str).toMatch(/pattern/)         // Regex match
+
+// Arrays
+expect(arr).toContain(item)            // Array includes
+expect(arr).toHaveLength(n)            // Array length
+
+// Objects
+expect(obj).toHaveProperty('key')      // Has property
+expect(obj).toMatchObject(partial)     // Contains properties
+```
+
+#### Auto-Update Mode
+
+Inject assertion results as inline comments:
+
+```bash
+# Run with --update flag
+pnpm test:doc file.mdx --update --verbose
+```
+
+**Before:**
+```ts
+const sum = 10 + 20
+expect(sum).toBe(30)
+```
+
+**After:**
+```ts
+const sum = 10 + 20
+expect(sum).toBe(30)
+// ✅ Expected 30 to be 30
+```
+
+#### Test Output
+
+**Passing tests:**
+```
+📊 Document Test Results
+
+📄 my-document.mdx
+   Blocks: 3/3 passed (100%)
+   Assertions: 6/6 passed (100%)
+
+✅ All tests passed!
+```
+
+**Failing tests:**
+```
+📊 Document Test Results
+
+📄 my-document.mdx
+   Blocks: 2/3 passed (67%)
+   Assertions: 5/6 passed (83%)
+
+❌ 1 test failed:
+
+Block 2:
+  ❌ Expected 30 to be 25
+     Expected: 25
+     Actual: 30
+```
+
+#### Examples
+
+**AI Generation Tests:**
+```mdx
+\`\`\`ts assert
+import { generate } from 'mdxai'
+
+const result = await generate('Write a haiku')
+const content = await result.text()
+
+expect(content).toBeDefined()
+expect(content.length).toBeGreaterThan(10)
+\`\`\`
+```
+
+**Database Tests:**
+```mdx
+\`\`\`ts assert
+import { MdxDbFs } from '@mdxdb/fs'
+
+const db = new MdxDbFs()
+await db.build()
+
+const posts = db.list('posts')
+expect(Array.isArray(posts)).toBe(true)
+expect(posts.length).toBeGreaterThan(0)
+\`\`\`
+```
+
+#### Advanced Usage
+
+**Multiple assertions:**
+```typescript
+const user = {
+  name: 'Alice',
+  age: 30,
+  email: 'alice@example.com'
+}
+
+expect(user).toBeDefined()
+expect(user.name).toBe('Alice')
+expect(user.age).toBeGreaterThan(18)
+expect(user.email).toContain('@')
+```
+
+**Async operations:**
+```typescript
+const data = await fetch('/api/users')
+const users = await data.json()
+
+expect(users).toBeDefined()
+expect(Array.isArray(users)).toBe(true)
+expect(users[0]).toHaveProperty('id')
+```
+
+**Error handling:**
+```typescript
+try {
+  const result = riskyOperation()
+  expect(result).toBeDefined()
+} catch (error) {
+  expect(error.message).toContain('expected error')
+}
+```
+
+#### Integration with Monaco Editor
+
+Run tests directly in browser editor:
+- Press **Cmd+Shift+T** (Mac) or **Ctrl+Shift+T** (Windows)
+- Click **Run Tests** button
+- See results inline with ✅/❌ indicators
+
+See `@mdxui/browser` for Monaco integration details.
+
+#### Commands
+
+```bash
+# Run document tests
+pnpm test:doc path/to/file.mdx
+
+# With verbose output
+pnpm test:doc path/to/file.mdx --verbose
+
+# Auto-inject assertion results
+pnpm test:doc path/to/file.mdx --update
+
+# Skip authentication
+pnpm test:doc path/to/file.mdx --skip-auth
+
+# Test multiple files
+pnpm test:doc tests/**/*.test.mdx
+```
+
+Run with: `pnpm test:doc`
+
+## Commands
+
+### Development
+
+```bash
+# Start development server
+mdxe dev
+
+# Specify port
+mdxe dev --port 3000
+
+# Open browser automatically
+mdxe dev --open
+```
+
+### Build
+
+```bash
+# Build for production
+mdxe build
+
+# Build for specific platform
+mdxe build --target next
+mdxe build --target hono
+mdxe build --target static
+```
+
+### Testing
+
+```bash
+# Run tests
+mdxe test
+
+# Watch mode
+mdxe test --watch
+
+# Coverage report
+mdxe test --coverage
+```
+
+### Other Commands
+
+```bash
+# Lint MDX files
+mdxe lint
+
+# Type check
+mdxe typecheck
+
+# Send content to external service
+mdxe send <destination>
+```
+
+## Authentication
+
+### Automatic Authentication (Recommended)
+
+```bash
+# Authenticate once
+npx do login
+
+# mdxe automatically uses your token
+npx mdxe dev
+```
+
+### Skip Authentication
+
+For local development without authentication:
+
+```bash
+mdxe dev --skip-auth
+```
+
+### Check Authentication Status
+
+```typescript
+import { isAuthenticated, getCurrentUser } from 'mdxe/auth'
+
+if (isAuthenticated()) {
+  const user = await getCurrentUser()
+  console.log(`Authenticated as ${user.email}`)
+}
+```
 
 ## Configuration
 
-### Environment Variables
-
-Create a `.env.local` file:
-
-```env
-# Payload CMS
-PAYLOAD_SECRET=your-secret-key
-DATABASE_URL=file:./payload.db
-
-# For PostgreSQL
-# DATABASE_URL=postgres://user:password@localhost:5432/mdxe
-
-# For MongoDB
-# DATABASE_URL=mongodb://localhost:27017/mdxe
-```
-
-### Database Options
-
-mdxe supports multiple databases:
-
-- **SQLite** (default): `file:./payload.db`
-- **PostgreSQL**: `postgres://user:password@localhost:5432/mdxe`
-- **MongoDB**: `mongodb://localhost:27017/mdxe`
-
-The database adapter is automatically chosen based on the `DATABASE_URL`.
-
-## Built-in Components
-
-### Alert
-
-```mdx
-<Alert type='info'>Info message</Alert>
-<Alert type='warning'>Warning message</Alert>
-<Alert type='error'>Error message</Alert>
-<Alert type='success'>Success message</Alert>
-```
-
-### YouTube
-
-```mdx
-<YouTube id='dQw4w9WgXcQ' title='My Video' />
-```
-
-### Callout
-
-```mdx
-<Callout emoji='🚀'>This is a callout with an emoji!</Callout>
-```
-
-## Advanced Features
-
-### SDK.do Integration (Business-as-Code Runtime)
-
-mdxe automatically integrates with [sdk.do](https://sdk.do) when available, providing a powerful Business-as-Code runtime with AI, database, and API capabilities.
-
-**Setup:**
-1. Add `sdk.do` to your dependencies
-2. Create `.env` with your API keys
-3. Use `$` and other globals in your MDX files
-
-**Example:**
-```mdx
-# AI-Powered Content
+mdxe works with zero configuration, but you can customize it with `mdxe.config.ts`:
 
 ```typescript
-// Use the $ runtime for AI operations
-const haiku = await $.ai.generate('Write a haiku about TypeScript')
-console.log(haiku)
+import { defineConfig } from 'mdxe'
 
-// Database operations
-const records = await $.db.find({ type: 'post' })
+export default defineConfig({
+  // Content directory
+  contentDir: './content',
 
-// API calls
-const data = await $.api.get('https://api.example.com/data')
-```
+  // Output directory
+  outDir: './dist',
 
-// Test with mocked AI
-```typescript test
-describe('AI integration', () => {
-  it('generates text', async () => {
-    const result = await $.ai.generate('test prompt')
-    expect(result).toBeDefined()
-  })
-})
-```
-```
+  // Target platform
+  target: 'next',
 
-**Available Globals:**
-- `$` - Full Business-as-Code runtime
-  - `$.ai.generate(prompt)` - AI text generation
-  - `$.ai.embed(text)` - Generate embeddings
-  - `$.ai.models` - Model registry and pricing
-  - `$.db.find(query)` - Database queries
-  - `$.db.create(data)` - Create records
-  - `$.api.get(url)` - HTTP requests
-  - `$.send.email(...)` - Send emails
-  - `$.send.webhook(...)` - Trigger webhooks
-- `ai` - AI operations (legacy, use `$.ai`)
-- `db` - Database operations (legacy, use `$.db`)
-- `on`, `send` - Event system
-- `list`, `research`, `extract` - Utility functions
-
-**Environment Variables:**
-```env
-# .env file
-API_BASE_URL=https://api.do
-API_KEY=your_api_key_here
-OPENAI_API_KEY=your_openai_key_here
-ANTHROPIC_API_KEY=your_anthropic_key_here
-```
-
-**Fallback Behavior:**
-If sdk.do is not available, mdxe provides stub implementations for development and testing. No errors will occur.
-
-### Code Block Execution
-
-```typescript
-// Share state between blocks
-exportVar('data', { count: 0 })
-
-// Use in another block
-const data = importVar('data')
-data.count++
-console.log(data.count) // 1
-```
-
-### Event Communication
-
-```typescript
-// Listen for events
-on('user-action', (payload) => {
-  console.log('Received:', payload)
-})
-
-// Send events
-send('user-action', { type: 'click', target: 'button' })
-```
-
-## Code Execution (Code Mode)
-
-The `mdxe code` command provides a powerful TypeScript execution environment powered by Cloudflare's Dynamic Worker Loader API. Execute code locally or in secure V8 isolates with access to platform services.
-
-### Three Execution Modes
-
-#### 1. REPL Mode (Interactive)
-
-Start an interactive TypeScript REPL:
-
-```bash
-npx mdxe code
-# or explicitly
-npx mdxe code repl
-```
-
-**Features:**
-- Line-by-line TypeScript execution
-- Variable persistence between commands
-- Async/await support
-- Syntax highlighting and autocomplete (if supported by terminal)
-- Access to service bindings (when configured)
-
-**Example REPL Session:**
-```typescript
-> const x = 42
-42
-
-> const y = await Promise.resolve(x * 2)
-84
-
-> return { x, y, sum: x + y }
-{ x: 42, y: 84, sum: 126 }
-
-> .exit  // or Ctrl+C to exit
-```
-
-#### 2. Inline Execution
-
-Execute code directly from the command line:
-
-```bash
-npx mdxe code exec "return 2 + 2"
-# Output: 4
-
-npx mdxe code exec "const data = { name: 'Alice', age: 30 }; return data"
-# Output: { name: 'Alice', age: 30 }
-
-npx mdxe code exec "return await fetch('https://api.example.com/data').then(r => r.json())"
-# Output: { ... API response ... }
-```
-
-**Use Cases:**
-- Quick calculations
-- One-off data transformations
-- Testing API responses
-- Debugging expressions
-
-#### 3. File Execution
-
-Execute TypeScript files:
-
-```bash
-npx mdxe code script.ts
-npx mdxe code ./path/to/file.ts
-```
-
-**Example `script.ts`:**
-```typescript
-// Access environment variables
-const apiKey = process.env.API_KEY
-
-// Async operations
-const response = await fetch('https://api.example.com/data', {
-  headers: { Authorization: `Bearer ${apiKey}` }
-})
-
-const data = await response.json()
-
-// Use service bindings (if configured)
-if (typeof DB !== 'undefined') {
-  await DB.query('INSERT INTO logs (data) VALUES (?)', JSON.stringify(data))
-}
-
-// Return result
-return {
-  success: true,
-  recordCount: data.length,
-  timestamp: new Date().toISOString()
-}
-```
-
-### Command Options
-
-All three modes support these options:
-
-```bash
---bindings <list>    # Service bindings to enable (comma-separated)
-                     # Example: --bindings db,email,queue
-
---timeout <ms>       # Execution timeout in milliseconds
-                     # Default: 30000 (30 seconds)
-                     # Max: Depends on authorization tier
-
---cache              # Enable result caching (useful for expensive operations)
-                     # Results cached for 1 hour
-
---output <format>    # Output format: 'json' or 'text'
-                     # Default: 'json'
-```
-
-**Examples:**
-```bash
-# With database binding
-npx mdxe code exec "return await DB.query('SELECT COUNT(*) FROM users')" --bindings db
-
-# With email binding and timeout
-npx mdxe code exec "await EMAIL.send('test@example.com', 'Hello', 'World')" --bindings email --timeout 5000
-
-# Enable caching for expensive operation
-npx mdxe code script.ts --cache
-
-# Output as plain text
-npx mdxe code exec "return 'Hello, World!'" --output text
-```
-
-### Service Bindings
-
-When running with the DO worker, you can access platform services:
-
-```typescript
-// Database operations
-const users = await DB.query('SELECT * FROM users WHERE active = true')
-
-// Email sending
-await EMAIL.send(
-  'user@example.com',
-  'Welcome!',
-  'Thanks for signing up!'
-)
-
-// Queue messages
-await QUEUE.send('process-data', { userId: 123, data: {...} })
-
-// AI operations (internal tier only)
-const embedding = await AI.generateEmbedding('Hello world')
-
-// MCP tools (internal tier only)
-const tools = await MCP.listTools()
-```
-
-**Available Bindings by Authorization Tier:**
-
-| Tier | Bindings | Description |
-|------|----------|-------------|
-| **Public** | `db` | Regular users - minimal access |
-| **Tenant** | `db`, `email`, `queue` | Tenant users - tenant-scoped access |
-| **Internal** | All bindings | Admin/service accounts - full access |
-
-### Authorization & Security
-
-Code execution is secured using a three-tier authorization system:
-
-#### Public Tier (Default)
-- **Bindings:** `db` only
-- **Namespace:** `user:{userId}` or `session:{requestId}`
-- **Max Execution Time:** 10 seconds
-- **Rate Limit:** 3 executions per minute
-- **Arbitrary Code:** Requires paid upgrade
-
-**Example:**
-```bash
-# Public user - database queries scoped to their namespace
-npx mdxe code exec "return await DB.query('SELECT * FROM notes')" --bindings db
-# Automatically scoped to user:usr_123abc
-```
-
-#### Tenant Tier
-- **Bindings:** `db`, `email`, `queue`
-- **Namespace:** `tenant:{tenantId}`
-- **Max Execution Time:** 30 seconds
-- **Rate Limit:** 10 executions per minute
-- **Arbitrary Code:** Allowed
-
-**Example:**
-```bash
-# Tenant user - access to tenant-scoped data
-npx mdxe code exec "return await DB.query('SELECT * FROM customers')" --bindings db
-# Automatically scoped to tenant:acme-corp
-```
-
-#### Internal Tier (Admin/Service)
-- **Bindings:** All (`db`, `auth`, `gateway`, `schedule`, `webhooks`, `email`, `mcp`, `queue`)
-- **Namespace:** `*` (no restrictions)
-- **Max Execution Time:** 120 seconds
-- **Rate Limit:** None
-- **Arbitrary Code:** Allowed
-
-**Example:**
-```bash
-# Admin user - full platform access
-npx mdxe code exec "return await AUTH.getUser('usr_123')" --bindings auth
-# No namespace restrictions
-```
-
-### Environment Setup
-
-#### Local Development
-
-1. Create `.env` file:
-```env
-DO_WORKER_URL=http://localhost:8787
-```
-
-2. Start DO worker locally:
-```bash
-cd workers/do
-pnpm dev
-```
-
-3. Execute code:
-```bash
-npx mdxe code exec "return 2 + 2"
-```
-
-**Fallback:** If DO worker is not available, code executes locally using `eval()` (less secure, development only).
-
-#### Production Setup
-
-1. Set production worker URL:
-```env
-DO_WORKER_URL=https://do.do
-```
-
-2. Configure authentication:
-```env
-AUTH_TOKEN=your_api_key_here
-```
-
-3. Execute code:
-```bash
-npx mdxe code exec "return await DB.query('SELECT 1')" --bindings db
-```
-
-### Execution Results
-
-All execution modes return a structured result:
-
-```typescript
-{
-  success: true,
-  result: /* your return value */,
-  logs: [
-    "console.log output line 1",
-    "console.log output line 2"
-  ],
-  executionTime: 145  // milliseconds
-}
-```
-
-**On Error:**
-```typescript
-{
-  success: false,
-  error: {
-    message: "Error message",
-    stack: "Error stack trace"
+  // Payload CMS configuration
+  cms: {
+    enabled: true,
+    collections: ['posts', 'pages']
   },
-  logs: [],
-  executionTime: 23
-}
+
+  // MDX plugins
+  mdxPlugins: [
+    remarkGfm,
+    remarkFrontmatter
+  ]
+})
 ```
 
-### Best Practices
+## MDX Features
 
-1. **Always return a value** - Use `return` statement for meaningful output
-2. **Use appropriate bindings** - Only request bindings you need
-3. **Handle errors** - Wrap risky code in try/catch
-4. **Set reasonable timeouts** - Don't default to maximum
-5. **Use caching for expensive operations** - `--cache` flag for repeated queries
-6. **Namespace awareness** - Remember your queries are automatically scoped
-7. **Test locally first** - Use local DO worker before production
-
-### Example Workflows
-
-#### Data Analysis Script
-```typescript
-// analyze-users.ts
-const users = await DB.query('SELECT * FROM users')
-
-const stats = {
-  total: users.length,
-  active: users.filter(u => u.active).length,
-  byCountry: users.reduce((acc, u) => {
-    acc[u.country] = (acc[u.country] || 0) + 1
-    return acc
-  }, {})
-}
-
-console.log('User Statistics:')
-console.log(JSON.stringify(stats, null, 2))
-
-return stats
-```
-
-```bash
-npx mdxe code analyze-users.ts --bindings db
-```
-
-#### Send Email Notification
-```bash
-npx mdxe code exec "
-  const users = await DB.query('SELECT email FROM users WHERE notify = true');
-  for (const user of users) {
-    await EMAIL.send(
-      user.email,
-      'Weekly Update',
-      'Here is your weekly update!'
-    );
-  }
-  return { sent: users.length };
-" --bindings db,email --timeout 60000
-```
-
-#### Queue Background Job
-```bash
-npx mdxe code exec "
-  const jobs = await DB.query('SELECT id FROM pending_jobs LIMIT 100');
-  for (const job of jobs) {
-    await QUEUE.send('process-job', { jobId: job.id });
-  }
-  return { queued: jobs.length };
-" --bindings db,queue
-```
-
-### Troubleshooting
-
-**Error: "DO worker not available"**
-- Check `DO_WORKER_URL` is set correctly
-- Verify DO worker is running (`cd workers/do && pnpm dev`)
-- Check network connectivity
-
-**Error: "Rate limit exceeded"**
-- Wait for rate limit window to reset (1 minute)
-- Upgrade to higher tier for increased limits
-- Use `--cache` flag for repeated operations
-
-**Error: "Access denied to bindings"**
-- Check your authorization tier
-- Request only allowed bindings for your tier
-- Contact admin for tier upgrade if needed
-
-**Error: "Timeout exceeded"**
-- Reduce execution time
-- Use shorter timeout: `--timeout 5000`
-- Optimize your code
-- Consider upgrading tier for longer execution time
-
-### Integration with mdxe Dev Server
-
-Code blocks in MDX files can be executed automatically:
+### Frontmatter
 
 ```mdx
 ---
-title: Data Analysis
+title: My Post
+date: 2025-10-04
+tags: [mdx, javascript]
 ---
 
-# User Statistics
+# {frontmatter.title}
 
+Published on {frontmatter.date}
+```
+
+### Components
+
+Import and use React components:
+
+```mdx
+import { Button } from '@/components/Button'
+
+# Welcome
+
+<Button onClick={() => alert('Hello!')}>
+  Click me
+</Button>
+```
+
+### Code Execution
+
+Execute TypeScript code blocks:
+
+```mdx
 \`\`\`typescript
-const users = await DB.query('SELECT * FROM users')
-return {
-  total: users.length,
-  active: users.filter(u => u.active).length
-}
+const greeting = "Hello from MDX!"
+console.log(greeting)
 \`\`\`
 ```
 
-This code executes when the page loads, with results displayed inline.
+### Schema.org Support
+
+Add structured data with YAML-LD:
+
+```mdx
+---
+'@context': 'https://schema.org'
+'@type': Article
+headline: 'My Article'
+author:
+  '@type': Person
+  name: 'Jane Doe'
+---
+
+# My Article
+
+Content here...
+```
+
+## Payload CMS Integration
+
+mdxe includes Payload CMS for content management:
+
+### Access the CMS
+
+```bash
+# Start development server
+npx mdxe dev
+
+# Access CMS at:
+http://localhost:3000/admin
+```
+
+### Default Collections
+
+- **Posts** - Blog posts and articles
+- **Pages** - Static pages
+- **Media** - Images and files
+
+### Custom Collections
+
+```typescript
+// payload.config.ts
+export default {
+  collections: [
+    {
+      slug: 'products',
+      fields: [
+        { name: 'name', type: 'text' },
+        { name: 'price', type: 'number' },
+        { name: 'description', type: 'richText' }
+      ]
+    }
+  ]
+}
+```
+
+## API Reference
+
+### Authentication Utilities
+
+```typescript
+import {
+  isAuthenticated,
+  getCurrentUser,
+  ensureAuthenticated,
+  getAccessToken
+} from 'mdxe/auth'
+
+// Check if user is authenticated
+const authenticated = isAuthenticated()
+
+// Get current user
+const user = await getCurrentUser()
+
+// Ensure authenticated (prompts if not)
+await ensureAuthenticated()
+
+// Get access token for API calls
+const token = await getAccessToken()
+```
+
+### MDX Utilities
+
+```typescript
+import {
+  findMdxFiles,
+  parseMdxFile,
+  findIndexFile
+} from 'mdxe'
+
+// Find all MDX files in directory
+const files = await findMdxFiles('./content')
+
+// Parse MDX file
+const { frontmatter, content } = await parseMdxFile('./post.mdx')
+
+// Find index file (index.mdx, README.mdx, etc.)
+const indexFile = await findIndexFile('./content')
+```
 
 ## Deployment
 
+### Cloudflare Pages
+
+```bash
+# Build for Cloudflare
+mdxe build --target hono
+
+# Deploy
+wrangler pages deploy dist
+```
+
 ### Vercel
 
-1. Connect your repository to Vercel
-2. Set build command: `npx mdxe build`
-3. Set output directory: `.next` (default)
-4. Deploy!
+```bash
+# Build for Next.js
+mdxe build --target next
 
-### Other Platforms
+# Deploy
+vercel deploy
+```
 
-1. Run `npx mdxe build`
-2. Deploy the `.next` directory
-3. Set start command: `npx mdxe start`
+### Netlify
 
-## Integration with MDX Ecosystem
+```bash
+# Build static site
+mdxe build --target static
 
-`mdxe` works seamlessly with other MDX ecosystem packages:
+# Deploy
+netlify deploy --dir=dist
+```
 
-- **[@mdxui](../mdxui/README.md)** - UI components automatically available
-- **[@mdxai](../mdxai/README.md)** - AI functions for content generation
-- **[@mdxdb](../mdxdb/README.md)** - Database operations on MDX files
-- **[@mdxld](../mdxld/README.md)** - Linked data and schema integration
+## Examples
 
-## Implementation Details
+See the [examples directory](../../examples) for complete examples:
 
-For detailed implementation information, architecture decisions, and research alignment, see [IMPLEMENTATION.md](./IMPLEMENTATION.md).
+- **Blog** - Simple blog with posts
+- **Deck** - Slide presentation
+- **Minimal** - Bare minimum setup
+- **Payload Blog** - Blog with CMS
 
-This document covers:
+## Related Packages
 
-- Package consolidation process
-- Research findings implementation
-- Architecture decisions and patterns
-- Development workflow details
-- Deployment strategies
+- **[token.do](https://github.com/dot-do/sdk/tree/main/packages/token.do)** - Shared authentication
+- **[cli.do](https://github.com/dot-do/sdk/tree/main/packages/cli.do)** - Authentication CLI (`do` command)
+- **[@mdxdb/core](../mdxdb/core)** - MDX database utilities
+- **[mdxai](../mdxai)** - AI-powered content generation
 
-## Contributing
+## Troubleshooting
 
-This package is part of the [MDX ecosystem](https://github.com/mdxld/mdx).
+### Authentication Required
 
-See [IMPLEMENTATION.md](./IMPLEMENTATION.md) for technical details about the codebase structure and development patterns.
+If you see "Authentication required":
+
+```bash
+# Login with the do command
+npx do login
+
+# Or skip auth for local development
+npx mdxe dev --skip-auth
+```
+
+### Port Already in Use
+
+```bash
+# Use a different port
+npx mdxe dev --port 3001
+```
+
+### Build Errors
+
+```bash
+# Clean and rebuild
+rm -rf dist .mdxe
+npx mdxe build
+```
+
+## Links
+
+- **Documentation:** [mdx.org.ai](https://mdx.org.ai)
+- **GitHub:** [dot-do/mdx](https://github.com/dot-do/mdx)
+- **Issues:** [GitHub Issues](https://github.com/dot-do/mdx/issues)
 
 ## License
 

@@ -95,6 +95,49 @@ domain in literature without prior coordination or asking for permission.
 
 MDXE is a zero-config CLI that allows you to build, execute, test, and deploy code in Markdown & MDX files. It uses MDX, ESBuild, ESLint, Next.js, React, Velite, and Vitest under the hood to rapidly develop apps and sites.
 
+### Literate Testing - Documentation That Tests Itself ✨
+
+Turn your MDX documentation into self-verifying tests with executable code blocks and automatic assertions:
+
+````markdown
+## Array Operations
+
+```ts assert
+const numbers = [1, 2, 3, 4, 5]
+const doubled = numbers.map(n => n * 2)
+
+expect(doubled.length).toBe(5)
+expect(doubled[0]).toBe(2)
+expect(doubled[4]).toBe(10)
+```
+````
+
+Run tests on your documentation:
+
+```bash
+mdxe test:doc your-file.mdx
+
+# 📊 Document Test Results
+#
+# 📄 your-file.mdx
+#    Blocks: 1/1 passed (100%)
+#    Assertions: 3/3 passed (100%)
+#
+# ✅ All tests passed!
+```
+
+**Features:**
+- 15+ assertion methods (toBe, toEqual, toContain, toBeGreaterThan, etc.)
+- Auto-inject results with `--update` flag
+- Run in CLI or browser (Monaco editor with Cmd+Shift+T)
+- Living documentation that stays accurate
+
+See [RELEASE-NOTES-LITERATE-TESTING.md](./RELEASE-NOTES-LITERATE-TESTING.md) for complete details.
+
+### Traditional Unit Testing
+
+For traditional unit tests, use Vitest syntax:
+
 ````markdown
 # Addition
 
@@ -117,13 +160,15 @@ describe('sum', () => {
 ```
 ````
 
-And you can execute the tests:
+Execute the tests:
 
 ```bash
 mdxe test
 ```
 
-and run the app which uses:
+### Full Development Environment
+
+Run the development server:
 
 ```bash
 mdxe dev
@@ -138,7 +183,7 @@ mdxe dev
 #  ✓ Ready in 1995ms
 ```
 
-And you can develop and deploy entire projects with `mdxe`:
+Develop and deploy entire projects:
 
 ```jsonc
 // package.json
@@ -148,6 +193,7 @@ And you can develop and deploy entire projects with `mdxe`:
     "build": "mdxe build",
     "start": "mdxe start",
     "test": "mdxe test",
+    "test:doc": "mdxe test:doc",
     "lint": "mdxe lint",
   },
 }

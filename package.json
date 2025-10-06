@@ -12,6 +12,7 @@
     "test:coverage": "turbo run test:coverage --env-mode=loose",
     "test:packages": "pnpm --filter \"./packages/**\" test",
     "test:packages:coverage": "pnpm --filter \"./packages/**\" test:coverage",
+    "test:doc": "tsx test-literate.js",
     "check-types": "turbo run check-types",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\"",
     "generate:schema": "tsx scripts/generate-schema-mdx.ts",

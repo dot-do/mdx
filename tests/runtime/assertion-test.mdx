@@ -1,0 +1,27 @@
+# Assertion Injection Test
+
+This demonstrates assertion result injection (Phase 4 feature).
+
+## Simple Assertions
+
+```ts assert
+const x = 5
+const y = 10
+const sum = x + y
+
+expect(sum).toBe(15)
+expect(sum).toBeGreaterThan(10)
+expect(sum).toBeLessThan(20)
+```
+
+## String Assertions
+
+```ts assert
+const message = 'Hello, World!'
+
+expect(message).toContain('Hello')
+expect(message).toContain('World')
+expect(message.length).toBeGreaterThan(10)
+```
+
+## After running with --update, assertion results will appear as comments

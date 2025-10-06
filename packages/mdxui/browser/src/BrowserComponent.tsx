@@ -3,6 +3,7 @@ import { BrowserComponentProps } from './types.js'
 import { BrowseMode } from './modes/BrowseMode.js'
 import { EditMode } from './modes/EditMode.js'
 import { PreviewMode } from './modes/PreviewMode.js'
+import { TestResultsPanel, type TestResult } from './components/TestResultsPanel.js'
 
 export const BrowserComponent: React.FC<BrowserComponentProps> = ({
   mode,
@@ -16,10 +17,16 @@ export const BrowserComponent: React.FC<BrowserComponentProps> = ({
   readOnly = false,
   className = '',
   style = {},
+  // Test runner props
+  enableTesting = true,
+  onTestResults,
+  showTestButton = true,
 }) => {
   const [currentContent, setCurrentContent] = useState(content)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [testResults, setTestResults] = useState<TestResult | null>(null)
+  const [showTestPanel, setShowTestPanel] = useState(false)
 
   useEffect(() => {
     setCurrentContent(content)
@@ -116,6 +123,15 @@ export const BrowserComponent: React.FC<BrowserComponentProps> = ({
     [onNavigate],
   )
 
+  const handleTestResults = useCallback(
+    (results: TestResult) => {
+      setTestResults(results)
+      setShowTestPanel(true)
+      onTestResults?.(results)
+    },
+    [onTestResults],
+  )
+
   const commonProps = {
     content: currentContent,
     language,
@@ -126,6 +142,10 @@ export const BrowserComponent: React.FC<BrowserComponentProps> = ({
     readOnly,
     isLoading,
     error,
+    // Test runner props (only for EditMode)
+    enableTesting,
+    onRunTests: handleTestResults,
+    showTestButton,
   }
 
   const containerClassName = `mdxui-browser ${className}`.trim()
@@ -140,7 +160,12 @@ export const BrowserComponent: React.FC<BrowserComponentProps> = ({
   return (
     <div className={containerClassName} style={containerStyle}>
       {mode === 'browse' && <BrowseMode {...commonProps} />}
-      {mode === 'edit' && <EditMode {...commonProps} />}
+      {mode === 'edit' && (
+        <>
+          <EditMode {...commonProps} />
+          {showTestPanel && testResults && <TestResultsPanel results={testResults} onClose={() => setShowTestPanel(false)} />}
+        </>
+      )}
       {mode === 'preview' && <PreviewMode {...commonProps} />}
     </div>
   )

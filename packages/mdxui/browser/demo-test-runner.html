@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MDX Browser - Literate Testing Demo</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background: #0d1117;
+        color: #e1e4e8;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      header {
+        background: #161b22;
+        padding: 16px 24px;
+        border-bottom: 1px solid #30363d;
+      }
+
+      h1 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .subtitle {
+        font-size: 14px;
+        color: #8b949e;
+      }
+
+      #container {
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .info {
+        position: fixed;
+        bottom: 16px;
+        left: 16px;
+        background: #161b22;
+        padding: 12px 16px;
+        border-radius: 6px;
+        font-size: 12px;
+        z-index: 1000;
+        border: 1px solid #30363d;
+      }
+
+      .info strong {
+        color: #58a6ff;
+      }
+
+      .key {
+        background: #30363d;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: 'Monaco', 'Menlo', monospace;
+        font-size: 11px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>🧪 Literate Testing in Monaco Editor</h1>
+      <p class="subtitle">Phase 1: Basic Test Runner with Keyboard Shortcut</p>
+    </header>
+
+    <div id="container"></div>
+
+    <div class="info">
+      <div><strong>Try it out:</strong></div>
+      <div style="margin-top: 8px">
+        • Click <strong>"Run Tests"</strong> button<br />
+        • Press <span class="key">Cmd+Shift+T</span> (Mac) or <span class="key">Ctrl+Shift+T</span> (Windows)<br />
+        • See test results in bottom panel<br />
+        • Close panel with × button
+      </div>
+    </div>
+
+    <!-- Load React and ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Load Monaco Editor -->
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/loader.js"></script>
+
+    <!-- Load the built UMD bundle -->
+    <script src="dist/index.umd.js"></script>
+
+    <!-- Initialize Monaco and Load Browser Component -->
+    <script>
+      require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs' } })
+      require(['vs/editor/editor.main'], function () {
+        console.log('Monaco Editor loaded successfully')
+        console.log('React version:', React.version)
+        console.log('MdxuiBrowser available:', typeof MdxuiBrowser !== 'undefined')
+
+        // Sample MDX content with test blocks
+        const sampleContent = `# Literate Testing Example
+
+This is a demo of the test runner in Monaco editor!
+
+## Basic Math Test
+
+\`\`\`ts assert
+const x = 10
+const y = 20
+const sum = x + y
+
+expect(sum).toBe(30)
+expect(sum).toBeGreaterThan(25)
+expect(sum).toBeLessThan(35)
+\`\`\`
+
+## String Test
+
+\`\`\`ts assert
+const message = 'Hello, World!'
+
+expect(message).toBeDefined()
+expect(message).toContain('Hello')
+expect(message).toContain('World')
+expect(message.length).toBeGreaterThan(10)
+\`\`\`
+
+## Array Test
+
+\`\`\`ts assert
+const numbers = [1, 2, 3, 4, 5]
+
+expect(numbers).toBeDefined()
+expect(Array.isArray(numbers)).toBe(true)
+expect(numbers.length).toBe(5)
+expect(numbers[0]).toBe(1)
+expect(numbers[4]).toBe(5)
+\`\`\`
+
+## Try It Yourself
+
+Press **Cmd+Shift+T** (Mac) or **Ctrl+Shift+T** (Windows) to run tests!
+Or click the "Run Tests" button in the top-right corner.
+`
+
+        // Render the editor with test runner
+        if (typeof MdxuiBrowser !== 'undefined' && MdxuiBrowser.render) {
+          console.log('Rendering Monaco Editor with test runner...')
+
+          MdxuiBrowser.render('container', {
+            mode: 'edit',
+            content: sampleContent,
+            language: 'markdown',
+            theme: 'github-dark',
+            enableTesting: true,
+            showTestButton: true,
+            onTestResults: (results) => {
+              console.log('📊 Test Results:', results)
+              console.log('Blocks:', `${results.blocks.passed}/${results.blocks.total}`)
+              console.log('Assertions:', `${results.assertions.passed}/${results.assertions.total}`)
+
+              if (results.assertions.failed === 0) {
+                console.log('✅ All tests passed!')
+              } else {
+                console.log('❌ Some tests failed')
+                results.failures.forEach((f) => {
+                  console.log(`  Line ${f.line}: ${f.message}`)
+                })
+              }
+            },
+            onContentChange: (content) => {
+              console.log('Content changed:', content.length, 'characters')
+            },
+          })
+
+          console.log('✅ Editor rendered successfully!')
+          console.log('👉 Try pressing Cmd+Shift+T (Mac) or Ctrl+Shift+T (Windows) to run tests!')
+        } else {
+          console.error('MdxuiBrowser not loaded. Check that dist/index.umd.js exists.')
+
+          const container = document.getElementById('container')
+          container.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column; gap: 16px;">
+              <div style="font-size: 48px;">❌</div>
+              <div style="font-size: 18px; font-weight: 600;">Build Not Found</div>
+              <div style="font-size: 14px; color: #8b949e; max-width: 500px; text-align: center;">
+                Run <code style="background: #30363d; padding: 2px 6px; border-radius: 3px;">pnpm build</code> in
+                <code style="background: #30363d; padding: 2px 6px; border-radius: 3px;">packages/mdxui/browser</code>
+              </div>
+            </div>
+          `
+        }
+      })
+    </script>
+  </body>
+</html>

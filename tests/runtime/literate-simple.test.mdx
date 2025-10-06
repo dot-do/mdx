@@ -1,0 +1,128 @@
+# Simple Literate Testing Demo
+
+This demonstrates literate testing without external service dependencies.
+
+## Basic Math Operations
+
+Test basic arithmetic with assertions:
+
+```ts assert
+const a = 10
+const b = 20
+const sum = a + b
+const product = a * b
+
+expect(sum).toBe(30)
+expect(product).toBe(200)
+expect(sum).toBeGreaterThan(25)
+expect(product).toBeGreaterThan(sum)
+
+console.log('Sum:', sum)
+console.log('Product:', product)
+```
+
+## String Operations
+
+Test string manipulation:
+
+```ts assert
+const firstName = 'John'
+const lastName = 'Doe'
+const fullName = `${firstName} ${lastName}`
+
+expect(fullName).toContain('John')
+expect(fullName).toContain('Doe')
+expect(fullName.length).toBeGreaterThan(5)
+
+console.log('Full name:', fullName)
+```
+
+## Array Operations
+
+Test array methods:
+
+```ts assert
+const numbers = [1, 2, 3, 4, 5]
+const doubled = numbers.map(n => n * 2)
+const sum = numbers.reduce((a, b) => a + b, 0)
+
+expect(doubled.length).toBe(5)
+expect(doubled[0]).toBe(2)
+expect(doubled[4]).toBe(10)
+expect(sum).toBe(15)
+
+console.log('Original:', numbers)
+console.log('Doubled:', doubled)
+console.log('Sum:', sum)
+```
+
+## Object Operations
+
+Test object manipulation:
+
+```ts assert
+const user = {
+  name: 'Alice',
+  age: 30,
+  email: 'alice@example.com'
+}
+
+const updatedUser = {
+  ...user,
+  age: 31,
+  verified: true
+}
+
+expect(updatedUser.name).toBe('Alice')
+expect(updatedUser.age).toBe(31)
+expect(updatedUser.verified).toBeTruthy()
+
+console.log('Original user:', user)
+console.log('Updated user:', updatedUser)
+```
+
+## Async Operations
+
+Test async/await with timers:
+
+```ts assert
+async function delay(ms: number): Promise<string> {
+  return new Promise(resolve => {
+    setTimeout(() => resolve('Done!'), ms)
+  })
+}
+
+const result = await delay(10)
+expect(result).toBe('Done!')
+expect(result).toContain('Done')
+
+console.log('Async result:', result)
+```
+
+## Boolean Logic
+
+Test boolean operations:
+
+```ts assert
+const isActive = true
+const isVerified = false
+const bothTrue = isActive && isVerified
+const eitherTrue = isActive || isVerified
+
+expect(isActive).toBeTruthy()
+expect(isVerified).toBeFalsy()
+expect(bothTrue).toBeFalsy()
+expect(eitherTrue).toBeTruthy()
+
+console.log('Active:', isActive)
+console.log('Verified:', isVerified)
+console.log('Both true:', bothTrue)
+console.log('Either true:', eitherTrue)
+```
+
+## Success Summary
+
+✅ All assertions pass
+✅ Documentation is verified
+✅ Examples are guaranteed to work
+✅ Copy-paste with confidence

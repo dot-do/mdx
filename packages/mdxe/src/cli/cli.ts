@@ -12,6 +12,7 @@ import { runStartCommand } from './commands/start'
 import { runExecCommand } from './commands/exec'
 import { runSendCommand } from './commands/send'
 import { runTestCommand } from './commands/test'
+import { runTestDocCommand } from './commands/test-doc'
 import { runLintCommand } from './commands/lint'
 import { runPublishCommand } from './commands/publish'
 import { runSnippetCommand } from './commands/snippet'
@@ -36,7 +37,8 @@ export async function run() {
   const skipAuth = args.includes('--skip-auth')
 
   // Commands that don't require authentication
-  const noAuthCommands = ['help', '--help', '-h', '--version', '-v']
+  // 'dev' is included because auth is handled in the browser via WorkOS
+  const noAuthCommands = ['help', '--help', '-h', '--version', '-v', 'dev']
 
   // Check authentication (unless skipped or help command)
   if (!noAuthCommands.includes(command) && !skipAuth) {
@@ -51,7 +53,8 @@ export async function run() {
   }
 
   if (command === 'dev') {
-    return runDevCommand(cwd)
+    const openBrowser = !args.includes('--no-open')
+    return runDevCommand(cwd, { open: openBrowser })
   } else if (command === 'build') {
     return runBuildCommand(cwd)
   } else if (command === 'start') {
@@ -59,6 +62,13 @@ export async function run() {
   } else if (command === 'test') {
     const watchFlag = args.includes('--watch')
     return runTestCommand(cwd, watchFlag)
+  } else if (command === 'test:doc') {
+    // Extract file paths (non-flag arguments after command)
+    const files = args.slice(1).filter(arg => !arg.startsWith('--'))
+    const update = args.includes('--update')
+    const verbose = args.includes('--verbose')
+
+    return runTestDocCommand({ files, update, verbose, skipAuth })
   } else if (command === 'lint') {
     return runLintCommand(cwd)
   } else if (command === 'exec') {

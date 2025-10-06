@@ -1,10 +1,11 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserComponent } from './BrowserComponent.js'
-import type { BrowserComponentProps, BrowserMode, SimplifiedBrowserOptions } from './types.js'
+import type { BrowserComponentProps, BrowserMode, SimplifiedBrowserOptions, TestResult } from './types.js'
+import { TestResultsPanel } from './components/TestResultsPanel.js'
 
-export { BrowserComponent }
-export type { BrowserComponentProps, BrowserMode, SimplifiedBrowserOptions }
+export { BrowserComponent, TestResultsPanel }
+export type { BrowserComponentProps, BrowserMode, SimplifiedBrowserOptions, TestResult }
 
 export {
   detectFileType,
@@ -53,6 +54,10 @@ export function render(elementId: string, options: SimplifiedBrowserOptions): vo
     readOnly: options.readOnly || false,
     className: options.className || '',
     style: options.style || {},
+    // Test runner props
+    enableTesting: options.enableTesting !== undefined ? options.enableTesting : true,
+    onTestResults: options.onTestResults,
+    showTestButton: options.showTestButton !== undefined ? options.showTestButton : true,
   })
 
   const root = createRoot(element)

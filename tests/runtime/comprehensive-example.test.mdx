@@ -1,0 +1,523 @@
+# Comprehensive Literate Testing Example
+
+This document demonstrates all features of the literate testing system in mdxe.
+
+## Basic Assertions
+
+Test primitive types and simple operations:
+
+```ts assert
+// Numbers
+const count = 42
+expect(count).toBe(42)
+expect(count).toBeGreaterThan(40)
+expect(count).toBeLessThan(50)
+
+// Strings
+const message = 'Hello, World!'
+expect(message).toBeDefined()
+expect(message).toContain('Hello')
+expect(message).toContain('World')
+
+// Booleans
+const isActive = true
+expect(isActive).toBe(true)
+expect(isActive).toBeTruthy()
+```
+
+## Object and Array Assertions
+
+Test complex data structures:
+
+```ts assert
+// Objects
+const user = {
+  id: 123,
+  name: 'Alice',
+  email: 'alice@example.com',
+  age: 30,
+  isActive: true
+}
+
+expect(user).toBeDefined()
+expect(user.id).toBe(123)
+expect(user.name).toBe('Alice')
+expect(user.email).toContain('@')
+expect(user.age).toBeGreaterThan(18)
+expect(user.isActive).toBe(true)
+expect(user).toHaveProperty('name')
+expect(user).toHaveProperty('email')
+
+// Arrays
+const numbers = [1, 2, 3, 4, 5]
+expect(numbers).toBeDefined()
+expect(Array.isArray(numbers)).toBe(true)
+expect(numbers.length).toBe(5)
+expect(numbers).toContain(3)
+expect(numbers[0]).toBe(1)
+expect(numbers[4]).toBe(5)
+
+// Nested structures
+const data = {
+  users: [
+    { id: 1, name: 'Alice' },
+    { id: 2, name: 'Bob' }
+  ],
+  count: 2
+}
+
+expect(data.users).toBeDefined()
+expect(data.users.length).toBe(2)
+expect(data.users[0].name).toBe('Alice')
+expect(data.users[1].name).toBe('Bob')
+expect(data.count).toBe(2)
+```
+
+## String Operations
+
+Test string manipulation and searching:
+
+```ts assert
+const text = 'The quick brown fox jumps over the lazy dog'
+
+// Basic string tests
+expect(text).toBeDefined()
+expect(text.length).toBeGreaterThan(40)
+expect(typeof text).toBe('string')
+
+// Substring tests
+expect(text).toContain('quick')
+expect(text).toContain('brown')
+expect(text).toContain('fox')
+
+// String methods
+const words = text.split(' ')
+expect(words.length).toBe(9)
+expect(words[0]).toBe('The')
+expect(words[words.length - 1]).toBe('dog')
+
+const uppercase = text.toUpperCase()
+expect(uppercase).toContain('QUICK')
+expect(uppercase).toContain('BROWN')
+
+const lowercase = text.toLowerCase()
+expect(lowercase).toContain('quick')
+expect(lowercase).toContain('brown')
+```
+
+## Array Methods
+
+Test array transformations:
+
+```ts assert
+const numbers = [1, 2, 3, 4, 5]
+
+// Map
+const doubled = numbers.map(n => n * 2)
+expect(doubled.length).toBe(5)
+expect(doubled[0]).toBe(2)
+expect(doubled[4]).toBe(10)
+
+// Filter
+const evens = numbers.filter(n => n % 2 === 0)
+expect(evens.length).toBe(2)
+expect(evens).toContain(2)
+expect(evens).toContain(4)
+
+// Reduce
+const sum = numbers.reduce((acc, n) => acc + n, 0)
+expect(sum).toBe(15)
+
+const product = numbers.reduce((acc, n) => acc * n, 1)
+expect(product).toBe(120)
+
+// Find
+const firstEven = numbers.find(n => n % 2 === 0)
+expect(firstEven).toBe(2)
+
+const firstGreaterThanThree = numbers.find(n => n > 3)
+expect(firstGreaterThanThree).toBe(4)
+```
+
+## Object Methods
+
+Test object operations:
+
+```ts assert
+const person = {
+  firstName: 'John',
+  lastName: 'Doe',
+  age: 25,
+  city: 'New York'
+}
+
+// Object.keys
+const keys = Object.keys(person)
+expect(keys.length).toBe(4)
+expect(keys).toContain('firstName')
+expect(keys).toContain('lastName')
+expect(keys).toContain('age')
+expect(keys).toContain('city')
+
+// Object.values
+const values = Object.values(person)
+expect(values.length).toBe(4)
+expect(values).toContain('John')
+expect(values).toContain('Doe')
+expect(values).toContain(25)
+expect(values).toContain('New York')
+
+// Object.entries
+const entries = Object.entries(person)
+expect(entries.length).toBe(4)
+expect(entries[0][0]).toBe('firstName')
+expect(entries[0][1]).toBe('John')
+
+// Spread operator
+const updated = { ...person, age: 26 }
+expect(updated.age).toBe(26)
+expect(updated.firstName).toBe('John')
+
+// Destructuring
+const { firstName, lastName } = person
+expect(firstName).toBe('John')
+expect(lastName).toBe('Doe')
+```
+
+## Functions
+
+Test function definitions and calls:
+
+```ts assert
+// Arrow functions
+const add = (a: number, b: number) => a + b
+expect(add(5, 10)).toBe(15)
+expect(add(100, 200)).toBe(300)
+
+// Regular functions
+function multiply(a: number, b: number) {
+  return a * b
+}
+expect(multiply(3, 4)).toBe(12)
+expect(multiply(10, 10)).toBe(100)
+
+// Higher-order functions
+function applyOperation(a: number, b: number, op: (x: number, y: number) => number) {
+  return op(a, b)
+}
+expect(applyOperation(5, 10, add)).toBe(15)
+expect(applyOperation(5, 10, multiply)).toBe(50)
+
+// Closures
+function makeCounter() {
+  let count = 0
+  return () => ++count
+}
+const counter = makeCounter()
+expect(counter()).toBe(1)
+expect(counter()).toBe(2)
+expect(counter()).toBe(3)
+```
+
+## Async Operations
+
+Test asynchronous code:
+
+```ts assert
+// Promises
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+async function fetchData() {
+  await delay(10)
+  return { success: true, data: [1, 2, 3] }
+}
+
+const result = await fetchData()
+expect(result).toBeDefined()
+expect(result.success).toBe(true)
+expect(result.data).toBeDefined()
+expect(result.data.length).toBe(3)
+expect(result.data[0]).toBe(1)
+
+// Async/await with multiple calls
+async function processData() {
+  const first = await fetchData()
+  const second = await fetchData()
+  return {
+    total: first.data.length + second.data.length,
+    items: [...first.data, ...second.data]
+  }
+}
+
+const processed = await processData()
+expect(processed.total).toBe(6)
+expect(processed.items.length).toBe(6)
+expect(processed.items).toContain(1)
+expect(processed.items).toContain(3)
+```
+
+## Error Handling
+
+Test error scenarios:
+
+```ts assert
+// Try-catch
+function divide(a: number, b: number) {
+  if (b === 0) {
+    throw new Error('Division by zero')
+  }
+  return a / b
+}
+
+// Successful division
+const result1 = divide(10, 2)
+expect(result1).toBe(5)
+
+// Error case
+try {
+  divide(10, 0)
+  expect(true).toBe(false) // Should not reach here
+} catch (error) {
+  expect(error).toBeDefined()
+  expect(error.message).toContain('Division by zero')
+}
+
+// Error in async function
+async function riskyOperation() {
+  await new Promise(resolve => setTimeout(resolve, 10))
+  throw new Error('Something went wrong')
+}
+
+try {
+  await riskyOperation()
+  expect(true).toBe(false) // Should not reach here
+} catch (error) {
+  expect(error).toBeDefined()
+  expect(error.message).toContain('Something went wrong')
+}
+```
+
+## Type Checking
+
+Test TypeScript types:
+
+```ts assert
+// Type inference
+const num = 42
+expect(typeof num).toBe('number')
+
+const str = 'hello'
+expect(typeof str).toBe('string')
+
+const bool = true
+expect(typeof bool).toBe('boolean')
+
+const arr = [1, 2, 3]
+expect(Array.isArray(arr)).toBe(true)
+
+const obj = { key: 'value' }
+expect(typeof obj).toBe('object')
+expect(obj).not.toBe(null)
+
+// Explicit types
+const typedNum: number = 123
+expect(typeof typedNum).toBe('number')
+
+const typedStr: string = 'test'
+expect(typeof typedStr).toBe('string')
+
+// Type guards
+function isString(value: any): value is string {
+  return typeof value === 'string'
+}
+
+expect(isString('hello')).toBe(true)
+expect(isString(123)).toBe(false)
+expect(isString(null)).toBe(false)
+```
+
+## Classes and OOP
+
+Test object-oriented programming:
+
+```ts assert
+// Class definition
+class Person {
+  constructor(
+    public name: string,
+    public age: number
+  ) {}
+
+  greet() {
+    return `Hello, I'm ${this.name}`
+  }
+
+  isAdult() {
+    return this.age >= 18
+  }
+}
+
+// Create instances
+const alice = new Person('Alice', 30)
+expect(alice.name).toBe('Alice')
+expect(alice.age).toBe(30)
+expect(alice.greet()).toBe("Hello, I'm Alice")
+expect(alice.isAdult()).toBe(true)
+
+const bob = new Person('Bob', 15)
+expect(bob.name).toBe('Bob')
+expect(bob.age).toBe(15)
+expect(bob.greet()).toBe("Hello, I'm Bob")
+expect(bob.isAdult()).toBe(false)
+
+// Inheritance
+class Employee extends Person {
+  constructor(
+    name: string,
+    age: number,
+    public role: string
+  ) {
+    super(name, age)
+  }
+
+  describe() {
+    return `${this.name} is a ${this.role}`
+  }
+}
+
+const employee = new Employee('Charlie', 25, 'Developer')
+expect(employee.name).toBe('Charlie')
+expect(employee.age).toBe(25)
+expect(employee.role).toBe('Developer')
+expect(employee.describe()).toBe('Charlie is a Developer')
+expect(employee.isAdult()).toBe(true)
+```
+
+## JSON Operations
+
+Test JSON parsing and stringification:
+
+```ts assert
+// JSON.stringify
+const obj = {
+  name: 'Alice',
+  age: 30,
+  active: true
+}
+
+const json = JSON.stringify(obj)
+expect(typeof json).toBe('string')
+expect(json).toContain('Alice')
+expect(json).toContain('30')
+expect(json).toContain('true')
+
+// JSON.parse
+const parsed = JSON.parse(json)
+expect(parsed).toBeDefined()
+expect(parsed.name).toBe('Alice')
+expect(parsed.age).toBe(30)
+expect(parsed.active).toBe(true)
+
+// Nested JSON
+const nested = {
+  user: {
+    id: 123,
+    profile: {
+      name: 'Bob',
+      email: 'bob@example.com'
+    }
+  }
+}
+
+const nestedJson = JSON.stringify(nested)
+const nestedParsed = JSON.parse(nestedJson)
+expect(nestedParsed.user.id).toBe(123)
+expect(nestedParsed.user.profile.name).toBe('Bob')
+expect(nestedParsed.user.profile.email).toBe('bob@example.com')
+```
+
+## Date Operations
+
+Test date handling:
+
+```ts assert
+// Create dates
+const now = new Date()
+expect(now).toBeDefined()
+expect(now instanceof Date).toBe(true)
+
+const specificDate = new Date('2025-01-01')
+expect(specificDate.getFullYear()).toBe(2025)
+expect(specificDate.getMonth()).toBe(0) // January = 0
+expect(specificDate.getDate()).toBe(1)
+
+// Date arithmetic
+const tomorrow = new Date(now)
+tomorrow.setDate(tomorrow.getDate() + 1)
+expect(tomorrow.getTime()).toBeGreaterThan(now.getTime())
+
+// Date formatting
+const isoString = now.toISOString()
+expect(typeof isoString).toBe('string')
+expect(isoString).toContain('T')
+expect(isoString).toContain('Z')
+```
+
+## Regular Expressions
+
+Test regex patterns:
+
+```ts assert
+// Basic regex
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+expect(emailRegex.test('alice@example.com')).toBe(true)
+expect(emailRegex.test('invalid-email')).toBe(false)
+expect(emailRegex.test('no@at.sign')).toBe(true)
+
+// Pattern matching
+const text = 'The price is $42.99'
+const priceMatch = text.match(/\$(\d+\.\d+)/)
+expect(priceMatch).toBeDefined()
+expect(priceMatch[1]).toBe('42.99')
+
+// Replace with regex
+const censored = text.replace(/\$\d+\.\d+/, '$XX.XX')
+expect(censored).toBe('The price is $XX.XX')
+
+// Global flag
+const words = 'one two three'
+const wordMatches = words.match(/\w+/g)
+expect(wordMatches).toBeDefined()
+expect(wordMatches.length).toBe(3)
+expect(wordMatches[0]).toBe('one')
+expect(wordMatches[2]).toBe('three')
+```
+
+## Summary
+
+This comprehensive example demonstrates:
+- ✅ **Primitive types** - numbers, strings, booleans
+- ✅ **Data structures** - objects, arrays, nested data
+- ✅ **String operations** - manipulation, searching, transformation
+- ✅ **Array methods** - map, filter, reduce, find
+- ✅ **Object methods** - keys, values, entries, spread
+- ✅ **Functions** - arrow functions, closures, higher-order
+- ✅ **Async/await** - promises, delays, sequential operations
+- ✅ **Error handling** - try-catch, error messages
+- ✅ **Type checking** - typeof, type guards, inference
+- ✅ **Classes/OOP** - constructors, methods, inheritance
+- ✅ **JSON** - stringify, parse, nested structures
+- ✅ **Dates** - creation, arithmetic, formatting
+- ✅ **Regex** - patterns, matching, replacing
+
+All examples use assertions to verify expected behavior, making this document both documentation AND a test suite.
+
+Run with:
+```bash
+pnpm test:doc tests/runtime/comprehensive-example.test.mdx --verbose
+```
+
+Update outputs:
+```bash
+pnpm test:doc tests/runtime/comprehensive-example.test.mdx --update --verbose
+```

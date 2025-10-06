@@ -1,0 +1,137 @@
+# MDXAI Examples - Self-Verifying Tests
+
+This demonstrates AI-powered content generation with automatic assertions.
+
+## Basic AI Generation
+
+Generate simple content and verify the structure:
+
+```ts assert
+import { generate } from 'mdxai'
+
+// Generate a simple greeting
+const result = await generate('Write a friendly greeting for a developer')
+const content = await result.text()
+
+// Verify we got content back
+expect(content).toBeDefined()
+expect(content.length).toBeGreaterThan(10)
+expect(content.toLowerCase()).toContain('hello')
+```
+
+## List Generation
+
+Generate structured lists with AI:
+
+```ts assert
+import { list } from '@dot-do/ai-functions'
+
+// Generate a list of programming concepts
+const concepts = await list`5 fundamental programming concepts`
+
+// Verify list structure
+expect(Array.isArray(concepts)).toBe(true)
+expect(concepts.length).toBe(5)
+expect(concepts[0]).toBeDefined()
+
+// Verify each concept is a string
+for (const concept of concepts) {
+  expect(typeof concept).toBe('string')
+  expect(concept.length).toBeGreaterThan(0)
+}
+```
+
+## Title Generation
+
+Generate titles for blog posts:
+
+```ts assert
+import { generate } from 'mdxai'
+
+// Generate a blog post title
+const result = await generate('A blog post title about TypeScript testing', {
+  type: 'title'
+})
+const title = await result.text()
+
+// Verify title characteristics
+expect(title).toBeDefined()
+expect(title.length).toBeLessThan(100)
+expect(title.length).toBeGreaterThan(10)
+
+// Should not have markdown formatting in title
+expect(title).not.toContain('#')
+expect(title).not.toContain('**')
+```
+
+## Outline Generation
+
+Generate structured outlines:
+
+```ts assert
+import { generate } from 'mdxai'
+
+// Generate an outline
+const result = await generate('An outline for a guide about MDX testing', {
+  type: 'outline'
+})
+const outline = await result.text()
+
+// Verify outline structure
+expect(outline).toBeDefined()
+expect(outline.length).toBeGreaterThan(50)
+
+// Outlines should have structure (bullets or numbers)
+const hasStructure =
+  outline.includes('-') ||
+  outline.includes('*') ||
+  /^\d+\./.test(outline)
+
+expect(hasStructure).toBe(true)
+```
+
+## JSON Output
+
+Generate structured JSON data:
+
+```ts assert
+import { ai } from '@dot-do/ai-functions'
+
+// Generate JSON data
+const data = await ai`Generate a JSON object with name, age, and city properties for a fictional person`
+
+// Parse JSON response
+const person = JSON.parse(data)
+
+// Verify structure
+expect(person).toBeDefined()
+expect(person.name).toBeDefined()
+expect(person.age).toBeDefined()
+expect(person.city).toBeDefined()
+
+// Verify types
+expect(typeof person.name).toBe('string')
+expect(typeof person.age).toBe('number')
+expect(typeof person.city).toBe('string')
+```
+
+## Error Handling
+
+Test error scenarios:
+
+```ts assert
+import { generate } from 'mdxai'
+
+try {
+  // Attempt generation with empty prompt
+  const result = await generate('')
+  const content = await result.text()
+
+  // Should still return something (or throw)
+  expect(content).toBeDefined()
+} catch (error) {
+  // If it throws, verify error is meaningful
+  expect(error).toBeDefined()
+  expect(error.message).toBeDefined()
+}
+```

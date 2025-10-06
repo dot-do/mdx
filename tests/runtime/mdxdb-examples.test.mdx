@@ -1,0 +1,235 @@
+# MDXDB Examples - Self-Verifying Tests
+
+This demonstrates database operations on MDX files with automatic assertions.
+
+## Setup Database
+
+Initialize and build the database:
+
+```ts assert
+import { MdxDbFs } from '@mdxdb/fs'
+
+// Initialize database
+const db = new MdxDbFs({ packageDir: process.cwd() })
+
+// Build index
+await db.build()
+
+// Verify database is ready
+expect(db).toBeDefined()
+```
+
+## List Operations
+
+Query and list documents:
+
+```ts assert
+import { MdxDbFs } from '@mdxdb/fs'
+
+const db = new MdxDbFs({ packageDir: process.cwd() })
+await db.build()
+
+// List all posts
+const posts = db.list('posts')
+
+// Verify results
+expect(Array.isArray(posts)).toBe(true)
+expect(posts.length).toBeGreaterThan(0)
+
+// Verify post structure
+const firstPost = posts[0]
+expect(firstPost).toBeDefined()
+expect(firstPost.slug).toBeDefined()
+expect(firstPost.title).toBeDefined()
+```
+
+## Get Operation
+
+Retrieve a specific document:
+
+```ts assert
+import { MdxDbFs } from '@mdxdb/fs'
+
+const db = new MdxDbFs({ packageDir: process.cwd() })
+await db.build()
+
+// Get first post
+const posts = db.list('posts')
+const slug = posts[0].slug
+
+// Retrieve specific post
+const post = db.get(slug, 'posts')
+
+// Verify post data
+expect(post).toBeDefined()
+expect(post.slug).toBe(slug)
+expect(post.title).toBeDefined()
+expect(post.content).toBeDefined()
+```
+
+## Set Operation
+
+Create a new document:
+
+```ts assert
+import { MdxDbFs } from '@mdxdb/fs'
+
+const db = new MdxDbFs({ packageDir: process.cwd() })
+await db.build()
+
+// Create new post
+const newSlug = 'test-post-' + Date.now()
+await db.set(
+  newSlug,
+  {
+    frontmatter: {
+      title: 'Test Post',
+      date: new Date().toISOString().split('T')[0],
+      description: 'A test post created by literate testing'
+    },
+    body: '# Test Post\n\nThis is a test post.'
+  },
+  'posts'
+)
+
+// Verify post was created
+const post = db.get(newSlug, 'posts')
+expect(post).toBeDefined()
+expect(post.title).toBe('Test Post')
+expect(post.slug).toBe(newSlug)
+```
+
+## Delete Operation
+
+Remove a document:
+
+```ts assert
+import { MdxDbFs } from '@mdxdb/fs'
+
+const db = new MdxDbFs({ packageDir: process.cwd() })
+await db.build()
+
+// Create a temporary post
+const tempSlug = 'temp-post-' + Date.now()
+await db.set(
+  tempSlug,
+  {
+    frontmatter: {
+      title: 'Temporary Post',
+      date: new Date().toISOString().split('T')[0]
+    },
+    body: 'This will be deleted.'
+  },
+  'posts'
+)
+
+// Verify it exists
+let post = db.get(tempSlug, 'posts')
+expect(post).toBeDefined()
+
+// Delete it
+await db.delete(tempSlug, 'posts')
+
+// Verify it's gone
+try {
+  post = db.get(tempSlug, 'posts')
+  expect(post).toBeUndefined()
+} catch (error) {
+  // It's okay if get throws for missing documents
+  expect(error).toBeDefined()
+}
+```
+
+## Filter Operations
+
+Query with filters:
+
+```ts assert
+import { MdxDbFs } from '@mdxdb/fs'
+
+const db = new MdxDbFs({ packageDir: process.cwd() })
+await db.build()
+
+// Get all posts
+const allPosts = db.list('posts')
+const totalCount = allPosts.length
+
+// Filter posts (example: recent posts)
+const currentYear = new Date().getFullYear()
+const recentPosts = allPosts.filter(post => {
+  const postYear = new Date(post.date).getFullYear()
+  return postYear === currentYear
+})
+
+// Verify filtering worked
+expect(recentPosts.length).toBeLessThanOrEqual(totalCount)
+expect(Array.isArray(recentPosts)).toBe(true)
+
+// Verify filtered posts match criteria
+for (const post of recentPosts) {
+  const postYear = new Date(post.date).getFullYear()
+  expect(postYear).toBe(currentYear)
+}
+```
+
+## Collection Metadata
+
+Verify collection structure:
+
+```ts assert
+import { MdxDbFs } from '@mdxdb/fs'
+
+const db = new MdxDbFs({ packageDir: process.cwd() })
+await db.build()
+
+// Get posts collection
+const posts = db.list('posts')
+
+// Verify consistent schema
+expect(posts.length).toBeGreaterThan(0)
+
+const requiredFields = ['slug', 'title', 'date']
+
+for (const post of posts) {
+  // Check required fields
+  for (const field of requiredFields) {
+    expect(post[field]).toBeDefined()
+    expect(post[field]).not.toBeNull()
+  }
+
+  // Verify field types
+  expect(typeof post.slug).toBe('string')
+  expect(typeof post.title).toBe('string')
+  expect(typeof post.date).toBe('string')
+}
+```
+
+## SQLite Backend
+
+Test SQLite implementation:
+
+```ts assert
+import { MdxDbSqlite } from '@mdxdb/sqlite'
+
+// Initialize SQLite database
+const db = new MdxDbSqlite({
+  inMemory: true, // Use in-memory for tests
+  packageDir: process.cwd()
+})
+
+await db.build()
+
+// Verify database works
+expect(db).toBeDefined()
+
+// List posts
+const posts = await db.list('posts')
+expect(Array.isArray(posts)).toBe(true)
+
+// Get specific post
+if (posts.length > 0) {
+  const firstPost = await db.get(posts[0].slug, 'posts')
+  expect(firstPost).toBeDefined()
+  expect(firstPost.slug).toBe(posts[0].slug)
+}
+```

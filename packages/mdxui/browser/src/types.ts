@@ -1,5 +1,28 @@
 export type BrowserMode = 'browse' | 'edit' | 'preview'
 
+export interface TestResult {
+  blocks: {
+    passed: number
+    failed: number
+    total: number
+  }
+  assertions: {
+    passed: number
+    failed: number
+    total: number
+  }
+  failures: Array<{
+    line: number
+    message: string
+    expected: any
+    actual: any
+  }>
+  successes: Array<{
+    line: number
+    message: string
+  }>
+}
+
 export interface BrowserComponentProps {
   mode: BrowserMode
   content: string
@@ -29,6 +52,10 @@ export interface BrowserComponentProps {
   style?: React.CSSProperties
   navigationMode?: 'client' | 'external' | 'auto'
   baseUrl?: string
+  // Test runner props
+  enableTesting?: boolean
+  onTestResults?: (results: TestResult) => void
+  showTestButton?: boolean
 }
 
 export interface SimplifiedBrowserOptions {
@@ -42,4 +69,8 @@ export interface SimplifiedBrowserOptions {
   readOnly?: boolean
   className?: string
   style?: React.CSSProperties
+  // Test runner props
+  enableTesting?: boolean
+  onTestResults?: (results: TestResult) => void
+  showTestButton?: boolean
 }

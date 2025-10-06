@@ -1,0 +1,39 @@
+# Update Test - Output Injection Demo
+
+This file tests the `--update` flag which automatically injects outputs as comments.
+
+## Basic Math
+
+```ts assert
+const x = 5
+const y = 10
+const sum = x + y
+const product = x * y
+
+expect(sum).toBe(15)
+expect(product).toBe(50)
+```
+
+## Object Creation
+
+```ts assert
+const person = {
+  name: 'Alice',
+  age: 30,
+  city: 'San Francisco'
+}
+
+expect(person.name).toBe('Alice')
+expect(person.age).toBe(30)
+```
+
+## Array Operations
+
+```ts assert
+const numbers = [1, 2, 3, 4, 5]
+const doubled = numbers.map(n => n * 2)
+const total = numbers.reduce((a, b) => a + b, 0)
+
+expect(doubled.length).toBe(5)
+expect(total).toBe(15)
+```
