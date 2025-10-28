@@ -1,0 +1,498 @@
+---
+title: "CuPulse - Predictive Maintenance for Copper Manufacturing"
+description: "AI-powered predictive maintenance platform reducing unplanned downtime 20-40% in copper rolling/extrusion operations"
+industry: "Industrial IoT & Predictive Maintenance"
+stage: "Product-Market Fit"
+founded: "2024"
+employees: "15-25"
+funding: "Series A"
+revenue: "$2M-5M ARR"
+location: "North America"
+tags: ["Industrial IoT", "Predictive Maintenance", "Copper Manufacturing", "AI/ML", "B2B SaaS"]
+---
+
+# CuPulse Business Workflows
+
+This file defines the core business processes and workflows for CuPulse, an AI-powered predictive maintenance platform for copper manufacturing operations.
+
+## Customer Acquisition Workflows
+
+```typescript exec
+interface Lead {
+  company: string
+  industry: string
+  plantSize: number
+  contactRole: string
+  painPoints: string[]
+  currentDowntimeCost: number
+  maintenanceSpend: number
+}
+
+interface QualifiedLead extends Lead {
+  fitScore: number
+  urgency: 'high' | 'medium' | 'low'
+  decisionMakers: string[]
+  budget: number
+  timeline: string
+}
+
+interface Customer {
+  id: string
+  company: string
+  contractValue: number
+  assetsMonitored: number
+  goLiveDate: Date
+  successMetrics: {
+    downtimeReduction: number
+    costSavings: number
+    roi: number
+  }
+}
+
+export async function acquireCustomer(lead: Lead): Promise<Customer> {
+  // Step 1: Qualify the lead based on fit criteria
+  const qualifiedLead = await qualifyLead(lead)
+  
+  // Step 2: Conduct technical assessment and ROI analysis
+  const assessment = await conductTechnicalAssessment(qualifiedLead)
+  
+  // Step 3: Generate customized proposal with ROI projections
+  const proposal = await generateProposal(qualifiedLead, assessment)
+  
+  // Step 4: Run 12-week paid pilot program
+  const pilotResults = await executePilotProgram(proposal)
+  
+  // Step 5: Convert pilot to full subscription
+  const contract = await negotiateContract(pilotResults)
+  
+  // Step 6: Onboard customer with full deployment
+  return await onboardCustomer(contract)
+}
+
+async function qualifyLead(lead: Lead): Promise<QualifiedLead> {
+  // Qualify based on: plant size (100-800 employees), downtime cost (>$10k/hour), 
+  // maintenance spend (>$500k/year), decision maker access
+  const fitScore = calculateFitScore(lead)
+  
+  if (fitScore < 70) {
+    throw new Error('Lead does not meet qualification criteria')
+  }
+  
+  return {
+    ...lead,
+    fitScore,
+    urgency: determineUrgency(lead),
+    decisionMakers: await identifyDecisionMakers(lead),
+    budget: await estimateBudget(lead),
+    timeline: await assessTimeline(lead)
+  }
+}
+
+async function conductTechnicalAssessment(lead: QualifiedLead): Promise<TechnicalAssessment> {
+  // Assess current infrastructure, asset criticality, integration requirements
+  return {
+    criticalAssets: await identifyCriticalAssets(lead),
+    infrastructureReadiness: await assessInfrastructure(lead),
+    integrationComplexity: await evaluateIntegrations(lead),
+    expectedRoi: await calculateExpectedRoi(lead)
+  }
+}
+```
+
+## Product Development Workflows
+
+```typescript exec
+interface ProductFeature {
+  name: string
+  description: string
+  priority: 'critical' | 'high' | 'medium' | 'low'
+  effort: number // story points
+  customerRequests: number
+  technicalComplexity: number
+}
+
+interface ReleaseCandidate {
+  version: string
+  features: ProductFeature[]
+  testResults: TestResults
+  customerValidation: ValidationResults
+  deploymentPlan: DeploymentPlan
+}
+
+export async function developProduct(): Promise<ReleaseCandidate> {
+  // Step 1: Gather customer feedback and market requirements
+  const requirements = await gatherRequirements()
+  
+  // Step 2: Prioritize features based on customer impact and technical feasibility
+  const prioritizedFeatures = await prioritizeFeatures(requirements)
+  
+  // Step 3: Develop copper-specific AI models and algorithms
+  const aiModels = await developAiModels(prioritizedFeatures)
+  
+  // Step 4: Build edge computing and sensor integration capabilities
+  const edgeCapabilities = await buildEdgeCapabilities(prioritizedFeatures)
+  
+  // Step 5: Integrate with CMMS and historian systems
+  const integrations = await buildIntegrations(prioritizedFeatures)
+  
+  // Step 6: Test with pilot customers and validate performance
+  const validation = await validateWithCustomers(aiModels, edgeCapabilities, integrations)
+  
+  return await packageRelease(validation)
+}
+
+async function developAiModels(features: ProductFeature[]): Promise<AiModelSuite> {
+  // Develop copper-specific fault detection models
+  const bearingFaultModel = await trainBearingFaultModel()
+  const gearboxAnalyticsModel = await trainGearboxModel()
+  const motorCurrentModel = await trainMotorCurrentModel()
+  const rulEstimationModel = await trainRulModel()
+  
+  return {
+    bearingFaults: bearingFaultModel,
+    gearboxAnalytics: gearboxAnalyticsModel,
+    motorCurrent: motorCurrentModel,
+    rulEstimation: rulEstimationModel,
+    copperSpecificDutyCycles: await trainDutyCycleModels()
+  }
+}
+
+async function buildEdgeCapabilities(features: ProductFeature[]): Promise<EdgePlatform> {
+  // Build edge gateway with industrial protocol support
+  return {
+    opcUaConnector: await buildOpcUaConnector(),
+    modbusConnector: await buildModbusConnector(),
+    profinetConnector: await buildProfinetConnector(),
+    sensorDataFusion: await buildSensorFusion(),
+    localProcessing: await buildEdgeProcessing(),
+    cloudSync: await buildCloudSync()
+  }
+}
+```
+
+## Revenue Generation Workflows
+
+```typescript exec
+interface RevenueStream {
+  type: 'subscription' | 'professional_services' | 'hardware' | 'outcome_based'
+  amount: number
+  frequency: 'monthly' | 'annual' | 'one_time'
+  customer: string
+  startDate: Date
+  endDate?: Date
+}
+
+interface PricingModel {
+  assetBased: {
+    pricePerAsset: number // $1,500-$3,000/asset/year
+    volumeDiscounts: { threshold: number; discount: number }[]
+  }
+  siteLicense: {
+    basePrice: number // $75,000-$250,000/site/year
+    assetTiers: { min: number; max: number; price: number }[]
+  }
+  professionalServices: {
+    hourlyRate: number // $120-$180/hour
+    packagedOfferings: { name: string; price: number; duration: number }[]
+  }
+}
+
+export async function generateRevenue(customer: Customer): Promise<RevenueStream[]> {
+  const revenueStreams: RevenueStream[] = []
+  
+  // Step 1: Calculate subscription revenue based on monitored assets
+  const subscriptionRevenue = await calculateSubscriptionRevenue(customer)
+  revenueStreams.push(subscriptionRevenue)
+  
+  // Step 2: Add professional services for deployment and training
+  const servicesRevenue = await calculateServicesRevenue(customer)
+  revenueStreams.push(...servicesRevenue)
+  
+  // Step 3: Include hardware revenue (sensors, gateways, enclosures)
+  const hardwareRevenue = await calculateHardwareRevenue(customer)
+  revenueStreams.push(...hardwareRevenue)
+  
+  // Step 4: Evaluate outcome-based contract opportunities
+  const outcomeRevenue = await evaluateOutcomeBasedRevenue(customer)
+  if (outcomeRevenue) {
+    revenueStreams.push(outcomeRevenue)
+  }
+  
+  return revenueStreams
+}
+
+async function calculateSubscriptionRevenue(customer: Customer): Promise<RevenueStream> {
+  const pricePerAsset = determinePricePerAsset(customer.assetsMonitored)
+  const annualValue = customer.assetsMonitored * pricePerAsset
+  
+  return {
+    type: 'subscription',
+    amount: annualValue,
+    frequency: 'annual',
+    customer: customer.id,
+    startDate: customer.goLiveDate,
+    endDate: new Date(customer.goLiveDate.getFullYear() + 1, customer.goLiveDate.getMonth(), customer.goLiveDate.getDate())
+  }
+}
+
+async function expandCustomerRevenue(customer: Customer): Promise<RevenueStream[]> {
+  // Land-and-expand strategy: start with critical assets, expand to full plant
+  const expansionOpportunities = await identifyExpansionOpportunities(customer)
+  const additionalRevenue: RevenueStream[] = []
+  
+  for (const opportunity of expansionOpportunities) {
+    const expansion = await proposeExpansion(customer, opportunity)
+    if (expansion.approved) {
+      additionalRevenue.push(...expansion.revenueStreams)
+    }
+  }
+  
+  return additionalRevenue
+}
+```
+
+## Operational Procedures
+
+```typescript exec
+interface DeploymentProject {
+  customerId: string
+  siteLocation: string
+  assetsToMonitor: Asset[]
+  timeline: ProjectTimeline
+  team: ProjectTeam
+  budget: number
+  risks: Risk[]
+}
+
+interface Asset {
+  id: string
+  type: 'bearing' | 'gearbox' | 'motor' | 'pump' | 'press' | 'coiler'
+  location: string
+  criticality: 'critical' | 'important' | 'standard'
+  currentCondition: string
+  sensorRequirements: SensorSpec[]
+}
+
+export async function deploySystem(project: DeploymentProject): Promise<DeploymentResult> {
+  // Step 1: Site survey and infrastructure assessment
+  const siteAssessment = await conductSiteAssessment(project)
+  
+  // Step 2: Sensor installation and network setup
+  const sensorInstallation = await installSensors(project, siteAssessment)
+  
+  // Step 3: Edge gateway deployment and configuration
+  const edgeDeployment = await deployEdgeGateway(project, sensorInstallation)
+  
+  // Step 4: CMMS and historian integration
+  const systemIntegration = await integrateWithExistingSystems(project)
+  
+  // Step 5: AI model training and calibration
+  const modelCalibration = await calibrateModels(project, sensorInstallation)
+  
+  // Step 6: User training and knowledge transfer
+  const userTraining = await conductUserTraining(project)
+  
+  // Step 7: Go-live and monitoring
+  return await goLive(project, modelCalibration, userTraining)
+}
+
+async function monitorSystemHealth(): Promise<SystemHealthReport> {
+  // Continuous monitoring of deployed systems
+  const deployedSystems = await getDeployedSystems()
+  const healthReports: SystemHealthReport[] = []
+  
+  for (const system of deployedSystems) {
+    const health = await checkSystemHealth(system)
+    const performance = await measurePerformance(system)
+    const customerSatisfaction = await assessCustomerSatisfaction(system)
+    
+    healthReports.push({
+      systemId: system.id,
+      uptime: health.uptime,
+      dataQuality: health.dataQuality,
+      alertAccuracy: performance.alertAccuracy,
+      falseAlarmRate: performance.falseAlarmRate,
+      customerNps: customerSatisfaction.nps,
+      issues: health.issues,
+      recommendations: generateRecommendations(health, performance)
+    })
+  }
+  
+  return aggregateHealthReports(healthReports)
+}
+```
+
+## Decision-Making Workflows
+
+```typescript exec
+interface BusinessDecision {
+  id: string
+  type: 'pricing' | 'product' | 'market' | 'partnership' | 'investment'
+  description: string
+  options: DecisionOption[]
+  criteria: DecisionCriteria
+  stakeholders: string[]
+  deadline: Date
+}
+
+interface DecisionOption {
+  name: string
+  description: string
+  pros: string[]
+  cons: string[]
+  estimatedImpact: {
+    revenue: number
+    cost: number
+    risk: number
+    timeline: number
+  }
+}
+
+export async function makeStrategicDecision(decision: BusinessDecision): Promise<DecisionResult> {
+  // Step 1: Gather data and market intelligence
+  const marketData = await gatherMarketIntelligence(decision)
+  
+  // Step 2: Analyze financial impact of each option
+  const financialAnalysis = await analyzeFinancialImpact(decision.options)
+  
+  // Step 3: Assess risks and mitigation strategies
+  const riskAssessment = await assessRisks(decision.options)
+  
+  // Step 4: Stakeholder input and alignment
+  const stakeholderInput = await gatherStakeholderInput(decision)
+  
+  // Step 5: Decision matrix scoring
+  const scoredOptions = await scoreOptions(decision.options, decision.criteria, marketData, financialAnalysis, riskAssessment)
+  
+  // Step 6: Final decision and implementation plan
+  const selectedOption = selectBestOption(scoredOptions)
+  const implementationPlan = await createImplementationPlan(selectedOption)
+  
+  return {
+    decision: decision.id,
+    selectedOption: selectedOption.name,
+    rationale: generateRationale(scoredOptions, stakeholderInput),
+    implementationPlan,
+    successMetrics: defineSuccessMetrics(selectedOption),
+    reviewDate: calculateReviewDate(implementationPlan)
+  }
+}
+
+async function evaluateMarketExpansion(): Promise<ExpansionDecision> {
+  // Evaluate expansion into adjacent markets (wire, rod, strip, tube producers)
+  const adjacentMarkets = [
+    'wire_producers',
+    'rod_manufacturers', 
+    'strip_mills',
+    'tube_manufacturers',
+    'integrated_copper_producers'
+  ]
+  
+  const expansionOptions: MarketExpansionOption[] = []
+  
+  for (const market of adjacentMarkets) {
+    const marketSize = await estimateMarketSize(market)
+    const competitiveAnalysis = await analyzeCompetition(market)
+    const productFit = await assessProductFit(market)
+    const investmentRequired = await estimateInvestment(market)
+    
+    expansionOptions.push({
+      market,
+      marketSize,
+      competitiveIntensity: competitiveAnalysis.intensity,
+      productFitScore: productFit.score,
+      investmentRequired,
+      expectedRoi: calculateExpectedRoi(marketSize, investmentRequired),
+      timeToMarket: estimateTimeToMarket(market, productFit)
+    })
+  }
+  
+  return selectExpansionMarkets(expansionOptions)
+}
+
+async function optimizePricingStrategy(): Promise<PricingDecision> {
+  // Analyze pricing elasticity and competitive positioning
+  const currentPricing = await getCurrentPricingMetrics()
+  const competitorPricing = await analyzeCompetitorPricing()
+  const customerValuePerception = await assessCustomerValuePerception()
+  
+  const pricingOptions = [
+    { strategy: 'value_based', multiplier: 1.2, rationale: 'Premium for proven ROI' },
+    { strategy: 'competitive_parity', multiplier: 1.0, rationale: 'Match market rates' },
+    { strategy: 'penetration', multiplier: 0.8, rationale: 'Gain market share' }
+  ]
+  
+  const optimalPricing = await selectOptimalPricing(pricingOptions, currentPricing, competitorPricing, customerValuePerception)
+  
+  return {
+    recommendedStrategy: optimalPricing.strategy,
+    priceAdjustments: calculatePriceAdjustments(optimalPricing),
+    implementationTimeline: createPricingImplementationPlan(optimalPricing),
+    expectedImpact: projectPricingImpact(optimalPricing)
+  }
+}
+```
+
+## Key Performance Indicators
+
+```typescript exec
+interface KpiDashboard {
+  businessOutcomes: {
+    downtimeReduction: number // Target: 20-40%
+    maintenanceCostReduction: number // Target: 10-20%
+    customerRoi: number // Target: >3x within 12 months
+    paybackPeriod: number // Target: <6 months
+  }
+  predictivePerformance: {
+    medianLeadTime: number // Target: ≥14 days
+    detectionRecall: number // Target: ≥85%
+    detectionPrecision: number // Target: ≥80%
+    rulMape: number // Target: ≤20%
+  }
+  operationalAdoption: {
+    alertConversionRate: number // Target: ≥70%
+    workOrderClosureRate: number // Target: ≥75%
+    autoJobPlanUsage: number // Target: ≥60%
+  }
+  platformHealth: {
+    sensorUptime: number // Target: ≥98%
+    dataLatency: number // Target: <5 seconds
+    falseAlarmRate: number // Target: ≤1 per 100 asset-weeks
+  }
+  commercial: {
+    pilotConversionRate: number // Target: ≥60%
+    netRevenueRetention: number // Target: ≥115%
+    grossMargin: number // Target: ≥65% year 2
+  }
+}
+
+export async function measureKpis(): Promise<KpiDashboard> {
+  return {
+    businessOutcomes: await measureBusinessOutcomes(),
+    predictivePerformance: await measurePredictivePerformance(),
+    operationalAdoption: await measureOperationalAdoption(),
+    platformHealth: await measurePlatformHealth(),
+    commercial: await measureCommercialMetrics()
+  }
+}
+
+async function generateExecutiveDashboard(): Promise<ExecutiveDashboard> {
+  const kpis = await measureKpis()
+  const financials = await getFinancialMetrics()
+  const customerHealth = await assessCustomerHealth()
+  const marketPosition = await analyzeMarketPosition()
+  
+  return {
+    summary: generateExecutiveSummary(kpis, financials),
+    keyMetrics: kpis,
+    financialPerformance: financials,
+    customerMetrics: customerHealth,
+    marketInsights: marketPosition,
+    actionItems: generateActionItems(kpis, financials, customerHealth),
+    risks: identifyKeyRisks(kpis, financials, customerHealth),
+    opportunities: identifyGrowthOpportunities(marketPosition)
+  }
+}
+```
+
+This MDX file defines the core business workflows for CuPulse as executable TypeScript functions, representing how the startup operates across customer acquisition, product development, revenue generation, operations, and decision-making processes.
