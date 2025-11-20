@@ -1,0 +1,34 @@
+{
+  "name": "@mdxdb/core",
+  "type": "module",
+  "version": "0.1.2",
+  "main": "./dist/lib/index.js",
+  "types": "./dist/lib/index.d.ts",
+  "files": [
+    "dist/lib/"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "check-types": "tsc --noEmit"
+  },
+  "optionalDependencies": {
+  },
+  "devDependencies": {
+    "@types/micromatch": "^4.0.6",
+    "@types/node": "^22.15.20",
+    "typescript": "^5.8.3",
+    "velite": "^0.2.4",
+    "vitest": "^3.1.4"
+  },
+  "dependencies": {
+    "mdxld": "workspace:*",
+    "micromatch": "^4.0.5",
+    "remark-mdx": "^3.0.0",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.4",
+    "unist-util-visit": "^5.0.0",
+    "yaml": "^2.3.4"
+  }
+}
