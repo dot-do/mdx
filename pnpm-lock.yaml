@@ -10,13 +10,13 @@ importers:
     dependencies:
       '@mdxdb/core':
         specifier: workspace:^
-        version: link:mdxdb/core
+        version: link:packages/@mdxdb/core
       '@mdxdb/fs':
         specifier: workspace:^
-        version: link:mdxdb/fs
+        version: link:packages/@mdxdb/fs
       '@mdxdb/sqlite':
         specifier: workspace:^
-        version: link:mdxdb/sqlite
+        version: link:packages/@mdxdb/sqlite
       '@types/micromatch':
         specifier: ^4.0.6
         version: 4.0.9
@@ -95,7 +95,7 @@ importers:
     dependencies:
       mdxe:
         specifier: workspace:*
-        version: link:../../mdxe
+        version: link:../../packages/mdxe
       velite:
         specifier: ^0.2.4
         version: 0.2.4(acorn@8.15.0)
@@ -167,7 +167,7 @@ importers:
     dependencies:
       mdxe:
         specifier: workspace:*
-        version: link:../../mdxe
+        version: link:../../packages/mdxe
       nextra:
         specifier: ^4.2.17
         version: 4.2.17(acorn@8.15.0)(next@15.3.5(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
@@ -176,7 +176,7 @@ importers:
     devDependencies:
       '@mdxdb/fs':
         specifier: workspace:*
-        version: link:../../mdxdb/fs
+        version: link:../../packages/@mdxdb/fs
       velite:
         specifier: ^0.2.4
         version: 0.2.4(acorn@8.15.0)
@@ -185,13 +185,13 @@ importers:
     dependencies:
       '@mdxui/reveal':
         specifier: workspace:*
-        version: link:../../mdxui/reveal
+        version: link:../../packages/@mdxui/reveal
       mdxai:
         specifier: workspace:*
-        version: link:../../mdxai
+        version: link:../../packages/mdxai
       mdxui:
         specifier: workspace:*
-        version: link:../../mdxui
+        version: link:../../packages/mdxui
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -204,22 +204,22 @@ importers:
     devDependencies:
       mdxe:
         specifier: workspace:*
-        version: link:../../mdxe
+        version: link:../../packages/mdxe
 
   examples/minimal:
     dependencies:
       mdxe:
         specifier: workspace:*
-        version: link:../../mdxe
+        version: link:../../packages/mdxe
 
   examples/payload-blog:
     dependencies:
       '@mdxdb/core':
         specifier: workspace:*
-        version: link:../../mdxdb/core
+        version: link:../../packages/@mdxdb/core
       '@mdxdb/fs':
         specifier: workspace:*
-        version: link:../../mdxdb/fs
+        version: link:../../packages/@mdxdb/fs
       '@payloadcms/db-sqlite':
         specifier: ^3.46.0
         version: 3.47.0(@cloudflare/workers-types@4.20251003.0)(@opentelemetry/api@1.9.0)(bun-types@1.3.2(@types/react@19.1.5))(payload@3.47.0(graphql@16.11.0)(typescript@5.8.3))
@@ -228,10 +228,10 @@ importers:
         version: 3.47.0(@types/react@19.1.5)(graphql@16.11.0)(monaco-editor@0.52.2)(next@15.3.5(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.47.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
       mdxe:
         specifier: workspace:*
-        version: link:../../mdxe
+        version: link:../../packages/mdxe
       mdxui:
         specifier: workspace:*
-        version: link:../../mdxui
+        version: link:../../packages/mdxui
       next:
         specifier: ^15.3.5
         version: 15.3.5(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4)
@@ -275,124 +275,9 @@ importers:
     devDependencies:
       mdxe:
         specifier: workspace:*
-        version: link:../../mdxe
+        version: link:../../packages/mdxe
 
-  mdxai:
-    dependencies:
-      '@ai-sdk/openai':
-        specifier: ^1.3.22
-        version: 1.3.22(zod@3.25.42)
-      '@google/genai':
-        specifier: ^1.1.0
-        version: 1.30.0
-      '@mdxdb/core':
-        specifier: workspace:*
-        version: link:../mdxdb/core
-      '@mdxdb/fs':
-        specifier: workspace:*
-        version: link:../mdxdb/fs
-      '@mdxdb/importers':
-        specifier: workspace:*
-        version: link:../mdxdb/importers
-      '@mendable/firecrawl-js':
-        specifier: ^1.25.1
-        version: 1.25.2
-      ai:
-        specifier: ^4.3.16
-        version: 4.3.16(react@19.1.0)(zod@3.25.42)
-      commander:
-        specifier: ^12.1.0
-        version: 12.1.0
-      dedent:
-        specifier: ^1.6.0
-        version: 1.6.0(babel-plugin-macros@3.1.0)
-      dotenv:
-        specifier: ^16.5.0
-        version: 16.5.0
-      fast-glob:
-        specifier: ^3.3.2
-        version: 3.3.3
-      github-slugger:
-        specifier: ^2.0.0
-        version: 2.0.0
-      gray-matter:
-        specifier: ^4.0.3
-        version: 4.0.3
-      ink:
-        specifier: ^6.0.1
-        version: 6.0.1(@types/react@19.1.6)(react@19.1.0)
-      lru-cache:
-        specifier: ^11.1.0
-        version: 11.1.0
-      mdxe:
-        specifier: workspace:*
-        version: link:../mdxe
-      mdxld:
-        specifier: workspace:*
-        version: link:../mdxld
-      object-hash:
-        specifier: ^3.0.0
-        version: 3.0.0
-      p-queue:
-        specifier: ^8.1.0
-        version: 8.1.0
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-      remark-gfm:
-        specifier: ^4.0.1
-        version: 4.0.1
-      remark-parse:
-        specifier: ^11.0.0
-        version: 11.0.0
-      typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
-      unified:
-        specifier: ^11.0.5
-        version: 11.0.5
-      vitest:
-        specifier: ^3.1.4
-        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.17.57)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
-      wav:
-        specifier: ^1.0.2
-        version: 1.0.2
-      yaml:
-        specifier: ^2.8.0
-        version: 2.8.0
-      zod:
-        specifier: ^3.21.4
-        version: 3.25.42
-    devDependencies:
-      '@repo/tsup-config':
-        specifier: workspace:*
-        version: link:../config/tsup-config
-      '@types/node':
-        specifier: ^20.14.10
-        version: 20.17.57
-      '@types/object-hash':
-        specifier: ^3.0.6
-        version: 3.0.6
-      '@types/react':
-        specifier: ^19.1.0
-        version: 19.1.6
-      '@types/react-dom':
-        specifier: ^19.1.0
-        version: 19.1.5(@types/react@19.1.6)
-      '@types/yaml':
-        specifier: ^1.9.7
-        version: 1.9.7
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@types/node@20.17.57)(typescript@5.8.3)
-      tsup:
-        specifier: ^8.0.2
-        version: 8.5.0(jiti@2.4.2)(postcss@8.5.4)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
-
-  mdxdb/core:
+  packages/@mdxdb/core:
     dependencies:
       mdxld:
         specifier: workspace:*
@@ -432,7 +317,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.29)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxdb/fs:
+  packages/@mdxdb/fs:
     dependencies:
       '@ai-sdk/openai':
         specifier: ^1.3.22
@@ -488,7 +373,7 @@ importers:
     devDependencies:
       '@repo/tsup-config':
         specifier: workspace:*
-        version: link:../../config/tsup-config
+        version: link:../../../config/tsup-config
       '@types/node':
         specifier: ^22.15.20
         version: 22.15.29
@@ -511,7 +396,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.29)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxdb/importers:
+  packages/@mdxdb/importers:
     dependencies:
       '@mdxdb/core':
         specifier: workspace:*
@@ -551,7 +436,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.29)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxdb/payload:
+  packages/@mdxdb/payload:
     dependencies:
       '@libsql/client':
         specifier: ^0.15.7
@@ -588,7 +473,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.29)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxdb/render:
+  packages/@mdxdb/render:
     dependencies:
       '@mdxdb/core':
         specifier: workspace:*
@@ -631,7 +516,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.29)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxdb/sqlite:
+  packages/@mdxdb/sqlite:
     dependencies:
       '@libsql/client':
         specifier: ^0.15.7
@@ -668,7 +553,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.29)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxdb/velite:
+  packages/@mdxdb/velite:
     dependencies:
       '@mdxdb/core':
         specifier: workspace:*
@@ -685,10 +570,10 @@ importers:
     devDependencies:
       '@repo/tsup-config':
         specifier: workspace:*
-        version: link:../../config/tsup-config
+        version: link:../../../config/tsup-config
       '@repo/typescript-config':
         specifier: workspace:*
-        version: link:../../config/typescript-config
+        version: link:../../../config/typescript-config
       '@types/micromatch':
         specifier: ^4.0.9
         version: 4.0.9
@@ -708,334 +593,28 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.29)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxe:
+  packages/@mdxld/ai:
     dependencies:
-      '@cloudflare/kv-asset-handler':
-        specifier: ^0.3.4
-        version: 0.3.4
-      '@mdx-js/esbuild':
-        specifier: ^3.0.0
-        version: 3.1.0(acorn@8.15.0)(esbuild@0.24.2)
-      '@mdx-js/mdx':
-        specifier: ^3.1.0
-        version: 3.1.0(acorn@8.15.0)
-      '@mdx-js/react':
-        specifier: ^3.1.0
-        version: 3.1.0(@types/react@19.1.6)(react@19.1.0)
-      '@mdxdb/core':
+      mdxld:
         specifier: workspace:*
-        version: link:../mdxdb/core
-      '@mdxdb/fs':
-        specifier: workspace:*
-        version: link:../mdxdb/fs
-      '@mdxdb/sqlite':
-        specifier: workspace:*
-        version: link:../mdxdb/sqlite
-      '@mdxui/ink':
-        specifier: workspace:*
-        version: link:../mdxui/ink
-      '@mdxui/reveal':
-        specifier: workspace:*
-        version: link:../mdxui/reveal
-      '@next/mdx':
-        specifier: ^15.3.5
-        version: 15.3.5(@mdx-js/react@3.1.0(@types/react@19.1.6)(react@19.1.0))
-      '@payloadcms/db-sqlite':
-        specifier: ^3.46.0
-        version: 3.47.0(@cloudflare/workers-types@4.20251003.0)(@opentelemetry/api@1.9.0)(bun-types@1.3.2(@types/react@19.1.6))(payload@3.47.0(graphql@16.11.0)(typescript@5.8.3))
-      '@payloadcms/next':
-        specifier: ^3.46.0
-        version: 3.47.0(@types/react@19.1.6)(graphql@16.11.0)(monaco-editor@0.52.2)(next@15.3.5(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.47.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
-      '@tailwindcss/postcss':
-        specifier: ^4.1.11
-        version: 4.1.11
-      '@tailwindcss/typography':
-        specifier: ^0.5.16
-        version: 0.5.16(tailwindcss@4.1.11)
-      acorn:
-        specifier: ^8.10.0
-        version: 8.15.0
-      acorn-jsx:
-        specifier: ^5.3.2
-        version: 5.3.2(acorn@8.15.0)
-      chalk:
-        specifier: ^5.3.0
-        version: 5.4.1
-      chokidar:
-        specifier: ^4.0.0
-        version: 4.0.3
-      commander:
-        specifier: ^12.1.0
-        version: 12.1.0
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.5.0
-      esbuild:
-        specifier: ^0.24.0
-        version: 0.24.2
-      fast-glob:
-        specifier: ^3.3.2
-        version: 3.3.3
-      fs-extra:
-        specifier: ^11.2.0
-        version: 11.3.0
-      gray-matter:
-        specifier: ^4.0.3
-        version: 4.0.3
-      hono:
-        specifier: ^4.6.14
-        version: 4.9.9
-      ink:
-        specifier: ^6.0.1
-        version: 6.0.1(@types/react@19.1.6)(react@19.1.0)
-      mdxui:
-        specifier: workspace:*
-        version: link:../mdxui
-      next:
-        specifier: ^15.3.5
-        version: 15.3.5(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4)
-      next-mdx-remote-client:
-        specifier: ^1.0.4
-        version: 1.1.1(@types/react@19.1.6)(acorn@8.15.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      open:
-        specifier: ^10.1.0
-        version: 10.2.0
-      payload:
-        specifier: ^3.46.0
-        version: 3.47.0(graphql@16.11.0)(typescript@5.8.3)
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-      remark-flexible-toc:
-        specifier: ^1.1.0
-        version: 1.2.0(unified@11.0.5)
-      remark-frontmatter:
-        specifier: ^5.0.0
-        version: 5.0.0
-      remark-gfm:
-        specifier: ^4.0.0
-        version: 4.0.1
-      remark-mdx-frontmatter:
-        specifier: ^5.0.0
-        version: 5.2.0
-      tailwindcss:
-        specifier: ^4.1.11
-        version: 4.1.11
-      tmp:
-        specifier: ^0.2.3
-        version: 0.2.3
-      typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
-      wrangler:
-        specifier: ^3.100.0
-        version: 3.114.14(@cloudflare/workers-types@4.20251003.0)
+        version: link:../../mdxld
+
+  packages/@mdxld/schema.org.ai:
     devDependencies:
-      '@cloudflare/workers-types':
-        specifier: ^4.20241127.0
-        version: 4.20251003.0
       '@repo/tsup-config':
         specifier: workspace:*
-        version: link:../config/tsup-config
+        version: link:../../../config/tsup-config
       '@repo/typescript-config':
         specifier: workspace:*
-        version: link:../config/typescript-config
-      '@types/fs-extra':
-        specifier: ^11.0.4
-        version: 11.0.4
-      '@types/mdx':
-        specifier: ^2.0.13
-        version: 2.0.13
-      '@types/node':
-        specifier: ^24.0.10
-        version: 24.0.13
-      '@types/react':
-        specifier: ^19.1.0
-        version: 19.1.6
-      '@types/react-dom':
-        specifier: ^19.1.0
-        version: 19.1.5(@types/react@19.1.6)
-      '@types/tmp':
-        specifier: ^0.2.6
-        version: 0.2.6
+        version: link:../../../config/typescript-config
       tsup:
-        specifier: ^8.3.5
-        version: 8.5.0(jiti@2.4.2)(postcss@8.5.4)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
-      vite:
-        specifier: ^6.0.7
-        version: 6.3.5(@types/node@24.0.13)(jiti@2.4.2)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
-      vitest:
-        specifier: ^3.1.4
-        version: 3.2.4(@types/debug@4.1.12)(@types/node@24.0.13)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
-
-  mdxld:
-    dependencies:
-      '@fal-works/esbuild-plugin-global-externals':
-        specifier: ^2.1.2
-        version: 2.1.2
-      '@mdx-js/esbuild':
-        specifier: ^3.0.0
-        version: 3.1.0(acorn@8.15.0)(esbuild@0.20.2)
-      '@mdx-js/mdx':
-        specifier: ^3.1.0
-        version: 3.1.0(acorn@8.15.0)
-      '@mdxld/schema':
-        specifier: ^0.1.0
-        version: 0.1.0
-      '@modelcontextprotocol/sdk':
-        specifier: ^1.12.0
-        version: 1.12.1
-      '@types/acorn':
-        specifier: ^4.0.6
-        version: 4.0.6
-      '@types/glob':
-        specifier: ^8.1.0
-        version: 8.1.0
-      acorn:
-        specifier: ^8.10.0
-        version: 8.15.0
-      acorn-jsx:
-        specifier: ^5.3.2
-        version: 5.3.2(acorn@8.15.0)
-      commander:
-        specifier: ^11.1.0
-        version: 11.1.0
-      esbuild:
-        specifier: ^0.20.1
-        version: 0.20.2
-      glob:
-        specifier: ^11.0.2
-        version: 11.0.2
-      next-mdx-remote-client:
-        specifier: ^2.1.2
-        version: 2.1.2(@types/react@19.1.6)(acorn@8.15.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
-      remark-gfm:
-        specifier: ^4.0.1
-        version: 4.0.1
-      remark-parse:
-        specifier: ^11.0.0
-        version: 11.0.0
-      schema-dts:
-        specifier: ^1.1.2
-        version: 1.1.5
-      turndown:
-        specifier: ^7.2.0
-        version: 7.2.0
-      unified:
-        specifier: ^11.0.5
-        version: 11.0.5
-      unist-util-visit:
-        specifier: ^5.0.0
-        version: 5.0.0
-      velite:
-        specifier: ^0.2.4
-        version: 0.2.4(acorn@8.15.0)
-      vfile:
-        specifier: ^6.0.1
-        version: 6.0.3
-      yaml:
-        specifier: ^2.4.0
-        version: 2.8.0
-      zod:
-        specifier: ^3.22.4
-        version: 3.25.42
-    devDependencies:
-      '@repo/tsup-config':
-        specifier: workspace:*
-        version: link:../config/tsup-config
-      '@types/node':
-        specifier: ^20.14.10
-        version: 20.17.57
-      '@types/react':
-        specifier: ^19.1.0
-        version: 19.1.6
-      '@types/turndown':
-        specifier: ^5.0.5
-        version: 5.0.5
-      dedent:
-        specifier: ^1.6.0
-        version: 1.6.0(babel-plugin-macros@3.1.0)
-      tsup:
-        specifier: ^8.0.2
+        specifier: ^8.0.0
         version: 8.5.0(jiti@2.4.2)(postcss@8.5.4)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
-      vitest:
-        specifier: ^3.1.4
-        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.17.57)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxui:
-    dependencies:
-      '@mdxui/browser':
-        specifier: workspace:*
-        version: link:browser
-      '@mdxui/chrome':
-        specifier: workspace:*
-        version: link:chrome
-      '@mdxui/core':
-        specifier: workspace:*
-        version: link:core
-      '@mdxui/ink':
-        specifier: workspace:*
-        version: link:ink
-      '@mdxui/magicui':
-        specifier: workspace:*
-        version: link:magicui
-      '@mdxui/reveal':
-        specifier: workspace:*
-        version: link:reveal
-      '@mdxui/safari':
-        specifier: workspace:*
-        version: link:safari
-      '@mdxui/shadcn':
-        specifier: workspace:*
-        version: link:shadcn
-      '@mdxui/tailwind':
-        specifier: workspace:*
-        version: link:tailwind
-      motion:
-        specifier: ^12.23.3
-        version: 12.23.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      react:
-        specifier: ^19.1.0
-        version: 19.1.0
-    devDependencies:
-      '@repo/eslint-config':
-        specifier: workspace:*
-        version: link:../config/eslint-config
-      '@repo/tsup-config':
-        specifier: workspace:*
-        version: link:../config/tsup-config
-      '@repo/typescript-config':
-        specifier: workspace:*
-        version: link:../config/typescript-config
-      '@types/react':
-        specifier: ^19.1.0
-        version: 19.1.6
-      eslint:
-        specifier: ^9.27.0
-        version: 9.28.0(jiti@2.4.2)
-      tsup:
-        specifier: ^8.0.2
-        version: 8.5.0(jiti@2.4.2)(postcss@8.5.4)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
-      typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
-      vitest:
-        specifier: ^3.1.4
-        version: 3.2.4(@types/debug@4.1.12)(@types/node@24.0.13)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
-
-  mdxui/basic-browser:
+  packages/@mdxui/basic-browser:
     dependencies:
       '@mdx-js/mdx':
         specifier: ^3.1.0
@@ -1123,7 +702,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.0.13)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxui/browser:
+  packages/@mdxui/browser:
     dependencies:
       '@mdx-js/mdx':
         specifier: ^3.0.0
@@ -1143,13 +722,13 @@ importers:
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
-        version: link:../../config/eslint-config
+        version: link:../../../config/eslint-config
       '@repo/tsup-config':
         specifier: workspace:*
-        version: link:../../config/tsup-config
+        version: link:../../../config/tsup-config
       '@repo/typescript-config':
         specifier: workspace:*
-        version: link:../../config/typescript-config
+        version: link:../../../config/typescript-config
       '@testing-library/react':
         specifier: ^16.3.0
         version: 16.3.0(@testing-library/dom@10.4.0)(@types/react-dom@19.1.5(@types/react@19.1.6))(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -1172,7 +751,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.0.13)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxui/chrome:
+  packages/@mdxui/chrome:
     dependencies:
       '@mdxui/browser':
         specifier: workspace:*
@@ -1186,13 +765,13 @@ importers:
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
-        version: link:../../config/eslint-config
+        version: link:../../../config/eslint-config
       '@repo/tsup-config':
         specifier: workspace:*
-        version: link:../../config/tsup-config
+        version: link:../../../config/tsup-config
       '@repo/typescript-config':
         specifier: workspace:*
-        version: link:../../config/typescript-config
+        version: link:../../../config/typescript-config
       '@types/chrome':
         specifier: ^0.1.0
         version: 0.1.0
@@ -1215,7 +794,7 @@ importers:
         specifier: ^4.10.2
         version: 4.10.2
 
-  mdxui/core:
+  packages/@mdxui/core:
     dependencies:
       '@tremor/react':
         specifier: 4.0.0-beta-tremor-v4.4
@@ -1235,16 +814,16 @@ importers:
         version: 1.2.3(@types/react@19.1.6)(react@19.1.0)
       '@repo/eslint-config':
         specifier: workspace:*
-        version: link:../../config/eslint-config
+        version: link:../../../config/eslint-config
       '@repo/tailwind-config':
         specifier: workspace:*
-        version: link:../../config/tailwind-config
+        version: link:../../../config/tailwind-config
       '@repo/tsup-config':
         specifier: workspace:*
-        version: link:../../config/tsup-config
+        version: link:../../../config/tsup-config
       '@repo/typescript-config':
         specifier: workspace:*
-        version: link:../../config/typescript-config
+        version: link:../../../config/typescript-config
       '@tailwindcss/cli':
         specifier: ^4.1.5
         version: 4.1.8
@@ -1285,7 +864,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.0.13)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxui/ink:
+  packages/@mdxui/ink:
     dependencies:
       '@mdx-js/mdx':
         specifier: ^3.0.0
@@ -1397,7 +976,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.29)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxui/magicui:
+  packages/@mdxui/magicui:
     dependencies:
       '@mdxui/core':
         specifier: workspace:*
@@ -1408,13 +987,13 @@ importers:
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
-        version: link:../../config/eslint-config
+        version: link:../../../config/eslint-config
       '@repo/tsup-config':
         specifier: workspace:*
-        version: link:../../config/tsup-config
+        version: link:../../../config/tsup-config
       '@repo/typescript-config':
         specifier: workspace:*
-        version: link:../../config/typescript-config
+        version: link:../../../config/typescript-config
       '@types/react':
         specifier: ^19.1.0
         version: 19.1.6
@@ -1446,7 +1025,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.0.13)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxui/mcp:
+  packages/@mdxui/mcp:
     dependencies:
       '@modelcontextprotocol/sdk':
         specifier: ^1.0.0
@@ -1462,20 +1041,20 @@ importers:
         version: link:../../mdxld
       mdxui:
         specifier: workspace:*
-        version: link:..
+        version: link:../../mdxui
       zod:
         specifier: ^3.23.8
         version: 3.25.42
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
-        version: link:../../config/eslint-config
+        version: link:../../../config/eslint-config
       '@repo/tsup-config':
         specifier: workspace:*
-        version: link:../../config/tsup-config
+        version: link:../../../config/tsup-config
       '@repo/typescript-config':
         specifier: workspace:*
-        version: link:../../config/typescript-config
+        version: link:../../../config/typescript-config
       '@types/node':
         specifier: ^22.5.4
         version: 22.15.29
@@ -1492,7 +1071,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.29)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxui/react:
+  packages/@mdxui/react:
     dependencies:
       '@mdxui/semantic-mapping':
         specifier: workspace:*
@@ -1515,10 +1094,10 @@ importers:
     devDependencies:
       '@repo/tsup-config':
         specifier: workspace:*
-        version: link:../../config/tsup-config
+        version: link:../../../config/tsup-config
       '@repo/typescript-config':
         specifier: workspace:*
-        version: link:../../config/typescript-config
+        version: link:../../../config/typescript-config
       '@types/react':
         specifier: ^19.1.0
         version: 19.1.6
@@ -1535,7 +1114,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.0.13)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxui/remotion:
+  packages/@mdxui/remotion:
     dependencies:
       '@code-hike/lighter':
         specifier: 1.0.3
@@ -1602,7 +1181,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.0.13)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxui/reveal:
+  packages/@mdxui/reveal:
     dependencies:
       '@mdxui/core':
         specifier: workspace:*
@@ -1616,13 +1195,13 @@ importers:
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
-        version: link:../../config/eslint-config
+        version: link:../../../config/eslint-config
       '@repo/tsup-config':
         specifier: workspace:*
-        version: link:../../config/tsup-config
+        version: link:../../../config/tsup-config
       '@repo/typescript-config':
         specifier: workspace:*
-        version: link:../../config/typescript-config
+        version: link:../../../config/typescript-config
       '@types/react':
         specifier: ^19.1.0
         version: 19.1.6
@@ -1654,7 +1233,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.0.13)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxui/safari:
+  packages/@mdxui/safari:
     dependencies:
       '@mdxui/browser':
         specifier: workspace:*
@@ -1668,13 +1247,13 @@ importers:
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
-        version: link:../../config/eslint-config
+        version: link:../../../config/eslint-config
       '@repo/tsup-config':
         specifier: workspace:*
-        version: link:../../config/tsup-config
+        version: link:../../../config/tsup-config
       '@repo/typescript-config':
         specifier: workspace:*
-        version: link:../../config/typescript-config
+        version: link:../../../config/typescript-config
       '@types/chrome':
         specifier: ^0.1.0
         version: 0.1.0
@@ -1700,7 +1279,7 @@ importers:
         specifier: ^4.10.2
         version: 4.10.2
 
-  mdxui/semantic-mapping:
+  packages/@mdxui/semantic-mapping:
     dependencies:
       '@mdxui/types':
         specifier: workspace:*
@@ -1720,10 +1299,10 @@ importers:
     devDependencies:
       '@repo/tsup-config':
         specifier: workspace:*
-        version: link:../../config/tsup-config
+        version: link:../../../config/tsup-config
       '@repo/typescript-config':
         specifier: workspace:*
-        version: link:../../config/typescript-config
+        version: link:../../../config/typescript-config
       '@types/react':
         specifier: ^19.1.0
         version: 19.1.6
@@ -1737,7 +1316,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.0.13)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxui/shadcn:
+  packages/@mdxui/shadcn:
     dependencies:
       '@mdxui/core':
         specifier: workspace:*
@@ -1751,13 +1330,13 @@ importers:
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
-        version: link:../../config/eslint-config
+        version: link:../../../config/eslint-config
       '@repo/tsup-config':
         specifier: workspace:*
-        version: link:../../config/tsup-config
+        version: link:../../../config/tsup-config
       '@repo/typescript-config':
         specifier: workspace:*
-        version: link:../../config/typescript-config
+        version: link:../../../config/typescript-config
       '@types/react':
         specifier: ^19.1.0
         version: 19.1.6
@@ -1786,7 +1365,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.0.13)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxui/tailwind:
+  packages/@mdxui/tailwind:
     dependencies:
       '@mdxui/core':
         specifier: workspace:*
@@ -1808,7 +1387,7 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.0.13)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  mdxui/types:
+  packages/@mdxui/types:
     dependencies:
       react:
         specifier: ^19.1.0
@@ -1819,10 +1398,10 @@ importers:
     devDependencies:
       '@repo/tsup-config':
         specifier: workspace:*
-        version: link:../../config/tsup-config
+        version: link:../../../config/tsup-config
       '@repo/typescript-config':
         specifier: workspace:*
-        version: link:../../config/typescript-config
+        version: link:../../../config/typescript-config
       '@types/react':
         specifier: ^19.1.0
         version: 19.1.6
@@ -1836,11 +1415,386 @@ importers:
         specifier: ^3.1.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.0.13)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
-  packages/ai:
+  packages/mdxai:
     dependencies:
+      '@ai-sdk/openai':
+        specifier: ^1.3.22
+        version: 1.3.22(zod@3.25.42)
+      '@google/genai':
+        specifier: ^1.1.0
+        version: 1.30.0
+      '@mdxdb/core':
+        specifier: workspace:*
+        version: link:../@mdxdb/core
+      '@mdxdb/fs':
+        specifier: workspace:*
+        version: link:../@mdxdb/fs
+      '@mdxdb/importers':
+        specifier: workspace:*
+        version: link:../@mdxdb/importers
+      '@mendable/firecrawl-js':
+        specifier: ^1.25.1
+        version: 1.25.2
+      ai:
+        specifier: ^4.3.16
+        version: 4.3.16(react@19.1.0)(zod@3.25.42)
+      commander:
+        specifier: ^12.1.0
+        version: 12.1.0
+      dedent:
+        specifier: ^1.6.0
+        version: 1.6.0(babel-plugin-macros@3.1.0)
+      dotenv:
+        specifier: ^16.5.0
+        version: 16.5.0
+      fast-glob:
+        specifier: ^3.3.2
+        version: 3.3.3
+      github-slugger:
+        specifier: ^2.0.0
+        version: 2.0.0
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
+      ink:
+        specifier: ^6.0.1
+        version: 6.0.1(@types/react@19.1.6)(react@19.1.0)
+      lru-cache:
+        specifier: ^11.1.0
+        version: 11.1.0
+      mdxe:
+        specifier: workspace:*
+        version: link:../mdxe
       mdxld:
         specifier: workspace:*
-        version: link:../../mdxld
+        version: link:../mdxld
+      object-hash:
+        specifier: ^3.0.0
+        version: 3.0.0
+      p-queue:
+        specifier: ^8.1.0
+        version: 8.1.0
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.1.0(react@19.1.0)
+      remark-gfm:
+        specifier: ^4.0.1
+        version: 4.0.1
+      remark-parse:
+        specifier: ^11.0.0
+        version: 11.0.0
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+      unified:
+        specifier: ^11.0.5
+        version: 11.0.5
+      vitest:
+        specifier: ^3.1.4
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.17.57)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
+      wav:
+        specifier: ^1.0.2
+        version: 1.0.2
+      yaml:
+        specifier: ^2.8.0
+        version: 2.8.0
+      zod:
+        specifier: ^3.21.4
+        version: 3.25.42
+    devDependencies:
+      '@repo/tsup-config':
+        specifier: workspace:*
+        version: link:../../config/tsup-config
+      '@types/node':
+        specifier: ^20.14.10
+        version: 20.17.57
+      '@types/object-hash':
+        specifier: ^3.0.6
+        version: 3.0.6
+      '@types/react':
+        specifier: ^19.1.0
+        version: 19.1.6
+      '@types/react-dom':
+        specifier: ^19.1.0
+        version: 19.1.5(@types/react@19.1.6)
+      '@types/yaml':
+        specifier: ^1.9.7
+        version: 1.9.7
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@types/node@20.17.57)(typescript@5.8.3)
+      tsup:
+        specifier: ^8.0.2
+        version: 8.5.0(jiti@2.4.2)(postcss@8.5.4)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
+
+  packages/mdxe:
+    dependencies:
+      '@cloudflare/kv-asset-handler':
+        specifier: ^0.3.4
+        version: 0.3.4
+      '@mdx-js/esbuild':
+        specifier: ^3.0.0
+        version: 3.1.0(acorn@8.15.0)(esbuild@0.24.2)
+      '@mdx-js/mdx':
+        specifier: ^3.1.0
+        version: 3.1.0(acorn@8.15.0)
+      '@mdx-js/react':
+        specifier: ^3.1.0
+        version: 3.1.0(@types/react@19.1.6)(react@19.1.0)
+      '@mdxdb/core':
+        specifier: workspace:*
+        version: link:../@mdxdb/core
+      '@mdxdb/fs':
+        specifier: workspace:*
+        version: link:../@mdxdb/fs
+      '@mdxdb/sqlite':
+        specifier: workspace:*
+        version: link:../@mdxdb/sqlite
+      '@mdxui/ink':
+        specifier: workspace:*
+        version: link:../@mdxui/ink
+      '@mdxui/reveal':
+        specifier: workspace:*
+        version: link:../@mdxui/reveal
+      '@next/mdx':
+        specifier: ^15.3.5
+        version: 15.3.5(@mdx-js/react@3.1.0(@types/react@19.1.6)(react@19.1.0))
+      '@payloadcms/db-sqlite':
+        specifier: ^3.46.0
+        version: 3.47.0(@cloudflare/workers-types@4.20251003.0)(@opentelemetry/api@1.9.0)(bun-types@1.3.2(@types/react@19.1.6))(payload@3.47.0(graphql@16.11.0)(typescript@5.8.3))
+      '@payloadcms/next':
+        specifier: ^3.46.0
+        version: 3.47.0(@types/react@19.1.6)(graphql@16.11.0)(monaco-editor@0.52.2)(next@15.3.5(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.47.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
+      '@tailwindcss/postcss':
+        specifier: ^4.1.11
+        version: 4.1.11
+      '@tailwindcss/typography':
+        specifier: ^0.5.16
+        version: 0.5.16(tailwindcss@4.1.11)
+      acorn:
+        specifier: ^8.10.0
+        version: 8.15.0
+      acorn-jsx:
+        specifier: ^5.3.2
+        version: 5.3.2(acorn@8.15.0)
+      chalk:
+        specifier: ^5.3.0
+        version: 5.4.1
+      chokidar:
+        specifier: ^4.0.0
+        version: 4.0.3
+      commander:
+        specifier: ^12.1.0
+        version: 12.1.0
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.5.0
+      esbuild:
+        specifier: ^0.24.0
+        version: 0.24.2
+      fast-glob:
+        specifier: ^3.3.2
+        version: 3.3.3
+      fs-extra:
+        specifier: ^11.2.0
+        version: 11.3.0
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
+      hono:
+        specifier: ^4.6.14
+        version: 4.9.9
+      ink:
+        specifier: ^6.0.1
+        version: 6.0.1(@types/react@19.1.6)(react@19.1.0)
+      mdxui:
+        specifier: workspace:*
+        version: link:../mdxui
+      next:
+        specifier: ^15.3.5
+        version: 15.3.5(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4)
+      next-mdx-remote-client:
+        specifier: ^1.0.4
+        version: 1.1.1(@types/react@19.1.6)(acorn@8.15.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      open:
+        specifier: ^10.1.0
+        version: 10.2.0
+      payload:
+        specifier: ^3.46.0
+        version: 3.47.0(graphql@16.11.0)(typescript@5.8.3)
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.1.0(react@19.1.0)
+      remark-flexible-toc:
+        specifier: ^1.1.0
+        version: 1.2.0(unified@11.0.5)
+      remark-frontmatter:
+        specifier: ^5.0.0
+        version: 5.0.0
+      remark-gfm:
+        specifier: ^4.0.0
+        version: 4.0.1
+      remark-mdx-frontmatter:
+        specifier: ^5.0.0
+        version: 5.2.0
+      tailwindcss:
+        specifier: ^4.1.11
+        version: 4.1.11
+      tmp:
+        specifier: ^0.2.3
+        version: 0.2.3
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+      wrangler:
+        specifier: ^3.100.0
+        version: 3.114.14(@cloudflare/workers-types@4.20251003.0)
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20241127.0
+        version: 4.20251003.0
+      '@repo/tsup-config':
+        specifier: workspace:*
+        version: link:../../config/tsup-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../config/typescript-config
+      '@types/fs-extra':
+        specifier: ^11.0.4
+        version: 11.0.4
+      '@types/mdx':
+        specifier: ^2.0.13
+        version: 2.0.13
+      '@types/node':
+        specifier: ^24.0.10
+        version: 24.0.13
+      '@types/react':
+        specifier: ^19.1.0
+        version: 19.1.6
+      '@types/react-dom':
+        specifier: ^19.1.0
+        version: 19.1.5(@types/react@19.1.6)
+      '@types/tmp':
+        specifier: ^0.2.6
+        version: 0.2.6
+      tsup:
+        specifier: ^8.3.5
+        version: 8.5.0(jiti@2.4.2)(postcss@8.5.4)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
+      vite:
+        specifier: ^6.0.7
+        version: 6.3.5(@types/node@24.0.13)(jiti@2.4.2)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
+      vitest:
+        specifier: ^3.1.4
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@24.0.13)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
+
+  packages/mdxld:
+    dependencies:
+      '@fal-works/esbuild-plugin-global-externals':
+        specifier: ^2.1.2
+        version: 2.1.2
+      '@mdx-js/esbuild':
+        specifier: ^3.0.0
+        version: 3.1.0(acorn@8.15.0)(esbuild@0.20.2)
+      '@mdx-js/mdx':
+        specifier: ^3.1.0
+        version: 3.1.0(acorn@8.15.0)
+      '@mdxld/schema':
+        specifier: ^0.1.0
+        version: 0.1.0
+      '@modelcontextprotocol/sdk':
+        specifier: ^1.12.0
+        version: 1.12.1
+      '@types/acorn':
+        specifier: ^4.0.6
+        version: 4.0.6
+      '@types/glob':
+        specifier: ^8.1.0
+        version: 8.1.0
+      acorn:
+        specifier: ^8.10.0
+        version: 8.15.0
+      acorn-jsx:
+        specifier: ^5.3.2
+        version: 5.3.2(acorn@8.15.0)
+      commander:
+        specifier: ^11.1.0
+        version: 11.1.0
+      esbuild:
+        specifier: ^0.20.1
+        version: 0.20.2
+      glob:
+        specifier: ^11.0.2
+        version: 11.0.2
+      next-mdx-remote-client:
+        specifier: ^2.1.2
+        version: 2.1.2(@types/react@19.1.6)(acorn@8.15.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.1.0(react@19.1.0)
+      remark-gfm:
+        specifier: ^4.0.1
+        version: 4.0.1
+      remark-parse:
+        specifier: ^11.0.0
+        version: 11.0.0
+      schema-dts:
+        specifier: ^1.1.2
+        version: 1.1.5
+      turndown:
+        specifier: ^7.2.0
+        version: 7.2.0
+      unified:
+        specifier: ^11.0.5
+        version: 11.0.5
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.0.0
+      velite:
+        specifier: ^0.2.4
+        version: 0.2.4(acorn@8.15.0)
+      vfile:
+        specifier: ^6.0.1
+        version: 6.0.3
+      yaml:
+        specifier: ^2.4.0
+        version: 2.8.0
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.42
+    devDependencies:
+      '@repo/tsup-config':
+        specifier: workspace:*
+        version: link:../../config/tsup-config
+      '@types/node':
+        specifier: ^20.14.10
+        version: 20.17.57
+      '@types/react':
+        specifier: ^19.1.0
+        version: 19.1.6
+      '@types/turndown':
+        specifier: ^5.0.5
+        version: 5.0.5
+      dedent:
+        specifier: ^1.6.0
+        version: 1.6.0(babel-plugin-macros@3.1.0)
+      tsup:
+        specifier: ^8.0.2
+        version: 8.5.0(jiti@2.4.2)(postcss@8.5.4)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+      vitest:
+        specifier: ^3.1.4
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.17.57)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
   packages/mdxtra:
     dependencies:
@@ -1860,20 +1814,66 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
 
-  packages/schema.org.ai:
+  packages/mdxui:
+    dependencies:
+      '@mdxui/browser':
+        specifier: workspace:*
+        version: link:../@mdxui/browser
+      '@mdxui/chrome':
+        specifier: workspace:*
+        version: link:../@mdxui/chrome
+      '@mdxui/core':
+        specifier: workspace:*
+        version: link:../@mdxui/core
+      '@mdxui/ink':
+        specifier: workspace:*
+        version: link:../@mdxui/ink
+      '@mdxui/magicui':
+        specifier: workspace:*
+        version: link:../@mdxui/magicui
+      '@mdxui/reveal':
+        specifier: workspace:*
+        version: link:../@mdxui/reveal
+      '@mdxui/safari':
+        specifier: workspace:*
+        version: link:../@mdxui/safari
+      '@mdxui/shadcn':
+        specifier: workspace:*
+        version: link:../@mdxui/shadcn
+      '@mdxui/tailwind':
+        specifier: workspace:*
+        version: link:../@mdxui/tailwind
+      motion:
+        specifier: ^12.23.3
+        version: 12.23.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
     devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../config/eslint-config
       '@repo/tsup-config':
         specifier: workspace:*
         version: link:../../config/tsup-config
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../../config/typescript-config
+      '@types/react':
+        specifier: ^19.1.0
+        version: 19.1.6
+      eslint:
+        specifier: ^9.27.0
+        version: 9.28.0(jiti@2.4.2)
       tsup:
-        specifier: ^8.0.0
+        specifier: ^8.0.2
         version: 8.5.0(jiti@2.4.2)(postcss@8.5.4)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
+      vitest:
+        specifier: ^3.1.4
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@24.0.13)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
   tests:
     dependencies:
@@ -1889,13 +1889,13 @@ importers:
     devDependencies:
       '@mdxdb/core':
         specifier: workspace:*
-        version: link:../mdxdb/core
+        version: link:../packages/@mdxdb/core
       '@mdxdb/fs':
         specifier: workspace:*
-        version: link:../mdxdb/fs
+        version: link:../packages/@mdxdb/fs
       '@mdxdb/sqlite':
         specifier: workspace:*
-        version: link:../mdxdb/sqlite
+        version: link:../packages/@mdxdb/sqlite
       '@types/react':
         specifier: ^19.1.0
         version: 19.1.6
@@ -1907,16 +1907,16 @@ importers:
         version: 26.1.0
       mdxai:
         specifier: workspace:*
-        version: link:../mdxai
+        version: link:../packages/mdxai
       mdxe:
         specifier: workspace:*
-        version: link:../mdxe
+        version: link:../packages/mdxe
       mdxld:
         specifier: workspace:*
-        version: link:../mdxld
+        version: link:../packages/mdxld
       mdxui:
         specifier: workspace:*
-        version: link:../mdxui
+        version: link:../packages/mdxui
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -16244,7 +16244,7 @@ snapshots:
       sirv: 3.0.1
       tinyglobby: 0.2.14
       tinyrainbow: 2.0.0
-      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.17.57)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.29)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.77.4)(terser@5.40.0)(tsx@4.20.3)(yaml@2.8.0)
 
   '@vitest/utils@3.1.4':
     dependencies:

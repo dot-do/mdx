@@ -59,12 +59,8 @@
     "micromatch": "^4.0.5"
   },
   "workspaces": [
-    "mdxld",
-    "mdxai",
-    "mdxdb/*",
-    "mdxe",
-    "mdxui",
     "packages/*",
+    "packages/@*/*",
     "config/*",
     "examples/*"
   ]
