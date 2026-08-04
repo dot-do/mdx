@@ -1,5 +1,6 @@
 {
   "name": "@mdxui/ink",
+  "private": true,
   "version": "0.1.0",
   "description": "Create CLI apps using MDX with React Ink and Pastel",
   "type": "module",

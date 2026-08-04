@@ -1,5 +1,6 @@
 {
   "name": "@mdxui/safari",
+  "private": true,
   "type": "module",
   "version": "0.0.0",
   "description": "Safari extension for rendering text, markdown, mdx, and mdxld files with Monaco Editor",

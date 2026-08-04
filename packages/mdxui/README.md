@@ -1,5 +1,11 @@
 # `mdxui` – Component Library for MDX
 
+> **⚠ DEPRECATED — and this is not the `mdxui` published on npm.**
+> The published `mdxui` is [`dot-do/ui` → `packages/mdxui`](https://github.com/dot-do/ui/tree/main/packages/mdxui),
+> a different package with a disjoint API. Every package under `packages/mdxui` and
+> `packages/@mdxui/*` **in this repo** is now `private` and cannot be published.
+> Read [DEPRECATED.md](./DEPRECATED.md) before touching anything here.
+
 `mdxui` is a collection of UI packages that provide ready‑to‑use React components for Markdown and MDX content. Each package focuses on a different environment—from web apps to the terminal. All packages can be used individually or through the main `mdxui` bundle, which re‑exports them under namespaces like `Core`, `Shadcn` and `Ink`.
 
 ```ts

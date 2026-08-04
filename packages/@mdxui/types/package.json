@@ -1,5 +1,6 @@
 {
   "name": "@mdxui/types",
+  "private": true,
   "version": "0.0.0",
   "description": "TypeScript types for mdxui components",
   "type": "module",
