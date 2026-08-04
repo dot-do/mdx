@@ -1,5 +1,6 @@
 {
   "name": "@mdxui/chrome",
+  "private": true,
   "version": "0.2.0",
   "description": "Chrome extension for rendering MDX files with Monaco editor and Shiki",
   "type": "module",

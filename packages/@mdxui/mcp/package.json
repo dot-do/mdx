@@ -1,5 +1,6 @@
 {
   "name": "@mdxui/mcp",
+  "private": true,
   "version": "0.1.0",
   "description": "Model Context Protocol server for MDX files",
   "type": "module",

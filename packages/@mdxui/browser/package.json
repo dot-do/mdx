@@ -1,5 +1,6 @@
 {
   "name": "@mdxui/browser",
+  "private": true,
   "version": "0.1.0",
   "description": "Browser component for viewing, editing, and previewing MDX content",
   "type": "module",

@@ -1,5 +1,6 @@
 {
   "name": "@mdxui/basic-browser",
+  "private": true,
   "version": "0.1.0",
   "description": "Complete MDX browser with editing, preview, and file management capabilities",
   "type": "module",

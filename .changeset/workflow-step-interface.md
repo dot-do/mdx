@@ -1,5 +1,4 @@
 ---
-'mdxui': patch
 '@mdxui/ink': patch
 ---
 

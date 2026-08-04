@@ -1,8 +1,9 @@
 {
   "name": "mdxui",
+  "private": true,
   "type": "module",
   "version": "0.1.0",
-  "description": "MDX UI components library",
+  "description": "DEPRECATED — not the published `mdxui`. This is the mdx repo's legacy in-repo barrel; the published mdxui lives at github.com/dot-do/ui (packages/mdxui). See DEPRECATED.md.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
